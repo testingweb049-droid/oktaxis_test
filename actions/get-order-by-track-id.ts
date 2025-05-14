@@ -3,9 +3,9 @@ import { db } from '@/db/drizzle';
 import { orders } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
-export async function getOrderByTrackId(orderId: number) {
+export async function getOrderByTrackId(orderId: string) {
   try {
-    const order = await db.select().from(orders).where(eq(orders.track_id,orderId));
+    const order = await db.select().from(orders).where(eq(orders.id,orderId));
 
     if (order.length === 0) {
       return { error: 'Order not found', status: 404 };
