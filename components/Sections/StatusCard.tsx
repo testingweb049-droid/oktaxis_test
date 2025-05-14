@@ -10,7 +10,7 @@ interface StatusCardProps {
 export function StatusCard({ type, onClose }: StatusCardProps) {
   const router = useRouter()
   return (
-    <Card className="w-full max-w-xs mx-auto shadow-lg">
+    <Card className="w-full max-w-xs mx-auto shadow-lg bg-white">
       <CardContent className="pt-6 text-center space-y-4">
         <div className={`mx-auto size-16 rounded-full flex items-center justify-center ${
           type === 'success' ? 'bg-green-100' : 'bg-red-100'
@@ -50,10 +50,10 @@ export function StatusCard({ type, onClose }: StatusCardProps) {
                   onClose(); 
                 }
               }}
-          className={`w-full ${
+          className={`w-full text-white ${
             type === 'success' 
-              ? 'bg-gray-800 hover:bg-gray-700' 
-              : 'bg-gray-800 hover:bg-gray-700'
+              ? 'bg-green-800 hover:bg-green-700' 
+              : 'bg-green-800 hover:bg-green-700'
           }`}
         >
           {type === 'success' ? 'Done' : 'Try Again'}

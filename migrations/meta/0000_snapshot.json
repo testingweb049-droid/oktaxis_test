@@ -1,5 +1,5 @@
 {
-  "id": "671cce0c-87d6-4f40-9e05-05822e4c7cd4",
+  "id": "4507dda6-d721-4170-a681-592d60facee2",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -14,12 +14,6 @@
           "primaryKey": true,
           "notNull": true,
           "default": "gen_random_uuid()"
-        },
-        "track_id": {
-          "name": "track_id",
-          "type": "serial",
-          "primaryKey": false,
-          "notNull": true
         },
         "category": {
           "name": "category",
@@ -75,18 +69,6 @@
           "primaryKey": false,
           "notNull": true
         },
-        "return_pickup_date": {
-          "name": "return_pickup_date",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "return_pickup_time": {
-          "name": "return_pickup_time",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
         "pickup_location": {
           "name": "pickup_location",
           "type": "varchar",
@@ -97,7 +79,7 @@
           "name": "dropoff_location",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "passengers": {
           "name": "passengers",
@@ -105,8 +87,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "childs": {
-          "name": "childs",
+        "kids": {
+          "name": "kids",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -147,14 +129,14 @@
           "primaryKey": false,
           "notNull": false
         },
-        "hours": {
-          "name": "hours",
-          "type": "integer",
+        "payment_method": {
+          "name": "payment_method",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
-        "minutes": {
-          "name": "minutes",
+        "duration": {
+          "name": "duration",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
@@ -177,15 +159,7 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "okataxis_orders_track_id_unique": {
-          "name": "okataxis_orders_track_id_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "track_id"
-          ]
-        }
-      },
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
