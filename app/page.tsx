@@ -22,6 +22,7 @@ import HeroImage from "@/assets/heroImage.jpg"
 import Link from "next/link";
 import Whatsapp from "@/assets/whatsapp.png";
 import { heroImage64 } from "@/assets/heroImage64";
+import HeroSectionBookingForm from "@/components/NewBookingForm/HeroBookingForm";
 
 const Home = () => {
   const { heroSection } = homePageData;
@@ -31,7 +32,7 @@ const Home = () => {
     <main className={`w-full  ${paymentDone && "overflow-hidden h-screen"}`}>
       <Suspense><PaymentDone setPaymentDone={setPaymentDone} paymentDone={paymentDone} /></Suspense>
       {/* Hero Section */}
-      <div className="w-full text-center relative  z-50 overflow-hidden h-[90vh]">
+      <div className="w-full text-center relative  z-50 overflow-hidden">
         <Image
           src={HeroImage}
           quality={50}
@@ -41,24 +42,18 @@ const Home = () => {
           blurDataURL={heroImage64}
           className="w-full h-full object-cover absolute object-center "
         />
-        <div className="relative w-full h-full bg-black/40 top-0 left-0 min-h-full py-10 flex items-center justify-center z-[99] ">
-          <div className="w-full flex items-start justify-center flex-col gap-5 max-w-screen-2xl mx-auto px-3 sm:px-5 ">
-            <div className="text-center sm:text-start w-full">
-              <div className=" text-white text-4xl md:leading-[75px] md:text-7xl font-bold ">
-                OkTaxis Offers Luxury
-              </div>
-              <div className="text-white text-4xl md:leading-[75px] md:text-7xl font-bold ">
-                Transport All Over The UK
-              </div>
-            </div>
+      
+        <div className="relative w-full h-full bg-black/40 top-0 left-0 min-h-full py-20 flex items-center justify-center z-[99] px-3 sm:px-5 ">
+           <div className="w-full flex items-start justify-center flex-col gap-14 lg:gap-40 max-w-screen-xl mx-auto ">
 
-            <Link
-              href="/booking"
-              className="px-10 sm:px-12 py-1 font-semibold sm:font-bold rounded-sm  max-sm:mx-auto bg-green-600  text-white stext-lg border-2  border-green-600 hover:text-green-600  hover:bg-transparent transition-all duration-300 sm:text-xl "
-            >
-              Book Your Ride Now
-            </Link>
-          </div>
+              <div className='w-full text-start'>
+                <p className='text-3xl lg:text-7xl text-white font-bold lg:font-semibold lg:leading-[75px]'>OkTaxis Offers Luxury</p>
+                <p className='text-3xl lg:text-7xl text-white font-bold lg:font-semibold lg:leading-[75px]'>Transport All Over The UK</p>
+              </div>
+
+              <HeroSectionBookingForm />
+
+            </div>
         </div>
       </div>
       <AirportTransportation />

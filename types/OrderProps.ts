@@ -1,6 +1,5 @@
 export interface OrderProps {
     id: string; 
-    track_id: number; 
     category: string;
     price: string;
     car: string;
@@ -10,20 +9,19 @@ export interface OrderProps {
     stop_3?: string | null; 
     pickup_date: Date;
     pickup_time: string;
-    return_pickup_date: Date | null;
-    return_pickup_time: string | null;
     pickup_location: string;
-    dropoff_location: string;
+    dropoff_location: string | null;
     passengers: number;
+    kids: number;
+    bags: number;
     name: string;
     email: string;
     phone: string;
+    payment_method: string|null;
     flight: string | null;
-    return_flight: string | null;
-    meet_and_greet: string | null;
-    flight_track: string | null;
-    hours?: number | null; 
-    minutes?: number | null; 
+    duration?: number | null;
+    flight_track:boolean | null, 
+    meet_greet:boolean | null, 
     updated_at: Date; 
     created_at: Date; 
   }

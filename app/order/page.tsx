@@ -1,6 +1,6 @@
 'use client';
 
-import { getOrderByTrackId } from '@/actions/get-order-by-track-id';
+import { getOrderById } from '@/actions/get-order';
 import { useRouter } from 'next/navigation';
 import React, { useState, useTransition } from 'react';
 
@@ -17,13 +17,8 @@ function FindOrderForm() {
       return;
     }
 
-    if (isNaN(Number(orderId))) {
-      setError('Order ID must be a number');
-      return;
-    }
-
     startFetching(async () => {
-      const res = await getOrderByTrackId(Number(orderId));
+      const res = await getOrderById(orderId);
       if (res.status !== 200 || !res.order) {
         setError(res.error ?? 'Order Not Found');
         return;
