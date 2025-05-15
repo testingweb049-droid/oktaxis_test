@@ -39,7 +39,7 @@ const services = [
     category: "Bus Transfers",
     description:
       "Enjoy stress-free group travel with our spacious buses, offering reliability and comfort for trips of any scale, whether for families, businesses, or tours.",
-    image:BusImage,
+    image: BusImage,
     size: "small", // Second row, small card
   },
   {
@@ -98,7 +98,10 @@ export default function Services() {
           {largeServices.map((service, index) => (
             <div
               key={service.id}
-              ref={(el) => (serviceRefs.current[index] = el)}
+              ref={(el) => {
+                serviceRefs.current[index] = el
+              }}
+
               className="group relative overflow-hidden rounded-lg shadow-lg transition-all duration-500"
               style={{
                 opacity: 0,
@@ -129,8 +132,9 @@ export default function Services() {
           {smallServices.map((service, index) => (
             <div
               key={service.id}
-              ref={(el) => (serviceRefs.current[index + largeServices.length] = el)}
-              className="group relative overflow-hidden rounded-lg shadow-lg transition-all duration-500"
+              ref={(el) => {
+                serviceRefs.current[index + largeServices.length] = el
+              }}              className="group relative overflow-hidden rounded-lg shadow-lg transition-all duration-500"
               style={{
                 opacity: 0,
                 transform: "translateY(30px)",
