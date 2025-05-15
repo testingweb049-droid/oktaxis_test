@@ -36,7 +36,7 @@ export default function AboutSection() {
   }, [inView])
 
   return (
-    <section className="relative bg-white py-20" ref={ref}>
+    <section className="relative bg-white py-20 flex flex-col gap-12 w-full" ref={ref}>
       {/* Background decorative elements */}
       <div className="absolute left-0 top-0 h-64 w-64 rounded-full bg-amber-100 opacity-20 blur-3xl"></div>
       <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full bg-amber-100 opacity-20 blur-3xl"></div>
@@ -115,7 +115,7 @@ export default function AboutSection() {
 
       {/* Features section */}
       <div
-        className="container mx-auto mt-16 px-4 md:px-6"
+        className="container mx-auto  px-4 md:px-6"
         style={{
           opacity: 0,
           animation: inView ? "fadeInUp 0.8s ease-out forwards 0.6s" : "none",

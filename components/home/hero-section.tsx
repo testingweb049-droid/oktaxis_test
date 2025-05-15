@@ -76,17 +76,17 @@ export default function HeroSection() {
   }, [])
 
   return (
-    <section id="herosection" className="relative min-h-screen lg:h-screen w-full overflow-hidden py-24 lg:py-32">
+    <section id="herosection" className="relative min-h-screen lg:h-screen w-full overflow-hidden  pt-32 md:pt-44 pb-12">
       <Image src="/images/limousine.png" alt="Luxury chauffeur service" fill className="object-cover" priority />
-      <div ref={overlayRef} className="absolute inset-0 bg-black/40" />
-      <div className="container relative z-10 mx-auto flex h-full flex-col gap-10 items-start justify-around px-4 text-white md:px-6 lg:px-8">
+      <div ref={overlayRef} className="absolute inset-0" />
+      <div className="container relative z-10 mx-auto flex h-full flex-col gap-10 items-start justify-around px-3 text-white  lg:px-5">
         <div>
 
-        <h1 ref={titleRef} className="mb-4 text-5xl font-bold tracking-tight md:text-6xl lg:text-7xl">
+        <p ref={titleRef} className="mb-2 sm:mb-4 text-6xl font-bold  md:text-7xl lg:text-9xl lg:leading-[110px]">
           PRIME <br /> CHAUFFEUR
-        </h1>
-        <p ref={subtitleRef} className=" text-xl md:text-2xl lg:text-3xl">
-          Your High Class Chauffeur & Limousine <br /> Service Worldwide
+        </p>
+        <p ref={subtitleRef} className=" text-lg md:text-2xl lg:text-3xl">
+          Your High Class Chauffeur & Limousine Service in UK
         </p>
         </div>
 

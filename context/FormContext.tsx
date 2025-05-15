@@ -48,7 +48,7 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
       passengers: 1,
       kids: 0,
       bags: 0,
-      payment_method: 'cod',
+      payment_method: 'online',
       duration:0
     }
   });
@@ -72,12 +72,13 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
     startLoading(async () => {
       const response = await createOrder({
         bags, dropoff_location, email, payment_id: payment_id ?? 'N/A', flight: flight ?? 'N/A', duration, kids,  name, passengers, phone, pickup_time: _pickup_time, pickup_date, pickup_location,payment_method,
-        price,
+        price:_price,
         car,
         distance:Number(distance),
         category: category ?? 'n/a',
         flight_track,
-        meet_greet
+        meet_greet,
+        
 
       });
 

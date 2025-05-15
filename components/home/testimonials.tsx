@@ -21,41 +21,60 @@ const platforms = [
 const testimonials = [
   {
     id: 1,
-    initial: "M",
-    name: "Mia",
+    initial: "J",
+    name: "James",
     date: "07 Sept 2024",
     rating: 5,
     comment:
-      "With all my heart, I highly recommend the company. I had the pleasure of using their services. The driver was professional and pleasant, ensuring the comfort of the customer. It was a wonderful experience.",
+      "Absolutely flawless experience with OKTaxis. The chauffeur was on time, courteous, and the Mercedes I rode in was spotless and comfortable. I travel often for business, and this was by far the best airport transfer I’ve had in Manchester.",
   },
   {
     id: 2,
-    initial: "G",
-    name: "Ghania",
+    initial: "L",
+    name: "Layla",
     date: "06 April 2024",
     rating: 5,
     comment:
-      "I had a great experience with MyChauffeur for my airport transfer in Berlin. The booking was easy, and the driver arrived on time. The car was clean and comfortable, making the ride to the airport smooth and enjoyable. The chauffeur was professional and courteous. Highly recommended for a stress-free airport transfer!",
+      "OKTaxis made my journey from Liverpool to the airport completely stress-free. The driver tracked my flight, greeted me inside the terminal, and even helped with my luggage. Super professional and reliable!",
   },
   {
     id: 3,
-    initial: "A",
-    name: "Alessia",
+    initial: "R",
+    name: "Ravi",
     date: "02 Feb 2024",
     rating: 5,
     comment:
-      "I booked an airport transfer Berlin with mychauffeur and the experience was smooth. The driver was really professional and the ride itself was amazing. The car was also super clean. Highly recommended!",
+      "Booked a chauffeur for a corporate event in Manchester and was thoroughly impressed. The BMW was immaculate and the driver knew the best routes to avoid traffic. Will definitely use OKTaxis again for all my executive travel needs.",
   },
   {
     id: 4,
-    initial: "S",
-    name: "Sophia",
+    initial: "E",
+    name: "Emily",
     date: "20 Oct 2023",
     rating: 5,
     comment:
-      "We used MyChauffeur for our airport transfers, and it was excellent service. The drivers were professional, and the entire transfer process was smooth. We were impressed with their reliability and punctuality. Would highly recommend them for the success of our trip.",
+      "We booked OKTaxis for a family airport transfer from Liverpool, and everything went perfectly. Our driver was professional and friendly, the vehicle was luxurious and spacious, and we arrived right on time. Outstanding service!",
   },
-]
+  {
+    id: 5,
+    initial: "O",
+    name: "Oliver",
+    date: "12 Jan 2024",
+    rating: 5,
+    comment:
+      "I use OKTaxis regularly for my airport commutes and the service has always been top-tier. The chauffeurs are polite, well-dressed, and always punctual. I love the peace of mind knowing I’ll get where I need to be, on time and in comfort.",
+  },
+  {
+    id: 6,
+    initial: "S",
+    name: "Sofia",
+    date: "15 Nov 2023",
+    rating: 5,
+    comment:
+      "From the moment I booked with OKTaxis, everything was handled smoothly. The booking was easy, the pricing was transparent, and the Audi I travelled in was stunning. Will recommend to anyone looking for a luxury ride in Manchester or Liverpool.",
+  },
+];
+
 
 export default function Testimonials() {
   const [startIndex, setStartIndex] = useState(0)

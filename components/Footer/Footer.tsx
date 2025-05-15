@@ -3,32 +3,12 @@
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowUp, Facebook, Linkedin, Instagram, Twitter, Youtube } from "lucide-react"
-import Logo from "@/assets/logo.png"
+import Logo from "@/assets/logo-white.png"
+import { navLinks } from "@/constants/headerFooterData"
 // Footer data structure based on the design
 const footerData = {
-  company: [
-    { title: "Become a Limousine Partner", href: "/partner" },
-    { title: "Solutions for Companies", href: "/solutions" },
-    { title: "About Us", href: "/about" },
-    { title: "Contact Us", href: "/contact" },
-    { title: "Careers", href: "/careers" },
-    { title: "Blog", href: "/blog" },
-  ],
-  topCities: [
-    { title: "Berlin", href: "/cities/berlin" },
-    { title: "London", href: "/cities/london" },
-    { title: "Paris", href: "/cities/paris" },
-    { title: "Dubai", href: "/cities/dubai" },
-    { title: "Oslo", href: "/cities/oslo" },
-    { title: "Copenhagen", href: "/cities/copenhagen" },
-    { title: "All Cities", href: "/cities" },
-  ],
-  chauffeurCities: [
-    { title: "Berlin Chauffeur Services", href: "/services/berlin" },
-    { title: "Potsdam Chauffeur Services", href: "/services/potsdam" },
-    { title: "Istanbul Chauffeur Services", href: "/services/istanbul" },
-    { title: "Izmir Chauffeur Services", href: "/services/izmir" },
-  ],
+  
+  
   airportTransfers: [
     { title: "Airport Transfer Berlin (BER)", href: "/airport/berlin" },
     { title: "Airport Transfer London (LHR)", href: "/airport/london" },
@@ -72,9 +52,9 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-black text-white">
+    <footer className="bg-black text-white pt-5">
       {/* Scroll to top button */}
-      <div className="container mx-auto flex justify-center py-4">
+      <div className="container mx-auto flex justify-center">
         <button
           onClick={scrollToTop}
           className="flex flex-col items-center text-sm text-gray-400 transition-colors hover:text-white"
@@ -86,80 +66,26 @@ export default function Footer() {
       </div>
 
       {/* Main footer content */}
-      <div className="container mx-auto grid grid-cols-1 gap-8 px-4 py-8 md:grid-cols-2 lg:grid-cols-5">
-        {/* Company */}
+      <div className="container mx-auto flex justify-start gap-8 px-4 py-8 md:grid-cols-2 lg:grid-cols-5 ">
+        {/* Links */}
         <div>
-          <h3 className="mb-4 text-base font-bold uppercase">Company</h3>
+          <h3 className="mb-4 text-base font-bold uppercase">Links</h3>
           <ul className="space-y-2">
-            {footerData.company.map((item) => (
+            {navLinks.map((item) => (
               <li key={item.title}>
-                <Link href={item.href} className="text-sm text-gray-300 transition-colors hover:text-white">
+                <Link href={item.path} className="text-sm text-gray-300 transition-colors hover:text-white">
                   {item.title}
                 </Link>
               </li>
             ))}
           </ul>
         </div>
+       </div>
 
-        {/* Top Cities */}
-        <div>
-          <h3 className="mb-4 text-base font-bold uppercase">Top Cities</h3>
-          <ul className="space-y-2">
-            {footerData.topCities.map((item) => (
-              <li key={item.title}>
-                <Link href={item.href} className="text-sm text-gray-300 transition-colors hover:text-white">
-                  {item.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Chauffeur Service Cities */}
-        <div>
-          <h3 className="mb-4 text-base font-bold uppercase">Top Chauffeur Service Cities</h3>
-          <ul className="space-y-2">
-            {footerData.chauffeurCities.map((item) => (
-              <li key={item.title}>
-                <Link href={item.href} className="text-sm text-gray-300 transition-colors hover:text-white">
-                  {item.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Airport Transfer */}
-        <div>
-          <h3 className="mb-4 text-base font-bold uppercase">Airport Transfer</h3>
-          <ul className="space-y-2">
-            {footerData.airportTransfers.map((item) => (
-              <li key={item.title}>
-                <Link href={item.href} className="text-sm text-gray-300 transition-colors hover:text-white">
-                  {item.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Other Services */}
-        <div>
-          <h3 className="mb-4 text-base font-bold uppercase">Other Services in Berlin</h3>
-          <ul className="space-y-2">
-            {footerData.otherServices.map((item) => (
-              <li key={item.title}>
-                <Link href={item.href} className="text-sm text-gray-300 transition-colors hover:text-white">
-                  {item.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+       
 
       {/* Logo and social links */}
-      <div className="border-t border-gray-800 py-8">
+      <div className="border-t border-gray-800 py-8 mt-4">
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center justify-between md:flex-row">
             <div className="mb-6 md:mb-0">
