@@ -84,8 +84,8 @@ function HeroSectionBookingForm() {
         <div className='flex flex-col gap-5 w-full max-w-screen-xl  mx-auto'>
 
             <div className='flex items-center gap-5'>
-                <div onClick={() => { if (category !== 'trips') { setCategory('trips'); resetForm(); setFromLocation(''); setToLocation('') } }} className={cn('px-4 w-28 cursor-pointer py-2 font-semibold rounded-3xl border-2 ', category === 'trips' ? 'bg-black text-white border-black' : 'bg-transparent text-white  border-white')}>Trip</div>
-                <div onClick={() => { if (category !== 'hourly') { setCategory('hourly'); resetForm(); setFromLocation(''); setToLocation('') } }} className={cn('px-4 w-28 py-2 cursor-pointer font-semibold rounded-3xl border-2 ', category === 'hourly' ? 'bg-black text-white border-black' : 'bg-transparent text-white  border-white')}>Hourly</div>
+                <div onClick={() => { if (category !== 'trips') { setCategory('trips'); resetForm(); setFromLocation(''); setToLocation('') } }} className={cn('px-4 w-28 cursor-pointer py-2 font-semibold rounded-3xl  text-center  ', category === 'trips' ? ' bg-[#F0A857] text-black ' : ' text-white border border-white   ')}>Trip</div>
+                <div onClick={() => { if (category !== 'hourly') { setCategory('hourly'); resetForm(); setFromLocation(''); setToLocation('') } }} className={cn('px-4 w-28 py-2 cursor-pointer font-semibold rounded-3xl text-center   ', category === 'hourly' ? ' bg-[#F0A857] text-black ' : ' text-white border border-white  ')}>Hourly</div>
             </div>
 
             <div className='w-full flex gap-2 bg-white rounded-2xl lg:rounded-3xl p-2 overflow-hidden'>
@@ -98,7 +98,7 @@ function HeroSectionBookingForm() {
                             control={form.control}
                             name="pickup_location"
                             render={({ field, formState: { errors } }) => (
-                                <FormItem className="w-full rounded-full px-2 py-3 lg:py-2 ">
+                                <FormItem className="w-full rounded-full px-2 py-3 lg:py-2  ">
 
                                     {!isLoaded ? (
                                         <div className="text-center rounded-sm  w-full">Loading...</div>
@@ -125,21 +125,21 @@ function HeroSectionBookingForm() {
                                                 }
                                             }}
 
-                                            className='border-none rounded-full'
+                                            className='border-none rounded-full w-full '
                                         >
                                             <div className='flex items-center gap-2'>
 
 
                                                 <SlLocationPin />
 
-                                                <div className='flex flex-col gap-1 '>
+                                                <div className='flex flex-col gap-1 w-full'>
                                                     <p className={cn('text-xs  text-start', errors.pickup_location ? 'text-red-500' : 'text-black')}>Pickup Location</p>
                                                     <input
                                                         value={fromLocation}
                                                         onChange={(e) => { setFromLocation(e.target.value) }}
                                                         disabled={loading}
                                                         placeholder="Pickup Location"
-                                                        className="w-full focus:outline-none text-sm  text-black"
+                                                        className="w-full focus:outline-none text-sm  text-black "
                                                     />
 
                                                 </div>
@@ -190,7 +190,7 @@ function HeroSectionBookingForm() {
 
                                                     <SlLocationPin />
 
-                                                    <div className='flex flex-col gap-1 '>
+                                                    <div className='flex flex-col gap-1 w-full '>
                                                         <p className={cn('text-xs  text-start', errors.dropoff_location ? 'text-red-500' : 'text-black')}>Drop off Location</p>
                                                         <input
                                                             value={toLocation}

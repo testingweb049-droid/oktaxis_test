@@ -11,9 +11,9 @@ import Tesla from "@/assets/Tesla S.png";
 import XLVan from "@/assets/Luxury Van.jpg";
 
 
-const fleets = [{ name: 'Economy', cars: 'Skoda Octavia | ToyotaPrius', price: 1.3, image: Skoda, bags: 3, persons: 4, specailRequest: false, under10: 25, under20: 35, hourly: 25, stop: 10 },
-{ name: 'Executive', cars: 'BMW 5 Series | MERC E Class', price: 1.45, image: BMW, bags: 3, persons: 4, specailRequest: true, under10: 35, under20: 45, hourly: 17, stop: 10 },
-{ name: 'Executive Premium', cars: 'Tesla Model S', price: 1.6, image: Tesla, bags: 3, persons: 4, specailRequest: true, under10: 45, under20: 65, hourly: 20, stop: 10 },
+export const fleets = [{ name: 'Economy', cars: 'Skoda Octavia | ToyotaPrius', price: 1.3, image: Skoda, bags: 3, persons: 4, specailRequest: false, under10: 25, under20: 35, hourly: 25, stop: 10 },
+{ name: 'Executive', cars: 'BMW 5 Series | MERC E Class', price: 1.45, image: BMW, bags: 3, persons: 4, specailRequest: false, under10: 35, under20: 45, hourly: 17, stop: 10 },
+{ name: 'Executive Premium', cars: 'Tesla Model S', price: 1.6, image: Tesla, bags: 3, persons: 4, specailRequest: false, under10: 45, under20: 65, hourly: 20, stop: 10 },
 { name: 'Luxury Van', cars: 'XL Passenger Van', price: 1.9, image: XLVan, bags: 6, persons: 6, specailRequest: true, under10: 65, under20: 80, hourly: 30, stop: 15 },]
 
 

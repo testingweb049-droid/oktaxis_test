@@ -1,20 +1,21 @@
-import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
-import Script from "next/script";
-import "./globals.css";
+import type React from "react"
+import type { Metadata } from "next"
+import { Roboto } from "next/font/google"
+import Script from "next/script"
+import "./globals.css"
 
-import StripeProvider from "@/components/BookingForm/PaymentCardModal/StripeProvider";
-import Footer from "@/components/Footer/Footer";
-import Header from "@/components/Header/Header";
-import { CustomFormProvider } from "@/context/FormContext";
+import Header from "@/components/Header/Header"
+import Footer from "@/components/Footer/Footer"
 import { Toaster } from "@/components/ui/toaster"
+import StripeProvider from "@/components/BookingForm/PaymentCardModal/StripeProvider"
+import { CustomFormProvider } from "@/context/FormContext"
 
 const roboto = Roboto({
   weight: ["100", "300", "400", "700", "900"],
   subsets: ["latin"],
   variable: "--font-roboto",
   display: "swap",
-});
+})
 
 export const metadata: Metadata = {
   title: "OkTaxis",
@@ -22,25 +23,19 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.png",
   },
-};
+}
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <head>
-        {/* Metadata and necessary links are auto-handled by Next.js */}
-      </head>
-      <CustomFormProvider>
-
+    <html lang="en" className="scroll-smooth">
+      <head>{/* Metadata and necessary links are auto-handled by Next.js */}</head>
       <body className={`${roboto.variable} antialiased`}>
         {/* Google Tag Manager */}
         <Script
           id="gtag-script"
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=AW-16550284687"
-          />
+        />
         <Script
           id="gtag-init"
           strategy="afterInteractive"
@@ -52,21 +47,23 @@ export default function RootLayout({
             gtag('config', 'AW-16550284687');
             `,
           }}
-          />
+        />
 
         {/* Google Maps API */}
         <Script
           id="google-maps"
           strategy="lazyOnload"
           src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
-          />
-
-        <Header />
-        <StripeProvider>{children}</StripeProvider>
-        <Footer />
-        <Toaster/>
+        />
+        <CustomFormProvider>
+          <Header />
+          <StripeProvider>
+            {children}
+          </StripeProvider>
+          <Footer />
+        </CustomFormProvider>
+        <Toaster />
       </body>
-          </CustomFormProvider>
     </html>
-  );
+  )
 }
