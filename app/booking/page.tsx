@@ -9,13 +9,16 @@ import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { IoArrowBackOutline } from "react-icons/io5";
 import Step3Form from '@/components/NewBookingForm/Step3Form'
+import { FaUserTie } from 'react-icons/fa';
+import { FaTint } from 'react-icons/fa'
+import { AiOutlineClockCircle } from 'react-icons/ai';
 
 // re deploye
 function Page() {
     const { form, category, step, Step2, Step1 } = useCustomForm()
     const { getValues, watch } = form
     const router = useRouter()
-    
+
     useEffect(() => {
         if (step === 1) {
             router.push('/')
@@ -37,51 +40,85 @@ function Page() {
                     </div>
                 </div>
                 <div className='pt-10 lg:pt-20 w-full grid lg:grid-cols-7 gap-5'>
-                    <div className='w-full p-4 hidden lg:flex flex-col gap-5 bg-gray-100 lg:col-span-2 h-fit rounded-xl'>
-                        <div className='flex items-center justify-between w-full'>
-                            <div className='text-2xl'>Summary</div>
-                            <Link href='/'>
-                                <CiEdit className='text-2xl' />
-                            </Link>
-                        </div>
-
-                        <div className='flex flex-col divide-y w-full '>
-
-                            <div className='flex flex-col gap-1 py-2'>
-                                <p className='text-gray-500 text-sm'>Service Type</p>
-                                <p className=''>{category.toUpperCase()}</p>
+                    <div className='w-full hidden lg:flex flex-col gap-10 lg:col-span-2'>
+                        <div className='w-full p-4 flex flex-col gap-5 bg-gray-100  h-fit rounded-xl'>
+                            <div className='flex items-center justify-between w-full'>
+                                <div className='text-2xl'>Summary</div>
+                                <Link href='/'>
+                                    <CiEdit className='text-2xl' />
+                                </Link>
                             </div>
-                            <div className='flex flex-col gap-1 py-2'>
-                                <p className='text-gray-500 text-sm'>Pickup Location</p>
-                                <p className=''>{getValues('pickup_location')}</p>
-                            </div>
-                            {category === 'trips' ? <div className='flex flex-col gap-1 py-2'>
-                                <p className='text-gray-500 text-sm'>Drop Off</p>
-                                <p className=''>{getValues('dropoff_location')}</p>
-                            </div> :
+                            <div className='flex flex-col divide-y w-full '>
+
                                 <div className='flex flex-col gap-1 py-2'>
-                                    <p className='text-gray-500 text-sm'>Duration</p>
-                                    <p className=''>{getValues('duration')} Hours</p>
+                                    <p className='text-gray-500 text-sm'>Service Type</p>
+                                    <p className='font-medium'>{category.toUpperCase()}</p>
+                                </div>
+                                <div className='flex flex-col gap-1 py-2'>
+                                    <p className='text-gray-500 text-sm'>Pickup Location</p>
+                                    <p className='font-medium'>{getValues('pickup_location')}</p>
+                                </div>
+                                {category === 'trips' ? <div className='flex flex-col gap-1 py-2'>
+                                    <p className='text-gray-500 text-sm'>Drop Off</p>
+                                    <p className='font-medium'>{getValues('dropoff_location')}</p>
+                                </div> :
+                                    <div className='flex flex-col gap-1 py-2'>
+                                        <p className='text-gray-500 text-sm'>Duration</p>
+                                        <p className='font-medium'>{getValues('duration')} Hours</p>
+                                    </div>}
+                                <div className='flex flex-col gap-1 py-2'>
+                                    <p className='text-gray-500 text-sm'>Pickup Date</p>
+                                    <p className='font-medium'>{getValues('pickup_date')?.toDateString()}</p>
+                                </div>
+                                <div className='flex flex-col gap-1 py-2'>
+                                    <p className='text-gray-500 text-sm'>Pickup Time</p>
+                                    <p className='font-medium'>{getValues('pickup_time')?.hour}:{getValues('pickup_time')?.minute}:{getValues('pickup_time')?.period}</p>
+                                </div>
+                                {getValues('car') && <div className='flex flex-col gap-1 py-2'>
+                                    <p className='text-gray-500 text-sm'>Car</p>
+                                    <p className='font-medium'>{getValues('car')}</p>
                                 </div>}
-                            <div className='flex flex-col gap-1 py-2'>
-                                <p className='text-gray-500 text-sm'>Pickup Date</p>
-                                <p className=''>{getValues('pickup_date')?.toDateString()}</p>
+                                {getValues('price') && <div className='flex flex-col gap-1 py-2'>
+                                    <p className='text-gray-500 text-sm'>Price</p>
+                                    <p className='font-medium'>{getValues('price') + (watch('flight_track') ? 7 : 0) + (watch('meet_greet') ? 15 : 0)}£</p>
+                                </div>}
+
                             </div>
-                            <div className='flex flex-col gap-1 py-2'>
-                                <p className='text-gray-500 text-sm'>Pickup Time</p>
-                                <p className=''>{getValues('pickup_time')?.hour}:{getValues('pickup_time')?.minute}:{getValues('pickup_time')?.period}</p>
-                            </div>
-                            {getValues('car') && <div className='flex flex-col gap-1 py-2'>
-                                <p className='text-gray-500 text-sm'>Car</p>
-                                <p className=''>{getValues('car')}</p>
-                            </div>}
-                            {getValues('price') && <div className='flex flex-col gap-1 py-2'>
-                                <p className='text-gray-500 text-sm'>Price</p>
-                                <p className=''>{getValues('price') + (watch('flight_track') ? 7 : 0) + (watch('meet_greet') ? 15 : 0)}£</p>
-                            </div>}
 
                         </div>
+                        <div className='w-full p-4 flex flex-col gap-5 bg-gray-100 lg:col-span-2 h-fit rounded-xl'>
+                            <div className='flex items-center justify-between w-full'>
+                                <div className='text-2xl'>ALL CLASSES INCLUDES</div>
 
+                            </div>
+                            <div className='flex flex-col gap-3'>
+
+                                <div className='flex items-center gap-5'>
+
+                                    <FaUserTie className='size-6' />
+                                    <p className='text-lg'>
+                                        <span className='font-semibold'>First Class</span> professional chauffeur
+                                    </p>
+
+                                </div>
+                                <div className='flex items-center gap-5'>
+
+                                    <FaTint className='size-6' />
+                                    <p className='text-lg'>
+                                        <span className='font-semibold'>Complimentary water</span> inside the vehicle</p>
+
+                                </div>
+                                <div className='flex items-center gap-5'>
+
+                                    <AiOutlineClockCircle className='size-6' />
+                                    <p className='text-lg'>
+                                        <span className='font-semibold'>Cancel free</span> up to 48 Hours before pickup</p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
                     </div>
                     <div className='w-full lg:col-span-5'>
                         {step === 2 && <CarList />}

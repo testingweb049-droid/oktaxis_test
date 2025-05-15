@@ -26,7 +26,7 @@ interface StepThreeSummaryProps {
         <h2 className="text-[16px] font-bold mb-3 border-b pb-1">Passenger Info Summary</h2>
   
         <div className="flex items-center gap-2">
-          <FolderPen className="text-green-500 w-4 h-4" />
+          <FolderPen className="text-brand w-4 h-4" />
           <p className="font-semibold text-sm">Name:</p>
           <span className="text-sm">{passengerInfo?.name || 'Not Provided'}</span>
         </div>

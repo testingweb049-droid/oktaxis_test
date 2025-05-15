@@ -52,7 +52,7 @@ const StepOneSummary = ({
       )}
 
       <div className="flex items-center gap-2">
-        <MapPin className="text-green-500 w-4 h-4" />
+        <MapPin className="text-brand w-4 h-4" />
         <p className="font-semibold text-sm">Pickup Address:</p>
         <span className="text-sm">{pickUpAddress || "Not Selected"}</span>
       </div>

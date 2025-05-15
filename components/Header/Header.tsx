@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Phone, Menu, X } from "lucide-react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
+import WhiteLogo from "@/assets/logo-white.png"
 import Logo from "@/assets/logo.png"
 // Using the navLinks from your existing code
 const navLinks = [
@@ -58,7 +59,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${scrolled ? "bg-white shadow-md py-2" : "bg-transparent py-4"
+      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${scrolled ? "bg-white shadow-md py-2 text-black" : "bg-black/20 py-4  text-white"
         }`}
     >
       <div className="container mx-auto px-4 md:px-6">
@@ -73,10 +74,10 @@ export default function Header() {
                 className={`object-contain transition-opacity ${scrolled ? "opacity-100" : "opacity-0"}`}
               />
               <Image
-                src={Logo}
+                src={WhiteLogo}
                 alt="OKTaxis"
                 fill
-                className={`object-contain brightness-0 invert transition-opacity ${scrolled ? "opacity-0" : "opacity-100"
+                className={`object-contain transition-opacity ${scrolled ? "opacity-0" : "opacity-100"
                   }`}
               />
             </div>
@@ -88,29 +89,31 @@ export default function Header() {
               <Link
                 key={link.id}
                 href={link.path}
-                className={`px-4 py-2 text-sm font-medium transition-colors ${pathname === link.path
+                className={`px-4 py-2 text-sm font-medium transition-colors  ${pathname === link.path
                     ? scrolled
-                      ? "bg-black text-white"
-                      : "bg-white text-black"
+                      ? "font-normal"
+                      : "font-bold"
                     : scrolled
-                      ? "text-gray-900 hover:bg-gray-100"
-                      : "text-white hover:bg-white/20"
+                      ? "font-normal"
+                      : "font-bold"
                   }`}
               >
                 {link.title}
               </Link>
             ))}
 
-            {/* Call Button */}
+            
+          </nav>
+
+          {/* Call Button */}
             <a
               href="tel:07788710290"
-              className={`ml-2 flex items-center px-4 py-2 text-sm font-medium transition-all ${scrolled ? "bg-black text-white hover:bg-gray-800" : "bg-white text-black hover:bg-gray-100"
+              className={`ml-2 hidden md:flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all ${scrolled ? "bg-black text-white hover:bg-gray-800" : "bg-white text-black hover:bg-gray-100"
                 }`}
             >
               <Phone className="mr-2 h-4 w-4" />
               Call Us
             </a>
-          </nav>
 
           {/* Mobile Menu Button */}
           <button className="relative z-10 md:hidden" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">

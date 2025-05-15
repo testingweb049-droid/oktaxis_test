@@ -3,7 +3,7 @@ import vec1 from "@/assets/homeImages/vec1.jpg";
 import vec2 from "@/assets/homeImages/vec2.jpg";
 import vec3 from "@/assets/homeImages/vec3.jpg";
 import vec4 from "@/assets/homeImages/vec4.jpg";
-import FleetBg from "@/assets/fleet.jpg";
+import FleetBg from "@/assets/bmw-city.jpeg";
 import { Facebook, Linkedin, Twitter, Youtube, Instagram, MapPin, Phone, Mail } from "lucide-react";
 
 // Vehicles...
@@ -23,7 +23,7 @@ import Img5 from "@/assets/homeImages/img5.jpg";
 import Img6 from "@/assets/homeImages/img6.jpg";
 
 // About us page...
-import BgImg from "@/assets/homeImages/about-us-bg-img.webp"
+import BgImg from "@/assets/bmw.png"
 import TeslaImg from "@/assets/homeImages/about-us-tesla.webp"
 
 // Why Choose us images...

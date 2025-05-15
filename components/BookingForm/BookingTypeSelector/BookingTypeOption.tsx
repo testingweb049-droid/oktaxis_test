@@ -69,7 +69,7 @@ const BookingTypeOption = ({ onAirportSelectChange }: BookingTypeOptionProps) =>
               htmlFor="from"
               className={`flex gap-x-3 items-center w-full px-4 py-[19px] rounded-lg cursor-pointer border ${
                 selected === "from"
-                  ? "bg-green-600 hover:bg-gray-300 text-black"
+                  ? "bg-brand hover:bg-gray-300 text-black"
                   : "bg-white hover:bg-gray-700 hover:text-white"
               }`}
             >
@@ -109,7 +109,7 @@ const BookingTypeOption = ({ onAirportSelectChange }: BookingTypeOptionProps) =>
               htmlFor="hourly"
               className={`flex gap-x-3 items-center w-full px-4 py-[19px] rounded-lg cursor-pointer border ${
                 selected === "hourly"
-                  ? "bg-green-600 hover:bg-gray-300 text-black"
+                  ? "bg-brand hover:bg-gray-300 text-black"
                   : "bg-white hover:bg-gray-700 hover:text-white"
               }`}
             >
@@ -169,7 +169,7 @@ const BookingTypeOption = ({ onAirportSelectChange }: BookingTypeOptionProps) =>
                 selected === "to" ? "bg-white flex items-center justify-center" : "bg-gray-300"
               }`}
             >
-              {selected === "to" && <Check className="w-10 h-10 text-green-500 font-bold" />}
+              {selected === "to" && <Check className="w-10 h-10 text-brand font-bold" />}
             </span>
             To Airport
           </Label>
@@ -189,7 +189,7 @@ const BookingTypeOption = ({ onAirportSelectChange }: BookingTypeOptionProps) =>
                 selected === "from" ? "bg-white flex items-center justify-center" : "bg-gray-300"
               }`}
             >
-              {selected === "from" && <Check className="w-10 h-10 text-green-500 font-bold" />}
+              {selected === "from" && <Check className="w-10 h-10 text-brand font-bold" />}
             </span>
             From Airport
           </Label>
@@ -209,7 +209,7 @@ const BookingTypeOption = ({ onAirportSelectChange }: BookingTypeOptionProps) =>
                 selected === "point" ? "bg-white flex items-center justify-center" : "bg-gray-300"
               }`}
             >
-              {selected === "point" && <Check className="w-10 h-10 text-green-500 font-bold" />}
+              {selected === "point" && <Check className="w-10 h-10 text-brand font-bold" />}
             </span>
             Point to Point
           </Label>
@@ -230,7 +230,7 @@ const BookingTypeOption = ({ onAirportSelectChange }: BookingTypeOptionProps) =>
                   selected === "hourly" ? "bg-white flex items-center justify-center" : "bg-gray-300"
                 }`}
               >
-                {selected === "hourly" && <Check className="w-10 h-10 text-green-500 font-bold" />}
+                {selected === "hourly" && <Check className="w-10 h-10 text-brand font-bold" />}
               </span>
               Hourly Charter
             </div>

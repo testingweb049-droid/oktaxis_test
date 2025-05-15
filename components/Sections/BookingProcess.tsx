@@ -50,7 +50,7 @@ const CircularProgress = ({ isHovered }: { isHovered: boolean }) => (
       cy="50"
     />
     <motion.circle
-      className="text-green-700"
+      className="text-brand"
       strokeWidth="4"
       stroke="currentColor"
       fill="transparent"
@@ -110,7 +110,7 @@ const StepItem = ({ step, index, totalSteps }: { step: BookingStep; index: numbe
                 "border-2 border-transparent group-hover:border-blue-50"
               )}
             >
-              <span className="text-2xl font-semibold text-green-700">
+              <span className="text-2xl font-semibold text-brand">
                 {step.number}
               </span>
             </div>
@@ -137,7 +137,7 @@ export default function BookingProcess() {
       <div className="container px-4 mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-            Our <span className="text-green-700">Booking Process</span>
+            Our <span className="text-brand">Booking Process</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
             A simple and hassle-free way to book your journey with Oktaxis.

@@ -1,5 +1,4 @@
 import HeroSection from "@/components/home/hero-section"
-import BrandLogos from "@/components/home/brand-logos"
 import Services from "@/components/home/services"
 import FleetClasses from "@/components/home/fleet"
 import ReadyToBook from "@/components/home/read-to-book"
@@ -11,7 +10,6 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <HeroSection />
-      <BrandLogos />
       <AboutSection />
       <Services />
       <LuxuryExperience />

@@ -81,7 +81,7 @@ function HeroSectionBookingForm() {
 
 
     return (
-        <div className='flex flex-col gap-5 w-full max-w-screen-xl  mx-auto'>
+        <div className='flex flex-col gap-5 w-full   mx-auto text-black'>
 
             <div className='flex items-center gap-5'>
                 <div onClick={() => { if (category !== 'trips') { setCategory('trips'); resetForm(); setFromLocation(''); setToLocation('') } }} className={cn('px-4 w-28 cursor-pointer py-2 font-semibold rounded-3xl  text-center  ', category === 'trips' ? ' bg-[#F0A857] text-black ' : ' text-white border border-white   ')}>Trip</div>
@@ -106,7 +106,7 @@ function HeroSectionBookingForm() {
                                         <Autocomplete
 
                                             options={{
-                                                componentRestrictions: { country: "us" },
+                                                componentRestrictions: { country: "uk" },
                                             }}
                                             onLoad={(autocomplete) => (fromRef.current = autocomplete)}
                                             onPlaceChanged={() => {
@@ -130,7 +130,7 @@ function HeroSectionBookingForm() {
                                             <div className='flex items-center gap-2'>
 
 
-                                                <SlLocationPin />
+                                                <SlLocationPin className="size-5" />
 
                                                 <div className='flex flex-col gap-1 w-full'>
                                                     <p className={cn('text-xs  text-start', errors.pickup_location ? 'text-red-500' : 'text-black')}>Pickup Location</p>
@@ -165,7 +165,7 @@ function HeroSectionBookingForm() {
                                         ) : (
                                             <Autocomplete
                                                 options={{
-                                                    componentRestrictions: { country: "us" },
+                                                    componentRestrictions: { country: "uk" },
                                                 }}
                                                 onLoad={(autocomplete) => (toRef.current = autocomplete)}
                                                 onPlaceChanged={() => {
@@ -188,7 +188,7 @@ function HeroSectionBookingForm() {
                                                 <div className='flex items-center gap-2'>
 
 
-                                                    <SlLocationPin />
+                                                    <SlLocationPin className="size-5" />
 
                                                     <div className='flex flex-col gap-1 w-full '>
                                                         <p className={cn('text-xs  text-start', errors.dropoff_location ? 'text-red-500' : 'text-black')}>Drop off Location</p>
@@ -223,7 +223,7 @@ function HeroSectionBookingForm() {
                                                         "w-full flex h-full items-center gap-2 justify-start border-none  px-2 py-3 lg:py-2 "
                                                     )}
                                                 >
-                                                    <MdMoreTime />
+                                                    <MdMoreTime className="size-5" />
 
                                                     <div className='flex flex-col gap-1 '>
                                                         <p className={cn('text-xs  text-start', errors.duration ? 'text-red-500' : 'text-black')}>Duration</p>
@@ -261,7 +261,7 @@ function HeroSectionBookingForm() {
                                                         "w-full flex h-full items-center gap-2 justify-start border-none  px-2 py-3 lg:py-2 "
                                                     )}
                                                 >
-                                                    <CalendarDays className="h-4 w-4 " />
+                                                    <CalendarDays className="size-5" />
 
                                                     <div className='flex flex-col gap-1 '>
                                                         <p className={cn('text-xs  text-start', errors.pickup_date ? 'text-red-500' : 'text-black')}>Date</p>
@@ -302,7 +302,7 @@ function HeroSectionBookingForm() {
                                                         "w-full flex h-full items-center gap-2 justify-start border-none  px-2 py-3 lg:py-2 "
                                                     )}
                                                 >
-                                                    <TimerIcon className="h-4 w-4 " />
+                                                    <TimerIcon className="size-5 " />
                                                     <div className='flex flex-col gap-1 '>
                                                         <p className={cn('text-xs  text-start', errors.pickup_time ? 'text-red-500' : 'text-black')}>Time</p>
                                                         {field.value?.hour ? <p className='text-sm text-black'>{field.value?.hour ? field.value.hour.toString().padStart(2, "0") : 'hh'}:{field.value?.minute ? field.value.minute.toString().padStart(2, "0") : '00'} {field.value?.period ? field.value.period : 'period'}</p> : <p className='text-gray-400 text-sm'>{field.value?.hour ? field.value.hour.toString().padStart(2, "0") : 'hh'}:{field.value?.minute ? field.value.minute.toString().padStart(2, "0") : '00'} {field.value?.period ? field.value.period : 'period'}</p>}

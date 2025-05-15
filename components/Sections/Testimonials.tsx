@@ -111,7 +111,7 @@ export default function Testimonials() {
         </h3>
 
         {/* Quote Mark */}
-        <div className="text-green-500 text-6xl mb-4">"</div>
+        <div className="text-brand text-6xl mb-4">"</div>
 
         {/* Testimonial */}
         <div className="min-h-[150px] mb-8">

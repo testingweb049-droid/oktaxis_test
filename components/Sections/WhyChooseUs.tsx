@@ -18,7 +18,7 @@ import { Button } from "../ui/button"
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <h2 className="text-4xl font-semibold">
               {/* {okTaxisContent.heading} */}
-              Reliable <span className="text-green-700">Manchester Airport</span> Transfers – OkTaxis
+              Reliable <span className="text-brand">Manchester Airport</span> Transfers – OkTaxis
             </h2>
             <p className="mx-auto max-w-[700px] text-gray-500 text-sm lg:text-[17px] leading-[24px]  dark:text-gray-400">
               {okTaxisContent.description}
@@ -28,7 +28,7 @@ import { Button } from "../ui/button"
             {okTaxisContent.reasons.map((reason, index) => (
               <Card key={index} className="h-full hover:bg-gray-100">
                 <CardHeader className="text-center items-center m-auto">
-                <div className="w-12 h-12 text-6xl flex items-center justify-center text-center text-green-700 bg-gray-50 rounded-full">
+                <div className="w-12 h-12 text-6xl flex items-center justify-center text-center text-brand bg-gray-50 rounded-full">
                   <reason.icon/>
                 </div>
                   <CardTitle className="text-xl font-bold text-center">{reason.title}</CardTitle>
@@ -47,7 +47,7 @@ import { Button } from "../ui/button"
               href="/booking"
             >
               <Button
-                className="bg-green-700 hover:bg-green-800"
+                className="bg-brand hover:bg-brand"
               >
                 Book Now
               </Button>

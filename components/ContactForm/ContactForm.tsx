@@ -109,7 +109,7 @@ export default function ContactForm() {
               className={`w-48 ${
                 formSubmitted
                   ? "bg-blue-500 hover:bg-blue-400"
-                  : "bg-green-800 hover:bg-green-700"
+                  : "bg-brand hover:bg-brand"
               } text-white font-medium py-2 px-4 rounded-md transition-colors`}
               disabled={isSubmitting}
             >
