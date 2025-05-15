@@ -11,7 +11,7 @@ import {
 const HeroCard = () => {
   return (
     <div>
-      <div className="bg-green-500 text-white w-full max-w-md p-6 rounded-lg shadow-lg">
+      <div className="bg-brand text-white w-full max-w-md p-6 rounded-lg shadow-lg">
         {/* Top Bar */}
         <div className=" bg-white text-sm px-3 py-4 rounded-full flex items-center gap-2 shadow-md">
           <Car className="text-black w-4 h-4" />

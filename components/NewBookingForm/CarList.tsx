@@ -50,7 +50,7 @@ function CarList() {
                 return <div key={item.name} className={cn('w-full rounded-xl border border-black/50 grid md:grid-cols-4 divide-y md:divide-x ', item.name === getValues('car') ? 'bg-gray-100' : 'bg-white')} >
 
                     <div className='flex flex-col gap-2 w-full '>
-                        <div className='px-3 w-fit mt-3 py-1 text-green-700 border-r border-t border-b border-green-700 font-medium bg-green-200 rounded-r-xl'>
+                        <div className='px-3 w-fit mt-3 py-1 text-green-800 border-r border-t border-b border-green-800 font-medium bg-green-200 rounded-r-xl'>
                             Free Cancelation
                         </div>
                         <div className='flex flex-col gap-2 w-full px-3 pb-3 '>

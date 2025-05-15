@@ -44,14 +44,14 @@ function FindOrderForm() {
               value={orderId}
               onChange={(e) => setOrderId(e.target.value)}
               placeholder="e.g., 12345"
-              className="w-full p-3 text-lg border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600"
+              className="w-full p-3 text-lg border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand"
             />
           </div>
           <div>
             {error && <p className='text-red-500 text-center text-sm'>{error}</p>}
             <button
               type="submit"
-              className="w-full py-3 bg-green-600 text-white text-lg font-semibold rounded-xl hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600"
+              className="w-full py-3 bg-brand text-white text-lg font-semibold rounded-xl hover:bg-brand focus:outline-none focus:ring-2 focus:ring-brand"
             >
               {isFetching ? 'Finding...' : 'Find Order'}
             </button>

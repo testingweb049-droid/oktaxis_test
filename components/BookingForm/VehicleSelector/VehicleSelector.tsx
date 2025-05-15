@@ -258,7 +258,7 @@ export default function VehicleSelector({
                 </CardContent>
                 <CardFooter className="p-2 pt-0">
                   <Button
-                    className="w-full bg-green-500 hover:bg-green-600"
+                    className="w-full bg-brand hover:bg-brand"
                     onClick={() =>
                       handleBookNow(car.title, car.seats, car.bags, car.category)
                     }

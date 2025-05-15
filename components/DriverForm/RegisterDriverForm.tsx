@@ -105,7 +105,7 @@ export default function RegisterDriverForm() {
                   <DropdownMenuItem
                     key={option}
                     onClick={() => setFieldValue("vehicleType", option)}
-                    className="cursor-pointer hover:bg-green-700 hover:text-white"
+                    className="cursor-pointer hover:bg-brand hover:text-white"
                   >
                     {option}
                   </DropdownMenuItem>
@@ -139,7 +139,7 @@ export default function RegisterDriverForm() {
               className={`w-48 ${
                 formSubmitted
                   ? "bg-blue-500 hover:bg-blue-400"
-                  : "bg-green-800 hover:bg-green-700"
+                  : "bg-brand hover:bg-brand"
               } text-white font-medium py-2 px-4 rounded-md transition-colors`}
               disabled={isSubmitting}
             >

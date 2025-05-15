@@ -47,7 +47,7 @@ function OrderPage({ id }: { id: string }) {
       {/* Main Heading */}
       <div className='flex flex-col gap-2 '>
 
-      <h1 className="text-2xl font-semibold text-center mb-8  border border-y border-brandColor py-3 bg-brandColor text-green-600">
+      <h1 className="text-2xl font-semibold text-center mb-8  border border-y border-brandColor py-3 bg-brandColor text-brand">
        Order Details  
       </h1>
       <h1 className="text-2xl font-semibold text-center mb-8 text-brandColor  border-y border-brandColor py-3">

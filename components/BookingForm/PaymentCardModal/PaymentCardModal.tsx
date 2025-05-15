@@ -216,7 +216,7 @@ const CheckoutForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             <div 
               className={`p-4 rounded-lg text-sm ${
                 message.includes("succeeded") 
-                  ? "bg-green-100 text-green-700 border border-green-200" 
+                  ? "bg-green-100 text-brand border border-green-200" 
                   : "bg-red-100 text-red-700 border border-red-200"
               }`}
             >

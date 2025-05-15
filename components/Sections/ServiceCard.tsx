@@ -16,7 +16,7 @@ export default function sServiceCard() {
       <div className="container px-4 mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">
-            Our <span className="text-green-700">Services</span>
+            Our <span className="text-brand">Services</span>
           </h2>
           <p className="text-lg text-muted-foreground">
             Premium Transportation Solutions Tailored to Your Needs
@@ -42,7 +42,7 @@ export default function sServiceCard() {
               <div className="absolute inset-0 flex flex-col items-center justify-center p-6 transition-transform duration-500">
                 {/* Title container with skewed edge */}
                 <div className="relative bg-primary/90 py-3 px-6 transform -translate-y-6 transition-transform duration-500 group-hover:translate-y-0 w-auto max-w-[90%]">
-                  <h3 className="text-xl font-semibold text-green-400 text-center">
+                  <h3 className="text-xl font-semibold text-brand text-center">
                     {service.title}
                   </h3>
                  

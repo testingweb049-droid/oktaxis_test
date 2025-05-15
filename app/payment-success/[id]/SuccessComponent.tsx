@@ -59,7 +59,7 @@ function SuccessComponent({ orderId }: { orderId: string }) {
   }
 
   if (loading) {
-    return <div className="py-20 text-center text-green-600 font-semibold">Please Wait Order Placing...</div>
+    return <div className="py-20 text-center text-brand font-semibold">Please Wait Order Placing...</div>
   }
 
   if (error !== '') {
@@ -71,7 +71,7 @@ function SuccessComponent({ orderId }: { orderId: string }) {
       <div className="w-full flex justify-center py-20">
         { orderDone && <div className="max-w-screen-sm w-full p-3 sm:p-8 bg-black text-white rounded-lg shadow-xl space-y-6">
           <div className="flex justify-center">
-            <div className="bg-green-600 text-black p-3 rounded-full shadow-md">
+            <div className="bg-brand text-black p-3 rounded-full shadow-md">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-8 w-8"
@@ -87,7 +87,7 @@ function SuccessComponent({ orderId }: { orderId: string }) {
             </div>
           </div>
 
-          <h2 className="text-center text-2xl font-extrabold text-green-600">
+          <h2 className="text-center text-2xl font-extrabold text-brand">
             Order Placed Successfully!
           </h2>
 
@@ -95,14 +95,14 @@ function SuccessComponent({ orderId }: { orderId: string }) {
             Thank you for placing your order with us.
             <br />
             Please check your Email (
-            <span className="text-green-600">{email}</span>) for the order confirmation and further details.
+            <span className="text-brand">{email}</span>) for the order confirmation and further details.
           </p>
 
           <div className="flex items-center justify-center w-full">
 
           <Link
               href="/"
-              className="text-white bg-green-600 px-4 py-2 rounded-md mx-auto mt-5 hover:opacity-90"
+              className="text-white bg-brand px-4 py-2 rounded-md mx-auto mt-5 hover:opacity-90"
               >
               Go to Home
             </Link>

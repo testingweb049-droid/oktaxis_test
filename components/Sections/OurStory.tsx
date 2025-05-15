@@ -19,7 +19,7 @@ export default function OurStory() {
           <CardContent className="p-8">
             <div className="text-center space-y-6">
               <h1 className="text-3xl font-bold">
-              <span className="text-green-700">Manchester</span> Airport Taxi/ Instant <span className="text-green-700">Manchester Airport</span> Transfer Quote
+              <span className="text-brand">Manchester</span> Airport Taxi/ Instant <span className="text-brand">Manchester Airport</span> Transfer Quote
               </h1>
               <div className="space-y-4 text-gray-600">
                 <p>
@@ -32,10 +32,10 @@ export default function OurStory() {
                   OKTAXIS Offers luxury airport transfers and taxis to or from Manchester Airport and Liverpool Airport. We aim to ensure that customers arrive at the airport on time and are picked up promptly upon return.
                 </p>
                 <p>
-                  <span className="font-bold text-green-700">OKTAXIS:</span> Offers pre-booked vehicles, private car services, and hourly services.
+                  <span className="font-bold text-brand">OKTAXIS:</span> Offers pre-booked vehicles, private car services, and hourly services.
                 </p>
                 <p>
-                  <span className="font-bold text-green-700">OKTAXIS:</span> Offers Manchester Airport transfers and Liverpool Airport Transfers.
+                  <span className="font-bold text-brand">OKTAXIS:</span> Offers Manchester Airport transfers and Liverpool Airport Transfers.
                 </p>
               </div>
             </div>

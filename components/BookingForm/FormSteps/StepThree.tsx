@@ -122,7 +122,7 @@ export default function StepThree({
 
           {/* Book Now Button */}
           <Button
-            className="p-4 bg-green-600 hover:bg-green-500 text-white rounded-lg mt-4"
+            className="p-4 bg-brand hover:bg-brand text-white rounded-lg mt-4"
             onClick={handleBookNow}
           >
             {isEditing ? "Save Changes" : "Book Now"}

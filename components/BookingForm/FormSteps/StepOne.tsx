@@ -158,7 +158,7 @@ export default function StepOne({
             </div>
           </div>
           <Button
-            className="w-full backdrop:py-6 text-[16px] bg-green-600 hover:bg-green-500 text-white rounded-lg mt-4"
+            className="w-full backdrop:py-6 text-[16px] bg-brand hover:bg-brand text-white rounded-lg mt-4"
             onClick={handleValidationAndNextStep}
           >
             {isEditing ? "Save Changes" : "Select Vehicle"}

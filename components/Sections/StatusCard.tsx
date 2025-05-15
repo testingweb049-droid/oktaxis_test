@@ -27,7 +27,7 @@ export function StatusCard({ type, onClose }: StatusCardProps) {
         </div>
         
         <div className={`text-xl font-semibold ${
-          type === 'success' ? 'text-green-600' : 'text-red-600'
+          type === 'success' ? 'text-brand' : 'text-red-600'
         }`}>
           {type === 'success' ? 'Success' : 'Error!'}
         </div>
@@ -52,8 +52,8 @@ export function StatusCard({ type, onClose }: StatusCardProps) {
               }}
           className={`w-full text-white ${
             type === 'success' 
-              ? 'bg-green-800 hover:bg-green-700' 
-              : 'bg-green-800 hover:bg-green-700'
+              ? 'bg-brand hover:bg-brand' 
+              : 'bg-brand hover:bg-brand'
           }`}
         >
           {type === 'success' ? 'Done' : 'Try Again'}

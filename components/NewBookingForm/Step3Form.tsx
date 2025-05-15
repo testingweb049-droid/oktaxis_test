@@ -34,7 +34,7 @@ function Step3Form() {
                   <MdPeopleAlt className='size-6' />
                 </div>
                 <p>Passengers</p>
-                <p className='border border-green-500 font-semibold p-1 rounded-lg text-xs text-green-500'>Free</p>
+                <p className='border border-green-600 font-semibold p-1 rounded-lg text-xs text-green-600'>Free</p>
 
               </div>
               <div className='w-fit flex items-center gap-3'>
@@ -51,7 +51,7 @@ function Step3Form() {
                   <BiSolidShoppingBags className='size-6' />
                 </div>
                 <p>Bags</p>
-                <p className='border border-green-500 font-semibold p-1 rounded-lg text-xs text-green-500'>Free</p>
+                <p className='border border-green-600 font-semibold p-1 rounded-lg text-xs text-green-600'>Free</p>
 
               </div>
               <div className='w-fit flex items-center gap-3'>
@@ -70,7 +70,7 @@ function Step3Form() {
               <div className='flex items-center gap-2'>
 
                 <p>Flight Track</p>
-                <p className='border border-green-500 font-semibold p-1 px-2 rounded-lg text-xs text-green-500'>7£</p>
+                <p className='border border-green-600 font-semibold p-1 px-2 rounded-lg text-xs text-green-600'>7£</p>
 
               </div>
 
@@ -90,7 +90,7 @@ function Step3Form() {
               <div className='flex items-center gap-2'>
 
                 <p>Meet & Greet</p>
-                <p className='border border-green-500 font-semibold p-1 rounded-lg text-xs text-green-500 px-2'>15£</p>
+                <p className='border border-green-600 font-semibold p-1 rounded-lg text-xs text-green-600 px-2'>15£</p>
 
               </div>
 
