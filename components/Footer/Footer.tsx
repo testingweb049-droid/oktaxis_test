@@ -1,120 +1,204 @@
 "use client"
 
-import Image from "next/image";
-import Link from "next/link";
-import { MapPin, Phone, Mail } from "lucide-react";
-import { homePageData } from "@/constants/homePageData";
-import Logo from "@/assets/homeImages/footer-logo.png";
+import Image from "next/image"
+import Link from "next/link"
+import { ArrowUp, Facebook, Linkedin, Instagram, Twitter, Youtube } from "lucide-react"
+import Logo from "@/assets/logo.png"
+// Footer data structure based on the design
+const footerData = {
+  company: [
+    { title: "Become a Limousine Partner", href: "/partner" },
+    { title: "Solutions for Companies", href: "/solutions" },
+    { title: "About Us", href: "/about" },
+    { title: "Contact Us", href: "/contact" },
+    { title: "Careers", href: "/careers" },
+    { title: "Blog", href: "/blog" },
+  ],
+  topCities: [
+    { title: "Berlin", href: "/cities/berlin" },
+    { title: "London", href: "/cities/london" },
+    { title: "Paris", href: "/cities/paris" },
+    { title: "Dubai", href: "/cities/dubai" },
+    { title: "Oslo", href: "/cities/oslo" },
+    { title: "Copenhagen", href: "/cities/copenhagen" },
+    { title: "All Cities", href: "/cities" },
+  ],
+  chauffeurCities: [
+    { title: "Berlin Chauffeur Services", href: "/services/berlin" },
+    { title: "Potsdam Chauffeur Services", href: "/services/potsdam" },
+    { title: "Istanbul Chauffeur Services", href: "/services/istanbul" },
+    { title: "Izmir Chauffeur Services", href: "/services/izmir" },
+  ],
+  airportTransfers: [
+    { title: "Airport Transfer Berlin (BER)", href: "/airport/berlin" },
+    { title: "Airport Transfer London (LHR)", href: "/airport/london" },
+    { title: "Airport Transfer Paris (CDG)", href: "/airport/paris" },
+    { title: "Airport Transfer Dubai (DXB)", href: "/airport/dubai" },
+    { title: "Airport Transfer Istanbul (IST / SAW)", href: "/airport/istanbul" },
+    { title: "Airport Transfer Munich (MUC)", href: "/airport/munich" },
+    { title: "Airport Transfer Potsdam (POT)", href: "/airport/potsdam" },
+    { title: "Airport Transfer Frankfurt (FRA)", href: "/airport/frankfurt" },
+    { title: "All Airport Transfers", href: "/airport" },
+  ],
+  otherServices: [
+    { title: "Hourly Car Rental", href: "/services/hourly" },
+    { title: "Event Transportation", href: "/services/event" },
+    { title: "Sightseeing Bus Berlin", href: "/services/sightseeing" },
+    { title: "Wedding Limousine Berlin", href: "/services/wedding" },
+    { title: "Bus Transfers in Berlin", href: "/services/bus" },
+    { title: "Car Service in Berlin", href: "/services/car" },
+    { title: "Limousine Service in Berlin", href: "/services/limousine" },
+  ],
+  socialLinks: [
+    { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
+    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+    { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
+    { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+    { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
+  ],
+  legalLinks: [
+    { title: "FAQs", href: "/faqs" },
+    { title: "Privacy Policy", href: "/privacy" },
+    { title: "Cookies Policy", href: "/cookies" },
+    { title: "Terms & Conditions", href: "/terms" },
+    { title: "Conditions of Transport", href: "/transport-conditions" },
+    { title: "Imprint", href: "/imprint" },
+  ],
+}
 
 export default function Footer() {
-  const { footer } = homePageData;
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
 
   return (
-    <>
-      <footer className="w-full relative bg-green-800 text-white pt-12 px-4 md:px-6 lg:px-8 border-t">
-        {/* WhatsApp Animation Section */}
-        
+    <footer className="bg-black text-white">
+      {/* Scroll to top button */}
+      <div className="container mx-auto flex justify-center py-4">
+        <button
+          onClick={scrollToTop}
+          className="flex flex-col items-center text-sm text-gray-400 transition-colors hover:text-white"
+          aria-label="Scroll to top"
+        >
+          <ArrowUp className="h-5 w-5" />
+          <span>Up</span>
+        </button>
+      </div>
 
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 items-center m-auto lg:grid-cols-12 gap-8">
-            {/* Logo and Description Section */}
-            <div className="lg:col-span-5">
-              <div className="flex items-center gap-2 mb-6">
-                <Image
-                  src={Logo}
-                  alt="OkTaxis"
-                  className="w-40 h-auto"
-                />
-              </div>
-              <p className="text-white mb-8 leading-relaxed">{footer.description}</p>
+      {/* Main footer content */}
+      <div className="container mx-auto grid grid-cols-1 gap-8 px-4 py-8 md:grid-cols-2 lg:grid-cols-5">
+        {/* Company */}
+        <div>
+          <h3 className="mb-4 text-base font-bold uppercase">Company</h3>
+          <ul className="space-y-2">
+            {footerData.company.map((item) => (
+              <li key={item.title}>
+                <Link href={item.href} className="text-sm text-gray-300 transition-colors hover:text-white">
+                  {item.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-              {/* Social Links */}
-              <div className="mb-8">
-                <h3 className="text-xl font-semibold text-white mb-4">Social Links</h3>
-                <div className="flex gap-4">
-                  {footer.socialLinks.map(({ icon: Icon, href, label }) => (
-                    <Link
-                      key={label}
-                      href={href}
-                      className="text-white hover:text-700 transition-colors"
-                    >
-                      <Icon className="w-6 h-6" />
-                      <span className="sr-only">{label}</span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
+        {/* Top Cities */}
+        <div>
+          <h3 className="mb-4 text-base font-bold uppercase">Top Cities</h3>
+          <ul className="space-y-2">
+            {footerData.topCities.map((item) => (
+              <li key={item.title}>
+                <Link href={item.href} className="text-sm text-gray-300 transition-colors hover:text-white">
+                  {item.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Chauffeur Service Cities */}
+        <div>
+          <h3 className="mb-4 text-base font-bold uppercase">Top Chauffeur Service Cities</h3>
+          <ul className="space-y-2">
+            {footerData.chauffeurCities.map((item) => (
+              <li key={item.title}>
+                <Link href={item.href} className="text-sm text-gray-300 transition-colors hover:text-white">
+                  {item.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Airport Transfer */}
+        <div>
+          <h3 className="mb-4 text-base font-bold uppercase">Airport Transfer</h3>
+          <ul className="space-y-2">
+            {footerData.airportTransfers.map((item) => (
+              <li key={item.title}>
+                <Link href={item.href} className="text-sm text-gray-300 transition-colors hover:text-white">
+                  {item.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Other Services */}
+        <div>
+          <h3 className="mb-4 text-base font-bold uppercase">Other Services in Berlin</h3>
+          <ul className="space-y-2">
+            {footerData.otherServices.map((item) => (
+              <li key={item.title}>
+                <Link href={item.href} className="text-sm text-gray-300 transition-colors hover:text-white">
+                  {item.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Logo and social links */}
+      <div className="border-t border-gray-800 py-8">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col items-center justify-between md:flex-row">
+            <div className="mb-6 md:mb-0">
+              <Image src={Logo} alt="OKTaxis" width={200} height={40} className="h-10 w-auto" />
             </div>
 
-            {/* Quick Links Section */}
-            <div className="lg:col-span-3 lg:ml-8">
-              <h3 className="text-xl font-semibold text-white mb-4">Quick Links</h3>
-              <nav>
-                <ul className="space-y-2">
-                  {footer.quickLinks.map(({ href, label }) => (
-                    <li key={label}>
-                      <Link href={href} className="text-white hover:text-white transition-colors">
-                        {label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
-
-            {/* Contact Section */}
-            <div className="lg:col-span-4">
-              <h3 className="text-xl font-semibold text-white mb-4">Contact Us</h3>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-white mt-1" />
-                  <p className="text-white">{footer.contact.address}</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Phone className="w-5 h-5 text-white" />
+            <div className="flex space-x-4">
+              {footerData.socialLinks.map((item) => {
+                const Icon = item.icon
+                return (
                   <Link
-                    href={`tel:${footer.contact.phone}`}
-                    className="text-white transition-colors"
+                    key={item.label}
+                    href={item.href}
+                    className="text-gray-400 transition-colors hover:text-white"
+                    aria-label={item.label}
                   >
-                    {footer.contact.phone}
+                    <Icon className="h-5 w-5" />
                   </Link>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-white" />
-                  <Link
-                    href={`mailto:${footer.contact.email}`}
-                    className="text-white transition-colors"
-                  >
-                    {footer.contact.email}
-                  </Link>
-                </div>
-              </div>
+                )
+              })}
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="w-full border-t flex flex-col items-center py-2 text-sm text-white">
-          <p>Developed By: <Link href='https://thedevsquare.com/'>The Dev Square</Link></p>
-          <p>
-            © 2025 Oktaxis. All Rights Reserved.
-          </p>
+      {/* Legal links and copyright */}
+      <div className="border-t border-gray-800 bg-black py-4">
+        <div className="container mx-auto flex flex-col items-center justify-between px-4 text-xs text-gray-400 md:flex-row">
+          <p>© All rights Reserved to OKTaxis Mobility Solutions</p>
+
+          <div className="mt-4 flex flex-wrap justify-center gap-4 md:mt-0">
+            {footerData.legalLinks.map((item) => (
+              <Link key={item.title} href={item.href} className="transition-colors hover:text-white">
+                {item.title}
+              </Link>
+            ))}
+          </div>
         </div>
-      </footer>
-
-      {/* Add Keyframe Animation */}
-      <style jsx>{`
-        @keyframes whatsappBounce {
-          0%, 100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-8px);
-          }
-        }
-        .animate-whatsapp-bounce {
-          animation: whatsappBounce 0.5s ease-in-out infinite;
-        }
-      `}</style>
-    </>
-  );
+      </div>
+    </footer>
+  )
 }

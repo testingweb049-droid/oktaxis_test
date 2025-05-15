@@ -70,7 +70,7 @@ const CheckoutPage = ({ amount, orderId }: { amount: number, orderId: string }) 
       return;
     }
 
-    const link = `http://localhost:3001/payment-success/${orderId}?clientSecret=${clientSecret}`;
+    const link = `https://oktaxis.co.uk/payment-success/${orderId}?clientSecret=${clientSecret}`;
     const { error } = await stripe.confirmPayment({
       elements,
       clientSecret,
