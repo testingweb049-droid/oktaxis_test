@@ -78,7 +78,7 @@ export default function Services() {
   const smallServices = services.filter((service) => service.size === "small")
 
   return (
-    <section id="services" className="bg-black py-16" ref={ref}>
+    <section id="services" className=" py-16" ref={ref}>
       <div className="container mx-auto px-4 md:px-6">
         <div
           className="mb-12 animate-fade-in-up opacity-0"

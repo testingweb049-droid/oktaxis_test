@@ -10,8 +10,8 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <HeroSection />
-      <AboutSection />
       <Services />
+      <AboutSection />
       <LuxuryExperience />
       <FleetClasses />
       <ReadyToBook />
