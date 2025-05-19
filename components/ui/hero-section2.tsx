@@ -4,7 +4,17 @@ import { useEffect, useRef } from "react"
 import Image from "next/image"
 import HeroSectionBookingForm from "../NewBookingForm/HeroBookingForm"
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  bgImage: string
+  title: string
+  description: string
+}
+
+export default function HeroSection2({
+  bgImage,
+  title,
+  description,
+}: HeroSectionProps) {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
@@ -57,7 +67,6 @@ export default function HeroSection() {
       }, 900)
     }
 
-    // Add parallax effect on scroll
     const handleScroll = () => {
       const scrollPosition = window.scrollY
       if (title) {
@@ -76,27 +85,30 @@ export default function HeroSection() {
   }, [])
 
   return (
-    <section id="herosection" className="relative min-h-screen lg:h-screen w-full overflow-hidden  pt-32 md:pt-44 pb-12">
-      <Image src="/images/limousine.png" alt="Luxury chauffeur service" fill className="object-cover" priority />
-      <div ref={overlayRef} className="absolute inset-0" />
-      <div className="container relative z-10 mx-auto flex h-full flex-col gap-10 items-start justify-around px-3 text-white  lg:px-5">
+    <section id="herosection" className="relative min-h-screen lg:h-screen w-full overflow-hidden pt-32 md:pt-44 pb-12">
+      <Image 
+        src={bgImage} 
+        alt="Luxury chauffeur service" 
+        fill 
+        className="object-cover" 
+        priority 
+      />
+      <div ref={overlayRef} className="absolute inset-0 bg-black" />
+      <div className="container relative z-10 mx-auto flex h-full flex-col gap-10 items-start justify-around px-3 text-white lg:px-5">
         <div>
-
-        <p ref={titleRef} className="mb-2 sm:mb-4 text-6xl font-bold  md:text-7xl lg:text-9xl lg:leading-[110px]">
-          Luxury <br /> Transportation
-        </p>
-        <p ref={subtitleRef} className=" text-lg md:text-2xl lg:text-3xl">
-          OKTaxis offers luxury transportation throughout Manchester.
-        </p>
+          <h1 ref={titleRef} className="mb-2 sm:mb-4 text-4xl font-bold md:text-4xl lg:text-4xl lg:leading-[55px]">
+            {title}
+          </h1>
+          <p ref={subtitleRef} className="text-lg md:text-xl max-w-6xl lg:text-xl">
+            {description}
+          </p>
         </div>
 
-        {/* Empty div for the form with animation */}
         <div ref={formContainerRef} className="relative w-full max-w-full">
           <HeroSectionBookingForm/>
         </div>
       </div>
 
-      {/* Animated gradient overlay */}
       <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent"></div>
     </section>
   )

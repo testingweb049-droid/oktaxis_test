@@ -15,11 +15,11 @@ const fleetFeatures = [
     '30 mins free waiting', 'Licensed, courteous drivers', '24/7 customer support', 'Door-to-door transfer'
 ]
 
-export const fleets = [{ name: 'Economy', cars: 'Skoda Octavia | ToyotaPrius', price: 1.3, image: Executive, bags: 3, persons: 4, specailRequest: false, under10: 25, under20: 35, hourly: 25, stop: 10 },
-{ name: 'Executive', cars: 'BMW 5 Series | MERC E Class', price: 1.45, image: Economy, bags: 3, persons: 4, specailRequest: false, under10: 35, under20: 45, hourly: 17, stop: 10 },
+export const fleets = [{ name: 'Economy', cars: 'Skoda Octavia | ToyotaPrius', price: 1.3, image: Economy, bags: 3, persons: 4, specailRequest: false, under10: 25, under20: 35, hourly: 25, stop: 10 },
+{ name: 'Executive', cars: 'BMW 5 Series | MERC E Class', price: 1.45, image: Executive, bags: 3, persons: 4, specailRequest: false, under10: 35, under20: 45, hourly: 17, stop: 10 },
 { name: 'Executive Premium', cars: 'Tesla Model S', price: 1.6, image: ExecutivePremium, bags: 3, persons: 4, specailRequest: false, under10: 45, under20: 65, hourly: 20, stop: 10 },
 { name: 'Luxury Van', cars: 'XL Passenger Van', price: 1.9, image: LuxuryVan, bags: 6, persons: 6, specailRequest: false, under10: 65, under20: 80, hourly: 30, stop: 15 },
-{ name: 'Test', cars: 'XL Passenger Van', price: 0.1, image: LuxuryVan, bags: 6, persons: 6, specailRequest: false, under10: 0.1, under20: 0.1, hourly: 0.1, stop: 0.1 },
+// { name: 'Test', cars: 'XL Passenger Van', price: 0.1, image: LuxuryVan, bags: 6, persons: 6, specailRequest: false, under10: 0.1, under20: 0.1, hourly: 0.1, stop: 0.1 },
 ]
 
 

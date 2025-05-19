@@ -5,10 +5,8 @@ import Link from "next/link"
 import { ArrowUp, Facebook, Linkedin, Instagram, Twitter, Youtube } from "lucide-react"
 import Logo from "@/assets/logo-white.png"
 import { navLinks } from "@/constants/headerFooterData"
-// Footer data structure based on the design
+
 const footerData = {
-  
-  
   airportTransfers: [
     { title: "Airport Transfer Berlin (BER)", href: "/airport/berlin" },
     { title: "Airport Transfer London (LHR)", href: "/airport/london" },
@@ -30,7 +28,7 @@ const footerData = {
     { title: "Limousine Service in Berlin", href: "/services/limousine" },
   ],
   socialLinks: [
-    { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
+    { icon: Facebook, href: "https://www.facebook.com/profile.php?id=61572964094684", label: "Facebook" },
     { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
     { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
     { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
@@ -54,7 +52,7 @@ export default function Footer() {
   return (
     <footer className="bg-black text-white pt-5">
       {/* Scroll to top button */}
-      <div className="container mx-auto flex justify-center">
+      <div className="container mx-auto flex justify-center pb-12">
         <button
           onClick={scrollToTop}
           className="flex flex-col items-center text-sm text-gray-400 transition-colors hover:text-white"
@@ -66,7 +64,7 @@ export default function Footer() {
       </div>
 
       {/* Main footer content */}
-      <div className="container mx-auto flex justify-start gap-8 px-4 py-8 md:grid-cols-2 lg:grid-cols-5 ">
+      <div className="container mx-auto flex justify-between gap-8 px-4 py-8">
         {/* Links */}
         <div>
           <h3 className="mb-4 text-base font-bold uppercase">Links</h3>
@@ -80,9 +78,56 @@ export default function Footer() {
             ))}
           </ul>
         </div>
-       </div>
 
-       
+        {/* Airport Transfers */}
+        <div>
+          <h3 className="mb-4 text-base font-bold uppercase">Airport Transfers</h3>
+          <ul className="space-y-2">
+            {footerData.airportTransfers.map((item) => (
+              <li key={item.title}>
+                <Link href={item.href} className="text-sm text-gray-300 transition-colors hover:text-white">
+                  {item.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Other Services */}
+        <div>
+          <h3 className="mb-4 text-base font-bold uppercase">Other Services</h3>
+          <ul className="space-y-2">
+            {footerData.otherServices.map((item) => (
+              <li key={item.title}>
+                <Link href={item.href} className="text-sm text-gray-300 transition-colors hover:text-white">
+                  {item.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Contact Info */}
+        <div>
+          <h3 className="mb-4 text-base font-bold uppercase">Contact Us</h3>
+          <p className="text-sm mb-2">
+            <strong>Email:</strong>{" "}
+            <a href="mailto:info@oktaxis.co.uk" className="underline hover:text-amber-500">
+              info@oktaxis.co.uk
+            </a>
+          </p>
+          <p className="text-sm mb-2">
+            <strong>Office Address:</strong> 0B Portway, Wythenshaw, Manchester
+          </p>
+          <p className="text-sm mb-2">
+            <strong>Telephone:</strong>{" "}
+            <a href="tel:+447342193341" className="underline hover:text-amber-500">
+              +44 7342 193341
+            </a>
+          </p>
+        </div>
+
+      </div>
 
       {/* Logo and social links */}
       <div className="border-t border-gray-800 py-8 mt-4">
@@ -91,14 +136,24 @@ export default function Footer() {
             <div className="mb-6 md:mb-0">
               <Image src={Logo} alt="OKTaxis" width={200} height={40} className="h-10 w-auto" />
             </div>
+             <div className="flex space-x-6 gap-6 items-center flex-wrap">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" className="h-6" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="Mastercard" className="h-6" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Discover_Card_logo.svg/1200px-Discover_Card_logo.svg.png" alt="Discover" className="h-6" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/American_Express_logo.svg/1200px-American_Express_logo.svg.png" alt="American Express" className="h-6" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/1200px-PayPal.svg.png" alt="PayPal" className="h-6" />
+</div>
 
             <div className="flex space-x-4">
+              
               {footerData.socialLinks.map((item) => {
                 const Icon = item.icon
                 return (
                   <Link
                     key={item.label}
                     href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-gray-400 transition-colors hover:text-white"
                     aria-label={item.label}
                   >
@@ -113,16 +168,17 @@ export default function Footer() {
 
       {/* Legal links and copyright */}
       <div className="border-t border-gray-800 bg-black py-4">
-        <div className="container mx-auto flex flex-col items-center justify-between px-4 text-xs text-gray-400 md:flex-row">
-          <p>© All rights Reserved to OKTaxis Mobility Solutions</p>
+        <div className="container mx-auto flex flex-col items-center justify-center px-4 text-xs text-gray-400 md:flex-row">
+          <p className="text-center">© All rights Reserved to OKTaxis Mobility Solutions</p>
 
-          <div className="mt-4 flex flex-wrap justify-center gap-4 md:mt-0">
+          {/* Uncomment below if you want to show legal links */}
+          {/* <div className="mt-4 flex flex-wrap justify-center gap-4 md:mt-0">
             {footerData.legalLinks.map((item) => (
               <Link key={item.title} href={item.href} className="transition-colors hover:text-white">
                 {item.title}
               </Link>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>
