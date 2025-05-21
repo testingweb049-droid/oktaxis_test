@@ -77,7 +77,7 @@ export default function HeroSection() {
 
   return (
     <section id="herosection" className="relative min-h-screen lg:h-screen w-full overflow-hidden  pt-32 md:pt-44 pb-12">
-      <Image src="/images/Manchester Airport.png" alt="Luxury chauffeur service" fill className="object-cover" priority />
+      <Image src="/images/limousine.png" alt="Luxury chauffeur service" fill className="object-cover" priority />
       <div ref={overlayRef} className="absolute inset-0" />
       <div className="container relative z-10 mx-auto flex h-full flex-col gap-10 items-start justify-around px-3 text-white  lg:px-5">
         <div>
