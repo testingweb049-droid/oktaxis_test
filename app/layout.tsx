@@ -28,33 +28,66 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <head>{/* Metadata and necessary links are auto-handled by Next.js */}</head>
+      <head>
+        {/* Preconnect to important third-party origins */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://maps.googleapis.com" />
+        
+        {/* You can add other meta tags or links here if needed */}
+      </head>
       <body className={`${roboto.variable} antialiased`}>
-        {/* Google Tag Manager */}
+        {/* Google Tag Manager (noscript) for SSR */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-MMNH8NGS"
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
+
+        {/* Google Tag Manager (script) */}
+        <Script
+          id="gtm-script"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-MMNH8NGS');
+            `,
+          }}
+        />
+
+        {/* Google Ads (gtag.js) */}
         <Script
           id="gtag-script"
           strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=AW-16550284687"
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17084959800"
         />
         <Script
           id="gtag-init"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'AW-16550284687');
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-17084959800');
+              gtag('config', 'AW-16550284687');
             `,
           }}
         />
 
-        {/* Google Maps API */}
+        {/* Google Maps API - Load only when needed */}
         <Script
           id="google-maps"
           strategy="lazyOnload"
           src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
         />
+
         <CustomFormProvider>
           <Header />
           <StripeProvider>
