@@ -64,7 +64,7 @@ export default function Footer() {
       </div>
 
       {/* Main footer content */}
-      <div className="container mx-auto flex justify-between gap-8 px-4 py-8">
+      <div className="container mx-auto grid grid-cols-1 gap-8 px-4 py-8 sm:grid-cols-2 lg:grid-cols-4">
         {/* Links */}
         <div>
           <h3 className="mb-4 text-base font-bold uppercase">Links</h3>
@@ -126,26 +126,45 @@ export default function Footer() {
             </a>
           </p>
         </div>
-
       </div>
 
       {/* Logo and social links */}
       <div className="border-t border-gray-800 py-8 mt-4">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center justify-between md:flex-row">
+          <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
             <div className="mb-6 md:mb-0">
               <Image src={Logo} alt="OKTaxis" width={200} height={40} className="h-10 w-auto" />
             </div>
-             <div className="flex space-x-6 gap-6 items-center flex-wrap">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" className="h-6" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="Mastercard" className="h-6" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Discover_Card_logo.svg/1200px-Discover_Card_logo.svg.png" alt="Discover" className="h-6" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/American_Express_logo.svg/1200px-American_Express_logo.svg.png" alt="American Express" className="h-6" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/1200px-PayPal.svg.png" alt="PayPal" className="h-6" />
-</div>
+            
+            <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+              <img 
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" 
+                alt="Visa" 
+                className="h-6 object-contain" 
+              />
+              <img 
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" 
+                alt="Mastercard" 
+                className="h-6 object-contain" 
+              />
+              <img 
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Discover_Card_logo.svg/1200px-Discover_Card_logo.svg.png" 
+                alt="Discover" 
+                className="h-6 object-contain" 
+              />
+              <img 
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/American_Express_logo.svg/1200px-American_Express_logo.svg.png" 
+                alt="American Express" 
+                className="h-6 object-contain" 
+              />
+              <img 
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/1200px-PayPal.svg.png" 
+                alt="PayPal" 
+                className="h-6 object-contain" 
+              />
+            </div>
 
-            <div className="flex space-x-4">
-              
+            <div className="flex flex-wrap justify-center gap-4">
               {footerData.socialLinks.map((item) => {
                 const Icon = item.icon
                 return (
@@ -168,17 +187,19 @@ export default function Footer() {
 
       {/* Legal links and copyright */}
       <div className="border-t border-gray-800 bg-black py-4">
-        <div className="container mx-auto flex flex-col items-center justify-center px-4 text-xs text-gray-400 md:flex-row">
-          <p className="text-center">© All rights Reserved to OKTaxis Mobility Solutions</p>
-
-          {/* Uncomment below if you want to show legal links */}
-          {/* <div className="mt-4 flex flex-wrap justify-center gap-4 md:mt-0">
+        <div className="container mx-auto flex flex-col items-center justify-center gap-2 px-4 text-xs text-gray-400 sm:flex-row sm:justify-between">
+          <p>© All rights Reserved to OKTaxis Mobility Solutions</p>
+          <div className="flex flex-wrap justify-center gap-4">
             {footerData.legalLinks.map((item) => (
-              <Link key={item.title} href={item.href} className="transition-colors hover:text-white">
+              <Link 
+                key={item.title} 
+                href={item.href} 
+                className="hover:text-white transition-colors"
+              >
                 {item.title}
               </Link>
             ))}
-          </div> */}
+          </div>
         </div>
       </div>
     </footer>

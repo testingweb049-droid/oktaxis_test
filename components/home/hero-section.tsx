@@ -9,6 +9,7 @@ export default function HeroSection() {
   const subtitleRef = useRef<HTMLParagraphElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
   const formContainerRef = useRef<HTMLDivElement>(null)
+  const animationFrameRef = useRef<number>()
 
   useEffect(() => {
     const title = titleRef.current
@@ -16,87 +17,115 @@ export default function HeroSection() {
     const overlay = overlayRef.current
     const formContainer = formContainerRef.current
 
-    if (overlay) {
-      overlay.style.opacity = "0.7"
-      setTimeout(() => {
-        overlay.style.transition = "opacity 1.5s ease-out"
-        overlay.style.opacity = "0.4"
-      }, 100)
-    }
+    // Initial animations
+    const initAnimations = () => {
+      if (overlay) {
+        overlay.style.opacity = "0.7"
+        setTimeout(() => {
+          overlay.style.transition = "opacity 1.5s ease-out"
+          overlay.style.opacity = "0.4"
+        }, 100)
+      }
 
-    if (title) {
-      title.style.opacity = "0"
-      title.style.transform = "translateY(30px)"
-
-      setTimeout(() => {
-        title.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out"
-        title.style.opacity = "1"
-        title.style.transform = "translateY(0)"
-      }, 300)
-    }
-
-    if (subtitle) {
-      subtitle.style.opacity = "0"
-      subtitle.style.transform = "translateY(30px)"
-
-      setTimeout(() => {
-        subtitle.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out"
-        subtitle.style.opacity = "1"
-        subtitle.style.transform = "translateY(0)"
-      }, 600)
-    }
-
-    if (formContainer) {
-      formContainer.style.opacity = "0"
-      formContainer.style.transform = "translateY(30px)"
-
-      setTimeout(() => {
-        formContainer.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out"
-        formContainer.style.opacity = "1"
-        formContainer.style.transform = "translateY(0)"
-      }, 900)
-    }
-
-    // Add parallax effect on scroll
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY
       if (title) {
-        title.style.transform = `translateY(${scrollPosition * 0.2}px)`
+        title.style.opacity = "0"
+        title.style.transform = "translateY(30px)"
+        setTimeout(() => {
+          title.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out"
+          title.style.opacity = "1"
+          title.style.transform = "translateY(0)"
+        }, 300)
       }
+
       if (subtitle) {
-        subtitle.style.transform = `translateY(${scrollPosition * 0.1}px)`
+        subtitle.style.opacity = "0"
+        subtitle.style.transform = "translateY(30px)"
+        setTimeout(() => {
+          subtitle.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out"
+          subtitle.style.opacity = "1"
+          subtitle.style.transform = "translateY(0)"
+        }, 600)
+      }
+
+      if (formContainer) {
+        formContainer.style.opacity = "0"
+        formContainer.style.transform = "translateY(30px)"
+        setTimeout(() => {
+          formContainer.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out"
+          formContainer.style.opacity = "1"
+          formContainer.style.transform = "translateY(0)"
+        }, 900)
       }
     }
 
-    window.addEventListener("scroll", handleScroll)
+    // Parallax effect - only on larger screens
+    const handleScroll = () => {
+      if (window.innerWidth > 768) { // Only apply parallax on screens larger than 768px
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current)
+        }
+
+        animationFrameRef.current = requestAnimationFrame(() => {
+          const scrollPosition = window.scrollY
+          if (title) {
+            title.style.transform = `translateY(${scrollPosition * 0.2}px)`
+          }
+          if (subtitle) {
+            subtitle.style.transform = `translateY(${scrollPosition * 0.1}px)`
+          }
+        })
+      }
+    }
+
+    initAnimations()
+    window.addEventListener("scroll", handleScroll, { passive: true })
 
     return () => {
       window.removeEventListener("scroll", handleScroll)
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current)
+      }
     }
   }, [])
 
   return (
-    <section id="herosection" className="relative min-h-screen lg:h-screen w-full overflow-hidden  pt-32 md:pt-44 pb-12">
-      <Image src="/images/filters_format(webp).webp" alt="Luxury chauffeur service" fill className="object-cover" priority />
-      <div ref={overlayRef} className="absolute inset-0" />
-      <div className="container relative z-10 mx-auto flex h-full flex-col gap-10 items-start justify-around px-3 text-white  lg:px-5">
-        <div>
-
-        <p ref={titleRef} className="mb-2 sm:mb-4 text-6xl font-bold  md:text-7xl lg:text-9xl lg:leading-[110px]">
-          Luxury <br /> Transportation
-        </p>
-        <p ref={subtitleRef} className=" text-lg md:text-2xl lg:text-3xl">
-          OKTaxis offers luxury transportation throughout Manchester.
-        </p>
+    <section 
+      id="herosection" 
+      className="relative min-h-screen w-full overflow-hidden pt-24 sm:pt-32 md:pt-44 pb-12"
+    >
+      <Image 
+        src="/images/filters_format(webp).webp" 
+        alt="Luxury chauffeur service" 
+        fill 
+        className="object-cover" 
+        priority
+        quality={100}
+        sizes="100vw"
+      />
+      
+      {/* Dark overlay */}
+      <div 
+        ref={overlayRef} 
+        className="absolute inset-0 bg-black/70"
+      />
+      
+      <div className="container relative z-10 mx-auto flex h-full flex-col gap-6 sm:gap-8 md:gap-10 items-start justify-center px-4 sm:px-6 text-white lg:px-5">
+        <div className="w-full px-2 sm:px-0">
+          <h1 ref={titleRef} className="mb-2 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-9xl font-bold leading-tight sm:leading-snug md:leading-normal lg:leading-[110px]">
+            Luxury <br className="hidden sm:block" /> Transportation
+          </h1>
+          <p ref={subtitleRef} className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">
+            OKTaxis offers luxury transportation throughout Manchester.
+          </p>
         </div>
 
-        {/* Empty div for the form with animation */}
-        <div ref={formContainerRef} className="relative w-full max-w-full">
+        {/* Form container */}
+        <div ref={formContainerRef} className="relative w-full px-2 sm:px-0">
           <HeroSectionBookingForm/>
         </div>
       </div>
 
-      {/* Animated gradient overlay */}
+      {/* Gradient overlay */}
       <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent"></div>
     </section>
   )
