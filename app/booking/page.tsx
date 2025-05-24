@@ -12,6 +12,7 @@ import Step3Form from '@/components/NewBookingForm/Step3Form'
 import { FaUserTie } from 'react-icons/fa';
 import { FaTint } from 'react-icons/fa'
 import { AiOutlineClockCircle } from 'react-icons/ai';
+import HourlyNoteDialog from '@/components/NewBookingForm/HourlyNoteDailog'
 
 // re deploye
 function Page() {
@@ -26,7 +27,7 @@ function Page() {
     }, [step])
 
     return (
-        <div className=' w-full py-24'>
+        <div className=' w-full py-10'>
             <ContainerLayout>
                 <div className='flex flex-col gap-5 w-full'>
                     <div onClick={() => { if (step === 2) { Step1() } if (step === 3) { Step2() } }} className='cursor-pointer flex items-center gap-2' > <IoArrowBackOutline className='text-xl' /> <span>Back</span></div>
@@ -125,6 +126,7 @@ function Page() {
                         {step === 3 && <Step3Form />}
                     </div>
                 </div>
+               {category === 'hourly' &&  <HourlyNoteDialog/>}
             </ContainerLayout>
         </div>
     )

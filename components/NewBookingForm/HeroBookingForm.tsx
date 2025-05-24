@@ -88,7 +88,7 @@ function HeroSectionBookingForm() {
                 <div onClick={() => { if (category !== 'hourly') { setCategory('hourly'); resetForm(); setFromLocation(''); setToLocation('') } }} className={cn('px-4 w-28 py-2 cursor-pointer font-semibold rounded-3xl text-center   ', category === 'hourly' ? ' bg-[#F0A857] text-black ' : ' text-white border border-white  ')}>Hourly</div>
             </div>
 
-            <div className='w-full flex gap-2 bg-white rounded-2xl lg:rounded-3xl p-2 overflow-hidden'>
+            <div className='w-full flex gap-2 bg-white rounded-2xl lg:rounded-full p-2 overflow-hidden'>
                 <Form {...form} >
                     <form onSubmit={form.handleSubmit(onSubmit)} className="grid lg:grid-cols-5 bg-white  max-lg:divide-y lg:divide-x w-full ">
 
