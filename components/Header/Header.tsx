@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Phone, Menu, X, ChevronDown } from "lucide-react"
+import { Menu, X, ChevronDown } from "lucide-react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
+import Logo from "@/assets/logo.png"
 import WhiteLogo from "@/assets/logo-white.png"
 import { FaWhatsapp } from "react-icons/fa"
 
@@ -81,12 +82,11 @@ const navLinks: NavLink[] = [
 ]
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true)
   const [scrolled, setScrolled] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const pathname = usePathname()
 
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -113,22 +113,21 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${scrolled ? "bg-[#000000] shadow-md py-4 text-white" : " py-4  text-white"
-        }`}
+      className={`fixed left-0 right-0 top-0 z-[500] transition-all duration-1000 py-2 ${scrolled ? "bg-[#000000] shadow-md  text-white" : "  text-white"
+        } ${isOpen && 'max-md:bg-white max-md:text-black'}`}
     >
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="max-w-screen-2xl mx-auto px-3 md:px-6 relative">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="relative z-10">
-            <div className="relative h-12 w-40">
+          <Link href="/" className="relative ">
+         
               <Image
-                src={WhiteLogo}
+                src={isOpen ? Logo : WhiteLogo}
                 alt="OKTaxis"
-                fill
-                className={`object-contain transition-opacity"
-                  }`}
+              
+                className={`w-40 `}
               />
-            </div>
+            
           </Link>
 
           {/* Desktop Navigation */}
@@ -140,12 +139,12 @@ export default function Header() {
                     <button
                       onClick={() => toggleDropdown(link.id)}
                       className={`flex items-center px-4 py-2 text-sm font-medium transition-colors ${pathname.startsWith('/services') && openDropdown === link.id
-                          ? scrolled
-                            ? "font-normal"
-                            : "font-bold"
-                          : scrolled
-                            ? "font-normal"
-                            : "font-bold"
+                        ? scrolled
+                          ? "font-normal"
+                          : "font-bold"
+                        : scrolled
+                          ? "font-normal"
+                          : "font-bold"
                         }`}
                     >
                       {link.title}
@@ -172,12 +171,12 @@ export default function Header() {
                   <Link
                     href={link.path || '#'}
                     className={`px-4 py-2 text-sm font-medium transition-colors  ${pathname === link.path
-                        ? scrolled
-                          ? "font-normal"
-                          : "font-bold"
-                        : scrolled
-                          ? "font-normal"
-                          : "font-bold"
+                      ? scrolled
+                        ? "font-normal"
+                        : "font-bold"
+                      : scrolled
+                        ? "font-normal"
+                        : "font-bold"
                       }`}
                   >
                     {link.title}
@@ -201,30 +200,30 @@ export default function Header() {
           </a>
 
           {/* Mobile Menu Button */}
-          <button className="relative z-10 md:hidden" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
+          <button className=" z-[200] md:hidden" onClick={() => { console.log("toggle"); setIsOpen((prev => !prev)) }} >
             {isOpen ? (
-              <X className={scrolled ? "text-gray-900" : "text-white"} />
+              <X className={'text-gray-900'} />
             ) : (
               <Menu className={scrolled ? "text-gray-900" : "text-white"} />
             )}
           </button>
         </div>
-      </div>
 
-      {/* Mobile Menu */}
-      <div
-        className={`fixed inset-0 z-40 bg-black/95 transition-transform duration-300 md:hidden ${isOpen ? "translate-x-0" : "translate-x-full"
-          }`}
-      >
-        <div className="flex h-full flex-col items-center justify-center p-8">
-          <nav className="flex flex-col items-center space-y-6">
+        {/* Mobile Menu */}
+        <div
+          className={`absolute w-full top-[115%] p-3 left-0 z-[1000] bg-white border-y border-black text-black transition-all duration-300 ease-in-out md:hidden 
+    ${isOpen ? "opacity-100 visible translate-y-0 pointer-events-auto" : "opacity-0 invisible -translate-y-10 pointer-events-none"}`}
+        >
+
+
+          <nav className="flex flex-col items-start divide-y divide-black/50">
             {navLinks.map((link) => (
-              <div key={link.id} className="text-center">
+              <div key={link.id} className="py-2 w-full">
                 {link.submenu ? (
-                  <>
+                  <div className="w-full">
                     <button
                       onClick={() => toggleDropdown(link.id)}
-                      className={`text-xl font-medium transition-colors ${pathname.startsWith('/services') && openDropdown === link.id ? "text-amber-500" : "text-white hover:text-amber-500"
+                      className={`text-xl font-medium w-full transition-colors ${pathname.startsWith('/services') && openDropdown === link.id ? "text-amber-500" : "text-black hover:text-amber-500"
                         }`}
                     >
                       <div className="flex items-center">
@@ -238,7 +237,7 @@ export default function Header() {
                           <Link
                             key={sublink.id}
                             href={sublink.path}
-                            className="block text-lg text-gray-300 hover:text-amber-500"
+                            className="block text-lg  hover:text-amber-500"
                             onClick={closeAllDropdowns}
                           >
                             {sublink.title}
@@ -246,11 +245,11 @@ export default function Header() {
                         ))}
                       </div>
                     )}
-                  </>
+                  </div>
                 ) : (
                   <Link
                     href={link.path || '#'}
-                    className={`text-xl font-medium transition-colors ${pathname === link.path ? "text-amber-500" : "text-white hover:text-amber-500"
+                    className={`text-xl font-medium transition-colors ${pathname === link.path ? "text-amber-500" : " hover:text-amber-500"
                       }`}
                     onClick={closeAllDropdowns}
                   >
@@ -265,15 +264,18 @@ export default function Header() {
               href="https://wa.me/447342193341"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 flex items-center rounded-md bg-green-500 px-6 py-3 text-white transition-colors hover:bg-green-600"
+              className="mt-4 flex items-center rounded-md bg-green-500 px-6 py-3  transition-colors hover:bg-green-600"
               onClick={closeAllDropdowns}
             >
               <FaWhatsapp className="mr-2 h-5 w-5" />
               WhatsApp Us
             </a>
           </nav>
+
         </div>
       </div>
+
+
     </header>
   )
 }
