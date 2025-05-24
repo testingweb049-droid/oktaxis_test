@@ -87,7 +87,6 @@ export default function Header() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const pathname = usePathname()
 
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
