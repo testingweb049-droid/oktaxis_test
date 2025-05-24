@@ -9,6 +9,9 @@ export interface OrderProps {
     stop_3?: string | null; 
     pickup_date: Date;
     pickup_time: string;
+    return_date: Date | null;
+    return_time: string | null;
+    is_return:boolean | null,
     pickup_location: string;
     dropoff_location: string | null;
     passengers: number;

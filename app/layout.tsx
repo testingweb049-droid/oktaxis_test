@@ -92,10 +92,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <Header />
           <StripeProvider>
             {children}
+        <Toaster />
           </StripeProvider>
           <Footer />
         </CustomFormProvider>
-        <Toaster />
       </body>
     </html>
   )

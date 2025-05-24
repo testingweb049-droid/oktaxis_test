@@ -19,7 +19,7 @@ export const fleets = [{ name: 'Economy', cars: 'Skoda Octavia | ToyotaPrius', p
 { name: 'Executive', cars: 'BMW 5 Series | MERC E Class', price: 1.45, image: Executive, bags: 3, persons: 4, specailRequest: false, under10: 35, under20: 45, hourly: 17, stop: 10 },
 { name: 'Executive Premium', cars: 'Tesla Model S', price: 1.6, image: ExecutivePremium, bags: 3, persons: 4, specailRequest: false, under10: 45, under20: 65, hourly: 20, stop: 10 },
 { name: 'Luxury Van', cars: 'XL Passenger Van', price: 1.9, image: LuxuryVan, bags: 6, persons: 6, specailRequest: false, under10: 65, under20: 80, hourly: 30, stop: 15 },
-// { name: 'Test', cars: 'XL Passenger Van', price: 0.1, image: LuxuryVan, bags: 6, persons: 6, specailRequest: false, under10: 0.1, under20: 0.1, hourly: 0.1, stop: 0.1 },
+    // { name: 'Test', cars: 'XL Passenger Van', price: 0.1, image: LuxuryVan, bags: 6, persons: 6, specailRequest: false, under10: 0.1, under20: 0.1, hourly: 0.1, stop: 0.1 },
 ]
 
 
@@ -46,6 +46,7 @@ function CarList() {
                 }
 
                 price = Number(price.toFixed(2))
+                let returnPrice = Number((price*2 - (((price*2)/100)*7)).toFixed(2))
 
                 return <div key={item.name} className={cn('w-full rounded-xl border border-black/50 grid md:grid-cols-4 divide-y md:divide-x ', item.name === getValues('car') ? 'bg-gray-100' : 'bg-white')} >
 
@@ -90,10 +91,24 @@ function CarList() {
 
                     <div className='w-full p-3 flex flex-col justify-center gap-5'>
                         {!item.specailRequest && <div className='text-2xl font-bold text-center'>
-                            £ <span className='text-4xl'>{price}</span>
+                            <span className='text-4xl'></span>
                         </div>}
                         {!item.specailRequest ?
-                            <button type='button' onClick={() => { setValue('car', item.name); setValue('price', price); NextStep() }} className='w-full bg-black text-white px-4 py-2 rounded-xl text-center font-bold cursor-pointer'>Select</button> :
+                            <div className='flex flex-col gap-5'>
+                                <div className='flex flex-col gap-1'>
+                                    <p>One Way</p>
+                                    <button type='button' onClick={() => { setValue('is_return', false); setValue('car', item.name); setValue('price', price); NextStep() }} className='w-full bg-black text-white px-4 py-3 rounded-xl text-center font-bold cursor-pointer'>£ {price}</button>
+                                </div>
+                                <div className='flex flex-col gap-1'>
+                                    <p>Return Way</p>
+                                    <button type='button' onClick={() => { setValue('is_return', true); setValue('car', item.name); setValue('price', returnPrice); NextStep() }} className='w-full bg-black text-white px-4 py-3 rounded-xl text-center font-bold cursor-pointer relative'>£ {returnPrice}
+
+                                        <span className='absolute top-1 right-1 px-2 py-1 bg-green-500 rounded-lg text-white text-xs'>7% off</span>
+                                    </button>
+                                </div>
+                            </div>
+                            :
+
                             <Link href='/contact' className='w-full bg-black text-white px-4 py-2 rounded-xl text-center font-bold'>Request</Link>}
                     </div>
 

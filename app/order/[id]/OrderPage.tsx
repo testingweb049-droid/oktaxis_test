@@ -90,6 +90,18 @@ function OrderPage({ id }: { id: string }) {
               {order.pickup_time}
             </p>
           </div>
+          {order.is_return &&<div>
+            <p className="font-semibold text-gray-700">Return Date:</p>
+            <p className="text-gray-900 font-bold">
+              {new Date(order.return_date ?? new Date()).toLocaleString()}
+            </p>
+          </div>}
+          {order.is_return && <div>
+            <p className="font-semibold text-gray-700">Retrun Time:</p>
+            <p className="text-gray-900 font-bold">
+              {order.return_time}
+            </p>
+          </div>}
           <div>
             <p className="font-semibold text-gray-700">Pick-Up Location:</p>
             <p className="text-gray-900 font-bold">{order.pickup_location}</p>

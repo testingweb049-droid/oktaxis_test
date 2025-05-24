@@ -72,7 +72,7 @@ function Page() {
                                 </div>
                                 <div className='flex flex-col gap-1 py-2'>
                                     <p className='text-gray-500 text-sm'>Pickup Time</p>
-                                    <p className='font-medium'>{getValues('pickup_time')?.hour}:{getValues('pickup_time')?.minute}:{getValues('pickup_time')?.period}</p>
+                                    <p className='font-medium'>{getValues('pickup_time')?.hour}:{getValues('pickup_time')?.minute}</p>
                                 </div>
                                 {getValues('car') && <div className='flex flex-col gap-1 py-2'>
                                     <p className='text-gray-500 text-sm'>Car</p>

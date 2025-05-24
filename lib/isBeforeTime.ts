@@ -10,6 +10,9 @@ export function getNewJerseyDate(): Date {
   )
 }
 
+
+
+
 /**
  * Compares if a date is before the current date in New Jersey
  * @param date The date to compare
@@ -25,3 +28,17 @@ export function isBeforeNewJerseyToday(date: Date): boolean {
 
   return compareDate < newJerseyDate
 }
+
+
+
+/**
+ * Gets the current hour (0-23) in New Jersey (Eastern Time Zone)
+ * @returns number - the hour in New Jersey time
+ */
+export function getNewJerseyHour(): number {
+  const date = new Date().toLocaleString("en-US", {
+    timeZone: "America/New_York",
+  })
+  return new Date(date).getHours()
+}
+
