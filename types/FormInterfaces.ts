@@ -1,38 +1,31 @@
 import z from "zod";
 
+const timeSchema = z.object({
+  hour: z.number({
+    required_error: "Please Choose an Hour",
+  }).min(1, "Hour must be between 1 and 12").max(23, "Hour must be between 1 and 23"),
+
+  minute: z.number({
+    required_error: "Please Choose Minutes",
+  }).min(0, "Minutes must be between 0 and 59").max(59, "Minutes must be between 0 and 59"),
+
+});
+
 export const hourlyFormValidation = z.object({
   pickup_date: z.date({ required_error: "Please Chose a Date" }),
-  pickup_time: z.object({
-    hour: z
-      .number({
-        required_error: "Please Choose an Hour",
-      })
-      .min(1, "Hour must be between 1 and 12")
-      .max(12, "Hour must be between 1 and 12"),
-    minute: z
-      .number({
-        required_error: "Please Choose Minutes",
-      })
-      .min(0, "Minutes must be between 0 and 59")
-      .max(59, "Minutes must be between 0 and 59"),
-    period: z.enum(["AM", "PM"], {
-      required_error: "Please Choose AM or PM",
-    }),
-  }),
+  pickup_time: timeSchema,
+  return_date: z.date().optional(),
+  return_time: timeSchema.optional(),
+  is_return: z.boolean().default(false),
 
-  pickup_location_lag_alt: z.string({
-    required_error: "Please Chose Pickup Location",
-  }),
+  pickup_location_lag_alt: z.string({ required_error: "Please Chose Pickup Location" }),
   pickup_location: z.string({ required_error: "Please Chose Pickup Location" }),
   dropoff_location_lag_alt: z.string().optional(),
   dropoff_location: z.string().optional(),
   stop_1: z.string().optional(),
   stop_2: z.string().optional(),
   stop_3: z.string().optional(),
-  passengers: z
-    .number({ required_error: "Please Enter Passengers" })
-    .min(1)
-    .max(6),
+  passengers: z.number({ required_error: "Please Enter Passengers" }).min(1).max(6),
   kids: z.number({ required_error: "Please Enter Kids" }).min(0).max(6),
   bags: z.number({ required_error: "Please Enter Bags" }).min(0).max(6),
   car: z.string({ required_error: "Please select fleet" }),
@@ -48,44 +41,31 @@ export const hourlyFormValidation = z.object({
   instructions: z.string().optional(),
   flight_track: z.boolean().default(false),
   meet_greet: z.boolean().default(false),
+}).refine((data) => {
+  if (!data.is_return) return true;
+  return data.return_date && data.return_time;
+}, {
+  message: "Return date and time are required if return is selected",
+  path: ["return_date"],
 });
+
+
 
 export const simpleFormValidation = z.object({
   pickup_date: z.date({ required_error: "Please Chose a Date" }),
-  pickup_time: z.object({
-    hour: z
-      .number({
-        required_error: "Please Choose an Hour",
-      })
-      .min(1, "Hour must be between 1 and 12")
-      .max(12, "Hour must be between 1 and 12"),
-    minute: z
-      .number({
-        required_error: "Please Choose Minutes",
-      })
-      .min(0, "Minutes must be between 0 and 59")
-      .max(59, "Minutes must be between 0 and 59"),
-    period: z.enum(["AM", "PM"], {
-      required_error: "Please Choose AM or PM",
-    }),
-  }),
-  pickup_location_lag_alt: z.string({
-    required_error: "Please Chose Pickup Location",
-  }),
+  pickup_time: timeSchema,
+  return_date: z.date().optional(),
+  return_time: timeSchema.optional(),
+  is_return: z.boolean().default(false),
+
+  pickup_location_lag_alt: z.string({ required_error: "Please Chose Pickup Location" }),
   pickup_location: z.string({ required_error: "Please Chose Pickup Location" }),
-  dropoff_location_lag_alt: z.string({
-    required_error: "Please Chose Pickup Location",
-  }),
-  dropoff_location: z.string({
-    required_error: "Please Chose Dropoff Location",
-  }),
+  dropoff_location_lag_alt: z.string({ required_error: "Please Chose Pickup Location" }),
+  dropoff_location: z.string({ required_error: "Please Chose Dropoff Location" }),
   stop_1: z.string().optional(),
   stop_2: z.string().optional(),
   stop_3: z.string().optional(),
-  passengers: z
-    .number({ required_error: "Please Enter Passengers" })
-    .min(1)
-    .max(6),
+  passengers: z.number({ required_error: "Please Enter Passengers" }).min(1).max(6),
   kids: z.number({ required_error: "Please Enter Kids" }).min(0).max(6),
   bags: z.number({ required_error: "Please Enter Bags" }).min(0).max(6),
   car: z.string({ required_error: "Please select fleet" }),
@@ -101,4 +81,10 @@ export const simpleFormValidation = z.object({
   duration: z.number(),
   flight_track: z.boolean().default(false),
   meet_greet: z.boolean().default(false),
+}).refine((data) => {
+  if (!data.is_return) return true;
+  return data.return_date && data.return_time;
+}, {
+  message: "Return date and time are required if return is selected",
+  path: ["return_date"],
 });
