@@ -57,8 +57,6 @@ function HeroSectionBookingForm() {
     });
     const fromRef = useRef<google.maps.places.Autocomplete | null>(null);
     const toRef = useRef<google.maps.places.Autocomplete | null>(null);
-
-
     function onSubmit() {
         NextStep()
     }
