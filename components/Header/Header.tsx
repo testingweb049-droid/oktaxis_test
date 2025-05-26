@@ -86,7 +86,8 @@ export default function Header() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const pathname = usePathname()
 
-  // Handle scroll effect
+  const shouldHaveBlackHeader = ['/contact', '/terms', '/cookies', '/faqs', '/privacy', '/driver'].includes(pathname)
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -113,8 +114,13 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${scrolled ? "bg-[#000000] shadow-md py-4 text-white" : " py-4  text-white"
-        }`}
+      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
+        shouldHaveBlackHeader 
+          ? "bg-[#000000] shadow-md py-4 text-white" 
+          : scrolled 
+            ? "bg-[#000000] shadow-md py-4 text-white" 
+            : "py-4 text-white"
+      }`}
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
@@ -125,8 +131,7 @@ export default function Header() {
                 src={WhiteLogo}
                 alt="OKTaxis"
                 fill
-                className={`object-contain transition-opacity"
-                  }`}
+                className="object-contain transition-opacity"
               />
             </div>
           </Link>
@@ -139,14 +144,15 @@ export default function Header() {
                   <>
                     <button
                       onClick={() => toggleDropdown(link.id)}
-                      className={`flex items-center px-4 py-2 text-sm font-medium transition-colors ${pathname.startsWith('/services') && openDropdown === link.id
-                          ? scrolled
+                      className={`flex items-center px-4 py-2 text-sm font-medium transition-colors ${
+                        pathname.startsWith('/services') && openDropdown === link.id
+                          ? shouldHaveBlackHeader || scrolled
                             ? "font-normal"
                             : "font-bold"
-                          : scrolled
+                          : shouldHaveBlackHeader || scrolled
                             ? "font-normal"
                             : "font-bold"
-                        }`}
+                      }`}
                     >
                       {link.title}
                       <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${openDropdown === link.id ? "rotate-180" : ""}`} />
@@ -171,14 +177,15 @@ export default function Header() {
                 ) : (
                   <Link
                     href={link.path || '#'}
-                    className={`px-4 py-2 text-sm font-medium transition-colors  ${pathname === link.path
-                        ? scrolled
+                    className={`px-4 py-2 text-sm font-medium transition-colors ${
+                      pathname === link.path
+                        ? shouldHaveBlackHeader || scrolled
                           ? "font-normal"
                           : "font-bold"
-                        : scrolled
+                        : shouldHaveBlackHeader || scrolled
                           ? "font-normal"
                           : "font-bold"
-                      }`}
+                    }`}
                   >
                     {link.title}
                   </Link>
@@ -192,8 +199,11 @@ export default function Header() {
             href="https://wa.me/447342193341"
             target="_blank"
             rel="noopener noreferrer"
-            className={`ml-2 hidden md:flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all ${scrolled ? "bg-white text-black hover:bg-gray-100" : "bg-white text-black hover:bg-gray-100"
-              }`}
+            className={`ml-2 hidden md:flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+              shouldHaveBlackHeader || scrolled 
+                ? "bg-white text-black hover:bg-gray-100" 
+                : "bg-white text-black hover:bg-gray-100"
+            }`}
             onClick={() => setIsOpen(false)}
           >
             <FaWhatsapp className="mr-2 h-5 w-5" />
@@ -201,11 +211,15 @@ export default function Header() {
           </a>
 
           {/* Mobile Menu Button */}
-          <button className="relative z-10 md:hidden" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
+          <button 
+            className="relative z-10 md:hidden" 
+            onClick={() => setIsOpen(!isOpen)} 
+            aria-label="Toggle menu"
+          >
             {isOpen ? (
-              <X className={scrolled ? "text-gray-900" : "text-white"} />
+              <X className={shouldHaveBlackHeader || scrolled ? "text-white" : "text-white"} />
             ) : (
-              <Menu className={scrolled ? "text-gray-900" : "text-white"} />
+              <Menu className={shouldHaveBlackHeader || scrolled ? "text-white" : "text-white"} />
             )}
           </button>
         </div>
@@ -213,8 +227,9 @@ export default function Header() {
 
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 z-40 bg-black/95 transition-transform duration-300 md:hidden ${isOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+        className={`fixed inset-0 z-40 bg-black/95 transition-transform duration-300 md:hidden ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
         <div className="flex h-full flex-col items-center justify-center p-8">
           <nav className="flex flex-col items-center space-y-6">
@@ -224,8 +239,11 @@ export default function Header() {
                   <>
                     <button
                       onClick={() => toggleDropdown(link.id)}
-                      className={`text-xl font-medium transition-colors ${pathname.startsWith('/services') && openDropdown === link.id ? "text-amber-500" : "text-white hover:text-amber-500"
-                        }`}
+                      className={`text-xl font-medium transition-colors ${
+                        pathname.startsWith('/services') && openDropdown === link.id 
+                          ? "text-amber-500" 
+                          : "text-white hover:text-amber-500"
+                      }`}
                     >
                       <div className="flex items-center">
                         {link.title}
@@ -250,8 +268,11 @@ export default function Header() {
                 ) : (
                   <Link
                     href={link.path || '#'}
-                    className={`text-xl font-medium transition-colors ${pathname === link.path ? "text-amber-500" : "text-white hover:text-amber-500"
-                      }`}
+                    className={`text-xl font-medium transition-colors ${
+                      pathname === link.path 
+                        ? "text-amber-500" 
+                        : "text-white hover:text-amber-500"
+                    }`}
                     onClick={closeAllDropdowns}
                   >
                     {link.title}
