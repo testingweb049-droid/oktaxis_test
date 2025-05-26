@@ -4,28 +4,27 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowUp, Facebook, Linkedin, Instagram, Twitter, Youtube } from "lucide-react"
 import Logo from "@/assets/logo-white.png"
-import { navLinks } from "@/constants/headerFooterData"
+import { footerNavLinks } from "@/constants/headerFooterData"
 
 const footerData = {
   airportTransfers: [
-    { title: "Airport Transfer Berlin (BER)", href: "/airport/berlin" },
-    { title: "Airport Transfer London (LHR)", href: "/airport/london" },
-    { title: "Airport Transfer Paris (CDG)", href: "/airport/paris" },
-    { title: "Airport Transfer Dubai (DXB)", href: "/airport/dubai" },
-    { title: "Airport Transfer Istanbul (IST / SAW)", href: "/airport/istanbul" },
-    { title: "Airport Transfer Munich (MUC)", href: "/airport/munich" },
-    { title: "Airport Transfer Potsdam (POT)", href: "/airport/potsdam" },
-    { title: "Airport Transfer Frankfurt (FRA)", href: "/airport/frankfurt" },
-    { title: "All Airport Transfers", href: "/airport" },
+    { title: "Manchester"  },
+    { title: "Liverpool"  },
+    { title: "London"  },
+    { title: "Leeds"  },
+    { title: "Birmingham"  },
+    { title: "Edinburgh"  },
+  
   ],
   otherServices: [
-    { title: "Hourly Car Rental", href: "/services/hourly" },
-    { title: "Event Transportation", href: "/services/event" },
-    { title: "Sightseeing Bus Berlin", href: "/services/sightseeing" },
-    { title: "Wedding Limousine Berlin", href: "/services/wedding" },
-    { title: "Bus Transfers in Berlin", href: "/services/bus" },
-    { title: "Car Service in Berlin", href: "/services/car" },
-    { title: "Limousine Service in Berlin", href: "/services/limousine" },
+    { title: "Airport Transfers", href: "/services/airport-transfer" },
+    { title: "Hourly Chauffeur Service", href: "/services/hourly-chauffeur" },
+    { title: "Event & Weddings", href: "/services/event-weddings" },
+    { title: "Chauffeur Services", href: "/services/chauffeur-services" },
+    { title: "City Tours", href: "/services/city-tours" },
+    { title: "Stadium Transfer", href: "/services/stadium-transfer" },
+    { title: "City Tour", href: "/services/city-center" },
+    
   ],
   socialLinks: [
     { icon: Facebook, href: "https://www.facebook.com/profile.php?id=61572964094684", label: "Facebook" },
@@ -39,8 +38,8 @@ const footerData = {
     { title: "Privacy Policy", href: "/privacy" },
     { title: "Cookies Policy", href: "/cookies" },
     { title: "Terms & Conditions", href: "/terms" },
-    { title: "Conditions of Transport", href: "/transport-conditions" },
-    { title: "Imprint", href: "/imprint" },
+    // { title: "Conditions of Transport", href: "/transport-conditions" },
+    // { title: "Imprint", href: "/imprint" },
   ],
 }
 
@@ -67,9 +66,9 @@ export default function Footer() {
       <div className="container mx-auto grid grid-cols-1 gap-8 px-4 py-8 sm:grid-cols-2 lg:grid-cols-4">
         {/* Links */}
         <div>
-          <h3 className="mb-4 text-base font-bold uppercase">Links</h3>
+          <h3 className="mb-4 text-base font-bold uppercase">Company</h3>
           <ul className="space-y-2">
-            {navLinks.map((item) => (
+            {footerNavLinks.map((item) => (
               <li key={item.title}>
                 <Link href={item.path} className="text-sm text-gray-300 transition-colors hover:text-white">
                   {item.title}
@@ -81,13 +80,13 @@ export default function Footer() {
 
         {/* Airport Transfers */}
         <div>
-          <h3 className="mb-4 text-base font-bold uppercase">Airport Transfers</h3>
+          <h3 className="mb-4 text-base font-bold uppercase">Top Cities</h3>
           <ul className="space-y-2">
             {footerData.airportTransfers.map((item) => (
               <li key={item.title}>
-                <Link href={item.href} className="text-sm text-gray-300 transition-colors hover:text-white">
+                <p className="text-sm text-gray-300 transition-colors hover:text-white">
                   {item.title}
-                </Link>
+                </p>
               </li>
             ))}
           </ul>
@@ -95,7 +94,7 @@ export default function Footer() {
 
         {/* Other Services */}
         <div>
-          <h3 className="mb-4 text-base font-bold uppercase">Other Services</h3>
+          <h3 className="mb-4 text-base font-bold uppercase">Our Services</h3>
           <ul className="space-y-2">
             {footerData.otherServices.map((item) => (
               <li key={item.title}>

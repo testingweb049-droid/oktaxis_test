@@ -5,20 +5,19 @@ import Link from "next/link"
 import { Menu, X, ChevronDown } from "lucide-react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import Logo from "@/assets/logo.png"
 import WhiteLogo from "@/assets/logo-white.png"
 import { FaWhatsapp } from "react-icons/fa"
 
 interface NavLink {
-  id: string;
-  title: string;
-  path?: string;
-  submenu?: boolean;
+  id: string
+  title: string
+  path?: string
+  submenu?: boolean
   sublinks?: {
-    id: string;
-    title: string;
-    path: string;
-  }[];
+    id: string
+    title: string
+    path: string
+  }[]
 }
 
 const navLinks: NavLink[] = [
@@ -26,11 +25,6 @@ const navLinks: NavLink[] = [
     id: "home",
     title: "Home",
     path: "/",
-  },
-  {
-    id: "about",
-    title: "About",
-    path: "/about",
   },
   {
     id: "services",
@@ -62,7 +56,7 @@ const navLinks: NavLink[] = [
         title: "City Tours",
         path: "/services/city-tours",
       },
-    ]
+    ],
   },
   {
     id: "fleet",
@@ -70,9 +64,19 @@ const navLinks: NavLink[] = [
     path: "/fleet",
   },
   {
+    id: "blog",
+    title: "Blog",
+    path: "/blog",
+  },
+  {
     id: "driver",
     title: "Driver",
     path: "/driver",
+  },
+  {
+    id: "about",
+    title: "About",
+    path: "/about",
   },
   {
     id: "contact",
@@ -82,10 +86,19 @@ const navLinks: NavLink[] = [
 ]
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false) // start closed
   const [scrolled, setScrolled] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const pathname = usePathname()
+
+  const shouldHaveBlackHeader = [
+    "/contact",
+    "/terms",
+    "/cookies",
+    "/faqs",
+    "/privacy",
+    "/driver",
+  ].includes(pathname)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -113,21 +126,25 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed left-0 right-0 top-0 z-[500] transition-all duration-1000 py-2 ${scrolled ? "bg-[#000000] shadow-md  text-white" : "  text-white"
-        } ${isOpen && 'max-md:bg-white max-md:text-black'}`}
+      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
+        shouldHaveBlackHeader
+          ? "bg-[#000000] shadow-md py-4 text-white"
+          : scrolled
+          ? "bg-[#000000] shadow-md py-4 text-white"
+          : "py-4 text-white"
+      }`}
     >
       <div className="max-w-screen-2xl mx-auto px-3 md:px-6 relative">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="relative ">
-         
-              <Image
-                src={isOpen ? Logo : WhiteLogo}
-                alt="OKTaxis"
-              
-                className={`w-40 `}
-              />
-            
+          <Link href="/" className="relative w-32 h-10 md:w-40 md:h-14">
+            <Image
+              src={shouldHaveBlackHeader || scrolled ? WhiteLogo : WhiteLogo}
+              alt="OKTaxis"
+              fill
+              className="object-contain transition-opacity"
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -138,17 +155,24 @@ export default function Header() {
                   <>
                     <button
                       onClick={() => toggleDropdown(link.id)}
-                      className={`flex items-center px-4 py-2 text-sm font-medium transition-colors ${pathname.startsWith('/services') && openDropdown === link.id
-                        ? scrolled
+                      className={`flex items-center px-4 py-2 text-sm font-medium transition-colors ${
+                        pathname.startsWith("/services") && openDropdown === link.id
+                          ? shouldHaveBlackHeader || scrolled
+                            ? "font-normal"
+                            : "font-bold"
+                          : shouldHaveBlackHeader || scrolled
                           ? "font-normal"
                           : "font-bold"
-                        : scrolled
-                          ? "font-normal"
-                          : "font-bold"
-                        }`}
+                      }`}
+                      aria-expanded={openDropdown === link.id}
+                      aria-haspopup="true"
                     >
                       {link.title}
-                      <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${openDropdown === link.id ? "rotate-180" : ""}`} />
+                      <ChevronDown
+                        className={`ml-1 h-4 w-4 transition-transform ${
+                          openDropdown === link.id ? "rotate-180" : ""
+                        }`}
+                      />
                     </button>
                     {openDropdown === link.id && (
                       <div className="absolute left-0 top-full mt-2 w-56 rounded-md bg-white shadow-lg">
@@ -169,15 +193,16 @@ export default function Header() {
                   </>
                 ) : (
                   <Link
-                    href={link.path || '#'}
-                    className={`px-4 py-2 text-sm font-medium transition-colors  ${pathname === link.path
-                      ? scrolled
+                    href={link.path || "#"}
+                    className={`px-4 py-2 text-sm font-medium transition-colors ${
+                      pathname === link.path
+                        ? shouldHaveBlackHeader || scrolled
+                          ? "font-normal"
+                          : "font-bold"
+                        : shouldHaveBlackHeader || scrolled
                         ? "font-normal"
                         : "font-bold"
-                      : scrolled
-                        ? "font-normal"
-                        : "font-bold"
-                      }`}
+                    }`}
                   >
                     {link.title}
                   </Link>
@@ -191,8 +216,7 @@ export default function Header() {
             href="https://wa.me/447342193341"
             target="_blank"
             rel="noopener noreferrer"
-            className={`ml-2 hidden md:flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all ${scrolled ? "bg-white text-black hover:bg-gray-100" : "bg-white text-black hover:bg-gray-100"
-              }`}
+            className={`ml-2 hidden md:flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all bg-white text-black hover:bg-gray-100`}
             onClick={() => setIsOpen(false)}
           >
             <FaWhatsapp className="mr-2 h-5 w-5" />
@@ -200,82 +224,97 @@ export default function Header() {
           </a>
 
           {/* Mobile Menu Button */}
-          <button className=" z-[200] md:hidden" onClick={() => { console.log("toggle"); setIsOpen((prev => !prev)) }} >
+          <button
+            className="relative z-10 md:hidden"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+            aria-expanded={isOpen}
+          >
             {isOpen ? (
-              <X className={'text-gray-900'} />
+              <X className="text-white" />
             ) : (
-              <Menu className={scrolled ? "text-gray-900" : "text-white"} />
+              <Menu className="text-white" />
             )}
           </button>
         </div>
 
         {/* Mobile Menu */}
         <div
-          className={`absolute w-full top-[115%] p-3 left-0 z-[1000] bg-white border-y border-black text-black transition-all duration-300 ease-in-out md:hidden 
-    ${isOpen ? "opacity-100 visible translate-y-0 pointer-events-auto" : "opacity-0 invisible -translate-y-10 pointer-events-none"}`}
+          className={`fixed inset-0 z-40 bg-black/95 transition-transform duration-300 md:hidden ${
+            isOpen ? "translate-x-0" : "translate-x-full"
+          }`}
         >
-
-
-          <nav className="flex flex-col items-start divide-y divide-black/50">
-            {navLinks.map((link) => (
-              <div key={link.id} className="py-2 w-full">
-                {link.submenu ? (
-                  <div className="w-full">
-                    <button
-                      onClick={() => toggleDropdown(link.id)}
-                      className={`text-xl font-medium w-full transition-colors ${pathname.startsWith('/services') && openDropdown === link.id ? "text-amber-500" : "text-black hover:text-amber-500"
+          <div className="flex h-full flex-col items-center justify-center p-8">
+            <nav className="flex flex-col items-center space-y-6 w-full max-w-xs">
+              {navLinks.map((link) => (
+                <div key={link.id} className="py-2 w-full text-center">
+                  {link.submenu ? (
+                    <div className="w-full">
+                      <button
+                        onClick={() => toggleDropdown(link.id)}
+                        className={`text-xl font-medium transition-colors w-full ${
+                          pathname.startsWith("/services") && openDropdown === link.id
+                            ? "text-amber-500"
+                            : "text-white hover:text-amber-500"
                         }`}
-                    >
-                      <div className="flex items-center">
-                        {link.title}
-                        <ChevronDown className={`ml-1 h-5 w-5 transition-transform ${openDropdown === link.id ? "rotate-180" : ""}`} />
-                      </div>
-                    </button>
-                    {openDropdown === link.id && (
-                      <div className="mt-2 space-y-3">
-                        {link.sublinks?.map((sublink) => (
-                          <Link
-                            key={sublink.id}
-                            href={sublink.path}
-                            className="block text-lg  hover:text-amber-500"
-                            onClick={closeAllDropdowns}
-                          >
-                            {sublink.title}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <Link
-                    href={link.path || '#'}
-                    className={`text-xl font-medium transition-colors ${pathname === link.path ? "text-amber-500" : " hover:text-amber-500"
+                        aria-expanded={openDropdown === link.id}
+                        aria-haspopup="true"
+                      >
+                        <div className="flex items-center justify-center">
+                          {link.title}
+                          <ChevronDown
+                            className={`ml-1 h-5 w-5 transition-transform ${
+                              openDropdown === link.id ? "rotate-180" : ""
+                            }`}
+                          />
+                        </div>
+                      </button>
+                      {openDropdown === link.id && (
+                        <div className="mt-2 space-y-3">
+                          {link.sublinks?.map((sublink) => (
+                            <Link
+                              key={sublink.id}
+                              href={sublink.path}
+                              className="block text-lg hover:text-amber-500"
+                              onClick={closeAllDropdowns}
+                            >
+                              {sublink.title}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      href={link.path || "#"}
+                      className={`text-xl font-medium transition-colors ${
+                        pathname === link.path
+                          ? "text-amber-500"
+                          : "text-white hover:text-amber-500"
                       }`}
-                    onClick={closeAllDropdowns}
-                  >
-                    {link.title}
-                  </Link>
-                )}
-              </div>
-            ))}
+                      onClick={closeAllDropdowns}
+                    >
+                      {link.title}
+                    </Link>
+                  )}
+                </div>
+              ))}
 
-            {/* Call Button */}
-            <a
-              href="https://wa.me/447342193341"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 flex items-center rounded-md bg-green-500 px-6 py-3  transition-colors hover:bg-green-600"
-              onClick={closeAllDropdowns}
-            >
-              <FaWhatsapp className="mr-2 h-5 w-5" />
-              WhatsApp Us
-            </a>
-          </nav>
-
+              {/* Call Button */}
+              <a
+                href="https://wa.me/447342193341"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 flex items-center justify-center rounded-md bg-green-500 px-6 py-3 text-white transition-colors hover:bg-green-600"
+                onClick={closeAllDropdowns}
+              >
+                <FaWhatsapp className="mr-2 h-5 w-5" />
+                WhatsApp Us
+              </a>
+            </nav>
+          </div>
         </div>
       </div>
-
-
     </header>
   )
 }

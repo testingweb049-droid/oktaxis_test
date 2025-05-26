@@ -1,11 +1,11 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import Image from "next/image"
+import Image, { StaticImageData } from "next/image"
 import HeroSectionBookingForm from "../NewBookingForm/HeroBookingForm"
 
 interface HeroSectionProps {
-  bgImage: string
+   bgImage: string | StaticImageData
   title: string
   description: string
 }
