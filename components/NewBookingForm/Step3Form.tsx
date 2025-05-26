@@ -1,12 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import useCustomForm from '@/hooks/useFormContext'
 import { cn } from '@/lib/utils'
 import MyPaymentForm from './PaymentForm'
 import { BiSolidShoppingBags } from "react-icons/bi";
 import { MdPeopleAlt } from "react-icons/md";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Calendar } from "@/components/ui/calendar"
+import { isBeforeNewJerseyToday } from '@/lib/isBeforeTime';
+import { CalendarDays, TimerIcon } from 'lucide-react';
+import { format } from "date-fns"
+
 
 
 function Step3Form() {
+  const [dateOpen, setDateOpen] = useState(false)
   const { form, NextStep, loading } = useCustomForm()
   const { formState: { errors }, setValue, watch, } = form
   return (
@@ -18,6 +29,114 @@ function Step3Form() {
           <input className={cn('p-2 rounded-xl border ', errors.name ? 'border-red-500' : 'border-gray-500')} value={watch('name')} onChange={(e) => { setValue('name', e.target.value); errors.name = undefined; }} placeholder='Name' />
           <input className={cn('p-2 rounded-xl border ', errors.email ? 'border-red-500' : 'border-gray-500')} value={watch('email')} onChange={(e) => { setValue('email', e.target.value); errors.email = undefined; }} placeholder='Email' />
           <input className={cn('p-2 rounded-xl border ', errors.phone ? 'border-red-500' : 'border-gray-500')} value={watch('phone')} onChange={(e) => { setValue('phone', e.target.value); errors.phone = undefined; }} placeholder='Phone' />
+          {
+            //return date and time
+            form.watch('is_return') && <div className='grid md:grid-cols-2 gap-5 w-full'>
+
+              <Popover open={loading ? false : dateOpen} onOpenChange={setDateOpen}>
+                <PopoverTrigger asChild>
+                  <div
+                    className={cn(
+                      "w-full flex h-full items-center gap-2 justify-start  px-2 py-3 lg:py-2 border rounded-xl" , errors.return_date ? 'border-red-500' : 'border-black/80'
+                    )}
+                  >
+                    <CalendarDays className="size-5" />
+
+                    <div className='flex flex-col gap-1 '>
+                      <p className={cn('text-xs  text-start', errors.pickup_date ? 'text-red-500' : 'text-black')}>Return Date</p>
+                      {watch('return_date') ? <p className='text-black text-sm' >{format(watch('return_date') ?? new Date(), "PPP")}</p> : <p className='text-gray-400 text-sm'>dd:mm:yyyy</p>}
+                    </div>
+                  </div>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0 bg-white relative z-[200]" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={watch('return_date')}
+                    className=''
+                    onSelect={(event) => {
+                      form.formState.errors.pickup_date = undefined;
+                      setValue('return_date', event)
+                      form.resetField('pickup_time')
+                      setDateOpen(false)
+                    }}
+                    disabled={(date) => date <= watch("pickup_date")}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+
+
+              <Popover>
+                <PopoverTrigger asChild>
+                  <div
+                    className={cn(
+                      "w-full flex h-full items-center gap-2 justify-start  px-2 py-3 lg:py-2 border rounded-xl  ", errors.return_time ? 'border-red-500' : 'border-black/80'
+                    )}
+                  >
+                    <TimerIcon className="size-5 " />
+                    <div className='flex flex-col gap-1 '>
+                      <p className={cn('text-xs  text-start', errors.pickup_time ? 'text-red-500' : 'text-black')}>Return Time</p>
+                      {watch('return_time')?.hour ? <p className='text-sm text-black'>{watch('return_time')?.hour ? watch('return_time')?.hour.toString().padStart(2, "0") : 'hh'}:{watch('return_time')?.minute ? watch('return_time')?.minute.toString().padStart(2, "0") : '00'} </p> : <p className='text-gray-400 text-sm'>{watch('return_time')?.hour ? watch('return_time')?.hour.toString().padStart(2, "0") : 'hh'}:{watch('return_time')?.minute ? watch('return_time')?.minute.toString().padStart(2, "0") : '00'} </p>}
+                    </div>
+
+                  </div>
+
+                </PopoverTrigger>
+                <PopoverContent className="max-w-full w-fit h-40  p-2 overflow-hidden bg-white z-[200]" align="start">
+                  <div className="flex items-start justify-start gap-3 max-h-full h-full overflow-hidden">
+
+                    <div className='flex flex-col py-1 rounded-sm border border-gray-300 text-center max-h-full h-full overflow-y-auto overflow-hidden w-fit '>
+                      {Array.from({ length: 23 }, (_, i) => i + 1).map((item) => (
+                        <div className={`py-1 px-4 cursor-pointer ${watch('return_time')?.hour === item ? 'bg-blue-500 text-white' : 'bg-white'}`} key={item} onClick={() => {
+                          form.formState.errors.pickup_time = undefined;
+                          setValue('return_time', { minute: isNaN(watch('return_time')?.minute ?? 0) ? 0 : watch('return_time')?.minute ?? 0, hour: item })
+                        }
+                        } >{item}</div>
+                      ))}
+                    </div>
+
+                    <div className='flex flex-col py-1 rounded-sm border border-gray-300 text-center max-h-full h-full overflow-y-auto overflow-hidden w-fit'>
+                      {Array.from({ length: 12 }, (_, i) => i * 5).map((item) => (
+                        <div
+                          className={`py-1 px-4  cursor-pointer  ${watch('return_time')?.minute === item ? 'bg-blue-500 text-white' : 'bg-white'}`}
+                          key={item}
+                          onClick={() => {
+                            form.formState.errors.pickup_time = undefined;
+                            setValue('return_time', { minute: item, hour: watch('return_time')?.hour ?? 0 });
+                          }}
+                        >
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+
+
+
+                    {/* <div className='flex flex-col py-1 rounded-sm border border-gray-300 text-center max-h-full h-full overflow-y-auto overflow-hidden w-fit '>
+              
+                                                                  <div className={`py-1 px-2  cursor-pointer  ${field.value?.period === "AM" ? 'bg-blue-500 text-white' : 'bg-white'}`} onClick={() => {
+                                                                      form.formState.errors.pickup_time = undefined;
+                                                                      field.onChange({ ...field.value, period: "AM" })
+                                                                  }
+                                                                  } >AM</div>
+                                                                  <div className={`py-1 px-2 ${field.value?.period === "PM" ? 'bg-blue-500 text-white' : 'bg-white'}`} onClick={() => {
+                                                                      form.formState.errors.pickup_time = undefined;
+                                                                      field.onChange({ ...field.value, period: "PM" })
+                                                                  }
+                                                                  } >PM</div>
+              
+                                                              </div> */}
+
+                  </div>
+                </PopoverContent>
+              </Popover>
+
+
+
+
+            </div>
+
+          }
           <textarea rows={3} className={cn('p-2 rounded-xl border ', errors.instructions ? 'border-red-500' : 'border-gray-500')} value={watch('instructions')} onChange={(e) => { setValue('instructions', e.target.value); errors.instructions = undefined; }} placeholder="Instructions" />
         </div>
       </div>

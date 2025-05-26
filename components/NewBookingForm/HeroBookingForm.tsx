@@ -28,7 +28,7 @@ import { Autocomplete, Libraries, useLoadScript } from "@react-google-maps/api"
 
 // import { createOrder } from '@/actions/add-order'
 import useCustomForm from '@/hooks/useFormContext'
-import { isBeforeNewJerseyToday } from "@/lib/isBeforeTime"
+import { getNewJerseyDate, getNewJerseyHour, isBeforeNewJerseyToday } from "@/lib/isBeforeTime"
 
 
 
@@ -86,7 +86,7 @@ function HeroSectionBookingForm() {
                 <div onClick={() => { if (category !== 'hourly') { setCategory('hourly'); resetForm(); setFromLocation(''); setToLocation('') } }} className={cn('px-4 w-28 py-2 cursor-pointer font-semibold rounded-3xl text-center   ', category === 'hourly' ? ' bg-[#F0A857] text-black ' : ' text-white border border-white  ')}>Hourly</div>
             </div>
 
-            <div className='w-full flex gap-2 bg-white rounded-2xl lg:rounded-3xl p-2 overflow-hidden'>
+            <div className='w-full flex gap-2 bg-white rounded-2xl lg:rounded-full p-2 overflow-hidden'>
                 <Form {...form} >
                     <form onSubmit={form.handleSubmit(onSubmit)} className="grid lg:grid-cols-5 bg-white  max-lg:divide-y lg:divide-x w-full ">
 
@@ -276,6 +276,7 @@ function HeroSectionBookingForm() {
                                                 onSelect={(event) => {
                                                     form.formState.errors.pickup_date = undefined;
                                                     field.onChange(event)
+                                                    form.resetField('pickup_time')
                                                     setDateOpen(false)
                                                 }}
                                                 disabled={(date) => isBeforeNewJerseyToday(date)}
@@ -303,7 +304,7 @@ function HeroSectionBookingForm() {
                                                     <TimerIcon className="size-5 " />
                                                     <div className='flex flex-col gap-1 '>
                                                         <p className={cn('text-xs  text-start', errors.pickup_time ? 'text-red-500' : 'text-black')}>Time</p>
-                                                        {field.value?.hour ? <p className='text-sm text-black'>{field.value?.hour ? field.value.hour.toString().padStart(2, "0") : 'hh'}:{field.value?.minute ? field.value.minute.toString().padStart(2, "0") : '00'} {field.value?.period ? field.value.period : 'period'}</p> : <p className='text-gray-400 text-sm'>{field.value?.hour ? field.value.hour.toString().padStart(2, "0") : 'hh'}:{field.value?.minute ? field.value.minute.toString().padStart(2, "0") : '00'} {field.value?.period ? field.value.period : 'period'}</p>}
+                                                        {field.value?.hour ? <p className='text-sm text-black'>{field.value?.hour ? field.value.hour.toString().padStart(2, "0") : 'hh'}:{field.value?.minute ? field.value.minute.toString().padStart(2, "0") : '00'} </p> : <p className='text-gray-400 text-sm'>{field.value?.hour ? field.value.hour.toString().padStart(2, "0") : 'hh'}:{field.value?.minute ? field.value.minute.toString().padStart(2, "0") : '00'} </p>}
                                                     </div>
 
                                                 </div>
@@ -313,10 +314,15 @@ function HeroSectionBookingForm() {
                                             <div className="flex items-start justify-start gap-3 max-h-full h-full overflow-hidden">
 
                                                 <div className='flex flex-col py-1 rounded-sm border border-gray-300 text-center max-h-full h-full overflow-y-auto overflow-hidden w-fit '>
-                                                    {Array.from({ length: 12 }, (_, i) => i + 1).map((item) => (
-                                                        <div className={`py-1 px-2 cursor-pointer ${field.value?.hour === item ? 'bg-blue-500 text-white' : 'bg-white'}`} key={item} onClick={() => {
+                                                    {Array.from({ length: 23 }, (_, i) => i + 1).filter((item) => {
+                                                        if (form.watch('pickup_date') > getNewJerseyDate() || !form.watch('pickup_date')) {
+                                                            return true;
+                                                        }
+                                                        if (getNewJerseyHour() + 3 < item) { return true }
+                                                    }).map((item) => (
+                                                        <div className={`py-1 px-4 cursor-pointer ${field.value?.hour === item ? 'bg-blue-500 text-white' : 'bg-white'}`} key={item} onClick={() => {
                                                             form.formState.errors.pickup_time = undefined;
-                                                            field.onChange({ period: field.value?.period ? field.value.period : 'AM', minute: isNaN(field.value?.minute) ? 0 : field.value.minute, hour: item })
+                                                            field.onChange({  minute: isNaN(field.value?.minute) ? 0 : field.value.minute, hour: item })
                                                         }
                                                         } >{item}</div>
                                                     ))}
@@ -325,7 +331,7 @@ function HeroSectionBookingForm() {
                                                 <div className='flex flex-col py-1 rounded-sm border border-gray-300 text-center max-h-full h-full overflow-y-auto overflow-hidden w-fit'>
                                                     {Array.from({ length: 12 }, (_, i) => i * 5).map((item) => (
                                                         <div
-                                                            className={`py-1 px-2  cursor-pointer  ${field.value?.minute === item ? 'bg-blue-500 text-white' : 'bg-white'}`}
+                                                            className={`py-1 px-4  cursor-pointer  ${field.value?.minute === item ? 'bg-blue-500 text-white' : 'bg-white'}`}
                                                             key={item}
                                                             onClick={() => {
                                                                 form.formState.errors.pickup_time = undefined;
@@ -339,7 +345,7 @@ function HeroSectionBookingForm() {
 
 
 
-                                                <div className='flex flex-col py-1 rounded-sm border border-gray-300 text-center max-h-full h-full overflow-y-auto overflow-hidden w-fit '>
+                                                {/* <div className='flex flex-col py-1 rounded-sm border border-gray-300 text-center max-h-full h-full overflow-y-auto overflow-hidden w-fit '>
 
                                                     <div className={`py-1 px-2  cursor-pointer  ${field.value?.period === "AM" ? 'bg-blue-500 text-white' : 'bg-white'}`} onClick={() => {
                                                         form.formState.errors.pickup_time = undefined;
@@ -352,7 +358,7 @@ function HeroSectionBookingForm() {
                                                     }
                                                     } >PM</div>
 
-                                                </div>
+                                                </div> */}
 
                                             </div>
                                         </PopoverContent>

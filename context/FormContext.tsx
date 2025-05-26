@@ -49,7 +49,7 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
       kids: 0,
       bags: 0,
       payment_method: 'online',
-      duration:0
+      duration: 0
     }
   });
 
@@ -66,25 +66,28 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
 
   function onSubmit() {
     console.log('submitt')
-    const { bags, dropoff_location, payment_id, email, payment_method, flight, duration, kids,  name, passengers, phone, pickup_time, pickup_date, pickup_location, price, car, distance , flight_track, meet_greet  } = form.getValues();
-    const _pickup_time = `${pickup_time.hour.toString()} : ${pickup_time.minute.toString()} : ${pickup_time.period.toString()} `
-    const _price = Number(price) + (flight_track ? 7 : 0) + (meet_greet ? 15: 0)  ;
+    const { bags, dropoff_location, payment_id, email, payment_method, flight, duration, kids, name, passengers, phone, pickup_time, pickup_date, pickup_location, price, car, distance, flight_track, meet_greet, is_return, return_date, return_time, } = form.getValues();
+    const _pickup_time = `${pickup_time.hour.toString()} : ${pickup_time.minute.toString()} `
+    const _return_time = return_time ? `${return_time?.hour.toString()} : ${return_time?.minute.toString()} ` : null
+    const _price = Number(price) + (flight_track ? 7 : 0) + (meet_greet ? 15 : 0);
     startLoading(async () => {
       const response = await createOrder({
-        bags, dropoff_location, email, payment_id: payment_id ?? 'N/A', flight: flight ?? 'N/A', duration, kids,  name, passengers, phone, pickup_time: _pickup_time, pickup_date, pickup_location,payment_method,
-        price:_price,
+        bags, dropoff_location, email, payment_id: payment_id ?? 'N/A', flight: flight ?? 'N/A', duration, kids, name, passengers, phone, pickup_time: _pickup_time, pickup_date, pickup_location, payment_method,
+        price: _price,
         car,
-        distance:Number(distance),
+        distance: Number(distance),
         category: category ?? 'n/a',
         flight_track,
         meet_greet,
-        
+        return_date, return_time:_return_time,
+        is_return
+
 
       });
 
       console.log('response : ', response)
       if (response.status === 201) {
-        router.push("/order-placed"); 
+        router.push("/order-placed");
         return;
       }
       setError(response.error)
@@ -131,13 +134,13 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
         console.log("output : ", form.formState.errors)
         if (!output) {
           toast({
-            variant:"destructive",
+            variant: "destructive",
             title: "Validationos Error",
             description: "please complete all required fields",
           })
           return;
         }
-        
+
         setStep(2);
         router.push('/booking')
       }
@@ -146,7 +149,7 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
         console.log("output : ", output)
         if (!output) {
           toast({
-            variant:"destructive",
+            variant: "destructive",
             title: "Validationos Error",
             description: "please complete all required fields",
           })
@@ -154,25 +157,25 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
         }
         setStep(3);
       }
-      if(step === 3){
+      if (step === 3) {
         const output = await trigger()
         if (!output) {
           toast({
-            variant:"destructive",
+            variant: "destructive",
             title: "Validationos Error",
             description: "please complete all required fields",
           })
           return;
         }
 
-        if(form.watch('payment_method') === 'cod'){
+        if (form.watch('payment_method') === 'cod') {
           onSubmit();
           return;
         }
 
-        if(!form.watch('payment_id')){
+        if (!form.watch('payment_id')) {
           toast({
-            variant:"destructive",
+            variant: "destructive",
             title: "Payment not done",
             description: "please pay your amount",
           })
@@ -185,7 +188,7 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
   }
 
 
-  
+
 
   function Step1() {
     if (step === 1) return;
@@ -197,7 +200,7 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <FormContext.Provider value={{ form, category, setCategory, resetForm, loading, NextStep,  error, step, Step1, Step2 }}>
+    <FormContext.Provider value={{ form, category, setCategory, resetForm, loading, NextStep, error, step, Step1, Step2 }}>
       {children}
     </FormContext.Provider>
   );

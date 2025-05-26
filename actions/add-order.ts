@@ -9,7 +9,10 @@ export async function createOrder({
   passengers, kids, bags, name, email, phone, flight, duration=null , distance=null,  stop_1=null,
   stop_2=null,
   stop_3=null,payment_method,flight_track, 
-      meet_greet
+      meet_greet,
+           is_return, 
+      return_date, 
+      return_time
 }: {
   category: string;
   price: number;
@@ -17,6 +20,9 @@ export async function createOrder({
   distance?: number | null; 
   pickup_date: Date;
   pickup_time: string;
+  return_date: Date | undefined;
+  return_time: string|null;
+  is_return:boolean,
   pickup_location: string;
   dropoff_location: string | null | undefined;
   passengers: number;
@@ -59,7 +65,10 @@ export async function createOrder({
       stop_2,
       stop_3,payment_method,
       flight_track, 
-      meet_greet
+      meet_greet,
+      is_return, 
+      return_date, 
+      return_time
     };
 
     const order = await db.insert(orders).values({...orderData}).returning(); 

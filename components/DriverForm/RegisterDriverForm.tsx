@@ -1,23 +1,64 @@
 "use client";
 
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup"; 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { registerDriverEmail } from "@/lib/utils";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import { useState } from "react";
+import * as Yup from "yup";
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
   name: Yup.string().required("First Name is required"),
-  email: Yup.string().email("Invalid email address").required("Email is required"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
   phone: Yup.string().required("Phone number is required"),
   vehicleType: Yup.string().required("Vehicle Type is required"),
   licenseNumber: Yup.string().required("License Number is required"),
 });
 
+export interface DriverFormValues {
+  name: string;
+  email: string;
+  phone: string;
+  vehicleType: string;
+  licenseNumber: string;
+}
+
 export default function RegisterDriverForm() {
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (
+    values: DriverFormValues,
+    {
+      setSubmitting,
+      resetForm,
+    }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void }
+  ) => {
+    try {
+      setError("");
+
+      // Use the registerDriverEmail utility function
+      await registerDriverEmail(values);
+
+      setFormSubmitted(true);
+      resetForm();
+      setTimeout(() => setFormSubmitted(false), 5000);
+    } catch (err) {
+      console.error("Error submitting form:", err);
+      setError("Failed to submit form. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <Formik
@@ -29,23 +70,21 @@ export default function RegisterDriverForm() {
         licenseNumber: "",
       }}
       validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        console.log("Form values submitted:", values);
-
-        // Simulate API call
-        setTimeout(() => {
-          setFormSubmitted(true); // Show success message
-          setSubmitting(false); // Stop submitting state
-          resetForm(); // Reset form fields
-
-          // Hide the success message after 3 seconds
-          setTimeout(() => setFormSubmitted(false), 3000);
-        }, 1000);
-      }}
+      onSubmit={handleSubmit}
     >
-      {({ values, setFieldValue, isSubmitting }) => (
+      {({
+        values,
+        setFieldValue,
+        isSubmitting,
+      }: {
+        values: DriverFormValues;
+        setFieldValue: (field: string, value: any) => void;
+        isSubmitting: boolean;
+      }) => (
         <Form className="space-y-5">
-          <div className="text-2xl font-bold text-center">Register as Driver</div>
+          <div className="text-2xl font-bold text-center">
+            Register as Driver
+          </div>
           <div>
             <Field
               name="name"
@@ -94,9 +133,7 @@ export default function RegisterDriverForm() {
           <div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <div
-                  className="w-full px-4 py-3 border rounded-md cursor-pointer bg-white border-gray-300 focus:outline-none text-left"
-                >
+                <div className="w-full px-4 py-3 border rounded-md cursor-pointer bg-white border-gray-300 focus:outline-none text-left">
                   {values.vehicleType || "Select Vehicle Type"}
                 </div>
               </DropdownMenuTrigger>
@@ -132,6 +169,8 @@ export default function RegisterDriverForm() {
               className="text-red-500 text-sm mt-1"
             />
           </div>
+
+          {error && <div className="text-red-500">{error}</div>}
 
           <div className="text-center">
             <Button
