@@ -26,11 +26,7 @@ const navLinks: NavLink[] = [
     title: "Home",
     path: "/",
   },
-  {
-    id: "about",
-    title: "About",
-    path: "/about",
-  },
+ 
   {
     id: "services",
     title: "Services",
@@ -69,9 +65,19 @@ const navLinks: NavLink[] = [
     path: "/fleet",
   },
   {
+    id: "blog",
+    title: "Blog",
+    path: "/blog",
+  },
+  {
     id: "driver",
     title: "Driver",
     path: "/driver",
+  },
+   {
+    id: "about",
+    title: "About",
+    path: "/about",
   },
   {
     id: "contact",

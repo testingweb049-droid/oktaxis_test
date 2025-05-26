@@ -23,6 +23,11 @@ export const navLinks = [
         path: "/driver",
     },
     {
+        id: "blog",
+        title: "Blog",
+        path: "/blog",
+    },
+    {
         id: "contact",
         title: "Contact",
         path: "/contact",
@@ -55,7 +60,11 @@ export const footerNavLinks = [
         title: "About",
         path: "/about",
     },
-   
+      {
+        id: "blog",
+        title: "Blog",
+        path: "/blog",
+    },
   
     {
         id: "contact",
