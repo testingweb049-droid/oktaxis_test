@@ -7,13 +7,13 @@ import HeroSectionBookingForm from "../NewBookingForm/HeroBookingForm"
 interface HeroSectionProps {
    bgImage: string | StaticImageData
   title: string
-  description: string
+  // description: string
 }
 
 export default function HeroSection2({
   bgImage,
   title,
-  description,
+  // description,
 }: HeroSectionProps) {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
@@ -85,7 +85,7 @@ export default function HeroSection2({
   }, [])
 
   return (
-    <section id="herosection" className="relative min-h-screen lg:h-screen w-full overflow-hidden pt-32 md:pt-44 pb-12">
+    <section id="herosection" className="relative min-h-[60vh] h-full w-full overflow-hidden pt-32 md:pt-44 pb-12">
       <Image 
         src={bgImage} 
         alt="Luxury chauffeur service" 
@@ -94,14 +94,14 @@ export default function HeroSection2({
         priority 
       />
       <div ref={overlayRef} className="absolute inset-0 bg-black" />
-      <div className="container relative z-10 mx-auto flex h-full flex-col gap-10 items-start justify-around px-3 text-white lg:px-5">
+      <div className="container relative z-10 mx-auto flex h-full flex-col gap-10 items-center justify-around px-3 text-white lg:px-5">
         <div>
           <h1 ref={titleRef} className="mb-2 sm:mb-4 text-4xl font-bold md:text-4xl lg:text-4xl lg:leading-[55px]">
             {title}
           </h1>
-          <p ref={subtitleRef} className="text-lg md:text-xl max-w-6xl lg:text-xl">
+          {/* <p ref={subtitleRef} className="text-lg md:text-xl max-w-6xl lg:text-xl">
             {description}
-          </p>
+          </p> */}
         </div>
 
         <div ref={formContainerRef} className="relative w-full max-w-full">

@@ -1,9 +1,10 @@
 import Offer from "@/components/ui/do-offer";
 import HeroSection2 from "@/components/ui/hero-section2";
 import BusImage from "@/assets/vehicles/xlvan.jpg";
-import { FaLandmark, FaCity, FaMapMarkedAlt, FaMountain } from "react-icons/fa";
+import { FaLandmark, FaCity, FaMapMarkedAlt, FaMountain, FaCarSide } from "react-icons/fa";
 import ImageTextSection from "@/components/ui/ImageTextSection";
 import FleetClasses from "@/components/home/fleet";
+import Image from "next/image";
 
 export default function CityTour() {
   return (
@@ -11,7 +12,7 @@ export default function CityTour() {
       <HeroSection2
         bgImage='/city.jpg'
         title="Explore Manchester & Liverpool with a Chauffeured City Tour"
-        description="Explore the best of the North with our exclusive city tours of Manchester, Liverpool, and the surrounding areas. Our expert chauffeurs will take you to iconic landmarks as well as hidden gems, providing a rich and authentic local experience in complete comfort. Ideal for visitors arriving via Manchester Airport, we also offer seamless chauffeur services to and from London, Birmingham, and Leeds, ensuring your journey is smooth and stylish every step of the way."
+        // description="Explore the best of the North with our exclusive city tours of Manchester, Liverpool, and the surrounding areas. Our expert chauffeurs will take you to iconic landmarks as well as hidden gems, providing a rich and authentic local experience in complete comfort. Ideal for visitors arriving via Manchester Airport, we also offer seamless chauffeur services to and from London, Birmingham, and Leeds, ensuring your journey is smooth and stylish every step of the way."
       />
       <Offer />
       <ImageTextSection
@@ -24,13 +25,56 @@ export default function CityTour() {
       />
 
       <ImageTextSection
-        imageSrc="/City Tour's From Manchester.jpg"
+        imageSrc="/Manchester To London.jpg"
         imageAlt="Liverpool city tour"
         title="Explore Beyond Manchester"
         text="Beyond Manchester, we offer guided tours to nearby cities including Liverpool, Leeds, Chester, York, and Sheffield. Explore the Beatles' legacy in Liverpool, the Roman walls of Chester, the historic architecture of York, or the arts and nightlife of Leeds—all while traveling in a premium vehicle like a Mercedes E-Class or Tesla Model S. Prefer nature? Ask about our luxury excursions to the Peak District, Lake District, or scenic Cheshire villages. With complimentary refreshments, Wi-Fi, and a professional driver at your disposal, OK Taxis makes sightseeing a five-star experience."
         bgColor="bg-white"
         imagePosition="right"
       />
+
+       <section className="flex flex-col gap-12 md:flex-row items-center justify-between container px-4 py-32">
+             <div className="md:w-1/2 relative h-64 w-full md:h-80">
+              <Image
+                src="/Manchester To London.webp" 
+                alt="Car service in Manchester"
+                width={600}
+                    height={400}
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                      maxWidth: `600px`,
+                      maxHeight: `400px`
+                    }}
+                    className="rounded-lg shadow-xl object-cover"
+                    priority={false}
+              />
+            </div>
+            {/* Left side content */}
+            <div className="flex flex-col space-y-6 md:w-1/2">
+              <h2 className="text-3xl text-brand font-semibold flex items-center gap-3">
+                <FaCarSide className="text-brand" /> Advantages of Opting for a Long-Distance Chauffeur Service
+              </h2>
+              <ul className="space-y-4 text-gray-700 text-lg">
+                <li>
+                  <strong>Privacy and Ease:</strong> <br />Unlike busy buses or trains, our executive car service provides a private environment where you can unwind, catch up on work, or simply enjoy the journey without distractions.
+                </li>
+                <li>
+                  <strong>Direct and Efficient Journeys:</strong> <br />Bypass the delays and diversions common with public transport. Our professional drivers take the quickest, most direct routes to ensure you reach your destination promptly.
+                </li>
+                <li>
+                  <strong>Assistance with Luggage:</strong> <br />Travel stress-free knowing our chauffeurs will handle your luggage with care, helping you load and unload to guarantee its safety throughout your trip.
+                </li>
+                <li>
+                  <strong>Convenient Door-to-Door Transfers:</strong><br /> Forget the hassle of getting to and from stations or airports. Our bespoke airport transfer service collects you from your doorstep and delivers you precisely where you need to be.
+                </li>
+              </ul>
+            </div>
+      
+            {/* Right side image */}
+           
+          </section>
+      
       <FleetClasses />
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">

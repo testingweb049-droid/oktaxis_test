@@ -63,7 +63,7 @@ const navLinks: NavLink[] = [
       },
         {
         id: "city-center",
-        title: "City Center",
+        title: "Manchester City Center",
         path: "/services/city-center",
       },
     ],

@@ -50,13 +50,13 @@ export default function AboutSection() {
               animation: inView ? "fadeInLeft 0.8s ease-out forwards" : "none",
             }}
           >
-            <h2 className="mb-6 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl lg:text-5xl">
-              <span ref={highlightRef} className="text-amber-500">
+            <h2 className="mb-6 text-3xl font-bold tracking-tight text-brand md:text-4xl lg:text-5xl">
+              {/* <span ref={highlightRef} className="text-amber-500">
                 Premier Luxury
-              </span>{" "}
-              <br />
-              Chauffeur & Airport <br />
-              Transfer Services
+              </span>{" "} */}
+              {/* <br /> */}
+              Chauffeur & Airport Transfer <br />
+               Services
             </h2>
 
             <p className="mb-8 text-lg text-gray-600">

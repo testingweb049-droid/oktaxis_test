@@ -9,50 +9,50 @@ const services = [
   {
     id: 1,
     slug: "airport-transfer",
-    title: "Reliable Manchester Airport Services & Transfers Across the UK",
+    title: "Premium Airport Chauffeur Services",
     category: "Airport Transfers",
     description:
-      "Enjoy hassle-free Manchester airport services with OKTaxis. Whether you're landing or departing from Manchester or Liverpool, our 24/7 airport transfer service guarantees punctual pickups, real-time flight tracking, and executive-level comfort. Our professional chauffeurs are committed to making your journey seamless and stress-free.",
+      "Enjoy hassle-free Manchester airport services with OKTaxis. Whether you're landing or departing from Manchester or Liverpool.....",
     image: "/images/airport-transfer.png",
     size: "large",
   },
   {
     id: 2,
     slug: "hourly-chauffeur",
-    title: "Flexible Hourly Chauffeurs for Business or Leisure Travel",
+    title: "Convenient Hourly Chauffeur Hire",
     category: "Hourly Chauffeur Service",
     description:
-      "Need on-demand travel? With OKTaxis, enjoy flexible hourly chauffeur services ideal for city errands, business meetings, or leisurely trips. Whether you're navigating Manchester airport or planning a day around town, our experienced chauffeurs ensure you travel efficiently in comfort and style.",
+      "Need on-demand travel? With OKTaxis, enjoy flexible hourly chauffeur services ideal for city errands, business meetings.....",
     image: "/images/hourly-service.png",
     size: "large",
   },
   {
     id: 3,
     slug: "chauffeur-services",
-    title: "Professional Chauffeur Services in Manchester – Airport, Business & More",
+    title: "Chauffeur Services in Manchester",
     category: "Chauffeur Services",
     description:
-      "Experience the highest level of comfort and class with OKTaxis' chauffeur services. Whether you're a corporate client, a tourist, or attending an important event, our professional drivers ensure a premium.....",
+      "Experience the highest level of comfort and class with OKTaxis' chauffeur services. Whether you're a corporate client....",
     image: "/blog6.webp",
     size: "small",
   },
   {
     id: 4,
     slug: "city-tours",
-    title: "Explore Manchester & Liverpool with a Chauffeured City Tour",
+    title: "City to City Chauffeur Service",
     category: "City Tours",
     description:
-      "Explore the best of the North with our exclusive city tours of Manchester, Liverpool, and the surrounding areas. Our expert chauffeurs will take you to iconic landmarks as well as hidden gems, providing a rich.....",
+      "Explore the best of the North with our exclusive city tours of Manchester, Liverpool, and the surrounding areas.....",
     image: '/city.jpg',
     size: "small",
   },
   {
     id: 5,
     slug: "event-weddings",
-    title: "Luxury Wedding & Event Transfers — Arrive in Style",
+    title: "Weddings Chauffeur in Manchester",
     category: "Event & Weddings",
     description:
-      "At OKTaxis, we specialize in providing luxury wedding and event transfers that make your special day truly unforgettable. From elegant arrivals to seamless departures, our fleet of premium vehicles and.....",
+      "At OKTaxis, we specialize in providing luxury wedding and event transfers that make your special day truly unforgettable.....",
     image: "/Luxury Wedding & Event Transfers.jpg",
     size: "small",
   },
@@ -84,9 +84,9 @@ export default function Services() {
           className="mb-12 animate-fade-in-up opacity-0"
           style={{ animation: inView ? "fadeInUp 0.6s ease-out forwards" : "none" }}
         >
-          <p className="text-sm uppercase tracking-wider text-gray-400">OUR SERVICES</p>
-          <h2 className="text-3xl font-bold tracking-tight text-white md:text-4xl lg:text-5xl">
-            Discover <span className="text-amber-500">Our Premium</span> <br />
+          {/* <p className="text-sm uppercase tracking-wider text-gray-400">OUR SERVICES</p> */}
+          <h2 className="text-3xl font-bold tracking-tight text-black md:text-4xl lg:text-5xl">
+         <span className="text-amber-500">Our Premium</span>&nbsp;
             Chauffeur <span className="text-amber-500">Services</span>
           </h2>
         </div>
