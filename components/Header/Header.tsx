@@ -64,11 +64,6 @@ const navLinks: NavLink[] = [
     path: "/fleet",
   },
   {
-    id: "blog",
-    title: "Blog",
-    path: "/blog",
-  },
-  {
     id: "driver",
     title: "Driver",
     path: "/driver",
@@ -91,14 +86,16 @@ export default function Header() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const pathname = usePathname()
 
-  const shouldHaveBlackHeader = [
+const shouldHaveBlackHeader =
+  [
     "/contact",
     "/terms",
     "/cookies",
     "/faqs",
     "/privacy",
     "/driver",
-  ].includes(pathname)
+  ].includes(pathname) || pathname.startsWith("/blog/");
+
 
   useEffect(() => {
     const handleScroll = () => {
