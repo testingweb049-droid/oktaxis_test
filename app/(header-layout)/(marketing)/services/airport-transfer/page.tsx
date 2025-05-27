@@ -24,7 +24,7 @@ export default function AirportTransfer() {
             />
 
             <ImageTextSection
-                imageSrc="/Airport Transfers Manchester.png"
+                imageSrc="/images/airport-transfer.png"
                 imageAlt="Stress-Free Travel Experience"
                 title=" Stress-Free Travel Experience"
                 text="We make airport transfers stress-free by handling all the details. Our fleet of premium sedans and SUVs is the perfect antidote to long flights. Enjoy complimentary refreshments and free Wi-Fi as you relax in spacious, climate-controlled interiors. Fixed rates mean no surprises – the price you book is the price you pay, no matter the traffic or route taken. OK Taxis is also available for transfers to and from Liverpool John Lennon Airport, Leeds Bradford Airport, Birmingham, London and other UK destinations, so wherever you land, our luxury chauffeur service can take you there."
@@ -39,8 +39,8 @@ export default function AirportTransfer() {
                     </h2>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <div className="bg-gray-50 p-8 rounded-xl">
-                            <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                                <FaBell className="text-blue-600 text-2xl" />
+                            <div className="bg-black w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                                <FaBell className="text-white text-2xl" />
                             </div>
                             <h3 className="text-xl font-semibold mb-3">Flight Tracking</h3>
                             <p className="text-gray-600">
@@ -48,8 +48,8 @@ export default function AirportTransfer() {
                             </p>
                         </div>
                         <div className="bg-gray-50 p-8 rounded-xl">
-                            <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                                <FaHeadset className="text-blue-600 text-2xl" />
+                            <div className="bg-black w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                                <FaHeadset className="text-white text-2xl" />
                             </div>
                             <h3 className="text-xl font-semibold mb-3">Meet & Greet</h3>
                             <p className="text-gray-600">
@@ -57,8 +57,8 @@ export default function AirportTransfer() {
                             </p>
                         </div>
                         <div className="bg-gray-50 p-8 rounded-xl">
-                            <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                                <FaClock className="text-blue-600 text-2xl" />
+                            <div className="bg-black w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                                <FaClock className="text-white text-2xl" />
                             </div>
                             <h3 className="text-xl font-semibold mb-3">Complimentary Waiting</h3>
                             <p className="text-gray-600">
@@ -66,8 +66,8 @@ export default function AirportTransfer() {
                             </p>
                         </div>
                         <div className="bg-gray-50 p-8 rounded-xl">
-                            <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                                <FaSuitcase className="text-blue-600 text-2xl" />
+                            <div className="bg-black w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                                <FaSuitcase className="text-white text-2xl" />
                             </div>
                             <h3 className="text-xl font-semibold mb-3">Luggage Assistance</h3>
                             <p className="text-gray-600">
@@ -75,8 +75,8 @@ export default function AirportTransfer() {
                             </p>
                         </div>
                         <div className="bg-gray-50 p-8 rounded-xl">
-                            <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                                <FaCar className="text-blue-600 text-2xl" />
+                            <div className="bg-black w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                                <FaCar className="text-white text-2xl" />
                             </div>
                             <h3 className="text-xl font-semibold mb-3">24/7 Service</h3>
                             <p className="text-gray-600">

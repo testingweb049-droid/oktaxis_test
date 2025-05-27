@@ -41,8 +41,8 @@ export default function EventWedding() {
                     </h2>
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                         <div className="bg-gray-50 p-6 rounded-xl text-center">
-                            <div className="bg-blue-100 w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
-                                <FaGlassCheers className="text-blue-600 text-xl" />
+                            <div className="bg-black w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+                                <FaGlassCheers className="text-white text-xl" />
                             </div>
                             <h3 className="text-xl font-semibold mb-2">Weddings</h3>
                             <p className="text-gray-600">
@@ -50,8 +50,8 @@ export default function EventWedding() {
                             </p>
                         </div>
                         <div className="bg-gray-50 p-6 rounded-xl text-center">
-                            <div className="bg-blue-100 w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
-                                <FaBriefcase className="text-blue-600 text-xl" />
+                            <div className="bg-black w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+                                <FaBriefcase className="text-white text-xl" />
                             </div>
                             <h3 className="text-xl font-semibold mb-2">Corporate Events</h3>
                             <p className="text-gray-600">
@@ -59,8 +59,8 @@ export default function EventWedding() {
                             </p>
                         </div>
                         <div className="bg-gray-50 p-6 rounded-xl text-center">
-                            <div className="bg-blue-100 w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
-                                <FaBirthdayCake className="text-blue-600 text-xl" />
+                            <div className="bg-black w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+                                <FaBirthdayCake className="text-white text-xl" />
                             </div>
                             <h3 className="text-xl font-semibold mb-2">Parties & Celebrations</h3>
                             <p className="text-gray-600">
@@ -68,8 +68,8 @@ export default function EventWedding() {
                             </p>
                         </div>
                         <div className="bg-gray-50 p-6 rounded-xl text-center">
-                            <div className="bg-blue-100 w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
-                                <FaUsers className="text-blue-600 text-xl" />
+                            <div className="bg-black w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+                                <FaUsers className="text-white text-xl" />
                             </div>
                             <h3 className="text-xl font-semibold mb-2">Group Transport</h3>
                             <p className="text-gray-600">

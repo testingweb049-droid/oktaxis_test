@@ -8,7 +8,7 @@ export default function ChauffeurServices() {
     return (
         <>
             <HeroSection2
-                bgImage='/images/limousine.png'
+                bgImage='/blog6.webp'
                 title="Professional Chauffeur Services in Manchester – Airport, Business & More"
                 description="Experience the highest level of comfort and class with OKTaxis' chauffeur services. Whether you're a corporate client, a tourist, or attending an important event, our professional drivers ensure a premium travel experience. From executive travel to Manchester airport, we provide punctual, discreet, and luxurious transport tailored to your needs."
             />
@@ -23,7 +23,7 @@ export default function ChauffeurServices() {
             />
 
             <ImageTextSection
-                imageSrc="/images/limousine.png"
+                imageSrc="/blog6.webp"
                 imageAlt="Professional chauffeur"
                 title="White-Glove Service"
                 text="Our chauffeurs are more than drivers – they are trained professionals committed to delivering a white-glove experience. Dressed in uniform and well-versed in the city's roads, they ensure you arrive relaxed, on time and prepared for anything. Safety and discretion are paramount, so all vehicles are fully insured and sanitised before each journey, and our drivers respect your privacy throughout. With fixed competitive rates and simple booking, hiring an OK Taxis chauffeur is an effortless way to upgrade any trip."
@@ -39,8 +39,8 @@ export default function ChauffeurServices() {
                     </h2>
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                         <div className="bg-gray-50 p-6 rounded-xl text-center">
-                            <div className="bg-blue-100 w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
-                                <FaCar className="text-blue-600 text-xl" />
+                            <div className="bg-black w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+                                <FaCar className="text-white text-xl" />
                             </div>
                             <h3 className="text-xl font-semibold mb-2">Versatile Travel</h3>
                             <p className="text-gray-600">
@@ -48,8 +48,8 @@ export default function ChauffeurServices() {
                             </p>
                         </div>
                         <div className="bg-gray-50 p-6 rounded-xl text-center">
-                            <div className="bg-blue-100 w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
-                                <FaWifi className="text-blue-600 text-xl" />
+                            <div className="bg-black w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+                                <FaWifi className="text-white text-xl" />
                             </div>
                             <h3 className="text-xl font-semibold mb-2">Premium Amenities</h3>
                             <p className="text-gray-600">
@@ -57,8 +57,8 @@ export default function ChauffeurServices() {
                             </p>
                         </div>
                         <div className="bg-gray-50 p-6 rounded-xl text-center">
-                            <div className="bg-blue-100 w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
-                                <FaShieldAlt className="text-blue-600 text-xl" />
+                            <div className="bg-black w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+                                <FaShieldAlt className="text-white text-xl" />
                             </div>
                             <h3 className="text-xl font-semibold mb-2">Licensed & Insured</h3>
                             <p className="text-gray-600">
@@ -66,8 +66,8 @@ export default function ChauffeurServices() {
                             </p>
                         </div>
                         <div className="bg-gray-50 p-6 rounded-xl text-center">
-                            <div className="bg-blue-100 w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
-                                <FaCalendarAlt className="text-blue-600 text-xl" />
+                            <div className="bg-black w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+                                <FaCalendarAlt className="text-white text-xl" />
                             </div>
                             <h3 className="text-xl font-semibold mb-2">Easy Booking</h3>
                             <p className="text-gray-600">
