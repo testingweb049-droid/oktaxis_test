@@ -39,11 +39,11 @@ export const navLinks = [
 
 // Header Nav Links...
 export const footerNavLinks = [
-  {
-    id: "home",
-    title: "Home",
-    path: "/",
-  },
+  // {
+  //   id: "home",
+  //   title: "Home",
+  //   path: "/",
+  // },
   {
     id: "driver",
     title: "Become a OKTaxis Driver",

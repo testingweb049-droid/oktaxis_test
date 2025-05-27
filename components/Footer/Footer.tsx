@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowUp, Facebook, Linkedin, Instagram, Twitter, Youtube } from "lucide-react"
+import { ArrowUp, Facebook, Instagram, } from "lucide-react"
 import Logo from "@/assets/logo-white.png"
 import { footerNavLinks } from "@/constants/headerFooterData"
 
@@ -28,10 +28,10 @@ const footerData = {
   ],
   socialLinks: [
     { icon: Facebook, href: "https://www.facebook.com/profile.php?id=61572964094684", label: "Facebook" },
-    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+    // { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
     { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-    { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-    { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
+    // { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+    // { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
   ],
   legalLinks: [
     { title: "FAQs", href: "/faqs" },
@@ -109,16 +109,16 @@ export default function Footer() {
         {/* Contact Info */}
         <div>
           <h3 className="mb-4 text-base font-bold uppercase">Contact Us</h3>
-          <p className="text-sm mb-2">
+          <p className="text-sm mb-4">
             <strong>Email:</strong>{" "}
             <a href="mailto:info@oktaxis.co.uk" className="underline hover:text-amber-500">
               info@oktaxis.co.uk
             </a>
           </p>
-          <p className="text-sm mb-2">
+          <p className="text-sm mb-4">
             <strong>Office Address:</strong> 0B Portway, Wythenshaw, Manchester
           </p>
-          <p className="text-sm mb-2">
+          <p className="text-sm mb-4">
             <strong>Telephone:</strong>{" "}
             <a href="tel:+447342193341" className="underline hover:text-amber-500">
               +44 7342 193341
