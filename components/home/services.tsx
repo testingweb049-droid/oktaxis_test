@@ -4,7 +4,6 @@ import Image from "next/image"
 import { useInView } from "react-intersection-observer"
 import { useEffect, useRef } from "react"
 import Link from "next/link"
-import BusImage from "@/assets/vehicles/xlvan.jpg"
 
 const services = [
   {
@@ -34,7 +33,7 @@ const services = [
     category: "Chauffeur Services",
     description:
       "Experience the highest level of comfort and class with OKTaxis' chauffeur services. Whether you're a corporate client, a tourist, or attending an important event, our professional drivers ensure a premium.....",
-    image: "/images/limousine.png",
+    image: "/blog6.webp",
     size: "small",
   },
   {
@@ -44,7 +43,7 @@ const services = [
     category: "City Tours",
     description:
       "Explore the best of the North with our exclusive city tours of Manchester, Liverpool, and the surrounding areas. Our expert chauffeurs will take you to iconic landmarks as well as hidden gems, providing a rich.....",
-    image: BusImage,
+    image: '/city.jpg',
     size: "small",
   },
   {

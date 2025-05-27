@@ -1,4 +1,5 @@
 import { CookieIcon } from "lucide-react";
+import Link from "next/link";
 import { FiSettings, FiPieChart, FiTarget } from "react-icons/fi";
 
 export default function Cookies() {
@@ -77,11 +78,11 @@ export default function Cookies() {
      
         </section>
 
-        <div className="bg-blue-50 rounded-xl p-6 mt-12">
+        {/* <div className="bg-blue-50 rounded-xl p-6 mt-12">
           <p className="text-gray-600">
-            For any questions about our use of cookies, please contact us at +44 7342 193341.
+            For any questions about our use of cookies, please contact us at 
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

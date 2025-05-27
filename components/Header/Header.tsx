@@ -56,6 +56,16 @@ const navLinks: NavLink[] = [
         title: "City Tours",
         path: "/services/city-tours",
       },
+      {
+        id: "stadium-transfer",
+        title: "Stadium Transfer",
+        path: "/services/stadium-transfer",
+      },
+        {
+        id: "city-center",
+        title: "City Center",
+        path: "/services/city-center",
+      },
     ],
   },
   {

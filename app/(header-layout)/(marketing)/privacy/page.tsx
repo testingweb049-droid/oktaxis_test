@@ -127,7 +127,7 @@ export default function Privacy() {
           </ul>
         </section>
 
-        <section className="bg-blue-50 rounded-xl p-6">
+        {/* <section className="bg-blue-50 rounded-xl p-6">
           <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
             <FiMail className="mr-2 text-blue-600" />
             Contact Us
@@ -135,7 +135,7 @@ export default function Privacy() {
           <p className="text-gray-600">
             For any privacy-related inquiries, please contact us at +44 7342 193341.
           </p>
-        </section>
+        </section> */}
       </div>
     </div>
   );

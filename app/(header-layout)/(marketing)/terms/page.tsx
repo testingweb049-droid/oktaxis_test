@@ -108,14 +108,14 @@ export default function Terms() {
           </ul>
         </section>
 
-        <div className="bg-blue-50 rounded-xl p-6 mt-12">
+        {/* <div className="bg-blue-50 rounded-xl p-6 mt-12">
           <p className="text-gray-600">
             For any disputes or concerns, please contact us at{' '}
             <a href="mailto:[Insert Contact Information]" className="text-blue-600 hover:underline">
               +44 7342 193341
             </a>.
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );
