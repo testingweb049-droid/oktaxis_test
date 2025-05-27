@@ -82,7 +82,7 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
         <nav className="flex mb-6" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-1 md:space-x-2">
             <li className="inline-flex items-center">
-              <Link href="/" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+              <Link href="/" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-brand">
                 Home
               </Link>
             </li>
@@ -91,7 +91,7 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
                 <svg className="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
                 </svg>
-                <Link href="/blog" className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2">Blog</Link>
+                <Link href="/blog" className="ml-1 text-sm font-medium text-gray-700 hover:text-brand md:ml-2">Blog</Link>
               </div>
             </li>
             <li aria-current="page">
@@ -111,7 +111,7 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
             {/* Article Header */}
             <header className="mb-8">
               <div className="flex items-center gap-3 mb-4">
-                <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold tracking-wide uppercase">
+                <span className="inline-block px-3 py-1 bg-black text-brand rounded-full text-xs font-semibold tracking-wide uppercase">
                   {blog.category}
                 </span>
                 <time dateTime={new Date(blog.date).toISOString()} className="text-sm text-gray-500">
@@ -215,7 +215,7 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
             </div>
 
             {/* Call to Action */}
-            <aside className="mt-12 bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl p-8 text-white shadow-lg">
+            <aside className="mt-12 bg-brand rounded-xl p-8 text-white shadow-lg">
               <div className="max-w-2xl mx-auto text-center">
                 <h2 className="text-2xl font-bold mb-4">Ready for a premium travel experience?</h2>
                 <p className="text-blue-100 mb-6 text-lg">
@@ -224,7 +224,7 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link
                     href="/booking"
-                    className="px-6 py-3 bg-white text-blue-800 font-medium rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                    className="px-6 py-3 bg-white text-brand font-medium rounded-lg hover:bg-gray-100 transition-colors duration-200"
                   >
                     Book Now
                   </Link>
@@ -256,10 +256,10 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
                             className="object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                         </div>
-                        <span className="inline-block px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold mb-2">
+                        <span className="inline-block px-2 py-1 bg-black text-brand rounded-full text-xs font-semibold mb-2">
                           {post.category}
                         </span>
-                        <h4 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                        <h4 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-brand transition-colors">
                           {post.title}
                         </h4>
                         <p className="text-sm text-gray-600 line-clamp-2">{post.description}</p>
