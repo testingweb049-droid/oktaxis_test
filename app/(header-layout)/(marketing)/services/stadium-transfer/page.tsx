@@ -2,6 +2,7 @@ import FleetClasses from "@/components/home/fleet";
 import Offer from "@/components/ui/do-offer";
 import HeroSection2 from "@/components/ui/hero-section2";
 import ImageTextSection from "@/components/ui/ImageTextSection";
+import Image from "next/image";
 import { FaFutbol, FaMusic, FaUsers, FaCarSide } from "react-icons/fa";
 
 export default function StadiumTransfer() {
@@ -10,7 +11,7 @@ export default function StadiumTransfer() {
             <HeroSection2
                 bgImage='/Manchester Stadium Transfers.jpg' // Updated image
                 title="Stadium Transfers"
-                description="Need a transfer to a Manchester stadium? OKTaxi Service has got you covered. Avoid the hassle and secure your ride ahead of time by booking with us—so you won't be left stranded on match day. Dependable and professional taxi service in Manchester."
+                // description="Need a transfer to a Manchester stadium? OKTaxi Service has got you covered. Avoid the hassle and secure your ride ahead of time by booking with us—so you won't be left stranded on match day. Dependable and professional taxi service in Manchester."
             />
 <Offer />
             <ImageTextSection
@@ -31,6 +32,83 @@ export default function StadiumTransfer() {
                 bgColor="bg-white"
                 imagePosition="right"
             />
+             <section className="flex flex-col gap-12 md:flex-row items-center justify-between container px-4 py-32">
+                         <div className="md:w-1/2 relative h-64 w-full md:h-80">
+                          <Image
+                            src="/Services to Manchester & Liverpool Football Stadiums.jpg" 
+                            alt="Car service in Manchester"
+                            width={600}
+                                height={400}
+                                style={{
+                                  width: '100%',
+                                  height: 'auto',
+                                  maxWidth: `600px`,
+                                  maxHeight: `400px`
+                                }}
+                                className="rounded-lg shadow-xl object-cover"
+                                priority={false}
+                          />
+                        </div>
+                        {/* Left side content */}
+                        <div className="flex flex-col space-y-6 md:w-1/2">
+                          <h2 className="text-3xl text-brand font-semibold flex items-center gap-3">
+                            Manchester Football Stadiums:
+                          </h2>
+                          <ul className="space-y-4 text-gray-700 text-lg">
+                            <li>
+                              Reliable transport services to Manchester City Football grounds and any football stadium in Manchester or Liverpool. Convenient transfers from stadiums to airports, ensuring smooth onward journeys. Available for <strong> football matches, rugby games, concerts, and other large events in Manchester.</strong>
+                            </li>
+                            <li>
+                              <strong>Group Options:</strong> <br />Meet you at the stadium entrance or a convenient nearby location to save you time and stress. Group-friendly services with multiple vehicles and minibuses available for corporate hospitality or large fan groups.
+
+                            </li>
+                            <li>
+                              <strong>Comfort and Convenience:</strong> <br />Relax in luxury after the excitement with our premium fleet. Comfortable, smooth journeys home or to your next destination guaranteed.
+                            </li>
+                           
+                          </ul>
+                        </div>
+                  
+                        {/* Right side image */}
+                       
+                      </section>
+
+                       <div className="mt-16">
+ <section className="flex flex-col gap-12 md:flex-row items-center justify-between container px-4 py-32 mt-12">
+                        
+                        {/* Left side content */}
+                        <div className="flex flex-col space-y-6 md:w-1/2">
+                          <h2 className="text-3xl text-brand font-semibold flex items-center gap-3">
+                           Old Trafford Stadium Transfers
+                          </h2>
+                          <ul className="space-y-4 text-gray-700 text-lg">
+                            <li>
+                             Enjoy reliable taxi services anytime between the airport and two of Manchester’s most iconic football venues <strong> Old Trafford and the Etihad Stadium.</strong> Whether you’re arriving for a <strong> match, a concert, or any event, we provide timely, comfortable, and convenient transfers.</strong> Our professional drivers ensure you get to <strong> Old Trafford or the Etihad Stadium </strong> smoothly from the airport, and just as easily return to the airport after the excitement. Count on us for hassle-free travel anytime you need a taxi to or from these legendary stadiums.
+                            </li>
+                            
+                           
+                          </ul>
+                        </div>
+                   <div className="md:w-1/2 relative h-64 w-full md:h-80">
+                          <Image
+                            src="/Old Trafford and the Etihad Stadium Transfers.jpg" 
+                            alt="Car service in Manchester"
+                            width={600}
+                                height={400}
+                                style={{
+                                  width: '100%',
+                                  height: 'auto',
+                                  maxWidth: `600px`,
+                                  maxHeight: `400px`
+                                }}
+                                className="rounded-lg shadow-xl object-cover"
+                                priority={false}
+                          />
+                        </div>
+                        {/* Right side image */}
+                       
+                      </section>
+                       </div>
  <FleetClasses />
             {/* Features Section */}
             <section className="py-16 bg-white">

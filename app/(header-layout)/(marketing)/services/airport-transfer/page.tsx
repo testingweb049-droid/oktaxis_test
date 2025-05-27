@@ -11,14 +11,16 @@ export default function AirportTransfer() {
             <HeroSection2
                 bgImage='/images/airport-transfer.png'
                 title="Reliable Manchester Airport Services & Transfers Across the UK"
-                description="Enjoy hassle-free Manchester airport services with OKTaxis. Whether you're landing or departing from Manchester or Liverpool, our 24/7 airport transfer service guarantees punctual pickups, real-time flight tracking, and executive-level comfort. Our professional chauffeurs are committed to making your journey seamless and stress-free."
+                // description="Enjoy hassle-free Manchester airport services with OKTaxis. Whether you're landing or departing from Manchester or Liverpool, our 24/7 airport transfer service guarantees punctual pickups, real-time flight tracking, and executive-level comfort. Our professional chauffeurs are committed to making your journey seamless and stress-free."
             />
             <Offer />
             <ImageTextSection
                 imageSrc="/Manchester Taxis.png"
                 imageAlt="Executive Airport Transfer"
                 title="Executive Airport Transfers"
-                text="Travel to and from Manchester Airport in style with our executive airport transfer service. Our professional chauffeur will track your flight in real time to ensure a seamless pickup, even if your plane is early or delayed. You'll be greeted at arrivals by name and helped with your luggage before being escorted to your luxury vehicle. Whether it's an early morning departure or a late-night arrival, you can count on punctual service and comfort every step of the way."
+                text="Travel to and from Manchester Airport in style with our executive airport transfer service. Our professional chauffeur will track your flight in real time to ensure a seamless pickup, even if your plane is early or delayed. You'll be greeted at arrivals by name and helped with your luggage before being escorted to your luxury vehicle. Whether it's an early morning departure or a late-night arrival, you can count on punctual service and comfort every step of the way.
+                Enjoy hassle-free Manchester airport services with OKTaxis. Whether you're landing or departing from Manchester or Liverpool, our 24/7 airport transfer service guarantees punctual pickups, real-time flight tracking, and executive-level comfort. Our professional chauffeurs are committed to making your journey seamless and stress-free.
+                "
                 bgColor="bg-white"
                 imagePosition="left"
             />
@@ -38,24 +40,7 @@ export default function AirportTransfer() {
                         Our Service Features
                     </h2>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div className="bg-gray-50 p-8 rounded-xl">
-                            <div className="bg-black w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                                <FaBell className="text-white text-2xl" />
-                            </div>
-                            <h3 className="text-xl font-semibold mb-3">Flight Tracking</h3>
-                            <p className="text-gray-600">
-                                We monitor your flight status to adjust pickup times for early arrivals or delays.
-                            </p>
-                        </div>
-                        <div className="bg-gray-50 p-8 rounded-xl">
-                            <div className="bg-black w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                                <FaHeadset className="text-white text-2xl" />
-                            </div>
-                            <h3 className="text-xl font-semibold mb-3">Meet & Greet</h3>
-                            <p className="text-gray-600">
-                                A professional chauffeur greets you by name at the terminal and assists with luggage.
-                            </p>
-                        </div>
+                        
                         <div className="bg-gray-50 p-8 rounded-xl">
                             <div className="bg-black w-16 h-16 rounded-full flex items-center justify-center mb-6">
                                 <FaClock className="text-white text-2xl" />

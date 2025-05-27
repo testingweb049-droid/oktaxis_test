@@ -2,7 +2,8 @@ import FleetClasses from "@/components/home/fleet";
 import Offer from "@/components/ui/do-offer";
 import HeroSection2 from "@/components/ui/hero-section2";
 import ImageTextSection from "@/components/ui/ImageTextSection";
-import { FaRoute, FaMapMarkerAlt, FaMoneyBillWave, FaUserTie } from "react-icons/fa";
+import Image from "next/image";
+import { FaRoute, FaMapMarkerAlt, FaMoneyBillWave, FaUserTie, FaCarSide } from "react-icons/fa";
 
 export default function HourlyChauffeur() {
     return (
@@ -10,9 +11,9 @@ export default function HourlyChauffeur() {
             <HeroSection2
                 bgImage='/images/hourly-service.png'
                 title="Flexible Hourly Chauffeurs for Business or Leisure Travel"
-                description="Need on-demand travel? With OKTaxis, enjoy flexible hourly chauffeur services ideal for city errands, business meetings, or leisurely trips. Whether you're navigating Manchester airport or planning a day around town, our experienced chauffeurs ensure you travel efficiently in comfort and style."
+            // description="Need on-demand travel? With OKTaxis, enjoy flexible hourly chauffeur services ideal for city errands, business meetings, or leisurely trips. Whether you're navigating Manchester airport or planning a day around town, our experienced chauffeurs ensure you travel efficiently in comfort and style."
             />
- <Offer />
+            <Offer />
             <ImageTextSection
                 imageSrc="/stadium transfers to manchester united.webp"
                 imageAlt="Hourly chauffeur service"
@@ -30,7 +31,49 @@ export default function HourlyChauffeur() {
                 bgColor="bg-white"
                 imagePosition="right"
             />
-            <FleetClasses/>
+
+            <section className="flex flex-col gap-12 md:flex-row items-center justify-between container px-4 py-32">
+                <div className="md:w-1/2 relative h-64 w-full md:h-80">
+                    <Image
+                        src="/Hourly Serives in Manchester.jpg"
+                        alt="Car service in Manchester"
+                        width={600}
+                        height={400}
+                        style={{
+                            width: '100%',
+                            height: 'auto',
+                            maxWidth: `600px`,
+                            maxHeight: `400px`
+                        }}
+                        className="rounded-lg shadow-xl object-cover"
+                        priority={false}
+                    />
+                </div>
+                {/* Left side content */}
+                <div className="flex flex-col space-y-6 md:w-1/2">
+                    <h2 className="text-3xl text-brand font-semibold flex items-center gap-3">
+                        <FaCarSide className="text-brand" /> Affordable Hourly Rates for Quality Car Services In Manchester UK
+                    </h2>
+                    <ul className="space-y-4 text-gray-700 text-lg">
+                        <li>
+                            <strong>Economy Car:</strong> £40 per hour — Reliable and budget-friendly transportation.
+                        </li>
+                        <li>
+                            <strong>Executive Car:</strong> £60 per hour — Comfortable and stylish rides for business or leisure.
+                        </li>
+                        <li>
+                            <strong>Executive Premium Car:</strong> £80 per hour — Premium vehicles for a superior travel experience.
+                        </li>
+                        <li>
+                            <strong>Luxury Van:</strong> £120 per hour — Spacious and luxurious vans perfect for group travel.
+                        </li>
+                    </ul>
+                </div>
+
+                {/* Right side image */}
+
+            </section>
+            <FleetClasses />
 
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
@@ -78,7 +121,7 @@ export default function HourlyChauffeur() {
                 </div>
             </section>
 
-           
+
         </>
     )
 }

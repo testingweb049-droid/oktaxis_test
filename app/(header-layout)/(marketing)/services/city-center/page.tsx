@@ -10,7 +10,7 @@ export default function CityCenter() {
             <HeroSection2
                 bgImage='/Luxury Chauffeur Service (2).webp'
                 title="Taxi Manchester City Centre"
-                description="Whether you're having a laid-back shopping trip or a night out in central Manchester, avoid the hassle of driving and public transport. Reserve your taxi ahead of time online or whenever you need through the OKTaxis website. Budget-friendly taxis available whenever you need them."
+                // description="Whether you're having a laid-back shopping trip or a night out in central Manchester, avoid the hassle of driving and public transport. Reserve your taxi ahead of time online or whenever you need through the OKTaxis website. Budget-friendly taxis available whenever you need them."
             />
  <Offer />
             <ImageTextSection
