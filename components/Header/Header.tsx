@@ -64,11 +64,6 @@ const navLinks: NavLink[] = [
     path: "/fleet",
   },
   {
-    id: "blog",
-    title: "Blog",
-    path: "/blog",
-  },
-  {
     id: "driver",
     title: "Driver",
     path: "/driver",
