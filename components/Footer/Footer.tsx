@@ -23,7 +23,7 @@ const footerData = {
     { title: "Chauffeur Services", href: "/services/chauffeur-services" },
     { title: "City Tours", href: "/services/city-tours" },
     { title: "Stadium Transfer", href: "/services/stadium-transfer" },
-    { title: "City Tour", href: "/services/city-center" },
+    { title: "City Center", href: "/services/city-center" },
     
   ],
   socialLinks: [

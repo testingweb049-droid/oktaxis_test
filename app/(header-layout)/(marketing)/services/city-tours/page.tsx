@@ -9,13 +9,13 @@ export default function CityTour() {
   return (
     <>
       <HeroSection2
-        bgImage={BusImage}
+        bgImage='/city.jpg'
         title="Explore Manchester & Liverpool with a Chauffeured City Tour"
         description="Explore the best of the North with our exclusive city tours of Manchester, Liverpool, and the surrounding areas. Our expert chauffeurs will take you to iconic landmarks as well as hidden gems, providing a rich and authentic local experience in complete comfort. Ideal for visitors arriving via Manchester Airport, we also offer seamless chauffeur services to and from London, Birmingham, and Leeds, ensuring your journey is smooth and stylish every step of the way."
       />
       <Offer />
       <ImageTextSection
-        imageSrc="/Manchester Airpot.webp"
+        imageSrc="/city.jpg"
         imageAlt="Manchester city tour"
         title="Discover Manchester in Executive Comfort"
         text="Discover Manchester and nearby cities in executive comfort with OK Taxis' private city tours. Whether you're a first-time visitor or a local exploring new corners, our luxury chauffeur-driven tours offer a relaxing and enriching experience. From historical landmarks and vibrant cultural spots to boutique shopping and stunning countryside, we'll design a bespoke itinerary tailored to your interests. Our professional chauffeurs have in-depth knowledge of Manchester and surrounding areas, ensuring your tour is both informative and enjoyable."
@@ -24,7 +24,7 @@ export default function CityTour() {
       />
 
       <ImageTextSection
-        imageSrc="/luxury chauffeur service.webp"
+        imageSrc="/City Tour's From Manchester.jpg"
         imageAlt="Liverpool city tour"
         title="Explore Beyond Manchester"
         text="Beyond Manchester, we offer guided tours to nearby cities including Liverpool, Leeds, Chester, York, and Sheffield. Explore the Beatles' legacy in Liverpool, the Roman walls of Chester, the historic architecture of York, or the arts and nightlife of Leeds—all while traveling in a premium vehicle like a Mercedes E-Class or Tesla Model S. Prefer nature? Ask about our luxury excursions to the Peak District, Lake District, or scenic Cheshire villages. With complimentary refreshments, Wi-Fi, and a professional driver at your disposal, OK Taxis makes sightseeing a five-star experience."

@@ -54,7 +54,7 @@ const services = [
     category: "Event & Weddings",
     description:
       "At OKTaxis, we specialize in providing luxury wedding and event transfers that make your special day truly unforgettable. From elegant arrivals to seamless departures, our fleet of premium vehicles and.....",
-    image: "/images/event.png",
+    image: "/Luxury Wedding & Event Transfers.jpg",
     size: "small",
   },
 ]
