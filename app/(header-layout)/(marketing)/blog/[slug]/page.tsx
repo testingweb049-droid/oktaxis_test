@@ -233,6 +233,8 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
                         alt={post.title}
                         fill
                         className="object-cover"
+
+                        
                       />
                     </div>
                     <div className="p-6">
