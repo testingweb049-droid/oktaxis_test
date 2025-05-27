@@ -11,7 +11,7 @@ export default function Fleet(){
        <HeroSection2
   bgImage={bgImg.src}
   title="Our Fleet"
-  description="Our diverse fleet includes economy, executive, and premium vehicles, all maintained to the highest standards. Each vehicle is equipped with modern amenities to provide a comfortable and safe ride."
+  description="Our meticulously maintained fleet offers a range of premium vehicles to suit every occasion. Each car is chosen for its comfort, style and performance, ensuring you travel in true executive luxury. All vehicles are cleaned and inspected before every journey, and come equipped with plush leather seating, climate control, complimentary bottled water and unlimited Wi-Fi to keep you comfortable and connected on the road."
 /> 
 <Offer/>
 <FleetClasses/>

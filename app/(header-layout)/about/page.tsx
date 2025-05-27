@@ -3,7 +3,6 @@ import HeroImg from "@/assets/bmw.png";
 import Offer from "@/components/ui/do-offer";
 import Image from "next/image";
 import FleetClasses from "@/components/home/fleet";
-import WhyChoose from "@/components/ui/ChooseWhy";
 
 export default function About() {
   return (
@@ -11,7 +10,7 @@ export default function About() {
       <HeroSection2
         bgImage={HeroImg.src}
         title="About OKTaxis – Excellence in Chauffeur Services"
-        description="Manchester is an amazing and vibrant city that attracts people from all around the world. It's famous for its football, with iconic stadiums for both Manchester United and Manchester City."
+        description="OK Taxis is a Manchester-based private hire company dedicated to delivering a premium travel experience. Our journey began with a simple goal: to offer a first-class chauffeur service that combines luxury, reliability and local expertise. From our well-maintained fleet of modern vehicles to our highly trained chauffeurs, every element of OK Taxis reflects our commitment to excellence. We understand the importance of trust and professionalism, so all our drivers are background-checked, fully insured and expertly trained to provide discreet, courteous service at all times."
       />
 
       <section className="py-20 bg-gradient-to-b from-white to-gray-50">
@@ -28,16 +27,16 @@ export default function About() {
                 />
               </div>
               <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-xl shadow-lg border border-gray-100 hidden lg:block">
-                <div className="text-2xl font-bold text-blue-600">100%</div>
+                <div className="text-2xl font-bold text-brand">100%</div>
                 <div className="text-sm font-medium text-gray-600">Client Satisfaction</div>
               </div>
             </div>
             <div className="lg:w-1/2">
-              <div className="inline-block bg-blue-100 text-blue-600 px-4 py-2 rounded-full text-sm font-medium mb-4">
+              <div className="inline-block bg-black text-brand px-4 py-2 rounded-full text-sm font-medium mb-4">
                 Discover Manchester
               </div>
               <h2 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">
-                Experience Manchester in <span className="text-blue-600">Comfort & Style</span>
+                Experience Manchester in <span className="text-brand">Comfort & Style</span>
               </h2>
               <div className="space-y-5 text-gray-600">
                 <p className="text-lg leading-relaxed">
@@ -60,7 +59,7 @@ export default function About() {
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Professional Standards</h2>
-            <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
+            <div className="w-20 h-1 bg-brand mx-auto"></div>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
@@ -102,10 +101,52 @@ export default function About() {
           </div>
         </div>
       </section>
-<Offer />
-      <WhyChoose/>
-<FleetClasses/>
-      
+
+      <section className="py-20 ">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+            <div className="lg:w-1/2">
+              <div className="inline-block bg-black text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
+                Our Commitment
+              </div>
+              <h2 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">
+                The <span className="text-brand">OKTaxis</span> Difference
+              </h2>
+              <div className="space-y-6 text-gray-600">
+                <p className="text-lg leading-relaxed">
+                  At OK Taxis, we believe that details matter. Punctuality, safety and transparent pricing are the cornerstones of our service. Our drivers arrive on time, in uniform, and ready to assist with your luggage and needs.
+                </p>
+                <p className="text-lg leading-relaxed">
+                  We maintain our vehicles to the highest standards of cleanliness and safety, and every ride is covered by real-time GPS tracking for extra assurance. Because we value honesty, there are no hidden fees – the price we quote is the price you pay, with no surprises at the end of your journey.
+                </p>
+                <p className="text-lg leading-relaxed">
+                  Serving Manchester and nearby cities like Liverpool, Leeds, and beyond, OK Taxis prides itself on a reputation for excellence. Whether you're a busy executive, a visitor exploring the city, or a local resident heading out for a special occasion, you can rely on our personal approach and 24/7 support.
+                </p>
+                <p className="text-lg leading-relaxed">
+                  We're not just a transportation company – we're your partner in travel, focused on making every journey safe, smooth and enjoyable. Experience our trusted luxury chauffeur service for yourself and discover why so many clients keep choosing OK Taxis for their private hire needs.
+                </p>
+              </div>
+            </div>
+            <div className="lg:w-1/2 relative">
+              <div className="relative aspect-video overflow-hidden rounded-2xl shadow-2xl">
+                <Image
+                  src='/luxury chauffeur service.webp'
+                  alt="OKTaxis Service"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-6 -right-6 bg-brand p-6 rounded-xl shadow-lg text-white hidden lg:block w-48">
+                <div className="text-3xl font-bold">24/7</div>
+                <div className="text-sm font-medium">Service Availability</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Offer />
+      <FleetClasses />
     </>
   );
 }

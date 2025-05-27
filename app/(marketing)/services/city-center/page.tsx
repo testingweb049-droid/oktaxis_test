@@ -8,13 +8,13 @@ export default function CityCenter() {
     return (
         <>
             <HeroSection2
-                bgImage='/images/manchester-city.jpg' // Updated to city-specific image
+                bgImage='/Luxury Chauffeur Service (2).webp'
                 title="Taxi Manchester City Centre"
                 description="Whether you're having a laid-back shopping trip or a night out in central Manchester, avoid the hassle of driving and public transport. Reserve your taxi ahead of time online or whenever you need through the OKTaxis website. Budget-friendly taxis available whenever you need them."
             />
  <Offer />
             <ImageTextSection
-                imageSrc="/images/city-taxi.jpg"
+                imageSrc="/Luxury Chauffeur Service (2).webp"
                 imageAlt="Manchester city taxi"
                 title="Premium City Centre Transfers"
                 text="For short trips around central Manchester, our luxury city taxi service is unbeatable. Forget waiting on a crowded bus or hailing a standard cab — just book an OK Taxis sedan or SUV and a chauffeur will pick you up directly. We know the Manchester city centre inside out, so your journey to destinations like MediaCityUK, the Convention Centre, or the Concert Hall will be quick and smooth."
@@ -23,7 +23,7 @@ export default function CityCenter() {
             />
 
             <ImageTextSection
-                imageSrc="/images/city-comfort.jpg"
+                imageSrc="/Taxi in Manchester City Centre (1).png"
                 imageAlt="Comfortable city taxi"
                 title="Effortless City Travel"
                 text="Enjoy the ease of door-to-door service with an executive vehicle that's consistently cleaner, quieter and more comfortable than an ordinary taxi. Our drivers are friendly, professional and can even assist you with luggage or shopping bags. With OK Taxis, even a short ride downtown becomes a relaxing experience, and you'll arrive refreshed and ready, not flustered. We offer reliable city transfers 24/7 – from late-night airport rides to early-morning pickups from your hotel – all at fixed, transparent rates."

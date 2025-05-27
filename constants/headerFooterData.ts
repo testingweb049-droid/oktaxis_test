@@ -79,7 +79,7 @@ export const blogData = [
     id: 1,
     title: "Best Car Services in Manchester",
     description: "Need help choosing a car service in Manchester? This guide explains everything from airport transfers to executive travel, vehicle types, and how to book smoothly online.",
-    image: "/Airport Transfers Manchester.png",
+    image: "/blog1.png",
     date: "May 15, 2025",
     category: "Travel Tips",
     content: [
@@ -213,7 +213,7 @@ export const blogData = [
     id: 2,
     title: "A Complete Guide to Booking a Taxi Online: Tips, Tools & What to Expect",
     description: "Wondering how to book a taxi online with confidence? This guide walks you through the entire process, from choosing the right vehicle to avoiding common pitfalls.",
-    image: "/Airport Transfers Manchester.png",
+    image: "/blog2.png",
     date: "May 27, 2025",
     category: "Travel Tips",
     content: [
@@ -336,7 +336,7 @@ export const blogData = [
     id: 3,
     title: "How to Arrange Hassle-Free Transport from the Airport: A Complete Guide",
     description: "Need reliable transport from the airport? Learn how to plan ahead, choose the right vehicle, and make your post-flight journey smooth and stress-free.",
-    image: "/Airport Transfers Manchester.png",
+    image: "/blog3.png",
     date: "June 5, 2025",
     category: "Airport Transfers",
     content: [
@@ -500,7 +500,7 @@ export const blogData = [
     id: 4,
     title: "Your Complete Guide to Airport Transfers in Manchester",
     description: "Planning a trip through Manchester Airport? Discover everything you need to know about smooth, stress-free airport transfers in Manchester—how to book, what to expect, and how to choose the right service.",
-    image: "/Airport Transfers Manchester.png",
+    image: "/blog4.jpg",
     date: "June 12, 2025",
     category: "Airport Transfers",
     content: [
@@ -650,7 +650,7 @@ export const blogData = [
     id: 5,
     title: "Taxi in Manchester City Centre",
     description: "Looking for a taxi in Manchester City Centre? Discover your best options, how to book easily, and what to expect from city centre taxi services—day or night.",
-    image: "/Airport Transfers Manchester.png",
+    image: "/blog5.png",
     date: "June 13, 2025",
     category: "City Centre Taxis",
     content: [
@@ -968,7 +968,7 @@ export const blogData = [
     id: 7,
     title: "Luxury Chauffeur Service",
     description: "Enjoy a smooth, stylish ride with a luxury chauffeur service—perfect for events, business trips, and stress-free travel experiences.",
-    image: "/Airport Transfers Manchester.png",
+    image: "/blog6.webp",
     date: "June 15, 2025",
     category: "Chauffeur Service",
     content: [
@@ -1104,7 +1104,7 @@ export const blogData = [
     id: 8,
     title: "Stadium Transfers in Manchester",
     description: "Reliable stadium transfers in Manchester to Old Trafford and Etihad Stadium. Book your comfortable, punctual taxi service for hassle-free match day travel. Perfect for Manchester United and Manchester City fans!",
-    image: "/Airport Transfers Manchester.png",
+    image: "/blog8.png",
     date: "June 16, 2025",
     category: "Stadium Transfers",
     content: [

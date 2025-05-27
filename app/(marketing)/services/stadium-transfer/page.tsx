@@ -8,13 +8,13 @@ export default function StadiumTransfer() {
     return (
         <>
             <HeroSection2
-                bgImage='/images/stadium-transfer.jpg' // Updated image
+                bgImage='/Manchester Stadium Transfers.jpg' // Updated image
                 title="Stadium Transfers"
                 description="Need a transfer to a Manchester stadium? OKTaxi Service has got you covered. Avoid the hassle and secure your ride ahead of time by booking with us—so you won't be left stranded on match day. Dependable and professional taxi service in Manchester."
             />
 <Offer />
             <ImageTextSection
-                imageSrc="/images/stadium-crowd.jpg"
+                imageSrc="/Manchester Stadium Transfers.jpg"
                 imageAlt="Stadium transfer service"
                 title="Stress-Free Stadium Transfers"
                 text="Cheer on your team without worrying about the drive home. OK Taxis provides reliable and stylish transfers to Manchester's major stadiums and event venues. Pre-book your ride to Old Trafford, Etihad Stadium, AO Arena, or any large event, and our chauffeurs will ensure timely arrivals and departures. Our professional drivers know the event schedules and parking restrictions, so you can relax knowing we will navigate safely and efficiently around the crowds."
@@ -24,7 +24,7 @@ export default function StadiumTransfer() {
 
             {/* Group Service Section */}
             <ImageTextSection
-                imageSrc="/images/stadium-group.jpg"
+                imageSrc="/Stadium Transfers in Manchester.jpg"
                 imageAlt="Group stadium transfer"
                 title="Group Transportation Solutions"
                 text="We offer special event rates and can accommodate groups of any size. Whether it's a single, comfortable ride or multiple luxury cars for a large party, every passenger will enjoy a spacious, air-conditioned vehicle. Post-game, skip the taxi lines and ride directly away from the venue – our chauffeurs coordinate pickup points to get you moving quickly after the final whistle. Focus on the game or the concert, and let OK Taxis handle the journey."

@@ -23,7 +23,7 @@ export default function ChauffeurServices() {
             />
 
             <ImageTextSection
-                imageSrc="/Taxi In Manchester.png"
+                imageSrc="/images/limousine.png"
                 imageAlt="Professional chauffeur"
                 title="White-Glove Service"
                 text="Our chauffeurs are more than drivers – they are trained professionals committed to delivering a white-glove experience. Dressed in uniform and well-versed in the city's roads, they ensure you arrive relaxed, on time and prepared for anything. Safety and discretion are paramount, so all vehicles are fully insured and sanitised before each journey, and our drivers respect your privacy throughout. With fixed competitive rates and simple booking, hiring an OK Taxis chauffeur is an effortless way to upgrade any trip."
