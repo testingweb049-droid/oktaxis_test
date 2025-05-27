@@ -86,14 +86,16 @@ export default function Header() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const pathname = usePathname()
 
-  const shouldHaveBlackHeader = [
+const shouldHaveBlackHeader =
+  [
     "/contact",
     "/terms",
     "/cookies",
     "/faqs",
     "/privacy",
     "/driver",
-  ].includes(pathname)
+  ].includes(pathname) || pathname.startsWith("/blog/");
+
 
   useEffect(() => {
     const handleScroll = () => {
