@@ -46,7 +46,7 @@ function CarList() {
                 }
 
                 price = Number(price.toFixed(2))
-                let returnPrice = Number((price*2 - (((price*2)/100)*7)).toFixed(2))
+                let returnPrice = Number((price * 2 - (((price * 2) / 100) * 7)).toFixed(2))
 
                 return <div key={item.name} className={cn('w-full rounded-xl border border-black/50 grid md:grid-cols-4 divide-y md:divide-x ', item.name === getValues('car') ? 'bg-gray-100' : 'bg-white')} >
 
@@ -56,7 +56,7 @@ function CarList() {
                         </div>
                         <div className='flex flex-col gap-2 w-full px-3 pb-3 '>
 
-                            <div className='w-full h-52 md:h-44 rounded-xl overflow-hidden '>
+                            <div className='w-full h-32 md:h-44 rounded-xl overflow-hidden '>
                                 <Image src={item.image} alt={item.name} className='w-full h-full object-cover' />
                             </div>
                             <div className='flex items-center justify-center w-full  gap-5'>
@@ -71,7 +71,7 @@ function CarList() {
                             </div>
                         </div>
                     </div>
-                    <div className='p-3 w-full flex flex-col gap-3 md:col-span-2'>
+                    <div className='px-3 py-2 md:py-3 w-full flex flex-col gap-1 md:gap-3 md:col-span-2 '>
 
                         <p className='text-2xl font-semibold'>{item.name}</p>
                         <p className='text-gray-700 text-lg '>{item.cars} or similar</p>
@@ -89,12 +89,12 @@ function CarList() {
 
                     </div>
 
-                    <div className='w-full p-3 flex flex-col justify-center gap-5'>
-                        {!item.specailRequest && <div className='text-2xl font-bold text-center'>
+                    <div className='w-full px-3 py-2 md:py-3 flex flex-col justify-center gap-5'>
+                        {/* {!item.specailRequest && <div className='text-2xl font-bold text-center'>
                             <span className='text-4xl'></span>
-                        </div>}
+                        </div>} */}
                         {!item.specailRequest ?
-                            <div className='flex flex-col gap-5'>
+                            <div className='flex flex-col gap-3 md:gap-5'>
                                 <div className='flex flex-col gap-1'>
                                     <p>One Way</p>
                                     <button type='button' onClick={() => { setValue('is_return', false); setValue('car', item.name); setValue('price', price); NextStep() }} className='w-full bg-black text-white px-4 py-3 rounded-xl text-center font-bold cursor-pointer'>£ {price}</button>
