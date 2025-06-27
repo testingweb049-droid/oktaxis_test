@@ -41,13 +41,25 @@ export const hourlyFormValidation = z.object({
   instructions: z.string().optional(),
   flight_track: z.boolean().default(false),
   meet_greet: z.boolean().default(false),
-}).refine((data) => {
-  if (!data.is_return) return true;
-  return data.return_date && data.return_time;
-}, {
-  message: "Return date and time are required if return is selected",
-  path: ["return_date"],
+}).superRefine((data, ctx) => {
+  if (data.is_return) {
+    if (!data.return_date) {
+      ctx.addIssue({
+        path: ['return_date'],
+        code: z.ZodIssueCode.custom,
+        message: "Return date is required when return is selected",
+      });
+    }
+    if (!data.return_time) {
+      ctx.addIssue({
+        path: ['return_time'],
+        code: z.ZodIssueCode.custom,
+        message: "Return time is required when return is selected",
+      });
+    }
+  }
 });
+
 
 
 
@@ -81,10 +93,22 @@ export const simpleFormValidation = z.object({
   duration: z.number(),
   flight_track: z.boolean().default(false),
   meet_greet: z.boolean().default(false),
-}).refine((data) => {
-  if (!data.is_return) return true;
-  return data.return_date && data.return_time;
-}, {
-  message: "Return date and time are required if return is selected",
-  path: ["return_date"],
+}).superRefine((data, ctx) => {
+  if (data.is_return) {
+    if (!data.return_date) {
+      ctx.addIssue({
+        path: ['return_date'],
+        code: z.ZodIssueCode.custom,
+        message: "Return date is required when return is selected",
+      });
+    }
+    if (!data.return_time) {
+      ctx.addIssue({
+        path: ['return_time'],
+        code: z.ZodIssueCode.custom,
+        message: "Return time is required when return is selected",
+      });
+    }
+  }
 });
+

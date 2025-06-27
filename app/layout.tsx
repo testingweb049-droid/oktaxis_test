@@ -4,7 +4,6 @@ import { Roboto } from "next/font/google"
 import Script from "next/script"
 import "./globals.css"
 
-import Header from "@/components/Header/Header"
 import Footer from "@/components/Footer/Footer"
 import { Toaster } from "@/components/ui/toaster"
 import StripeProvider from "@/components/BookingForm/PaymentCardModal/StripeProvider"

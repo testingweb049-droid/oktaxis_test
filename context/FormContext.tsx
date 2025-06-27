@@ -79,7 +79,7 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
         category: category ?? 'n/a',
         flight_track,
         meet_greet,
-        return_date, return_time:_return_time,
+        return_date, return_time: _return_time,
         is_return
 
 
@@ -142,7 +142,7 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
         }
 
         setStep(2);
-        router.push('/booking')
+        router.push('/booking#back-button');
       }
       if (step === 2) {
         const output = await trigger(['car', 'price'])
@@ -156,9 +156,12 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
           return;
         }
         setStep(3);
+        router.push('/booking#back-button');
+
       }
       if (step === 3) {
         const output = await trigger()
+        console.log("output : ",output)
         if (!output) {
           toast({
             variant: "destructive",
@@ -181,12 +184,12 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
           })
           return;
         }
+        console.log("submit work")
         onSubmit();
 
       }
     })
   }
-
 
 
 
@@ -196,7 +199,9 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
   }
   function Step2() {
     if (step !== 3) return;
-    setStep(2)
+    setStep(2);
+    router.push('/booking#back-button');
+
   }
 
   return (

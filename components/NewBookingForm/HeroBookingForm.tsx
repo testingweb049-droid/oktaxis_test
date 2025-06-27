@@ -96,7 +96,7 @@ function HeroSectionBookingForm() {
                             control={form.control}
                             name="pickup_location"
                             render={({ field, formState: { errors } }) => (
-                                <FormItem className="w-full rounded-full px-2 py-3 lg:py-2  ">
+                                <FormItem className="w-full rounded-full px-2 py-4 lg:py-2  ">
 
                                     {!isLoaded ? (
                                         <div className="text-center rounded-sm  w-full">Loading...</div>
@@ -156,7 +156,7 @@ function HeroSectionBookingForm() {
                                 control={form.control}
                                 name="dropoff_location"
                                 render={({ field, formState: { errors } }) => (
-                                    <FormItem className="w-full px-2 py-3 lg:py-2 ">
+                                    <FormItem className="w-full px-2 py-4 lg:py-2 ">
 
                                         {!isLoaded ? (
                                             <div className="text-center rounded-sm  w-full">Loading...</div>
@@ -218,7 +218,7 @@ function HeroSectionBookingForm() {
                                             <FormControl>
                                                 <div
                                                     className={cn(
-                                                        "w-full flex h-full items-center gap-2 justify-start border-none  px-2 py-3 lg:py-2 "
+                                                        "w-full flex h-full items-center gap-2 justify-start border-none  px-2 py-4 lg:py-2 "
                                                     )}
                                                 >
                                                     <MdMoreTime className="size-5" />
@@ -256,7 +256,7 @@ function HeroSectionBookingForm() {
                                             <FormControl>
                                                 <div
                                                     className={cn(
-                                                        "w-full flex h-full items-center gap-2 justify-start border-none  px-2 py-3 lg:py-2 "
+                                                        "w-full flex h-full items-center gap-2 justify-start border-none  px-2 py-4 lg:py-2 "
                                                     )}
                                                 >
                                                     <CalendarDays className="size-5" />
@@ -298,7 +298,7 @@ function HeroSectionBookingForm() {
                                             <FormControl>
                                                 <div
                                                     className={cn(
-                                                        "w-full flex h-full items-center gap-2 justify-start border-none  px-2 py-3 lg:py-2 "
+                                                        "w-full flex h-full items-center gap-2 justify-start border-none  px-2 py-4 lg:py-2 "
                                                     )}
                                                 >
                                                     <TimerIcon className="size-5 " />
@@ -322,7 +322,7 @@ function HeroSectionBookingForm() {
                                                     }).map((item) => (
                                                         <div className={`py-1 px-4 cursor-pointer ${field.value?.hour === item ? 'bg-blue-500 text-white' : 'bg-white'}`} key={item} onClick={() => {
                                                             form.formState.errors.pickup_time = undefined;
-                                                            field.onChange({  minute: isNaN(field.value?.minute) ? 0 : field.value.minute, hour: item })
+                                                            field.onChange({ minute: isNaN(field.value?.minute) ? 0 : field.value.minute, hour: item })
                                                         }
                                                         } >{item}</div>
                                                     ))}
@@ -367,7 +367,7 @@ function HeroSectionBookingForm() {
                             )}
                         />
 
-                        <div className='w-full flex items-center justify-center max-lg:py-3 '>
+                        <div className='w-full flex items-center justify-center max-lg:py-4 '>
                             <button type='button' onClick={() => { NextStep() }} className='rounded-full bg-black text-white py-2 px-4 w-5/6 '>{loading ? 'Loading...' : 'Book Now'}</button>
                         </div>
 
