@@ -161,6 +161,7 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
       }
       if (step === 3) {
         const output = await trigger()
+        console.log("output : ",output)
         if (!output) {
           toast({
             variant: "destructive",
@@ -183,6 +184,7 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
           })
           return;
         }
+        console.log("submit work")
         onSubmit();
 
       }

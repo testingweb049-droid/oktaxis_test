@@ -10,7 +10,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
-import { isBeforeNewJerseyToday } from '@/lib/isBeforeTime';
+// import { isBeforeNewJerseyToday } from '@/lib/isBeforeTime';
 import { CalendarDays, TimerIcon } from 'lucide-react';
 import { format } from "date-fns"
 
@@ -19,7 +19,7 @@ import { format } from "date-fns"
 function Step3Form() {
   const [dateOpen, setDateOpen] = useState(false)
   const { form, NextStep, loading } = useCustomForm()
-  const { formState: { errors }, setValue, watch, } = form
+  const { formState: { errors }, setValue, watch, clearErrors } = form
   return (
     <div className='w-full flex flex-col gap-10'>
 
@@ -37,13 +37,13 @@ function Step3Form() {
                 <PopoverTrigger asChild>
                   <div
                     className={cn(
-                      "w-full flex h-full items-center gap-2 justify-start  px-2 py-3 lg:py-2 border rounded-xl" , errors.return_date ? 'border-red-500' : 'border-black/80'
+                      "w-full flex h-full items-center gap-2 justify-start  px-2 py-3 lg:py-2 border rounded-xl", errors.return_date ? 'border-red-500' : 'border-black/80'
                     )}
                   >
                     <CalendarDays className="size-5" />
 
                     <div className='flex flex-col gap-1 '>
-                      <p className={cn('text-xs  text-start', errors.pickup_date ? 'text-red-500' : 'text-black')}>Return Date</p>
+                      <p className={cn('text-xs  text-start', errors.return_date ? 'text-red-500' : 'text-black')}>Return Date</p>
                       {watch('return_date') ? <p className='text-black text-sm' >{format(watch('return_date') ?? new Date(), "PPP")}</p> : <p className='text-gray-400 text-sm'>dd:mm:yyyy</p>}
                     </div>
                   </div>
@@ -54,9 +54,9 @@ function Step3Form() {
                     selected={watch('return_date')}
                     className=''
                     onSelect={(event) => {
-                      form.formState.errors.pickup_date = undefined;
+                      form.formState.errors.return_time = undefined;
+                      clearErrors(['return_date'])
                       setValue('return_date', event)
-                      form.resetField('pickup_time')
                       setDateOpen(false)
                     }}
                     disabled={(date) => date <= watch("pickup_date")}
@@ -75,7 +75,7 @@ function Step3Form() {
                   >
                     <TimerIcon className="size-5 " />
                     <div className='flex flex-col gap-1 '>
-                      <p className={cn('text-xs  text-start', errors.pickup_time ? 'text-red-500' : 'text-black')}>Return Time</p>
+                      <p className={cn('text-xs  text-start', errors.return_time ? 'text-red-500' : 'text-black')}>Return Time</p>
                       {watch('return_time')?.hour ? <p className='text-sm text-black'>{watch('return_time')?.hour ? watch('return_time')?.hour.toString().padStart(2, "0") : 'hh'}:{watch('return_time')?.minute ? watch('return_time')?.minute.toString().padStart(2, "0") : '00'} </p> : <p className='text-gray-400 text-sm'>{watch('return_time')?.hour ? watch('return_time')?.hour.toString().padStart(2, "0") : 'hh'}:{watch('return_time')?.minute ? watch('return_time')?.minute.toString().padStart(2, "0") : '00'} </p>}
                     </div>
 
@@ -88,7 +88,7 @@ function Step3Form() {
                     <div className='flex flex-col py-1 rounded-sm border border-gray-300 text-center max-h-full h-full overflow-y-auto overflow-hidden w-fit '>
                       {Array.from({ length: 23 }, (_, i) => i + 1).map((item) => (
                         <div className={`py-1 px-4 cursor-pointer ${watch('return_time')?.hour === item ? 'bg-blue-500 text-white' : 'bg-white'}`} key={item} onClick={() => {
-                          form.formState.errors.pickup_time = undefined;
+                          form.formState.errors.return_time = undefined;
                           setValue('return_time', { minute: isNaN(watch('return_time')?.minute ?? 0) ? 0 : watch('return_time')?.minute ?? 0, hour: item })
                         }
                         } >{item}</div>
@@ -101,7 +101,7 @@ function Step3Form() {
                           className={`py-1 px-4  cursor-pointer  ${watch('return_time')?.minute === item ? 'bg-blue-500 text-white' : 'bg-white'}`}
                           key={item}
                           onClick={() => {
-                            form.formState.errors.pickup_time = undefined;
+                            form.formState.errors.return_time = undefined;
                             setValue('return_time', { minute: item, hour: watch('return_time')?.hour ?? 0 });
                           }}
                         >
