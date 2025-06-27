@@ -27,7 +27,8 @@ function Page() {
     }, [step])
 
     return (
-        <div className=' w-full py-10'>
+        <div className=' w-full pb-10 '>
+            <div className='w-full h-16 sm:h-20 mb-4 bg-black/80'></div>
             <ContainerLayout>
                 <div className='flex flex-col gap-5 w-full'>
                     <div onClick={() => { if (step === 2) { Step1() } if (step === 3) { Step2() } }} className='cursor-pointer flex items-center gap-2' > <IoArrowBackOutline className='text-xl' /> <span id="back-button">Back</span></div>
