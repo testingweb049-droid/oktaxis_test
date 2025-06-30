@@ -63,8 +63,8 @@ export default function FleetClasses() {
           >
             <p className="text-sm uppercase tracking-wider text-gray-500">MEMORABLE JOURNEY</p>
             <h2 className="text-3xl font-bold md:text-4xl">
-              Experience <span className="text-amber-500">Luxury with Our</span> <br className="md:hidden" />
-              Limousine <span className="text-amber-500">Services</span>
+              Experience <span className="text-brand">Luxury with Our</span> <br className="md:hidden" />
+              Limousine <span className="text-brand">Services</span>
             </h2>
           </div>
 
@@ -109,11 +109,11 @@ export default function FleetClasses() {
                 <p className="mb-4 text-sm text-gray-600">{vehicle.cars}</p>
 
                 <div className="flex items-center justify-start space-x-6">
-                  <div className="flex items-center text-amber-500">
+                  <div className="flex items-center text-brand">
                     <Users className="mr-2 h-5 w-5" />
                     <span className="text-sm">Max {vehicle.persons}</span>
                   </div>
-                  <div className="flex items-center text-amber-500">
+                  <div className="flex items-center text-brand">
                     <Briefcase className="mr-2 h-5 w-5" />
                     <span className="text-sm">Max {vehicle.bags}</span>
                   </div>

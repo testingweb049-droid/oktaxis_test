@@ -66,19 +66,19 @@ export default function AboutSection() {
 
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500 text-white">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand text-white">
                   <Check className="h-4 w-4" />
                 </div>
                 <p className="text-gray-700">24/7 Airport Transfers with flight tracking</p>
               </div>
               <div className="flex items-center gap-3">
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500 text-white">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand text-white">
                   <Check className="h-4 w-4" />
                 </div>
                 <p className="text-gray-700">Luxury Fleet with premium sedans and SUVs</p>
               </div>
               <div className="flex items-center gap-3">
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500 text-white">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand text-white">
                   <Check className="h-4 w-4" />
                 </div>
                 <p className="text-gray-700">Expert Chauffeurs with professional service</p>
@@ -88,7 +88,7 @@ export default function AboutSection() {
             <div className="mt-8">
               <a
                 href="#services"
-                className="group inline-flex items-center gap-2 text-amber-500 transition-colors hover:text-amber-600"
+                className="group inline-flex items-center gap-2 text-brand transition-colors hover:text-brand"
               >
                 Explore our services
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -103,8 +103,8 @@ export default function AboutSection() {
               animation: inView ? "fadeInRight 0.8s ease-out forwards 0.3s" : "none",
             }}
           >
-            <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-amber-500 opacity-80"></div>
-            <div className="absolute -bottom-4 -left-4 h-24 w-24 rounded-full bg-amber-500 opacity-80"></div>
+            <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-brand opacity-80"></div>
+            <div className="absolute -bottom-4 -left-4 h-24 w-24 rounded-full bg-brand opacity-80"></div>
 
             <div className="relative h-full overflow-hidden rounded-lg border-8 border-white shadow-xl">
               <Image src="/images/mercedes.png" alt="Luxury Chauffeur Service" fill className="object-cover" />

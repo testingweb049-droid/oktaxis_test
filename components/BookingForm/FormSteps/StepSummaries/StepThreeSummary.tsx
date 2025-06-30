@@ -32,7 +32,7 @@ interface StepThreeSummaryProps {
         </div>
   
         <div className="flex items-center gap-2">
-          <Phone className="text-orange-500 w-4 h-4" />
+          <Phone className="text-brand w-4 h-4" />
           <p className="font-semibold text-sm">Phone:</p>
           <span className="text-sm">{passengerInfo?.phone || 'Not Provided'}</span>
         </div>
@@ -56,7 +56,7 @@ interface StepThreeSummaryProps {
         </div>
 
         <div className="flex items-center gap-2">
-          <Baby className="text-yellow-500 w-4 h-4" />
+          <Baby className="text-brand w-4 h-4" />
           <p className="font-semibold text-sm">Children:</p>
           <span className="text-sm">{childCount || ''}</span>
         </div>

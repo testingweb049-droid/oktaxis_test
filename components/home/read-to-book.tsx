@@ -39,7 +39,7 @@ export default function ReadyToBook() {
           }}
           >
           <h2 className="mb-6 text-3xl font-bold text-white md:text-4xl">Ready to book?</h2>
-          <Link href='/#herosection' className="rounded bg-white px-6 py-2 text-sm font-medium text-gray-900 transition-all duration-300 hover:bg-amber-500 hover:text-white">
+          <Link href='/#herosection' className="rounded bg-white px-6 py-2 text-sm font-medium text-gray-900 transition-all duration-300 hover:bg-brand hover:text-white">
             BOOK NOW
           </Link>
         </div>

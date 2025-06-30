@@ -128,7 +128,7 @@ export default function Testimonials() {
     return Array.from({ length: count }).map((_, i) => (
       <svg
         key={i}
-        className="h-2 lg:h-4 w-2 lg:w-4 fill-amber-400 text-amber-400"
+        className="h-2 lg:h-4 w-2 lg:w-4 fill-brand text-brand"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >
@@ -149,8 +149,8 @@ export default function Testimonials() {
           >
             <p className="text-sm uppercase tracking-wider text-gray-500">TESTIMONIALS</p>
             <h2 className="text-3xl font-bold md:text-4xl">
-              What Our <span className="text-amber-500">Enchanted</span> <br className="md:hidden" />
-              Customers <span className="text-amber-500">say</span>
+              What Our <span className="text-brand">Enchanted</span> <br className="md:hidden" />
+              Customers <span className="text-brand">say</span>
             </h2>
           </div>
 

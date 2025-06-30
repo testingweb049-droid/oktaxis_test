@@ -12,6 +12,7 @@ import { registerDriverEmail } from "@/lib/utils";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
+import { ChevronDown } from "lucide-react";
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
@@ -130,25 +131,31 @@ export default function RegisterDriverForm() {
           </div>
 
           {/* Dropdown for Vehicle Type */}
+          {/* Dropdown for Vehicle Type with clickable icon only */}
           <div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <div className="w-full px-4 py-3 border rounded-md cursor-pointer bg-white border-gray-300 focus:outline-none text-left">
-                  {values.vehicleType || "Select Vehicle Type"}
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-full">
-                {["Sedan", "SUV", "Van", "Luxury", "Other"].map((option) => (
-                  <DropdownMenuItem
-                    key={option}
-                    onClick={() => setFieldValue("vehicleType", option)}
-                    className="cursor-pointer hover:bg-brand hover:text-white"
-                  >
-                    {option}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="relative w-full">
+              <div className="px-4 py-3 border rounded-md bg-white border-gray-300 text-left">
+                {values.vehicleType || "Select Vehicle Type"}
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2 p-1 cursor-pointer">
+                    <ChevronDown className="h-5 w-5 text-gray-600" />
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-full mt-2">
+                  {["Sedan", "SUV", "Van", "Luxury", "Other"].map((option) => (
+                    <DropdownMenuItem
+                      key={option}
+                      onClick={() => setFieldValue("vehicleType", option)}
+                      className="cursor-pointer hover:bg-brand hover:text-white"
+                    >
+                      {option}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
             <ErrorMessage
               name="vehicleType"
               component="p"

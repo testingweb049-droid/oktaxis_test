@@ -8,8 +8,6 @@ interface ImageTextSectionProps {
   text: string | ReactNode;
   bgColor?: string;
   imagePosition?: "left" | "right";
-  imageWidth?: number;
-  imageHeight?: number;
 }
 
 const ImageTextSection = ({
@@ -19,32 +17,26 @@ const ImageTextSection = ({
   text,
   bgColor = "bg-white",
   imagePosition = "left",
-  imageWidth = 600,
-  imageHeight = 400
 }: ImageTextSectionProps) => {
   return (
     <section className={`py-16 ${bgColor}`}>
       <div className="container mx-auto px-4">
         <div className={`flex flex-col ${imagePosition === "right" ? "lg:flex-row-reverse" : "lg:flex-row"} items-center gap-12`}>
-          {/* Image Container: fixed max size but responsive */}
-          <div className="lg:w-1/2 flex justify-center">
-            <Image 
-              src={imageSrc}
-              alt={imageAlt}
-              width={imageWidth}
-              height={imageHeight}
-              style={{
-                width: '100%',
-                height: 'auto',
-                maxWidth: `${imageWidth}px`,
-                maxHeight: `${imageHeight}px`
-              }}
-              className="rounded-lg shadow-xl object-cover"
-              priority={false}
-            />
+          
+          {/* ✅ Image: uniform size, responsive */}
+          <div className="lg:w-1/2 w-full">
+            <div className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden shadow-xl">
+              <Image 
+                src={imageSrc}
+                alt={imageAlt}
+                fill
+                className="object-cover"
+                priority={false}
+              />
+            </div>
           </div>
 
-          {/* Text Content */}
+          {/* ✅ Text Content */}
           <div className="lg:w-1/2">
             <h2 className="text-3xl md:text-4xl font-bold text-brand mb-6">
               {title}

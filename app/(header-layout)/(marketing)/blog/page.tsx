@@ -1,37 +1,83 @@
-import HeroImg from "@/assets/bmw.png";
 import BlogCard from "@/components/ui/BlogCard";
-import Link from "next/link";
-import { blogData } from "@/constants/headerFooterData";
 import BlogHeroSection from "@/components/ui/BlogHeroSection";
+import Link from "next/link";
+import { headers } from "next/headers";
 
-export default function Blog() {
-    const slugify = (text: string) =>
-        text.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, "");
-    return (
-        <div className="bg-gray-50">
-            <BlogHeroSection
-                bgImage='/stadium transfers to manchester united.webp'
-                title="OKTaxis Blog – Insights & Travel Tips"
-                description="Discover expert advice, company updates, and travel insights from Manchester's premier chauffeur service."
-            />
+// Correct API route: /api/posts/site/[siteName]
+async function getBlogsBySite(siteName: string) {
+  const encoded = encodeURIComponent(siteName);
+  const host = headers().get("host");
+  const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+  const url = `${protocol}://${host}/api/blogs/site/${encoded}`;
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch blog posts");
+  return res.json();
+}
 
-            <section className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+const slugify = (t: string) =>
+  t
+    .toLowerCase()
+    .replace(/ /g, "-")
+    .replace(/[^\w-]+/g, "");
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {blogData.map((blog) => (
-                        <Link key={blog.id} href={`/blog/${slugify(blog.title)}`}>
-                            <BlogCard
-                                title={blog.title}
-                                description={blog.description}
-                                image={blog.image}
-                                date={blog.date}
-                                author="OKTaxis"
-                                category={blog.category}
-                            />
-                        </Link>
-                    ))}
-                </div>
-            </section>
-        </div>
-    );
+export default async function Blog() {
+  let posts: any[] = [];
+  try {
+    posts = await getBlogsBySite("OK Taxis");
+  } catch (err) {
+    console.error("Blog fetch error:", err);
+  }
+
+  return (
+    <div className="bg-gray-50">
+      <BlogHeroSection
+        bgImage="/stadium transfers to manchester united.webp"
+        title="OKTaxis Blog – Insights & Travel Tips"
+        description="Discover expert advice, company updates, and travel insights from Manchester's premier chauffeur service."
+      />
+
+      <section className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+        {posts.length === 0 ? (
+          <div className="text-center text-gray-500">
+            <p className="text-xl font-semibold">
+              No blog posts found for this site yet.
+            </p>
+            <p className="mt-2">
+              Please check back soon – our team is working on new content!
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {posts.map((blog) => {
+              const categoryLabel = Array.isArray(blog.categories)
+                ? blog.categories.map((c: any) => c.name).join(", ")
+                : blog.categories || "General";
+
+              return (
+                <Link
+                  key={blog._id}
+                  href={`/blog/${slugify(blog.slug || blog.title)}`}
+                >
+                  <BlogCard
+                    title={blog.title}
+                    description={(blog.content ?? "").replace(/<[^>]*>?/gm, "")}
+                    image={
+                      blog.featuredImage?.startsWith("http")
+                        ? blog.featuredImage
+                        : `/uploads/${blog.featuredImage}`
+                    }
+                    date={new Date(
+                      blog.publishDate ?? blog.createdAt
+                    ).toLocaleDateString()}
+                    author={blog.author || "OK Taxis"}
+                    category={categoryLabel}
+                  />
+                </Link>
+              );
+            })}
+          </div>
+        )}
+      </section>
+    </div>
+  );
 }

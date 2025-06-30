@@ -45,7 +45,7 @@ const StepOneSummary = ({
       {/* Display the selected hours for hourly booking type */}
       {bookingType === "hourly" && (
         <div className="flex items-center gap-2">
-          <ClockIcon className="text-yellow-500 w-4 h-4" />
+          <ClockIcon className="text-brand w-4 h-4" />
           <p className="font-semibold text-sm">Selected Hours:</p>
           <span className="text-sm">{hourlyCharter ? `${hourlyCharter} HRS` : "Not Selected"}</span>
         </div>
@@ -103,7 +103,7 @@ const StepOneSummary = ({
       </div>
 
       <div className="flex items-center gap-2">
-        <ClockIcon className="text-yellow-500 w-4 h-4" />
+        <ClockIcon className="text-brand w-4 h-4" />
         <p className="font-semibold text-sm">Time:</p>
         <span className="text-sm">{time || "Not Selected"}</span>
       </div>
