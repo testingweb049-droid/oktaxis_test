@@ -55,6 +55,20 @@ export async function generateMetadata({
     },
   };
 }
+type BlogPost = {
+  _id: string;
+  slug?: string;
+  title: string;
+  content?: string;
+  featuredImage?: string;
+  publishDate?: string;
+  createdAt: string;
+  updatedAt?: string;
+  description?: string;
+  author?: string;
+  categories?: { name: string }[];
+};
+
 
 
 export default async function BlogDetailPage({
@@ -63,10 +77,12 @@ export default async function BlogDetailPage({
   params: { slug: string };
 }) {
   const blog = await getBlogBySlug(params.slug);
-  const allPosts = await getBlogBySite("OK Taxis");
-  const relatedArticles = allPosts
-    .filter((item) => item.slug !== blog.slug)
-    .slice(0, 3);
+ const allPosts: BlogPost[] = await getBlogBySite("OK Taxis");
+
+ const relatedArticles = allPosts
+  .filter((item) => item.slug !== blog.slug)
+  .slice(0, 3);
+
 
   if (!blog)
     return (
