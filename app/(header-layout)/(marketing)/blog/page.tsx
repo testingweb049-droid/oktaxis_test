@@ -21,7 +21,8 @@ const slugify = (t: string) =>
     .replace(/[^\w-]+/g, "");
 
 export default async function Blog() {
-  let posts: any[] = [];
+  let posts: BlogPost[] = [];
+
   try {
     posts = await getBlogsBySite("OK Taxis");
   } catch (err) {
@@ -54,7 +55,7 @@ export default async function Blog() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts.map((blog) => {
               const categoryLabel = Array.isArray(blog.categories)
-                ? blog.categories.map((c: any) => c.name).join(", ")
+                ? blog.categories.map((c) => c.name).join(", ")
                 : blog.categories || "General";
 
               return (
