@@ -4,10 +4,16 @@ import HeroSection2 from "@/components/ui/hero-section2";
 import ImageTextSection from "@/components/ui/ImageTextSection";
 import Image from "next/image";
 import { FaFutbol, FaMusic, FaUsers, FaCarSide } from "react-icons/fa";
-
+import Seo from "../../../../../components/Seo";
 export default function StadiumTransfer() {
   return (
     <>
+      <Seo
+        title="Stadium Transfers in Manchester | OKTaxis"
+        description="Book luxury stadium transfers to Old Trafford, Etihad, AO Arena and more with OKTaxis. Reliable chauffeur services for match days, concerts & events."
+        url="https://oktaxis.co.uk/services/stadium-transfers"
+        image="https://oktaxis.co.uk/Manchester%20Stadium%20Transfers.jpg"
+      />
       <HeroSection2
         bgImage="/Manchester Stadium Transfers.jpg" // Updated image
         title="Stadium Transfers"

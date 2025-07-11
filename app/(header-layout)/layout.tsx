@@ -1,7 +1,7 @@
 import type React from "react"
 
 import Header from "@/components/Header/Header"
-import FloatingReviewWidget from "@/components/floating/GoogleFloatingButton"
+// import FloatingReviewWidget from "@/components/floating/GoogleFloatingButton"
 
 
 
@@ -12,7 +12,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
       <Header />
       {children}
-      <FloatingReviewWidget />
+      {/* <FloatingReviewWidget /> */}
 
 
     </div>

@@ -2,7 +2,7 @@ import BlogCard from "@/components/ui/BlogCard";
 import BlogHeroSection from "@/components/ui/BlogHeroSection";
 import Link from "next/link";
 import { headers } from "next/headers";
-
+import Seo from "../../../../components/Seo";
 // Correct API route: /api/posts/site/[siteName]
 async function getBlogsBySite(siteName: string) {
   const encoded = encodeURIComponent(siteName);
@@ -30,6 +30,13 @@ export default async function Blog() {
 
   return (
     <div className="bg-gray-50">
+      <Seo
+        title="OKTaxis Blog – Expert Travel Tips & Updates"
+        description="Explore the OKTaxis blog for expert travel advice, company news, and local tips from Manchester’s premier taxi and chauffeur service."
+        url="https://oktaxis.co.uk/blog"
+        image="https://oktaxis.co.uk/stadium%20transfers%20to%20manchester%20united.webp"
+      />
+
       <BlogHeroSection
         bgImage="/stadium transfers to manchester united.webp"
         title="OKTaxis Blog – Insights & Travel Tips"
@@ -41,9 +48,6 @@ export default async function Blog() {
           <div className="text-center text-gray-500">
             <p className="text-xl font-semibold">
               No blog posts found for this site yet.
-            </p>
-            <p className="mt-2">
-              Please check back soon – our team is working on new content!
             </p>
           </div>
         ) : (
@@ -61,14 +65,14 @@ export default async function Blog() {
                   <BlogCard
                     title={blog.title}
                     description={(blog.content ?? "").replace(/<[^>]*>?/gm, "")}
-                    image={
-                      blog.featuredImage?.startsWith("http")
-                        ? blog.featuredImage
-                        : `/uploads/${blog.featuredImage}`
-                    }
+                    image={blog.featuredImage}
                     date={new Date(
                       blog.publishDate ?? blog.createdAt
-                    ).toLocaleDateString()}
+                    ).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
                     author={blog.author || "OK Taxis"}
                     category={categoryLabel}
                   />

@@ -18,13 +18,17 @@ export async function generateMetadata({
 
   if (!blog) {
     return {
-      title: "Blog Post Not Found ",
+      title: "Blog Post Not Found",
       description: "The requested blog post could not be found.",
     };
   }
 
+  const slug = blog.slug || blog.title.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, "");
+  const baseUrl = "https://oktaxis.co.uk/"; // Replace with your production domain
+  const canonicalUrl = `${baseUrl}/blog/${slug}`;
+
   return {
-    title: `${blog.title} `,
+    title: `${blog.title}`,
     description: blog.description,
     openGraph: {
       title: blog.title,
@@ -46,8 +50,12 @@ export async function generateMetadata({
       description: blog.description,
       images: [blog.image || "/default.jpg"],
     },
+    alternates: {
+      canonical: canonicalUrl,
+    },
   };
 }
+
 
 export default async function BlogDetailPage({
   params,
@@ -71,6 +79,38 @@ export default async function BlogDetailPage({
   const isValidDate = dateObj && !isNaN(dateObj.getTime());
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: blog.title,
+            description: blog.description,
+            image: blog.featuredImage || "/default.jpg",
+            author: {
+              "@type": "Person",
+              name: blog.author || "OK Taxis",
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "OK Taxis",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://oktaxis.co.uk/logo.png", // Replace with real logo
+              },
+            },
+            datePublished: blog.publishDate || blog.createdAt,
+            dateModified: blog.updatedAt || blog.publishDate || blog.createdAt,
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": `https://oktaxis.co.uk/blog/${slugify(
+                blog.slug || blog.title
+              )}`,
+            },
+          }),
+        }}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-32">
         <nav className="flex mb-6" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-1 md:space-x-2">
@@ -154,10 +194,18 @@ export default async function BlogDetailPage({
                 )}
 
                 <time
-                  dateTime={isValidDate ? dateObj.toISOString() : ""}
+                  dateTime={new Date(
+                    blog.publishDate ?? blog.createdAt
+                  ).toISOString()}
                   className="text-sm text-gray-500"
                 >
-                  {isValidDate ? dateObj.toLocaleDateString() : "Unknown date"}
+                  {new Date(
+                    blog.publishDate ?? blog.createdAt
+                  ).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
                 </time>
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900  leading-tight mb-2">
