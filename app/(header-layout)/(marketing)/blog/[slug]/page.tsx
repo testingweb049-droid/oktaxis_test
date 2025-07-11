@@ -60,7 +60,11 @@ export async function generateMetadata({
     },
   };
 }
-type Category = { name: string };
+type Category = {
+  id: number;
+  name: string;
+  parent: number;
+};
 type BlogPost = {
   _id: string;
   slug?: string;
@@ -72,7 +76,7 @@ type BlogPost = {
   updatedAt?: string;
   description?: string;
   author?: string;
-  categories?: { name: string }[];
+  categories?: Category[];
 };
 
 export default async function BlogDetailPage({
@@ -198,7 +202,7 @@ export default async function BlogDetailPage({
               <div className="flex items-center gap-3 mb-4">
                 {Array.isArray(blog.categories) &&
                 blog.categories.length > 0 ? (
-                  blog.categories.map((cat, idx) => (
+                  blog.categories.map((cat: Category, idx) => (
                     <span
                       key={idx}
                       className="inline-block px-3 py-1 bg-black text-brand  rounded-full text-xs font-semibold tracking-wide uppercase mr-2"
