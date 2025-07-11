@@ -23,7 +23,12 @@ export async function generateMetadata({
     };
   }
 
-  const slug = blog.slug || blog.title.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, "");
+  const slug =
+    blog.slug ||
+    blog.title
+      .toLowerCase()
+      .replace(/ /g, "-")
+      .replace(/[^\w-]+/g, "");
   const baseUrl = "https://oktaxis.co.uk/"; // Replace with your production domain
   const canonicalUrl = `${baseUrl}/blog/${slug}`;
 
@@ -55,6 +60,7 @@ export async function generateMetadata({
     },
   };
 }
+type Category = { name: string };
 type BlogPost = {
   _id: string;
   slug?: string;
@@ -69,20 +75,17 @@ type BlogPost = {
   categories?: { name: string }[];
 };
 
-
-
 export default async function BlogDetailPage({
   params,
 }: {
   params: { slug: string };
 }) {
   const blog = await getBlogBySlug(params.slug);
- const allPosts: BlogPost[] = await getBlogBySite("OK Taxis");
+  const allPosts: BlogPost[] = await getBlogBySite("OK Taxis");
 
- const relatedArticles = allPosts
-  .filter((item) => item.slug !== blog.slug)
-  .slice(0, 3);
-
+  const relatedArticles = allPosts
+    .filter((item) => item.slug !== blog.slug)
+    .slice(0, 3);
 
   if (!blog)
     return (
@@ -272,7 +275,7 @@ export default async function BlogDetailPage({
                         </div>
                         {Array.isArray(post.categories) &&
                         post.categories.length > 0 ? (
-                          post.categories.map((cat, idx) => (
+                          post.categories.map((cat: Category, idx) => (
                             <span
                               key={idx}
                               className="inline-block px-3 py-1 bg-black mb-4 text-brand rounded-full text-xs font-semibold tracking-wide uppercase mr-2"
