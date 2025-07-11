@@ -7,6 +7,7 @@ import AboutSection from "@/components/home/about";
 import LuxuryExperience from "@/components/home/luxury-experience";
 import ImageTextSection from "@/components/ui/ImageTextSection";
 import Seo from "../../components/Seo";
+// home
 export default function Home() {
   return (
     <>
