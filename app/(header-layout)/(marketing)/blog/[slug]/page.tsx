@@ -202,7 +202,7 @@ export default async function BlogDetailPage({
               <div className="flex items-center gap-3 mb-4">
                 {Array.isArray(blog.categories) &&
                 blog.categories.length > 0 ? (
-                  blog.categories.map((cat: Category, idx) => (
+                  blog.categories.map((cat: Category, idx:number) => (
                     <span
                       key={idx}
                       className="inline-block px-3 py-1 bg-black text-brand  rounded-full text-xs font-semibold tracking-wide uppercase mr-2"
@@ -279,7 +279,7 @@ export default async function BlogDetailPage({
                         </div>
                         {Array.isArray(post.categories) &&
                         post.categories.length > 0 ? (
-                          post.categories.map((cat: Category, idx) => (
+                          post.categories.map((cat: Category, idx:number) => (
                             <span
                               key={idx}
                               className="inline-block px-3 py-1 bg-black mb-4 text-brand rounded-full text-xs font-semibold tracking-wide uppercase mr-2"
