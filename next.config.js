@@ -5,11 +5,10 @@ const nextConfig = {
     EMAIL_HOST: process.env.EMAIL_HOST || "smtp.hostinger.com",
     EMAIL_PORT: process.env.EMAIL_PORT || "587",
     EMAIL_USER: process.env.EMAIL_USER || "info@oktaxis.co.uk",
-    EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
-    
+    EMAIL_PASSWORD: process.env.EMAIL_PASSWORD, // must be defined in environment
   },
   images: {
-    domains: ["localhost",'res.cloudinary.com'], // ✅ allow local API image URLs
+    domains: ["res.cloudinary.com"], // add other domains if needed
   },
 };
 
