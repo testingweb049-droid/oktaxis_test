@@ -28,7 +28,7 @@ export const fleets = [
     bags: 3,
     persons: 4,
     specailRequest: false,
-    hourly: 1, // Not applicable
+    hourly: 1,
     stop: 10,
   },
   {
@@ -64,11 +64,11 @@ export const fleets = [
     bags: 6,
     persons: 6,
     specailRequest: false,
-    hourly: 0, // not specified
+    hourly: 180, 
     stop: 15,
   },
 ];
-
+// carList
 function CarList() {
   const {
     category,
