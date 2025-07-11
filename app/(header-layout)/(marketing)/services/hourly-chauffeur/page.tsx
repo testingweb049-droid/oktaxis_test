@@ -10,10 +10,16 @@ import {
   FaUserTie,
   FaCarSide,
 } from "react-icons/fa";
-
+import Seo from "../../../../../components/Seo";
 export default function HourlyChauffeur() {
   return (
     <>
+      <Seo
+        title="Hourly Chauffeur Service in Manchester | OKTaxis"
+        description="Book flexible hourly chauffeur services in Manchester with OKTaxis. Perfect for errands, meetings, or city tours. Affordable rates, luxury cars, and professional drivers."
+        url="https://oktaxis.co.uk/services/hourly-chauffeur"
+        image="https://oktaxis.co.uk/images/hourly-service.png"
+      />
       <HeroSection2
         bgImage="/images/hourly-service.png"
         title="Flexible Hourly Chauffeurs for Business or Leisure Travel"
