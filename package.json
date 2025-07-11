@@ -35,7 +35,7 @@
     "embla-carousel-react": "^8.0.0-rc14",
     "formik": "^2.4.6",
     "framer-motion": "^11.15.0",
-    "isomorphic-dompurify": "^2.25.0",
+    "isomorphic-dompurify": "^2.26.0",
     "lucide-react": "^0.454.0",
     "mongodb": "^6.17.0",
     "multer": "^2.0.1",

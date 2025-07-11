@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getBlogBySlug, getBlogBySite } from "../BlogService.ts";
+import { getBlogBySlug, getBlogBySite } from "../BlogService";
 import DOMPurify from "isomorphic-dompurify";
 
 const slugify = (text: string) =>
