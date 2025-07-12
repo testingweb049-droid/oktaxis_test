@@ -5,6 +5,7 @@ import Image from "next/image";
 import FleetClasses from "@/components/home/fleet";
 import Seo from "../../../components/Seo";
 // about
+// about
 export default function About() {
   return (
     <>
