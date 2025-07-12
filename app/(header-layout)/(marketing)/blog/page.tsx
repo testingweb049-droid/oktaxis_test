@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import BlogCard from "@/components/ui/BlogCard";
 import BlogHeroSection from "@/components/ui/BlogHeroSection";
 import Link from "next/link";
