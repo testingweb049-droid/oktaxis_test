@@ -4,6 +4,19 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import Seo from "../../../../components/Seo";
 // Correct API route: /api/posts/site/[siteName]
+type BlogPost = {
+  _id: string;
+  title: string;
+  slug?: string;
+  content?: string;
+  featuredImage: string;
+  publishDate?: string;
+  createdAt?: string;
+  author?: string;
+  categories?: { id: number; name: string; parent: number }[];
+
+};
+
 async function getBlogsBySite(siteName: string) {
   const encoded = encodeURIComponent(siteName);
   const host = headers().get("host");
@@ -11,7 +24,8 @@ async function getBlogsBySite(siteName: string) {
   const url = `${protocol}://${host}/api/blogs/site/${encoded}`;
   const res = await fetch(url, { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to fetch blog posts");
-  return res.json();
+  return res.json() as Promise<BlogPost[]>;
+
 }
 
 const slugify = (t: string) =>
@@ -56,7 +70,18 @@ export default async function Blog() {
             {posts.map((blog) => {
               const categoryLabel = Array.isArray(blog.categories)
                 ? blog.categories.map((c) => c.name).join(", ")
-                : blog.categories || "General";
+                : "General";
+
+              const cleanDescription = (blog.content ?? "").replace(/<[^>]*>?/gm, "");
+
+              const dateString = blog.publishDate ?? blog.createdAt;
+              const formattedDate = dateString
+                ? new Date(dateString).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })
+                : "Date not available";
 
               return (
                 <Link
@@ -65,21 +90,16 @@ export default async function Blog() {
                 >
                   <BlogCard
                     title={blog.title}
-                    description={(blog.content ?? "").replace(/<[^>]*>?/gm, "")}
-                    image={blog.featuredImage}
-                    date={new Date(
-                      blog.publishDate ?? blog.createdAt
-                    ).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
+                    description={cleanDescription}
+                    image={blog.featuredImage || "/default-blog.jpg"}
+                    date={formattedDate}
                     author={blog.author || "OK Taxis"}
                     category={categoryLabel}
                   />
                 </Link>
               );
             })}
+
           </div>
         )}
       </section>

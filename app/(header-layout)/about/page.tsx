@@ -4,7 +4,7 @@ import Offer from "@/components/ui/do-offer";
 import Image from "next/image";
 import FleetClasses from "@/components/home/fleet";
 import Seo from "../../../components/Seo";
-
+// about
 export default function About() {
   return (
     <>

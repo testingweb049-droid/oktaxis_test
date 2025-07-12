@@ -10,7 +10,7 @@ export default function RegisterDriverPage() {
         title="Drive with OKTaxis | Register as a Chauffeur"
         description="Join OKTaxis as a professional chauffeur. Enjoy flexible hours, weekly pay, and premium passengers. Apply now to start your journey."
         url="https://oktaxis.co.uk/register-driver"
-        imag="https://oktaxis.com/og-driver.jpg" // Replace with a real image path
+        image="https://oktaxis.com/og-driver.jpg" // Replace with a real image path
       />
       {/* <HeroSection2
         bgImage={Img1.src}
