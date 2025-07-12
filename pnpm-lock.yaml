@@ -132,8 +132,8 @@ importers:
         specifier: 35.1.0
         version: 35.1.0
       stripe:
-        specifier: ^17.6.0
-        version: 17.6.0
+        specifier: ^18.3.0
+        version: 18.3.0(@types/node@20.17.19)
       tailwind-merge:
         specifier: ^2.5.4
         version: 2.6.0
@@ -3094,9 +3094,14 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
 
-  stripe@17.6.0:
-    resolution: {integrity: sha512-+HB6+SManp0gSRB0dlPmXO+io18krlAe0uimXhhIkL/RG/VIRigkfoM3QDJPkqbuSW0XsA6uzsivNCJU1ELEDA==}
+  stripe@18.3.0:
+    resolution: {integrity: sha512-FkxrTUUcWB4CVN2yzgsfF/YHD6WgYHduaa7VmokCy5TLCgl5UNJkwortxcedrxSavQ8Qfa4Ir4JxcbIYiBsyLg==}
     engines: {node: '>=12.*'}
+    peerDependencies:
+      '@types/node': '>=12.x.x'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
 
   styled-jsx@5.1.1:
     resolution: {integrity: sha512-pW7uC1l4mBZ8ugbiZrcIsiIvVx1UmTfw7UkC3Um2tmfUq9Bhk8IiyEIPl6F8agHgjzku6j0xQEZbfA5uSgSaCw==}
@@ -6370,10 +6375,11 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
-  stripe@17.6.0:
+  stripe@18.3.0(@types/node@20.17.19):
     dependencies:
-      '@types/node': 20.17.19
       qs: 6.14.0
+    optionalDependencies:
+      '@types/node': 20.17.19
 
   styled-jsx@5.1.1(react@18.2.0):
     dependencies:
