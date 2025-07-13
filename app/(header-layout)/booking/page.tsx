@@ -36,10 +36,9 @@ function Page() {
   }, [step]);
 
   useEffect(() => {
-    if (step === 3) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [step]);
+
 
   return (
     <div className=" w-full pb-10 ">
@@ -106,6 +105,13 @@ function Page() {
                     <p className="font-medium">{getValues("duration")} Hours</p>
                   </div>
                 )}
+                {category === "trips" && (
+                  <div className="flex flex-col gap-1 py-2">
+                    <p className="text-gray-500 text-sm">Distance</p>
+                    <p className="font-medium">{Number(getValues("distance")).toFixed(2)} miles</p>
+
+                  </div>
+                )}
                 <div className="flex flex-col gap-1 py-2">
                   <p className="text-gray-500 text-sm">Pickup Date</p>
                   <p className="font-medium">
@@ -140,6 +146,8 @@ function Page() {
                     </p>
                   </div>
                 )}
+
+
               </div>
             </div>
             <div className="w-full p-4 flex flex-col gap-5 bg-gray-100 lg:col-span-2 h-fit rounded-xl">

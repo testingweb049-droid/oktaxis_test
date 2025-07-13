@@ -14,11 +14,12 @@ import { CalendarDays, TimerIcon } from "lucide-react";
 import { SlLocationPin } from "react-icons/sl";
 import { MdMoreTime } from "react-icons/md";
 function formatTime12(hour: number, minute: number): string {
-  const period = hour >= 12 ? 'PM' : 'AM';
   const hour12 = ((hour + 11) % 12) + 1;
   const minuteStr = minute.toString().padStart(2, '0');
-  return `${hour12}:${minuteStr} ${period}`;
+  const amPm = hour >= 12 ? 'PM' : 'AM';
+  return `${hour12}:${minuteStr} ${amPm}`;
 }
+
 // calander end
 
 // maps
@@ -440,9 +441,9 @@ function HeroSectionBookingForm() {
                             >
                               {field.value?.hour !== undefined
                                 ? formatTime12(
-                                    field.value.hour,
-                                    field.value.minute ?? 0
-                                  )
+                                  field.value.hour,
+                                  field.value.minute ?? 0
+                                )
                                 : "hh:mm AM/PM"}
                             </p>
                           </div>
@@ -459,8 +460,7 @@ function HeroSectionBookingForm() {
                           {Array.from({ length: 24 }, (_, i) => i)
                             .filter((item) => {
                               if (
-                                form.watch("pickup_date") >
-                                  getNewJerseyDate() ||
+                                form.watch("pickup_date") > getNewJerseyDate() ||
                                 !form.watch("pickup_date")
                               ) {
                                 return true;
@@ -470,11 +470,10 @@ function HeroSectionBookingForm() {
                             .map((item) => (
                               <div
                                 key={item}
-                                className={`py-1 px-4 cursor-pointer ${
-                                  field.value?.hour === item
+                                className={`py-1 px-4 cursor-pointer ${field.value?.hour === item
                                     ? "bg-blue-500 text-white"
                                     : "bg-white"
-                                }`}
+                                  }`}
                                 onClick={() => {
                                   form.formState.errors.pickup_time = undefined;
                                   field.onChange({
@@ -485,9 +484,10 @@ function HeroSectionBookingForm() {
                                   });
                                 }}
                               >
-                                {formatTime12(item, 0).replace(":00", "")}
+                                {item.toString().padStart(2, '0')}
                               </div>
                             ))}
+
                         </div>
 
                         {/* Minute list */}
@@ -496,11 +496,10 @@ function HeroSectionBookingForm() {
                             (item) => (
                               <div
                                 key={item}
-                                className={`py-1 px-4  cursor-pointer  ${
-                                  field.value?.minute === item
+                                className={`py-1 px-4  cursor-pointer  ${field.value?.minute === item
                                     ? "bg-blue-500 text-white"
                                     : "bg-white"
-                                }`}
+                                  }`}
                                 onClick={() => {
                                   form.formState.errors.pickup_time = undefined;
                                   field.onChange({
@@ -520,12 +519,11 @@ function HeroSectionBookingForm() {
                           {["AM", "PM"].map((period) => (
                             <div
                               key={period}
-                              className={`py-1 px-2 cursor-pointer ${
-                                (field.value?.hour || 0) >= 12 ===
-                                (period === "PM")
+                              className={`py-1 px-2 cursor-pointer ${(field.value?.hour || 0) >= 12 ===
+                                  (period === "PM")
                                   ? "bg-blue-500 text-white"
                                   : "bg-white"
-                              }`}
+                                }`}
                               onClick={() => {
                                 if (field.value?.hour !== undefined) {
                                   let hour = field.value.hour;
