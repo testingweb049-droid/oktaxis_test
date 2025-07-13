@@ -70,9 +70,16 @@ function HourlyNoteDialog() {
           </div>
         </div>
 
-        <Button onClick={() => setOpen(false)} className="w-full mt-6 bg-brand hover:bg-brand text-black font-semibold">
+        <Button
+          onClick={() => {
+            setOpen(false);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          className="w-full mt-6 bg-brand hover:bg-brand text-black font-semibold"
+        >
           GOT IT
         </Button>
+
       </DialogContent>
     </Dialog>
   )
