@@ -75,7 +75,7 @@ const discounts = {
   "Executive Premium": 5,
   "Luxury Van": 7,
 };
-
+// carlist
 function CarList() {
   const {
     category,
@@ -88,7 +88,9 @@ function CarList() {
 
   return (
     <div className="w-full flex flex-col gap-5">
-      {fleets.map((item) => {
+    {fleets
+  .filter(item => !(category === "hourly" && item.name === "Economy"))
+  .map((item) => {
         let price = 0;
 
         if (category === "hourly") {

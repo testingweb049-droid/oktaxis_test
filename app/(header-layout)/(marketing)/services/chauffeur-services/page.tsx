@@ -20,7 +20,7 @@ export default function ChauffeurServices() {
       />
       <Offer />
       <ImageTextSection
-        imageSrc="/luxury chauffeur service.webp"
+        imageSrc="/luxury chauffeur service.png"
         imageAlt="Premium chauffeur service"
         title="Ultimate Comfort & Convenience"
         text="Experience the ultimate in comfort and convenience with OK Taxis' premium chauffeur services. Whether it's a corporate event, executive travel, special occasion or simply a luxurious ride to your destination, our professional chauffeurs are at your service. We offer an executive car service in Manchester with fleet options to suit every need, from fuel-efficient sedans to spacious SUVs and vans."
@@ -29,7 +29,7 @@ export default function ChauffeurServices() {
       />
 
       <ImageTextSection
-        imageSrc="/blog6.webp"
+        imageSrc="/blog6.png"
         imageAlt="Professional chauffeur"
         title="White-Glove Service"
         text="Our chauffeurs are more than drivers – they are trained professionals committed to delivering a white-glove experience. Dressed in uniform and well-versed in the city's roads, they ensure you arrive relaxed, on time and prepared for anything. Safety and discretion are paramount, so all vehicles are fully insured and sanitised before each journey, and our drivers respect your privacy throughout. With fixed competitive rates and simple booking, hiring an OK Taxis chauffeur is an effortless way to upgrade any trip."

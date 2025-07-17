@@ -37,7 +37,7 @@ export default function CityTour() {
       />
 
       <ImageTextSection
-        imageSrc="/Manchester To London.jpg"
+        imageSrc="/Manchester To London.png"
         imageAlt="Liverpool city tour"
         title="Explore Beyond Manchester"
         text="Beyond Manchester, we offer guided tours to nearby cities including Liverpool, Leeds, Chester, York, and Sheffield. Explore the Beatles' legacy in Liverpool, the Roman walls of Chester, the historic architecture of York, or the arts and nightlife of Leeds—all while traveling in a premium vehicle like a Mercedes E-Class or Tesla Model S. Prefer nature? Ask about our luxury excursions to the Peak District, Lake District, or scenic Cheshire villages. With complimentary refreshments, Wi-Fi, and a professional driver at your disposal, OK Taxis makes sightseeing a five-star experience."
@@ -49,7 +49,7 @@ export default function CityTour() {
         {/* Left side image */}
         <div className="md:w-1/2 relative h-64 w-full md:h-80">
           <Image
-            src="/Manchester To London.webp"
+            src="/Manchester.png"
             alt="Car service in Manchester"
             width={600}
             height={400}

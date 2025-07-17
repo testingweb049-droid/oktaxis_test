@@ -25,7 +25,7 @@ export default function CityCenter() {
       />
       <Offer />
       <ImageTextSection
-        imageSrc="/Luxury Chauffeur Service (2).webp"
+        imageSrc="/Luxury Chauffeur Service (2).png"
         imageAlt="Manchester city taxi"
         title="Premium City Centre Transfers"
         text="For short trips around central Manchester, our luxury city taxi service is unbeatable. Forget waiting on a crowded bus or hailing a standard cab — just book an OK Taxis sedan or SUV and a chauffeur will pick you up directly. We know the Manchester city centre inside out, so your journey to destinations like MediaCityUK, the Convention Centre, or the Concert Hall will be quick and smooth."

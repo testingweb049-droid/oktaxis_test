@@ -4,7 +4,8 @@ import { ReactNode } from "react";
 interface ImageTextSectionProps {
   imageSrc: string;
   imageAlt: string;
-  title: string;
+  title: string | ReactNode;
+
   text: string | ReactNode;
   bgColor?: string;
   imagePosition?: "left" | "right";
@@ -22,11 +23,11 @@ const ImageTextSection = ({
     <section className={`py-16 ${bgColor}`}>
       <div className="container mx-auto px-4">
         <div className={`flex flex-col ${imagePosition === "right" ? "lg:flex-row-reverse" : "lg:flex-row"} items-center gap-12`}>
-          
+
           {/* ✅ Image: uniform size, responsive */}
           <div className="lg:w-1/2 w-full">
             <div className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden shadow-xl">
-              <Image 
+              <Image
                 src={imageSrc}
                 alt={imageAlt}
                 fill
@@ -38,9 +39,17 @@ const ImageTextSection = ({
 
           {/* ✅ Text Content */}
           <div className="lg:w-1/2">
-            <h2 className="text-3xl md:text-4xl font-bold text-brand mb-6">
-              {title}
-            </h2>
+            {/* ✅ Title with conditional styling */}
+            {typeof title === 'string' ? (
+              <h2 className="text-3xl md:text-4xl font-bold text-brand mb-6">
+                {title}
+              </h2>
+            ) : (
+              <div className="mb-6">
+                {title}
+              </div>
+            )}
+
             {typeof text === 'string' ? (
               <p className="text-lg text-gray-600 mb-8">
                 {text}
