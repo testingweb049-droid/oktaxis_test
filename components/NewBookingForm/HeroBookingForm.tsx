@@ -13,6 +13,8 @@ import { format } from "date-fns";
 import { CalendarDays, TimerIcon } from "lucide-react";
 import { SlLocationPin } from "react-icons/sl";
 import { MdMoreTime } from "react-icons/md";
+import { toast } from "@/components/ui/use-toast";
+
 function formatTime12(hour: number, minute: number): string {
   const hour12 = ((hour + 11) % 12) + 1;
   const minuteStr = minute.toString().padStart(2, '0');
@@ -33,6 +35,7 @@ import {
   isBeforeNewJerseyToday,
 } from "@/lib/isBeforeTime";
 
+
 const libraries: Libraries = ["places"];
 
 function HeroSectionBookingForm() {
@@ -43,6 +46,7 @@ function HeroSectionBookingForm() {
 
   const [fromLocation, setFromLocation] = useState("");
   const [toLocation, setToLocation] = useState("");
+  const [showSameLocationModal, setShowSameLocationModal] = useState(false);
 
   console.log("durationOpen ", durationOpen);
 
@@ -177,8 +181,11 @@ function HeroSectionBookingForm() {
                           <input
                             value={fromLocation}
                             onChange={(e) => {
-                              setFromLocation(e.target.value);
+                              const value = e.target.value;
+                              setFromLocation(value);
+                              form.setValue("pickup_location", value); // 🔧 keeps form state updated
                             }}
+
                             disabled={loading}
                             placeholder="Pickup Location"
                             className="w-full focus:outline-none text-sm  text-black "
@@ -250,8 +257,11 @@ function HeroSectionBookingForm() {
                               value={toLocation}
                               disabled={loading}
                               onChange={(e) => {
-                                setToLocation(e.target.value);
+                                const value = e.target.value;
+                                setToLocation(value);
+                                form.setValue("dropoff_location", value); // 🔧
                               }}
+
                               placeholder="Drop off Location"
                               className="w-full focus:outline-none text-sm  text-black"
                             />
@@ -471,8 +481,8 @@ function HeroSectionBookingForm() {
                               <div
                                 key={item}
                                 className={`py-1 px-4 cursor-pointer ${field.value?.hour === item
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-white"
+                                  ? "bg-blue-500 text-white"
+                                  : "bg-white"
                                   }`}
                                 onClick={() => {
                                   form.formState.errors.pickup_time = undefined;
@@ -497,8 +507,8 @@ function HeroSectionBookingForm() {
                               <div
                                 key={item}
                                 className={`py-1 px-4  cursor-pointer  ${field.value?.minute === item
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-white"
+                                  ? "bg-blue-500 text-white"
+                                  : "bg-white"
                                   }`}
                                 onClick={() => {
                                   form.formState.errors.pickup_time = undefined;
@@ -520,9 +530,9 @@ function HeroSectionBookingForm() {
                             <div
                               key={period}
                               className={`py-1 px-2 cursor-pointer ${(field.value?.hour || 0) >= 12 ===
-                                  (period === "PM")
-                                  ? "bg-blue-500 text-white"
-                                  : "bg-white"
+                                (period === "PM")
+                                ? "bg-blue-500 text-white"
+                                : "bg-white"
                                 }`}
                               onClick={() => {
                                 if (field.value?.hour !== undefined) {
@@ -548,12 +558,65 @@ function HeroSectionBookingForm() {
               <button
                 type="button"
                 onClick={() => {
+                  const normalize = (text: string) =>
+                    text?.toLowerCase().replace(/\s+/g, "").replace(/,/g, "");
+
+                  const pickup = normalize(fromLocation);
+                  const dropoff = normalize(toLocation);
+
+                  if (pickup && dropoff && pickup === dropoff) {
+                    toast({
+                      title: "Same Pickup & Drop-off",
+                      description: "Pickup and drop-off locations cannot be the same. Please choose different locations.",
+                      variant: "destructive",
+                    });
+                    return;
+                  }
+
+                  const pickupDate = form.getValues("pickup_date");
+                  const pickupTime = form.getValues("pickup_time");
+
+                  if (!pickupDate || !pickupTime?.hour || pickupTime.minute === undefined) {
+                    toast({
+                      title: "Missing Time",
+                      description: "Please select both pickup date and time.",
+                      variant: "destructive",
+                    });
+                    return;
+                  }
+
+                  const pickupDateTime = new Date(pickupDate);
+                  pickupDateTime.setHours(pickupTime.hour);
+                  pickupDateTime.setMinutes(pickupTime.minute);
+                  pickupDateTime.setSeconds(0);
+                  pickupDateTime.setMilliseconds(0);
+
+                  const now = new Date();
+                  const eightHoursLater = new Date(now.getTime() + 8 * 60 * 60 * 1000);
+
+                  if (pickupDateTime < eightHoursLater) {
+                    toast({
+                      title: "Booking Too Soon",
+                      description: "Please choose a pickup time at least 8 hours from now.",
+                      variant: "destructive",
+                    });
+                    return;
+                  }
+
+                  // ✅ All validations passed
                   NextStep();
                 }}
+
+
+
+
                 className="rounded-full bg-black text-white py-2 px-4 w-5/6 "
               >
                 {loading ? "Loading..." : "Book Now"}
               </button>
+
+
+
             </div>
           </form>
         </Form>

@@ -50,14 +50,12 @@ export default function AboutSection() {
               animation: inView ? "fadeInLeft 0.8s ease-out forwards" : "none",
             }}
           >
-            <h2 className="mb-6 text-3xl font-bold tracking-tight text-brand md:text-4xl lg:text-5xl">
-              {/* <span ref={highlightRef} className="text-amber-500">
-                Premier Luxury
-              </span>{" "} */}
-              {/* <br /> */}
-              Chauffeur & Airport Transfer <br />
-               Services
+            <h2 className="mb-6 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
+              Chauffeur{" "}
+              <span className="text-brand">&amp; Airport Transfer Services</span> <br />
+              
             </h2>
+
 
             <p className="mb-8 text-lg text-gray-600">
               Manchester's leading luxury chauffeur service, offering premium airport transfers and executive

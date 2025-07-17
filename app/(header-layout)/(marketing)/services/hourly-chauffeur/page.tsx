@@ -23,11 +23,11 @@ export default function HourlyChauffeur() {
       <HeroSection2
         bgImage="/images/hourly-service.png"
         title="Flexible Hourly Chauffeurs for Business or Leisure Travel"
-        // description="Need on-demand travel? With OKTaxis, enjoy flexible hourly chauffeur services ideal for city errands, business meetings, or leisurely trips. Whether you're navigating Manchester airport or planning a day around town, our experienced chauffeurs ensure you travel efficiently in comfort and style."
+      // description="Need on-demand travel? With OKTaxis, enjoy flexible hourly chauffeur services ideal for city errands, business meetings, or leisurely trips. Whether you're navigating Manchester airport or planning a day around town, our experienced chauffeurs ensure you travel efficiently in comfort and style."
       />
       <Offer />
       <ImageTextSection
-        imageSrc="/stadium transfers to manchester united.webp"
+        imageSrc="/stadium transfers to manchester united.png"
         imageAlt="Hourly chauffeur service"
         title="Premium Hourly Chauffeur Service"
         text="Our flexible hourly chauffeur service allows you to hire a luxury vehicle and driver by the hour or day. Simply tell us your schedule and destinations, and we'll handle the driving. This service is ideal for day-long business meetings, shopping trips, city tours or any occasion where you need a dedicated chauffeur on demand. You avoid parking, directions or waiting – we're at your disposal to take you anywhere on your itinerary."
@@ -36,7 +36,7 @@ export default function HourlyChauffeur() {
       />
 
       <ImageTextSection
-        imageSrc="/Manchester Airpot.webp"
+        imageSrc="/Manchester Airpot.png"
         imageAlt="Chauffeur convenience"
         title="Ultimate Convenience & Privacy"
         text="Enjoy the ultimate convenience and privacy with our chauffeur-by-the-hour option. Our professional drivers arrive in full uniform, opening doors and ensuring a seamless experience from start to finish. Vehicle interiors are stocked with amenities like bottled water, tissues, and charging ports. Whether you need a few hours or a full day, OK Taxis gives you total flexibility and peace of mind, all backed by our punctuality guarantee and premium service standards."
@@ -48,7 +48,7 @@ export default function HourlyChauffeur() {
         {/* Left side image */}
         <div className="md:w-1/2 relative h-64 w-full md:h-80">
           <Image
-            src="/Hourly Serives in Manchester.jpg"
+            src="/Hourly Serives in Manchester.png"
             alt="Car service in Manchester"
             width={600}
             height={400}
@@ -113,8 +113,16 @@ export default function HourlyChauffeur() {
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-gray-50 p-6 rounded-xl text-center">
-              <div className="bg-black w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
-                <FaRoute className="text-white text-xl" />
+              <div className="w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+                <Image
+                  src="/Group 7.png"
+                  alt="Car service in Manchester"
+                  width={600}
+                  height={400}
+
+
+                  priority={false}
+                />
               </div>
               <h3 className="text-xl font-semibold mb-2">
                 Customized Itinerary
@@ -125,8 +133,16 @@ export default function HourlyChauffeur() {
               </p>
             </div>
             <div className="bg-gray-50 p-6 rounded-xl text-center">
-              <div className="bg-black w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
-                <FaMapMarkerAlt className="text-white text-xl" />
+              <div className=" w-14 h-14  flex items-center justify-center mb-4 mx-auto">
+                <Image
+                  src="/Group 5.png"
+                  alt="Car service in Manchester"
+                  width={600}
+                  height={400}
+
+
+                  priority={false}
+                />
               </div>
               <h3 className="text-xl font-semibold mb-2">Multiple Stops</h3>
               <p className="text-gray-600">
@@ -135,8 +151,16 @@ export default function HourlyChauffeur() {
               </p>
             </div>
             <div className="bg-gray-50 p-6 rounded-xl text-center">
-              <div className="bg-black w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
-                <FaMoneyBillWave className="text-white text-xl" />
+              <div className=" w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+                <Image
+                  src="/Group 6.png"
+                  alt="Car service in Manchester"
+                  width={600}
+                  height={400}
+
+
+                  priority={false}
+                />
               </div>
               <h3 className="text-xl font-semibold mb-2">No Hidden Fees</h3>
               <p className="text-gray-600">
@@ -145,8 +169,16 @@ export default function HourlyChauffeur() {
               </p>
             </div>
             <div className="bg-gray-50 p-6 rounded-xl text-center">
-              <div className="bg-black w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
-                <FaUserTie className="text-white text-xl" />
+              <div className=" w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+                <Image
+                  src="/Group 8.png"
+                  alt="Car service in Manchester"
+                  width={600}
+                  height={400}
+
+
+                  priority={false}
+                />
               </div>
               <h3 className="text-xl font-semibold mb-2">
                 Professional Service

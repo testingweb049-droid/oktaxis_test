@@ -22,7 +22,7 @@ export default function Fleet() {
       />
       <Offer />
       <ImageTextSection
-        imageSrc="/Taxi In Manchester Taxi Service.webp"
+        imageSrc="/Taxi In Manchester Taxi Service.png"
         imageAlt="Executive Airport Transfer"
         title="Fleets OkTaxis Have"
         text="Our meticulously maintained fleet offers a range of premium vehicles to suit every occasion. Each car is chosen for its comfort, style and performance, ensuring you travel in true executive luxury. All vehicles are cleaned and inspected before every journey, and come equipped with plush leather seating, climate control, complimentary bottled water and unlimited Wi-Fi to keep you comfortable and connected on the road.

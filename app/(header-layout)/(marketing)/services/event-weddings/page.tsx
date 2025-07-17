@@ -19,7 +19,7 @@ export default function EventWedding() {
         image="https://oktaxis.co.uk/Luxury%20Wedding%20&%20Event%20Transfers.jpg"
       />
       <HeroSection2
-        bgImage="/Luxury Wedding & Event Transfers.jpg"
+        bgImage="/wedding.png"
         title="Luxury Wedding & Event Transfers — Arrive in Style"
         // description="At OKTaxis, we specialize in providing luxury wedding and event transfers that make your special day truly unforgettable. From elegant arrivals to seamless departures, our fleet of premium vehicles and professional chauffeurs ensure you and your guests travel in comfort, style, and punctuality. Whether it's a grand wedding, corporate event, or private celebration, OKTaxis delivers a first-class experience tailored to your needs, so you can focus on creating beautiful memories."
       />
@@ -27,7 +27,7 @@ export default function EventWedding() {
       <Offer />
 
       <ImageTextSection
-        imageSrc="/Luxury Wedding Manchester.jpeg"
+        imageSrc="/Luxury Wedding Manchester.png"
         imageAlt="Grand wedding entrance"
         title="Make a Grand Entrance"
         text="Make a grand entrance on your special day with OK Taxis' premium event and wedding transportation. Our elegant cars and professional chauffeurs will ensure you arrive in style, whether you're walking down the aisle, attending a gala, or celebrating any milestone. We work closely with you to plan every detail – from route and timing to decorations or special requests – so that your event runs smoothly and memorably."
@@ -36,7 +36,7 @@ export default function EventWedding() {
       />
 
       <ImageTextSection
-        imageSrc="/Luxury Wedding & Event Transfers.jpg"
+        imageSrc="/Luxury Wedding & Event Transfers.png"
         imageAlt="Corporate event transportation"
         title="Versatile Event Transportation"
         text="In addition to weddings, our chauffeur service caters to corporate events, conferences, parties and more. Treat your guests or colleagues to VIP transfers, arriving in a sleek Mercedes or BMW while enjoying complimentary refreshments and privacy. We offer coordinated group transportation for large parties, complete with professional signage and reliable pick-ups. With OK Taxis, you can focus on enjoying the occasion while we take care of the journey."

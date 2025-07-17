@@ -1,5 +1,6 @@
 import HeroSection2 from "@/components/ui/hero-section2";
 import HeroImg from "@/assets/bmw.png";
+import HeroImge from "@/assets/bmw1.png";
 import Offer from "@/components/ui/do-offer";
 import Image from "next/image";
 import FleetClasses from "@/components/home/fleet";
@@ -16,7 +17,7 @@ export default function About() {
         image="https://oktaxis.com/og-image.jpg"
       />
       <HeroSection2
-        bgImage={HeroImg.src}
+        bgImage={HeroImge.src}
         title="About OKTaxis – Excellence in Chauffeur Services"
       />
 
@@ -94,7 +95,7 @@ export default function About() {
             <div className="lg:w-1/2 relative">
               <div className="relative aspect-video overflow-hidden rounded-2xl shadow-2xl">
                 <Image
-                  src="/luxury chauffeur service.webp"
+                  src="/luxury chauffeur service (3).png"
                   alt="OKTaxis Service"
                   fill
                   className="object-cover"
