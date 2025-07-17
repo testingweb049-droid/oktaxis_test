@@ -75,7 +75,7 @@ const discounts = {
   "Executive Premium": 5,
   "Luxury Van": 7,
 };
-
+// carlist
 function CarList() {
   const {
     category,
