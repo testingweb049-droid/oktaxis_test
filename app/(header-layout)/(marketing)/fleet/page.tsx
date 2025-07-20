@@ -24,7 +24,14 @@ export default function Fleet() {
       <ImageTextSection
         imageSrc="/Taxi In Manchester Taxi Service.png"
         imageAlt="Executive Airport Transfer"
-        title="Our Luxury Fleet at OKTaxis"
+        title={
+          <span className="text-3xl md:text-4xl font-bold">
+          Our{' '}
+          <span className="text-brand text-3xl md:text-4xl font-bold">Luxury </span>{' '}
+          Fleet at{' '}
+          <span className="text-brand text-3xl md:text-4xl font-bold">OKTaxis</span>{' '}
+        </span>
+        }
         text="Our meticulously maintained fleet offers a range of premium vehicles to suit every occasion in Manchester and the North West. Each car is chosen for its comfort, style, and performance, ensuring you travel in true executive luxury. All vehicles are cleaned and inspected before every journey, and come equipped with plush leather seating, climate control, complimentary bottled water, and unlimited Wi-Fi to keep you comfortable and connected on the road.
 Whether for Manchester airport services, wedding chauffeur Manchester hires, or stadium transfers, our fleet is tailored to your needs. Explore the options below:
 

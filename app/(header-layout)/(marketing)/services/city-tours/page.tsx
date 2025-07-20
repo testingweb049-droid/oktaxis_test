@@ -24,13 +24,20 @@ export default function CityTour() {
       <HeroSection2
         bgImage="/city.jpg"
         title="Explore Manchester & Liverpool with a Chauffeured City Tour"
-        // description="Explore the best of the North with our exclusive city tours of Manchester, Liverpool, and the surrounding areas. Our expert chauffeurs will take you to iconic landmarks as well as hidden gems, providing a rich and authentic local experience in complete comfort. Ideal for visitors arriving via Manchester Airport, we also offer seamless chauffeur services to and from London, Birmingham, and Leeds, ensuring your journey is smooth and stylish every step of the way."
+      // description="Explore the best of the North with our exclusive city tours of Manchester, Liverpool, and the surrounding areas. Our expert chauffeurs will take you to iconic landmarks as well as hidden gems, providing a rich and authentic local experience in complete comfort. Ideal for visitors arriving via Manchester Airport, we also offer seamless chauffeur services to and from London, Birmingham, and Leeds, ensuring your journey is smooth and stylish every step of the way."
       />
       <Offer />
       <ImageTextSection
         imageSrc="/city.jpg"
         imageAlt="Manchester city tour"
-        title="Discover Manchester in Executive Comfort"
+        title=
+        {
+          <span className="text-3xl md:text-4xl font-bold">
+            Discover Manchester in  {' '}
+            <span className="text-brand text-3xl md:text-4xl font-bold">Executive Comfort</span>{' '}
+
+          </span>
+        }
         text="Discover Manchester and nearby cities in executive comfort with OK Taxis' private city tours. Whether you're a first-time visitor or a local exploring new corners, our luxury chauffeur-driven tours offer a relaxing and enriching experience. From historical landmarks and vibrant cultural spots to boutique shopping and stunning countryside, we'll design a bespoke itinerary tailored to your interests. Our professional chauffeurs have in-depth knowledge of Manchester and surrounding areas, ensuring your tour is both informative and enjoyable."
         bgColor="bg-white"
         imagePosition="left"
@@ -39,7 +46,14 @@ export default function CityTour() {
       <ImageTextSection
         imageSrc="/Manchester To London.png"
         imageAlt="Liverpool city tour"
-        title="Explore Beyond Manchester"
+        title=
+        {
+          <span className="text-3xl md:text-4xl font-bold">
+            Explore Beyond {' '}
+            <span className="text-brand text-3xl md:text-4xl font-bold">Manchester</span>{' '}
+
+          </span>
+        }
         text="Beyond Manchester, we offer guided tours to nearby cities including Liverpool, Leeds, Chester, York, and Sheffield. Explore the Beatles' legacy in Liverpool, the Roman walls of Chester, the historic architecture of York, or the arts and nightlife of Leeds—all while traveling in a premium vehicle like a Mercedes E-Class or Tesla Model S. Prefer nature? Ask about our luxury excursions to the Peak District, Lake District, or scenic Cheshire villages. With complimentary refreshments, Wi-Fi, and a professional driver at your disposal, OK Taxis makes sightseeing a five-star experience."
         bgColor="bg-white"
         imagePosition="right"
@@ -47,7 +61,7 @@ export default function CityTour() {
 
       <section className="flex flex-col gap-12 md:flex-row items-start justify-between container px-4 py-32">
         {/* Left side image */}
-        <div className="md:w-1/2 relative h-64 w-full md:h-80">
+   <div className="md:w-1/2 relative h-64 w-full md:h-80">
           <Image
             src="/Manchester.png"
             alt="Car service in Manchester"
@@ -68,8 +82,16 @@ export default function CityTour() {
         <div className="flex flex-col space-y-6 md:w-1/2">
           <div className="flex items-start gap-3">
             <FaCarSide className="text-brand text-3xl mt-1" />
-            <h2 className="text-3xl text-brand font-semibold leading-snug">
-              Advantages of Opting for a Long-Distance Chauffeur Service
+            <h2 className="text-3xl  font-semibold leading-snug">
+
+              {
+                <span className="text-3xl md:text-4xl font-bold">
+                  Advantages of {' '}
+                  <span className="text-brand text-3xl md:text-4xl font-bold">Opting</span>{' '}
+                  for a Long-Distance  {' '}
+                  <span className="text-brand text-3xl md:text-4xl font-bold">Chauffeur Service</span>{' '}
+                </span>
+              }
             </h2>
           </div>
           <ul className="space-y-6 text-gray-700 text-lg">
@@ -103,13 +125,20 @@ export default function CityTour() {
             </li>
           </ul>
         </div>
+     
       </section>
 
       <FleetClasses />
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-brand mb-12">
-            Our Tour Services
+          <h2 className="text-3xl md:text-4xl font-bold text-center  mb-12">
+            {
+          <span className="text-3xl md:text-4xl font-bold">
+            Our Tour  {' '}
+            <span className="text-brand text-3xl md:text-4xl font-bold">Services</span>{' '}
+
+          </span>
+        }
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-gray-50 p-6 rounded-xl text-center">

@@ -18,7 +18,13 @@ const Contact = () => {
         {/* ───────────────────────── 1. Header ───────────────────────── */}
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-bold mb-4">
-            Contact OKTaxis
+              {
+                <span className="text-3xl md:text-4xl font-bold">
+                  Contact{' '}
+                  <span className="text-brand text-3xl md:text-4xl font-bold"> OKTaxis</span>{' '}
+              
+                </span>
+              }
           </h1>
           <p className="text-lg md:text-xl text-gray-700">
             Luxury Chauffeur &amp; Airport Transfers in Manchester &amp;

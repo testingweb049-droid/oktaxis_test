@@ -1,11 +1,25 @@
 import Image from "next/image";
 import HeroImg from "@/assets/bmw.png";
-
+import FleetBg from "@/assets/bmw-city.jpeg";
 export default function WhyChoose() {
   return (
     <section className="py-20 bg-white text-white">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="flex flex-col lg:flex-row items-center gap-16">
+           <div className="lg:w-1/2 relative">
+            <div className="relative aspect-square overflow-hidden rounded-2xl shadow-2xl">
+              <Image
+                src={FleetBg}
+                alt="OKTaxis Fleet"
+                fill
+                className="object-cover"
+              />
+            </div>
+            {/* <div className="absolute -bottom-6 -left-6 bg-brand p-6 rounded-xl shadow-lg text-white hidden lg:block w-48">
+              <div className="text-3xl font-bold">50+</div>
+              <div className="text-sm font-medium">Vehicles in Our Fleet</div>
+            </div> */}
+          </div>
           <div className="lg:w-1/2">
             <div className="inline-block bg-black text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
               Our Fleet
@@ -81,20 +95,7 @@ export default function WhyChoose() {
             </div>
           </div>
           
-          <div className="lg:w-1/2 relative">
-            <div className="relative aspect-square overflow-hidden rounded-2xl shadow-2xl">
-              <Image
-                src={HeroImg.src}
-                alt="OKTaxis Fleet"
-                fill
-                className="object-cover"
-              />
-            </div>
-            {/* <div className="absolute -bottom-6 -left-6 bg-brand p-6 rounded-xl shadow-lg text-white hidden lg:block w-48">
-              <div className="text-3xl font-bold">50+</div>
-              <div className="text-sm font-medium">Vehicles in Our Fleet</div>
-            </div> */}
-          </div>
+         
         </div>
       </div>
     </section>
