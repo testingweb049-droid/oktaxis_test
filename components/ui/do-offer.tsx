@@ -271,6 +271,45 @@ const cityCenterOffers: OfferItem[] = [
     description: 'Our local drivers know the city inside-out, ensuring timely drop-offs and tips on the best places to visit, dine, or relax.',
   },
 ];
+const stadiumTransferOffers: OfferItem[] = [
+  {
+    id: 1,
+    icon: '/stadium/person 2.svg',
+    title: 'Pick & Drop at All Major Venues',
+    description: 'We provide timely pick-up and drop-off at stadiums and arenas, ensuring you never miss the kickoff or opening act.',
+  },
+  {
+    id: 2,
+    icon: '/stadium/warning (1) 1.svg',
+    title: 'Beat Traffic with Priority Routes',
+    description: 'Our experienced chauffeurs use real-time traffic data and priority access roads to avoid congestion and keep you on time.',
+  },
+  {
+    id: 3,
+    icon: '/stadium/clock (1) 1.svg',
+    title: 'No Parking Stress, No Delays',
+    description: 'Forget the hassle of finding parking — we handle the logistics so you can focus on enjoying the event.',
+  },
+  {
+    id: 4,
+    icon: '/stadium/people 1.svg',
+    title: 'Perfect for Families or Group Bookings',
+    description: 'Spacious and comfortable vehicles accommodate families, friends, or corporate groups traveling together to events.',
+  },
+  {
+    id: 5,
+    icon: '/stadium/nightlife 2.svg',
+    title: 'Pre- and Post-Event Transfers',
+    description: "Whether you're heading to the match or celebrating afterward, our chauffeur service is available before and after the event.",
+
+  },
+  {
+    id: 6,
+    icon: '/stadium/customer-satisfaction (1) 1 (1).svg',
+    title: 'Available for VIP Hospitality',
+    description: 'Delivering a premium experience tailored for VIP guests, corporate clients, and exclusive ticket holders.',
+  },
+];
 
 
 const Offer: React.FC = () => {
@@ -280,8 +319,9 @@ const Offer: React.FC = () => {
     if (pathname === '/services/hourly-chauffeur') return hourlyChauffeurOffers;
     if (pathname === '/services/chauffeur-services') return chauffeurServicesOffers;
     if (pathname === '/services/event-weddings') return eventWeddingOffers;
-     if (pathname === '/services/city-tours') return cityToursOffers;
-     if (pathname === '/services/city-center') return cityCenterOffers;
+    if (pathname === '/services/city-tours') return cityToursOffers;
+    if (pathname === '/services/city-center') return cityCenterOffers;
+    if (pathname === '/services/stadium-transfer') return stadiumTransferOffers;
     return defaultOffers;
   }, [pathname]);
 
@@ -337,14 +377,7 @@ const Offer: React.FC = () => {
         ))}
       </div>
 
-      <div className="text-center mt-12">
-        <Link
-          href="/"
-          className="inline-flex items-center rounded-md bg-brand px-8 py-4 text-white text-lg font-semibold hover:bg-amber-600 transition-colors"
-        >
-          Reserve your premium chauffeur Manchester experience today
-        </Link>
-      </div>
+    
     </section>
   );
 };
