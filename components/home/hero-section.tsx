@@ -112,19 +112,10 @@ export default function HeroSection() {
 
       <div className="container relative z-10 mx-auto flex h-full flex-col gap-6 sm:gap-8 md:gap-24 items-start justify-center px-4 sm:px-6 text-white lg:px-5">
         <div className="w-full px-2 sm:px-0 max-w-4xl">
-          <h1 ref={titleRef} className="mb-4 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
+          <h1 ref={titleRef} className="mb-4 text-4xl gap-3 sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
             Luxury Transportation in Manchester
           </h1>
-          <p ref={subtitleRef} className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6">
-            OKTaxis offers premium chauffeur services Manchester-wide, delivering unparalleled luxury transportation for business, events, and leisure. From Manchester airport services to flexible hourly chauffeurs, city tours, wedding chauffeur services Manchester, and stadium transfers, we ensure a seamless, stress-free experience.
-          </p>
 
-          {/* Book Now Button */}
-          
-            <button className="bg-white text-black font-semibold px-6 py-3 rounded-2xl shadow hover:bg-gray-200 transition">
-              Book Now – Secure your premium chauffeur Manchester ride today!
-            </button>
-          
         </div>
 
         {/* Form container */}

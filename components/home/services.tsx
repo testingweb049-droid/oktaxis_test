@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useInView } from "react-intersection-observer"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 
 const services = [
@@ -36,7 +36,6 @@ const services = [
     image: "/blog6.webp",
     size: "small",
   },
-  
   {
     id: 5,
     slug: "stadium-transfers",
@@ -62,6 +61,7 @@ const services = [
 export default function Services() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 })
   const serviceRefs = useRef<(HTMLDivElement | null)[]>([])
+  const [expandedCard, setExpandedCard] = useState<number | null>(null)
 
   useEffect(() => {
     if (inView) {
@@ -79,11 +79,31 @@ export default function Services() {
   const smallServices = services.filter((s) => s.size === "small")
   const cardImgHeight = "relative h-[300px] md:h-[360px] w-full overflow-hidden"
 
+  const renderDescription = (service: typeof services[number]) => {
+    const isExpanded = expandedCard === service.id
+    const shortDesc = service.description.slice(0, 150)
+
+    return (
+      <p className="text-sm text-gray-300">
+        {isExpanded ? service.description : shortDesc + (service.description.length > 150 ? "..." : "")}
+        {service.description.length > 150 && (
+          <span
+            className="ml-2 cursor-pointer text-brand underline hover:text-amber-600 transition"
+            onClick={(e) => {
+              e.preventDefault()
+              setExpandedCard(isExpanded ? null : service.id)
+            }}
+          >
+            {isExpanded ? "Read less" : "Read more"}
+          </span>
+        )}
+      </p>
+    )
+  }
+
   return (
     <section id="services" className="py-16" ref={ref}>
       <div className="container mx-auto px-4 md:px-6">
-
-        {/* Section Heading */}
         <div
           className="mb-8 animate-fade-in-up opacity-0"
           style={{ animation: inView ? "fadeInUp 0.6s ease-out forwards" : "none" }}
@@ -98,7 +118,6 @@ export default function Services() {
           </p>
         </div>
 
-        {/* Large Cards */}
         <div className="mb-6 grid gap-6 md:grid-cols-2">
           {largeServices.map((service, index) => (
             <Link href={`/services/${service.slug}`} key={service.id}>
@@ -120,7 +139,7 @@ export default function Services() {
                       {service.category}
                     </p>
                     <h3 className="mb-3 text-2xl font-bold">{service.title}</h3>
-                    <p className="text-gray-300">{service.description}</p>
+                    {renderDescription(service)}
                   </div>
                 </div>
               </div>
@@ -128,7 +147,6 @@ export default function Services() {
           ))}
         </div>
 
-        {/* Small Cards */}
         <div className="grid gap-6 md:grid-cols-3">
           {smallServices.map((service, index) => (
             <Link href={`/services/${service.slug}`} key={service.id}>
@@ -150,7 +168,7 @@ export default function Services() {
                       {service.category}
                     </p>
                     <h3 className="mb-3 text-xl font-bold">{service.title}</h3>
-                    <p className="text-sm text-gray-300">{service.description}</p>
+                    {renderDescription(service)}
                   </div>
                 </div>
               </div>
