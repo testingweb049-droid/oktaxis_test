@@ -28,59 +28,65 @@ export default function Home() {
           imageAlt="Executive Airport Transfer"
           title={
             <span className="text-3xl md:text-4xl font-bold">
-              <span className="text-brand text-3xl md:text-4xl font-bold">Premier Luxury </span>
-              Chauffeur
-              <span className="text-brand text-3xl md:text-4xl font-bold"> and Taxi</span>
+              Why Choose{" "}
+              <span className="text-brand text-3xl md:text-4xl font-bold">OKTaxis:</span>{" "}
+              Premier Luxury <span className="text-brand text-3xl md:text-4xl font-bold"> Chauffeur</span> and Taxi in{" "}
+              <span className="text-brand text-3xl md:text-4xl font-bold">Manchester</span>
             </span>
           }
-
-          text="OK Taxis is Manchester’s premier luxury chauffeur and taxi service, providing an unparalleled travel experience for business executives, VIPs, and discerning travellers..."
+          text="OKTaxis is Manchester’s premier luxury chauffeur and taxi service, providing an unparalleled travel experience for business executives, VIPs, and discerning travellers."
           bgColor="bg-white"
           imagePosition="right"
         />
 
 
 
+
         <ImageTextSection
           imageSrc="/Taxi To Manchester Airport.png"
           imageAlt="Executive Airport Transfer"
-
           title={
             <span className="text-3xl md:text-4xl font-bold">
-              <span className="text-brand text-3xl md:text-4xl font-bold">Flexible Rides In</span>
-              {' '} Manchester{' '}
-
-              
+              <span className="text-brand text-3xl md:text-4xl font-bold">Flexible Rides In</span>{' '}
+              Manchester
             </span>
           }
           text={
             <>
               <p className="mb-3">
-                Based in Manchester, OKTaxis offers 24/7 availability and flexible scheduling:
+                Based in Manchester, we offer 24/7 availability and flexible scheduling across the wider UK.
               </p>
-              <div className="space-y-3">
-                <div className="flex items-start text-gray-700 text-md">
-                  <span className="mr-2 flex h-6 w-6 items-center justify-center rounded-full bg-brand text-amber-100">
+              <div className="space-y-3 text-md text-gray-700">
+                <div className="flex items-start">
+                  <span className="mr-2 flex h-6 w-6 items-center justify-center rounded-full bg-brand text-white">
                     <Check className="h-4 w-4" />
                   </span>
                   <p className="flex-1">
-                    Enjoy hassle-free, on-demand rides across Manchester with our flexible booking options.
+                    <strong>Seamless Service:</strong> Flight monitoring for delays or early arrivals, with meet-and-greet assistance for a smooth, stress-free experience.
                   </p>
                 </div>
                 <div className="flex items-start">
-                  <span className="mr-2 flex h-6 w-6 items-center justify-center rounded-full bg-brand text-amber-100">
-                    <Check className="h-4 w-4" />
-                  </span>
-                  <span className="flex-1">
-                    Whether it’s a quick trip or a full-day hire, we adapt to your schedule and needs.
-                  </span>
-                </div>
-                <div className="flex items-start">
-                  <span className="mr-2 flex h-6 w-6 items-center justify-center rounded-full bg-brand text-amber-100">
+                  <span className="mr-2 flex h-6 w-6 items-center justify-center rounded-full bg-brand text-white">
                     <Check className="h-4 w-4" />
                   </span>
                   <p className="flex-1">
-                    Travel comfortably with professional drivers and modern vehicles, anytime, anywhere in Manchester.
+                    <strong>Transparent Pricing:</strong> Fixed, competitive rates with no surprise charges – the price you see is the price you pay.
+                  </p>
+                </div>
+                <div className="flex items-start">
+                  <span className="mr-2 flex h-6 w-6 items-center justify-center rounded-full bg-brand text-white">
+                    <Check className="h-4 w-4" />
+                  </span>
+                  <p className="flex-1">
+                    <strong>Premium Experience:</strong> Travel in style with our fleet of luxurious vehicles, including Mercedes, BMW, Audi sedans, and SUVs.
+                  </p>
+                </div>
+                <div className="flex items-start">
+                  <span className="mr-2 flex h-6 w-6 items-center justify-center rounded-full bg-brand text-white">
+                    <Check className="h-4 w-4" />
+                  </span>
+                  <p className="flex-1">
+                    <strong>Tailored for Your Needs:</strong> Customized for airport transfers, business travel, special events, hourly hire, and more.
                   </p>
                 </div>
               </div>
@@ -107,11 +113,8 @@ export default function Home() {
           text={
             <>
               <p className="mb-2">
-                We are a trusted taxi company committed to providing safe, reliable, and professional
-                transportation services. With years of experience in the industry, we pride ourselves
-                on punctuality, clean vehicles, and courteous drivers who prioritize your comfort.
-                Whether you're heading to the airport, attending an event, or need a ride across town,
-                you can count on us for a smooth and stress-free journey.
+                We are a trusted taxi company committed to safe, reliable, and professional transportation. With years of experience, we pride ourselves on punctuality, clean vehicles, and courteous drivers who prioritize your comfort. Whether heading to the airport, attending an event, or needing a ride across town, count on us for a smooth journey.
+
               </p>
               <Link
                 href="/#herosection"

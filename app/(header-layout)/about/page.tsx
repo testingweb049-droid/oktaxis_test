@@ -18,7 +18,7 @@ export default function About() {
       />
       <HeroSection2
         bgImage={HeroImge.src}
-        title="About OKTaxis – Excellence in Chauffeur Services"
+        title="About Us: Premium Chauffeur Services Manchester | OKTaxis"
       />
 
       {/* ✅ Offer section moved to top for consistency */}
@@ -54,16 +54,12 @@ export default function About() {
               </h2>
               <div className="space-y-5 text-gray-600">
                 <p className="text-lg leading-relaxed">
-                  OK Taxis is a Manchester-based private hire company dedicated
-                  to delivering a premium travel experience. Our journey began
-                  with a simple goal: to offer a first-class chauffeur service
-                  that combines luxury, reliability and local expertise.
+                  OKTaxis is a Manchester-based private hire company dedicated to delivering a premium travel experience. Our journey began with a simple goal: to offer first-class premium chauffeur services Manchester that combine luxury, reliability, and local expertise. 
+
                 </p>
                 <p className="text-lg leading-relaxed">
-                  At OK Taxis, we believe that details matter. Punctuality,
-                  safety and transparent pricing are the cornerstones of our
-                  service. Our drivers arrive on time, in uniform, and ready to
-                  assist you with your luggage and needs.
+                  Drawing from our roots in the North West, we've evolved by listening to client needs, such as providing flexible hourly chauffeurs for busy professionals or customized city tours Manchester for tourists exploring landmarks like the Manchester Cathedral or Salford Quays. This real-world experience allows us to anticipate challenges, like navigating match-day traffic for stadium transfers Manchester to Old Trafford or Etihad Stadium, ensuring every ride is stress-free.
+
                 </p>
               </div>
             </div>
@@ -83,12 +79,8 @@ export default function About() {
               </h2>
               <div className="space-y-6 text-gray-600">
                 <p className="text-lg leading-relaxed">
-                  Serving Manchester and nearby cities like Liverpool, Leeds,
-                  and beyond, OK Taxis prides itself on a reputation for
-                  excellence. Whether you’re a busy executive, a visitor
-                  exploring the city, or a local resident heading out for a
-                  special occasion, you can rely on our personal approach and
-                  24/7 support.
+                 At OKTaxis, we believe that details matter. Punctuality, safety, and transparent pricing are the cornerstones of our service – principles we've upheld through rigorous driver training and fleet maintenance. Our professional chauffeurs arrive on time, in uniform, and ready to assist with your luggage and needs, whether it's multilingual support for global visitors or child seats for family airport services. We've earned trustworthiness through consistent 4.9-star reviews on platforms like Google and Trustpilot, with clients praising our no-hidden-fees approach and 30-minute free wait times.
+
                 </p>
               </div>
             </div>

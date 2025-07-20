@@ -1,8 +1,9 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import Image from "next/image"
 import HeroSectionBookingForm from "../NewBookingForm/HeroBookingForm"
+import Link from "next/link"
 
 export default function HeroSection() {
   const titleRef = useRef<HTMLHeadingElement>(null)
@@ -17,7 +18,7 @@ export default function HeroSection() {
   //   const overlay = overlayRef.current
   //   const formContainer = formContainerRef.current
 
-    
+
   //   const initAnimations = () => {
   //     if (overlay) {
   //       overlay.style.opacity = "0.7"
@@ -58,7 +59,7 @@ export default function HeroSection() {
   //     }
   //   }
 
-   
+
   //   const handleScroll = () => {
   //     if (window.innerWidth > 768) { 
   //       if (animationFrameRef.current) {
@@ -89,44 +90,51 @@ export default function HeroSection() {
   // }, [])
 
   return (
-    <section 
-      id="herosection" 
+    <section
+      id="herosection"
       className="relative min-h-screen w-full overflow-hidden pt-24 sm:pt-32 md:pt-44 pb-12"
     >
-      <Image 
-        src="/images/filters_format(webp).webp" 
-        alt="Luxury chauffeur service" 
-        fill 
-        className="object-cover" 
+      <Image
+        src="/images/filters_format(webp).webp"
+        alt="Luxury chauffeur service"
+        fill
+        className="object-cover"
         priority
         quality={100}
         sizes="100vw"
       />
-      
+
       {/* Dark overlay */}
-      <div 
-        ref={overlayRef} 
+      <div
+        ref={overlayRef}
         className="absolute inset-0 bg-black/70"
       />
-      
+
       <div className="container relative z-10 mx-auto flex h-full flex-col gap-6 sm:gap-8 md:gap-24 items-start justify-center px-4 sm:px-6 text-white lg:px-5">
-        <div className="w-full px-2 sm:px-0">
-          <h1 ref={titleRef} className="mb-2 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-9xl font-bold leading-tight sm:leading-snug md:leading-normal lg:leading-[110px]">
-            Luxury <br className="hidden sm:block" /> Transportation
+        <div className="w-full px-2 sm:px-0 max-w-4xl">
+          <h1 ref={titleRef} className="mb-4 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
+            Luxury Transportation in Manchester
           </h1>
-          <p ref={subtitleRef} className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">
-            OKTaxis offers luxury transportation throughout Manchester.
+          <p ref={subtitleRef} className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6">
+            OKTaxis offers premium chauffeur services Manchester-wide, delivering unparalleled luxury transportation for business, events, and leisure. From Manchester airport services to flexible hourly chauffeurs, city tours, wedding chauffeur services Manchester, and stadium transfers, we ensure a seamless, stress-free experience.
           </p>
+
+          {/* Book Now Button */}
+          
+            <button className="bg-white text-black font-semibold px-6 py-3 rounded-2xl shadow hover:bg-gray-200 transition">
+              Book Now – Secure your premium chauffeur Manchester ride today!
+            </button>
+          
         </div>
 
         {/* Form container */}
         <div ref={formContainerRef} className="relative w-full px-2 sm:px-0">
-          <HeroSectionBookingForm/>
+          <HeroSectionBookingForm />
         </div>
       </div>
 
       {/* Gradient overlay */}
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent"></div>
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent" />
     </section>
   )
 }

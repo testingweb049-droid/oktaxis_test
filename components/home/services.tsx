@@ -9,50 +9,51 @@ const services = [
   {
     id: 1,
     slug: "airport-transfer",
-    title: "Premium Airport Chauffeur Services",
+    title: "Premium Manchester Airport Chauffeur Services",
     category: "Airport Transfers",
     description:
-      "Enjoy hassle-free Manchester airport services with OKTaxis. Whether you're landing or departing from Manchester or Liverpool.....",
+      "Enjoy hassle-free Manchester airport services with OKTaxis. Whether you're landing or departing from Manchester or Liverpool airports, our executive airport transfers include real-time flight monitoring, meet-and-greet at arrivals, complimentary waiting time, luggage assistance, and child seats on request. As Manchester's leading provider of premium airport chauffeur services, we redefine luxury travel – no more queues or stress. Book your Manchester airport chauffeur today for fixed, transparent pricing.",
     image: "/images/airport-transfer.png",
     size: "large",
   },
   {
     id: 2,
     slug: "hourly-chauffeur",
-    title: "Convenient Hourly Chauffeur Hire",
+    title: "Convenient Hourly Chauffeur Hire in Manchester",
     category: "Hourly Chauffeur Service",
     description:
-      "Need on-demand travel? With OKTaxis, enjoy flexible hourly chauffeur services ideal for city errands, business meetings.....",
+      "Need on-demand travel? With OKTaxis, enjoy flexible hourly chauffeur services ideal for city errands, business meetings, or spontaneous outings. Our hourly chauffeur Manchester options provide 24/7 availability, adapting to your schedule with professional drivers and modern vehicles. Perfect for executives or tourists – travel comfortably anytime, anywhere in Manchester. Explore flexible rides in Manchester with no hidden fees.",
     image: "/images/hourly-service.png",
     size: "large",
   },
   {
     id: 3,
     slug: "chauffeur-services",
-    title: "Chauffeur Services in Manchester",
+    title: "Chauffeur Services for City Tours in Manchester",
     category: "Chauffeur Services",
     description:
-      "Experience the highest level of comfort and class with OKTaxis' chauffeur services. Whether you're a corporate client....",
+      "Experience the highest level of comfort and class with OKTaxis' chauffeur services in Manchester. Explore the best of the North with our exclusive city tours of Manchester, Liverpool, and the surrounding areas. From iconic landmarks to hidden gems, our city tours in Manchester are customized for an unforgettable journey. Whether you're a corporate client or visitor, our city-to-city chauffeur service ensures safe, stylish transport.",
     image: "/blog6.webp",
     size: "small",
   },
+  
   {
-    id: 4,
-    slug: "city-tours",
-    title: "City to City Chauffeur Service",
-    category: "City Tours",
+    id: 5,
+    slug: "stadium-transfers",
+    title: "Stadium Transfers and Special Events",
+    category: "Special Events",
     description:
-      "Explore the best of the North with our exclusive city tours of Manchester, Liverpool, and the surrounding areas.....",
+      "For football fans and event-goers, OKTaxis offers reliable stadium transfers from Manchester to venues like Old Trafford and Etihad Stadium. Avoid match-day chaos with our luxury chauffeur service, including pickups, drop-offs, and hourly hire options. Ideal for special events, business travel, or VIP occasions, our seamless service includes amenities like Wi-Fi and refreshments.",
     image: "/city.jpg",
     size: "small",
   },
   {
-    id: 5,
+    id: 4,
     slug: "event-weddings",
-    title: "Weddings Chauffeur in Manchester",
+    title: "Wedding Chauffeur Services in Manchester",
     category: "Event & Weddings",
     description:
-      "At OKTaxis, we specialize in providing luxury wedding and event transfers that make your special day truly unforgettable.....",
+      "At OKTaxis, we specialize in providing luxury wedding chauffeur services in Manchester that make your special day truly unforgettable. Our event and wedding transfers feature premium vehicles for brides, grooms, and guests, with tailored packages for anniversaries and other occasions. From venue arrivals to post-event stadium transfers in Manchester (e.g., for celebrations near Old Trafford or Etihad), we handle it all with elegance. Make your event memorable – book a wedding chauffeur in Manchester now.",
     image: "/wedding.png",
     size: "small",
   },
@@ -62,7 +63,6 @@ export default function Services() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 })
   const serviceRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  /* ✨ fade-in on scroll */
   useEffect(() => {
     if (inView) {
       serviceRefs.current.forEach((el, index) => {
@@ -77,8 +77,6 @@ export default function Services() {
 
   const largeServices = services.filter((s) => s.size === "large")
   const smallServices = services.filter((s) => s.size === "small")
-
-  /* 👉 shared image height class */
   const cardImgHeight = "relative h-[300px] md:h-[360px] w-full overflow-hidden"
 
   return (
@@ -87,12 +85,17 @@ export default function Services() {
 
         {/* Section Heading */}
         <div
-          className="mb-12 animate-fade-in-up opacity-0"
+          className="mb-8 animate-fade-in-up opacity-0"
           style={{ animation: inView ? "fadeInUp 0.6s ease-out forwards" : "none" }}
         >
           <h2 className="text-3xl font-bold tracking-tight text-black md:text-4xl lg:text-5xl">
-            <span className="text-brand">Our Premium</span> Chauffeur <span className="text-brand">Services</span>
+            <span className="text-brand">Our Premium</span> Chauffeur <span className="text-brand">Services</span> in Manchester
           </h2>
+          <p className="mt-4 text-lg text-gray-700 max-w-3xl">
+            Discover OKTaxis' range of luxury services tailored for Manchester and the North West.
+            Whether you need Manchester airport chauffeur transfers or a wedding chauffeur in Manchester,
+            our professional drivers and luxury fleet (Mercedes, BMW, Audi) guarantee comfort and reliability.
+          </p>
         </div>
 
         {/* Large Cards */}
@@ -106,7 +109,7 @@ export default function Services() {
               >
                 <div className={cardImgHeight}>
                   <Image
-                    src={service.image || "/placeholder.svg"}
+                    src={service.image}
                     alt={service.title}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -136,7 +139,7 @@ export default function Services() {
               >
                 <div className={cardImgHeight}>
                   <Image
-                    src={service.image || "/placeholder.svg"}
+                    src={service.image}
                     alt={service.title}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"

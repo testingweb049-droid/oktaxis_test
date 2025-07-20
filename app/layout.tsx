@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     siteName: "OkTaxis",
     images: [
       {
-        url: "/cover.jpg", // replace with actual image path
+        url: "/cover.jpg",
         width: 1200,
         height: 630,
         alt: "OkTaxis Fleet - Reliable Manchester Taxi Service",
@@ -53,8 +53,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
+        {/* ✅ Canonical & Structured Data */}
         <link rel="canonical" href="https://oktaxis.co.uk" />
-
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -63,11 +63,11 @@ export default function RootLayout({
               "@type": "TaxiService",
               name: "OkTaxis",
               url: "https://oktaxis.co.uk",
-              logo: "https://oktaxis.co.uk/logo.png", // replace with actual logo
-              image: "https://oktaxis.co.uk/cover.jpg", // replace with actual image
+              logo: "https://oktaxis.co.uk/logo.png",
+              image: "https://oktaxis.co.uk/cover.jpg",
               description:
                 "Trusted 24/7 taxi service in Manchester for airport transfers and city rides.",
-              telephone: "+44 1234 567890", // update as needed
+              telephone: "+44 1234 567890",
               address: {
                 "@type": "PostalAddress",
                 addressLocality: "Manchester",
@@ -80,60 +80,31 @@ export default function RootLayout({
             }),
           }}
         />
-      </head>
 
-      <body className={`${roboto.variable} antialiased`}>
-        {/* Google Tag Manager (noscript) for SSR */}
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-MMNH8NGS"
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          />
-        </noscript>
-
-        {/* Google Tag Manager (script) */}
-        <Script
-          id="gtm-script"
-          strategy="afterInteractive"
+        {/* ✅ Google Tag Manager (HEAD) */}
+        <script
           dangerouslySetInnerHTML={{
             __html: `
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
               new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
               j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','GTM-MMNH8NGS');
+              })(window,document,'script','dataLayer','GTM-MF6HV3CB');
             `,
           }}
         />
+      </head>
 
-        {/* Google Ads (gtag.js) */}
-        <Script
-          id="gtag-script"
-          strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=AW-17084959800"
-        />
-        <Script
-          id="gtag-init"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'AW-17084959800');
-              gtag('config', 'AW-16550284687');
-            `,
-          }}
-        />
-
-        {/* Google Maps API - Load only when needed */}
-        <Script
-          id="google-maps"
-          strategy="lazyOnload"
-          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
-        />
+      <body className={`${roboto.variable} antialiased`}>
+        {/* ✅ Google Tag Manager (NOSCRIPT) */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-MF6HV3CB"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          ></iframe>
+        </noscript>
 
         <CustomFormProvider>
           <StripeProvider>
