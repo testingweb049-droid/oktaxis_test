@@ -10,9 +10,9 @@ import Link from "next/link";
 const experiences = [
   {
     id: "airport",
-    title: "Airport Transfers",
+    title: "Airport Transfers Features",
     description:
-      "Seamless airport transfers with flight tracking, meet & greet service, and complimentary waiting time.",
+      "Real-time flight monitoring, meet & greet at arrivals, complimentary waiting time, luggage assistance, child seats available.",
     image: "/images/mercedes-airport.jpeg",
     features: [
       "Real-time flight monitoring",
@@ -40,7 +40,7 @@ const experiences = [
     id: "events",
     title: "Special Events",
     description:
-      "Make your special occasion truly memorable with our luxury chauffeur service for weddings, anniversaries, and more.",
+      "Luxury chauffeur for weddings, anniversaries, and stadium transfers in Manchester.",
     image: "/images/mercedes-mansion.jpeg",
     features: [
       "Decorated vehicles available",
@@ -54,7 +54,7 @@ const experiences = [
     id: "hourly",
     title: "Hourly Hire",
     description:
-      "Flexible hourly chauffeur service for shopping trips, meetings, or city tours with a dedicated driver.",
+      "Flexible service for shopping, meetings, or city tours with a dedicated driver.",
     image: "/images/bmw-city.jpeg",
     features: [
       "Minimum 2-hour booking",
@@ -166,7 +166,7 @@ export default function LuxuryExperience() {
             </div>
 
             <h3 className="mb-4 text-2xl font-bold text-gray-900">
-              {activeExperience.title} Features
+              {activeExperience.title} 
             </h3>
 
             <ul className="space-y-3">
