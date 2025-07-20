@@ -29,7 +29,14 @@ export default function HourlyChauffeur() {
       <ImageTextSection
         imageSrc="/stadium transfers to manchester united.png"
         imageAlt="Hourly chauffeur service"
-        title="Premium Hourly Chauffeur Service"
+        title=
+        {
+          <span className="text-3xl md:text-4xl font-bold">
+            Premium Hourly  {' '}
+            <span className="text-brand text-3xl md:text-4xl font-bold">Chauffeur</span>{' '}
+            Service
+          </span>
+        }
         text="Our flexible hourly chauffeur service allows you to hire a luxury vehicle and driver by the hour or day. Simply tell us your schedule and destinations, and we'll handle the driving. This service is ideal for day-long business meetings, shopping trips, city tours or any occasion where you need a dedicated chauffeur on demand. You avoid parking, directions or waiting – we're at your disposal to take you anywhere on your itinerary."
         bgColor="bg-white"
         imagePosition="left"
@@ -38,7 +45,14 @@ export default function HourlyChauffeur() {
       <ImageTextSection
         imageSrc="/Manchester Airpot.png"
         imageAlt="Chauffeur convenience"
-        title="Ultimate Convenience & Privacy"
+        title=
+        {
+          <span className="text-3xl md:text-4xl font-bold">
+            Ultimate {' '}
+            <span className="text-brand text-3xl md:text-4xl font-bold"> Convenience & Privacy</span>{' '}
+
+          </span>
+        }
         text="Enjoy the ultimate convenience and privacy with our chauffeur-by-the-hour option. Our professional drivers arrive in full uniform, opening doors and ensuring a seamless experience from start to finish. Vehicle interiors are stocked with amenities like bottled water, tissues, and charging ports. Whether you need a few hours or a full day, OK Taxis gives you total flexibility and peace of mind, all backed by our punctuality guarantee and premium service standards."
         bgColor="bg-white"
         imagePosition="right"
@@ -67,8 +81,15 @@ export default function HourlyChauffeur() {
         <div className="flex flex-col space-y-6 md:w-1/2">
           <div className="flex items-start gap-3">
             <FaCarSide className="text-brand mt-1" />
-            <h2 className="text-3xl text-brand font-semibold">
-              Affordable Hourly Rates for Quality Car Services In Manchester UK
+            <h2 className="text-3xl  font-semibold">
+
+              <span className="text-3xl md:text-4xl font-bold">
+
+                <span className="text-brand text-3xl md:text-4xl font-bold">Affordable Hourly</span>{' '}
+                Rates for Quality Car Services{' '}
+                <span className="text-brand text-3xl md:text-4xl font-bold">In Manchester UK</span>{' '}
+              </span>
+
             </h2>
           </div>
           <ul className="space-y-4 text-gray-700 text-lg">
@@ -108,8 +129,15 @@ export default function HourlyChauffeur() {
 
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-brand mb-12">
-            Hourly Chauffeur Benefits
+          <h2 className="text-3xl md:text-4xl font-bold text-center  mb-12">
+           
+            {
+              <span className="text-3xl md:text-4xl font-bold">
+                Hourly Chauffeu {' '}
+                <span className="text-brand text-3xl md:text-4xl font-bold">Benefits</span>{' '}
+
+              </span>
+            }
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-gray-50 p-6 rounded-xl text-center">

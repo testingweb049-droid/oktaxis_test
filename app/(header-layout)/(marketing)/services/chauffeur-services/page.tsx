@@ -16,13 +16,20 @@ export default function ChauffeurServices() {
       <HeroSection2
         bgImage="/blog6.webp"
         title="Professional Chauffeur Services in Manchester – Airport, Business & More"
-        // description="Experience the highest level of comfort and class with OKTaxis' chauffeur services. Whether you're a corporate client, a tourist, or attending an important event, our professional drivers ensure a premium travel experience. From executive travel to Manchester airport, we provide punctual, discreet, and luxurious transport tailored to your needs."
+      // description="Experience the highest level of comfort and class with OKTaxis' chauffeur services. Whether you're a corporate client, a tourist, or attending an important event, our professional drivers ensure a premium travel experience. From executive travel to Manchester airport, we provide punctual, discreet, and luxurious transport tailored to your needs."
       />
       <Offer />
       <ImageTextSection
         imageSrc="/luxury chauffeur service.png"
         imageAlt="Premium chauffeur service"
-        title="Ultimate Comfort & Convenience"
+        title=
+        {
+          <span className="text-3xl md:text-4xl font-bold">
+            Ultimate{' '}
+            <span className="text-brand text-3xl md:text-4xl font-bold">Comfort & Convenience</span>{' '}
+
+          </span>
+        }
         text="Experience the ultimate in comfort and convenience with OK Taxis' premium chauffeur services. Whether it's a corporate event, executive travel, special occasion or simply a luxurious ride to your destination, our professional chauffeurs are at your service. We offer an executive car service in Manchester with fleet options to suit every need, from fuel-efficient sedans to spacious SUVs and vans."
         bgColor="bg-white"
         imagePosition="left"
@@ -31,7 +38,14 @@ export default function ChauffeurServices() {
       <ImageTextSection
         imageSrc="/blog6.png"
         imageAlt="Professional chauffeur"
-        title="White-Glove Service"
+        title=
+        {
+          <span className="text-3xl md:text-4xl font-bold">
+
+            <span className="text-brand text-3xl md:text-4xl font-bold">White-Glove</span>{' '}
+            Service
+          </span>
+        }
         text="Our chauffeurs are more than drivers – they are trained professionals committed to delivering a white-glove experience. Dressed in uniform and well-versed in the city's roads, they ensure you arrive relaxed, on time and prepared for anything. Safety and discretion are paramount, so all vehicles are fully insured and sanitised before each journey, and our drivers respect your privacy throughout. With fixed competitive rates and simple booking, hiring an OK Taxis chauffeur is an effortless way to upgrade any trip."
         bgColor="bg-white"
         imagePosition="right"
@@ -40,8 +54,15 @@ export default function ChauffeurServices() {
 
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-brand mb-12">
-            Why Choose Our Chauffeur Service
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+
+            {
+              <span className="text-3xl md:text-4xl font-bold">
+                Why Choose Our {' '}
+                <span className="text-brand text-3xl md:text-4xl font-bold">Chauffeur Service</span>{' '}
+
+              </span>
+            }
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-gray-50 p-6 rounded-xl text-center">

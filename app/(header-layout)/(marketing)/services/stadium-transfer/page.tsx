@@ -17,13 +17,21 @@ export default function StadiumTransfer() {
       <HeroSection2
         bgImage="/Manchester Stadium Transfers.jpg" // Updated image
         title="Stadium Transfers"
-        // description="Need a transfer to a Manchester stadium? OKTaxi Service has got you covered. Avoid the hassle and secure your ride ahead of time by booking with us—so you won't be left stranded on match day. Dependable and professional taxi service in Manchester."
+      // description="Need a transfer to a Manchester stadium? OKTaxi Service has got you covered. Avoid the hassle and secure your ride ahead of time by booking with us—so you won't be left stranded on match day. Dependable and professional taxi service in Manchester."
       />
       <Offer />
       <ImageTextSection
         imageSrc="/Manchester Stadium Transfers.jpg"
         imageAlt="Stadium transfer service"
-        title="Stress-Free Stadium Transfers"
+        title=
+        {
+          <span className="text-3xl md:text-4xl font-bold">
+            Stress-Free{' '}
+            <span className="text-brand text-3xl md:text-4xl font-bold">Stadium </span>{' '}
+            Transfers
+
+          </span>
+        }
         text="Cheer on your team without worrying about the drive home. OK Taxis provides reliable and stylish transfers to Manchester's major stadiums and event venues. Pre-book your ride to Old Trafford, Etihad Stadium, AO Arena, or any large event, and our chauffeurs will ensure timely arrivals and departures. Our professional drivers know the event schedules and parking restrictions, so you can relax knowing we will navigate safely and efficiently around the crowds."
         bgColor="bg-white"
         imagePosition="left"
@@ -33,7 +41,14 @@ export default function StadiumTransfer() {
       <ImageTextSection
         imageSrc="/Stadium Transfers in Manchester.jpg"
         imageAlt="Group stadium transfer"
-        title="Group Transportation Solutions"
+        title=
+        {
+          <span className="text-3xl md:text-4xl font-bold">
+            Group{' '}
+            <span className="text-brand text-3xl md:text-4xl font-bold">Transportation</span>{' '}
+            Solutions
+          </span>
+        }
         text="We offer special event rates and can accommodate groups of any size. Whether it's a single, comfortable ride or multiple luxury cars for a large party, every passenger will enjoy a spacious, air-conditioned vehicle. Post-game, skip the taxi lines and ride directly away from the venue – our chauffeurs coordinate pickup points to get you moving quickly after the final whistle. Focus on the game or the concert, and let OK Taxis handle the journey."
         bgColor="bg-white"
         imagePosition="right"
@@ -57,8 +72,14 @@ export default function StadiumTransfer() {
         </div>
         {/* Left side content */}
         <div className="flex flex-col space-y-6 md:w-1/2">
-          <h2 className="text-3xl text-brand font-semibold flex items-center gap-3">
-            Manchester Football Stadiums:
+          <h2 className="text-3xl  font-semibold flex items-center gap-3">
+            {
+              <span className="text-3xl md:text-4xl font-bold">
+                Manchester Football{' '}
+                <span className="text-brand text-3xl md:text-4xl font-bold">Stadiums: </span>{' '}
+
+              </span>
+            }
           </h2>
           <ul className="space-y-4 text-gray-700 text-lg">
             <li>
@@ -95,8 +116,15 @@ export default function StadiumTransfer() {
         <section className="flex flex-col md:flex-row items-start justify-between container px-4 py-32 gap-10 md:gap-20 mt-12">
           {/* Left side content */}
           <div className="flex flex-col space-y-6 md:w-1/2">
-            <h2 className="text-3xl text-brand font-semibold flex items-center gap-3">
-              Old Trafford Stadium Transfers
+            <h2 className="text-3xl  font-semibold flex items-center gap-3">
+              {
+                <span className="text-3xl md:text-4xl font-bold">
+                  Old{' '}
+                  <span className="text-brand text-3xl md:text-4xl font-bold">Trafford</span>{' '}
+                  Stadium {" "}
+                  <span className="text-brand text-3xl md:text-4xl font-bold">Transfers</span>{' '} 
+                </span>
+              }
             </h2>
             <ul className="space-y-4 text-gray-700 text-lg">
               <li>
@@ -140,8 +168,15 @@ export default function StadiumTransfer() {
       {/* Features Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-brand mb-12">
-            Our Stadium Transfer Services
+          <h2 className="text-3xl md:text-4xl font-bold text-center  mb-12">
+             
+              {
+          <span className="text-3xl md:text-4xl font-bold">
+             Our Stadium Transfer{' '}
+            <span className="text-brand text-3xl md:text-4xl font-bold">Services</span>{' '}
+
+          </span>
+        }
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-gray-50 p-6 rounded-xl text-center">

@@ -25,13 +25,19 @@ export default function AirportTransfer() {
       <HeroSection2
         bgImage="/images/airport-transfer.png"
         title="Reliable Manchester Airport Services & Transfers Across the UK"
-        // description="Enjoy hassle-free Manchester airport services with OKTaxis. Whether you're landing or departing from Manchester or Liverpool, our 24/7 airport transfer service guarantees punctual pickups, real-time flight tracking, and executive-level comfort. Our professional chauffeurs are committed to making your journey seamless and stress-free."
+      // description="Enjoy hassle-free Manchester airport services with OKTaxis. Whether you're landing or departing from Manchester or Liverpool, our 24/7 airport transfer service guarantees punctual pickups, real-time flight tracking, and executive-level comfort. Our professional chauffeurs are committed to making your journey seamless and stress-free."
       />
       <Offer />
       <ImageTextSection
         imageSrc="/Manchester Taxis.png"
-        imageAlt="Executive Airport Transfer"
-        title="Executive Airport Transfers"
+        imageAlt="Executive  "
+        title={
+          <span className="text-3xl md:text-4xl font-bold">
+            Executive {' '}
+            <span className="text-brand text-3xl md:text-4xl font-bold">Airport</span>{' '}
+            Transfer
+          </span>
+        }
         text="Travel to and from Manchester Airport in style with our executive airport transfer service. Our professional chauffeur will track your flight in real time to ensure a seamless pickup, even if your plane is early or delayed. You'll be greeted at arrivals by name and helped with your luggage before being escorted to your luxury vehicle. Whether it's an early morning departure or a late-night arrival, you can count on punctual service and comfort every step of the way.
                 Enjoy hassle-free Manchester airport services with OKTaxis. Whether you're landing or departing from Manchester or Liverpool, our 24/7 airport transfer service guarantees punctual pickups, real-time flight tracking, and executive-level comfort. Our professional chauffeurs are committed to making your journey seamless and stress-free.
                 "
@@ -42,7 +48,13 @@ export default function AirportTransfer() {
       <ImageTextSection
         imageSrc="/images/airport-transfer.png"
         imageAlt="Stress-Free Travel Experience"
-        title=" Stress-Free Travel Experience"
+        title={
+          <span className="text-3xl md:text-4xl font-bold">
+            Stress-Free Travel {' '}
+            <span className="text-brand text-3xl md:text-4xl font-bold">Experience</span>{' '}
+           
+          </span>
+        }
         text="We make airport transfers stress-free by handling all the details. Our fleet of premium sedans and SUVs is the perfect antidote to long flights. Enjoy complimentary refreshments and free Wi-Fi as you relax in spacious, climate-controlled interiors. Fixed rates mean no surprises – the price you book is the price you pay, no matter the traffic or route taken. OK Taxis is also available for transfers to and from Liverpool John Lennon Airport, Leeds Bradford Airport, Birmingham, London and other UK destinations, so wherever you land, our luxury chauffeur service can take you there."
         bgColor="bg-white"
         imagePosition="right"
@@ -50,8 +62,8 @@ export default function AirportTransfer() {
       <FleetClasses />
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-brand mb-12">
-            Our Service Features
+          <h2 className="text-3xl md:text-4xl font-bold text-center  mb-12">
+            Our Service <span className="text-brand text-3xl md:text-4xl font-bold">Features</span>{' '}
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-gray-50 p-8 rounded-xl">

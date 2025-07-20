@@ -112,11 +112,29 @@ export default function HeroSection() {
 
       <div className="container relative z-10 mx-auto flex h-full flex-col gap-6 sm:gap-8 md:gap-24 items-start justify-center px-4 sm:px-6 text-white lg:px-5">
         <div className="w-full px-2 sm:px-0 max-w-4xl">
-          <h1 ref={titleRef} className="mb-4 text-4xl gap-3 sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-            Luxury Transportation in Manchester
+          <h1
+            ref={titleRef}
+            className="mb-2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight tracking-tight"
+          >
+            <span className="block text-white sm:hidden">
+              <span className="">Airport Transfers</span> & Taxi Service
+            </span>
+            <span className="hidden sm:block text-white">
+              <span className="">Airport Transfers</span>
+              <span className="block">& Taxi Service</span>
+            </span>
           </h1>
 
+          <p
+            ref={subtitleRef}
+            className="mt-1 text-lg sm:text-base md:text-lg lg:text-2xl xl:text-3xl text-gray-200"
+          >
+             Local taxi network serving Manchester & Liverpool Airport
+          </p>
+
         </div>
+
+
 
         {/* Form container */}
         <div ref={formContainerRef} className="relative w-full px-2 sm:px-0">
