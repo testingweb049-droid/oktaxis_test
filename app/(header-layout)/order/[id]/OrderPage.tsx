@@ -1,10 +1,9 @@
 'use client';
 
-import React, {  useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getOrderById } from '@/actions/get-order';
 import { OrderProps } from '@/types/OrderProps';
-import { TbCopy } from "react-icons/tb";
-
+import { TbCopy } from 'react-icons/tb';
 
 function OrderPage({ id }: { id: string }) {
   const [order, setOrder] = useState<OrderProps | null>(null);
@@ -20,7 +19,7 @@ function OrderPage({ id }: { id: string }) {
           setError(result.error);
         }
       } catch (err) {
-        console.log("error : ",err)
+        console.log('error : ', err);
         setError('Failed to fetch the order.');
       }
     };
@@ -30,7 +29,7 @@ function OrderPage({ id }: { id: string }) {
     }
   }, [id]);
 
-
+  const toMiles = (km: number) => (km * 0.621371).toFixed(2);
 
   if (error) {
     return <div className="text-center py-40 text-2xl text-red-500">{error}</div>;
@@ -41,158 +40,71 @@ function OrderPage({ id }: { id: string }) {
   }
 
   return (
-    <div className="bg-black/5 py-28 flex justify-center items-center min-h-screen border-b border-gray-500">
-     
-    <div className="max-w-4xl w-full mx-auto bg-white p-6 sm:p-10 rounded-lg shadow-2xl">
-      {/* Main Heading */}
-      <div className='flex flex-col gap-2 '>
+    <div className="bg-gray-100 py-28 flex justify-center items-center min-h-screen border-b border-gray-300">
+      <div className="max-w-4xl w-full bg-white p-6 sm:p-10 rounded-xl shadow-lg border border-gray-200">
+        {/* Main Headings */}
+        <div className="text-center mb-10">
+          <h1 className="text-3xl font-bold text-white bg-brandColor py-4 rounded-md shadow">
+            Order Details
+          </h1>
+        </div>
 
-      <h1 className="text-2xl font-semibold text-center mb-8  border border-y border-brandColor py-3 bg-brandColor text-brand">
-       Order Details  
-      </h1>
-      <h1 className="text-2xl font-semibold text-center mb-8 text-brandColor  border-y border-brandColor py-3">
-      {order.category.replace('-',' ').toUpperCase()} 
-      </h1>
-      </div>
-      <div className="space-y-6">
-        {/* Order Details */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div>
-            <p className="font-semibold text-gray-700">Order ID:</p>
-            <div className='flex items-center gap-2'>
-            <p className="text-gray-900 font-bold">{order.id}</p>
-            <TbCopy onClick={()=>{navigator.clipboard.writeText(order.id)}} />
-            </div>
-          </div>
-          <div>
-            <p className="font-semibold text-gray-700">Price:</p>
-            <p className="text-gray-900 font-bold">${order.price}</p>
-          </div>
-          <div>
-            <p className="font-semibold text-gray-700">Car:</p>
-            <p className="text-gray-900 font-bold">{order.car}</p>
-          </div>
-          {order.distance && (
-            <div>
-              <p className="font-semibold text-gray-700">Distance:</p>
-              <p className="text-gray-900 font-bold">{order.distance} km</p>
-            </div>
-          )}
-          <div>
-            <p className="font-semibold text-gray-700">Pick-Up Date:</p>
-            <p className="text-gray-900 font-bold">
-              {new Date(order.pickup_date).toLocaleString()}
-            </p>
-          </div>
-          <div>
-            <p className="font-semibold text-gray-700">Pick-Up Time:</p>
-            <p className="text-gray-900 font-bold">
-              {order.pickup_time}
-            </p>
-          </div>
-          {order.is_return &&<div>
-            <p className="font-semibold text-gray-700">Return Date:</p>
-            <p className="text-gray-900 font-bold">
-              {new Date(order.return_date ?? new Date()).toLocaleString()}
-            </p>
-          </div>}
-          {order.is_return && <div>
-            <p className="font-semibold text-gray-700">Retrun Time:</p>
-            <p className="text-gray-900 font-bold">
-              {order.return_time}
-            </p>
-          </div>}
-          <div>
-            <p className="font-semibold text-gray-700">Pick-Up Location:</p>
-            <p className="text-gray-900 font-bold">{order.pickup_location}</p>
-          </div>
-          { order.stop_1 &&
-            <div>
-            <p className="font-semibold text-gray-700">Stop 1 Location:</p>
-            <p className="text-gray-900 font-bold">{order.stop_1}</p>
-          </div>}
-          { order.stop_2 &&
-            <div>
-            <p className="font-semibold text-gray-700">Stop 2 Location:</p>
-            <p className="text-gray-900 font-bold">{order.stop_2}</p>
-          </div>}
-          { order.stop_3 &&
-            <div>
-            <p className="font-semibold text-gray-700">Stop 3 Location:</p>
-            <p className="text-gray-900 font-bold">{order.stop_3}</p>
-          </div>}
+        {/* Primary Journey Info */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-[15px] mb-8">
+          <Field label="Pick-Up Location" value={order.pickup_location} />
+          <Field label="Drop-Off Location" value={order.dropoff_location || 'N/A'} />
+          <Field label="Distance" value={order.distance ? `${toMiles(Number(order.distance))} mi` : 'N/A'} />
+          <Field label="Pick-Up Date" value={new Date(order.pickup_date).toLocaleDateString()} />
+          <Field label="Pick-Up Time" value={order.pickup_time || 'N/A'} />
+          <Field label="Price" value={`£${Number(order.price).toFixed(2)}`} />
+          <Field label="Car Type" value={order.car || 'N/A'} />
+        </div>
 
-          {order.dropoff_location && <div>
-            <p className="font-semibold text-gray-700">Drop-Off Location:</p>
-            <p className="text-gray-900 font-bold">{order.dropoff_location}</p>
-          </div>}
-          {order.duration && (
-            <div>
-              <p className="font-semibold text-gray-700">Duration:</p>
-              <p className="text-gray-900 font-bold">
-                {order.duration} Hours
-              </p>
-            </div>
-          )}
-          <div>
-            <p className="font-semibold text-gray-700">Passengers:</p>
-            <p className="text-gray-900 font-bold">{order.passengers}</p>
-          </div>
-          
-          <div>
-            <p className="font-semibold text-gray-700">Kids:</p>
-            <p className="text-gray-900 font-bold">{order.kids}</p>
-          </div>
-          <div>
-            <p className="font-semibold text-gray-700">Bags:</p>
-            <p className="text-gray-900 font-bold">{order.bags}</p>
-          </div>
-          </div>
-          <div className='w-full h-1 bg-black rounded-full'></div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div>
-            <p className="font-semibold text-gray-700">Name:</p>
-            <p className="text-gray-900 font-bold">{order.name}</p>
-          </div>
-          <div>
-            <p className="font-semibold text-gray-700">Email:</p>
-            <p className="text-gray-900 font-bold">{order.email}</p>
-          </div>
-          <div>
-            <p className="font-semibold text-gray-700">Phone:</p>
-            <p className="text-gray-900 font-bold">{order.phone}</p>
-          </div>
-          <div>
-            <p className="font-semibold text-gray-700">Flight:</p>
-            <p className="text-gray-900 font-bold">{order.flight}</p>
-          </div>
-          <div>
-            <p className="font-semibold text-gray-700">Flight Track (7£):</p>
-            <p className="text-gray-900 font-bold">{order.flight_track}</p>
-          </div>
-          <div>
-            <p className="font-semibold text-gray-700">Meet & Greet (15£):</p>
-            <p className="text-gray-900 font-bold">{order.meet_greet}</p>
-          </div>
-          <div>
-            <p className="font-semibold text-gray-700">Payment Method:</p>
-            <p className="text-gray-900 font-bold">{order.payment_method}</p>
-          </div>
-        
-          
-          <div>
-            <p className="font-semibold text-gray-700">Created At:</p>
-            <p className="text-gray-900 font-bold">
-              {new Date(order.created_at).toLocaleString()}
-            </p>
+        <div className="mb-10 text-sm text-gray-600">
+          <p className="font-medium text-gray-700">Order ID:</p>
+          <div className="flex items-center gap-2">
+            <p className="text-gray-900 font-bold break-all">{order.id}</p>
+            <TbCopy onClick={() => navigator.clipboard.writeText(order.id)} className="cursor-pointer text-gray-500 hover:text-brandColor" />
           </div>
         </div>
+
+        <hr className="my-6 border-gray-300" />
+
+        {/* Optional Stops & Timing */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm text-gray-700 mb-10">
+          {order.stop_1 && <Field label="Stop 1 Location" value={order.stop_1} />}
+          {order.stop_2 && <Field label="Stop 2 Location" value={order.stop_2} />}
+          {order.stop_3 && <Field label="Stop 3 Location" value={order.stop_3} />}
+          {order.duration && <Field label="Duration" value={`${order.duration} Hours`} />}
+          {order.is_return && (
+            <>
+              <Field label="Return Date" value={order.return_date ? new Date(order.return_date).toLocaleDateString() : 'N/A'} />
+              <Field label="Return Time" value={order.return_time || 'N/A'} />
+            </>
+          )}
+        </div>
+
+        {/* Customer & Extras */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm text-gray-700">
+          <Field label="Name" value={order.name} />
+          <Field label="Email" value={order.email} />
+          <Field label="Phone" value={order.phone} />
+          <Field label="Flight" value={order.flight || 'N/A'} />
+          <Field label="Flight Track (7£)" value={order.flight_track ? 'Yes' : 'No'} />
+          <Field label="Meet & Greet (15£)" value={order.meet_greet ? 'Yes' : 'No'} />
+          <Field label="Payment Method" value={order.payment_method || 'N/A'} />
+          <Field label="Created At" value={new Date(order.created_at).toLocaleString()} />
+        </div>
       </div>
-     
     </div>
-  </div>
-  
   );
 }
+
+const Field = ({ label, value }: { label: string; value: string }) => (
+  <div>
+    <p className="text-gray-500 font-medium mb-1">{label}:</p>
+    <p className="text-gray-900 font-semibold">{value}</p>
+  </div>
+);
 
 export default OrderPage;
