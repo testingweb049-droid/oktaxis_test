@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 interface HeroSectionProps {
    bgImage: string | StaticImageData
   title: string
-  description: string| ReactNode
+  description?: string | ReactNode
 }
 
 export default function HeroSection2({
