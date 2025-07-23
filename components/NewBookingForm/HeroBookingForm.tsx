@@ -116,7 +116,8 @@ function HeroSectionBookingForm() {
         </div>
       </div>
 
-      <div className="w-full flex gap-2 bg-white rounded-2xl lg:rounded-full p-2 overflow-hidden">
+      <div className="w-full flex gap-2 bg-white rounded-2xl lg:rounded-full p-3 sm:p-2 overflow-hidden">
+
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

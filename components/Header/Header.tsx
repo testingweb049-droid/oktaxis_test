@@ -7,6 +7,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import WhiteLogo from "@/assets/logo-white.png";
 import { FaWhatsapp } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
 
 interface NavLink {
   id: string;
@@ -213,26 +214,58 @@ export default function Header() {
     <>
       <header
         ref={headerRef}
-        className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
-          shouldHaveBlackHeader
-            ? "bg-[#000000] shadow-md py-4 text-white"
-            : scrolled
+        className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${shouldHaveBlackHeader
+          ? "bg-[#000000] shadow-md py-4 text-white"
+          : scrolled
             ? "bg-[#000000] shadow-md py-4 text-white"
             : "py-4 text-white"
-        }`}
+          }`}
       >
         <div className="max-w-screen-2xl mx-auto px-3 md:px-6 relative">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <div className="relative w-32 h-10 md:w-40 md:h-14 cursor-default">
-              <Image
-                src={shouldHaveBlackHeader || scrolled ? WhiteLogo : WhiteLogo}
-                alt="OKTaxis"
-                fill
-                className="object-contain transition-opacity"
-                priority
-              />
+            <div className="flex items-center justify-between w-full md:w-auto">
+              {/* Logo */}
+              <div className="relative w-32 h-10 md:w-40 md:h-14 cursor-default">
+                <Image
+                  src={shouldHaveBlackHeader || scrolled ? WhiteLogo : WhiteLogo}
+                  alt="OKTaxis"
+                  fill
+                  className="object-contain transition-opacity"
+                  priority
+                />
+              </div>
+
+              {/* Social buttons for mobile only */}
+              <div className="flex items-center gap-5 md:hidden mr-8">
+                {/* WhatsApp */}
+                <a
+                  href="https://wa.me/447342193341"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-9 h-9   rounded-md bg-[#25D366] text-white shadow"
+                  onClick={() => setIsOpen(false)}
+                  aria-label="WhatsApp"
+                >
+                  <FaWhatsapp className="w-8 h-8" />
+                </a>
+
+                {/* Instagram */}
+                <a
+                  href="https://www.instagram.com/oktaxis/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-9 h-9 rounded-md bg-[#F56040] text-white shadow"
+                  onClick={() => setIsOpen(false)}
+                  aria-label="Instagram"
+                >
+                  <FaInstagram className="w-8 h-8" />
+                </a>
+              </div>
+
             </div>
+
+
 
             {/* Desktop Navigation */}
             <nav className="hidden items-center space-x-1 md:flex">
@@ -245,24 +278,22 @@ export default function Header() {
                     <>
                       <button
                         onClick={() => toggleDropdown(link.id)}
-                        className={`flex items-center px-4 py-2 text-sm font-medium transition-colors ${
-                          pathname.startsWith("/services") &&
+                        className={`flex items-center px-4 py-2 text-sm font-medium transition-colors ${pathname.startsWith("/services") &&
                           openDropdown === link.id
-                            ? shouldHaveBlackHeader || scrolled
-                              ? "font-normal"
-                              : "font-bold"
-                            : shouldHaveBlackHeader || scrolled
+                          ? shouldHaveBlackHeader || scrolled
                             ? "font-normal"
                             : "font-bold"
-                        }`}
+                          : shouldHaveBlackHeader || scrolled
+                            ? "font-normal"
+                            : "font-bold"
+                          }`}
                         aria-expanded={openDropdown === link.id}
                         aria-haspopup="true"
                       >
                         {link.title}
                         <ChevronDown
-                          className={`ml-1 h-4 w-4 transition-transform duration-200 ${
-                            openDropdown === link.id ? "rotate-180" : ""
-                          }`}
+                          className={`ml-1 h-4 w-4 transition-transform duration-200 ${openDropdown === link.id ? "rotate-180" : ""
+                            }`}
                         />
                       </button>
                       {openDropdown === link.id && (
@@ -273,7 +304,7 @@ export default function Header() {
                                 key={sublink.id}
                                 href={sublink.path}
                                 className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 rounded transition-colors"
-                                // onClick={() => {setTimeout(()=>{setOpenDropdown(null)},500)}}
+                              // onClick={() => {setTimeout(()=>{setOpenDropdown(null)},500)}}
                               >
                                 {sublink.title}
                               </Link>
@@ -285,15 +316,14 @@ export default function Header() {
                   ) : (
                     <Link
                       href={link.path || "#"}
-                      className={`px-4 py-2 text-sm font-medium transition-colors ${
-                        pathname === link.path
-                          ? shouldHaveBlackHeader || scrolled
-                            ? "font-normal"
-                            : "font-bold"
-                          : shouldHaveBlackHeader || scrolled
+                      className={`px-4 py-2 text-sm font-medium transition-colors ${pathname === link.path
+                        ? shouldHaveBlackHeader || scrolled
                           ? "font-normal"
                           : "font-bold"
-                      }`}
+                        : shouldHaveBlackHeader || scrolled
+                          ? "font-normal"
+                          : "font-bold"
+                        }`}
                     >
                       {link.title}
                     </Link>
@@ -303,16 +333,29 @@ export default function Header() {
             </nav>
 
             {/* Call Button */}
-            <a
-              href="https://wa.me/447342193341"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`ml-2 hidden md:flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all bg-white text-black hover:bg-gray-100`}
-              onClick={() => setIsOpen(false)}
-            >
-              <FaWhatsapp className="mr-2 h-5 w-5" />
-              WhatsApp Us
-            </a>
+            <div className="hidden md:flex items-center space-x-3 ml-2">
+              <a
+                href="https://wa.me/447342193341"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all bg-white text-black hover:bg-gray-100"
+                onClick={() => setIsOpen(false)}
+              >
+                <FaWhatsapp className="mr-2 h-5 w-5" />
+                WhatsApp Us
+              </a>
+              <a
+                href="https://www.instagram.com/oktaxis/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all bg-white text-black hover:bg-gray-100"
+                onClick={() => setIsOpen(false)}
+              >
+                <FaInstagram className="mr-2 h-5 w-5" />
+                Instagram
+              </a>
+            </div>
+
 
             {/* Mobile Menu Button */}
             <button
@@ -323,14 +366,12 @@ export default function Header() {
             >
               <div className="relative w-6 h-6">
                 <Menu
-                  className={`absolute inset-0 text-white transition-all duration-300 ${
-                    isOpen ? "opacity-0 rotate-90" : "opacity-100 rotate-0"
-                  }`}
+                  className={`absolute inset-0 text-white transition-all duration-300 ${isOpen ? "opacity-0 rotate-90" : "opacity-100 rotate-0"
+                    }`}
                 />
                 <X
-                  className={`absolute inset-0 text-white transition-all duration-300 ${
-                    isOpen ? "opacity-100 rotate-0" : "opacity-0 -rotate-90"
-                  }`}
+                  className={`absolute inset-0 text-white transition-all duration-300 ${isOpen ? "opacity-100 rotate-0" : "opacity-0 -rotate-90"
+                    }`}
                 />
               </div>
             </button>
@@ -340,11 +381,10 @@ export default function Header() {
 
       {/* Mobile Menu Dropdown */}
       <div
-        className={`mobile-menu-container fixed top-0 left-0 right-0 z-40 md:hidden transition-all duration-300 ease-in-out ${
-          isOpen
-            ? "opacity-100 translate-y-0 pointer-events-auto"
-            : "opacity-0 -translate-y-full pointer-events-none"
-        }`}
+        className={`mobile-menu-container fixed top-0 left-0 right-0 z-40 md:hidden transition-all duration-300 ease-in-out ${isOpen
+          ? "opacity-100 translate-y-0 pointer-events-auto"
+          : "opacity-0 -translate-y-full pointer-events-none"
+          }`}
         style={{
           paddingTop: headerRef.current?.offsetHeight || 80,
         }}
@@ -368,45 +408,41 @@ export default function Header() {
                           setOpenDropdown(link.id);
                         }
                       }}
-                      className={`flex items-center justify-between w-full text-left py-2 text-lg font-medium transition-colors ${
-                        pathname.startsWith("/services")
-                          ? "text-amber-500"
-                          : "text-white hover:text-amber-500"
-                      }`}
+                      className={`flex items-center justify-between w-full text-left py-2 text-lg font-medium transition-colors ${pathname.startsWith("/services")
+                        ? "text-amber-500"
+                        : "text-white hover:text-amber-500"
+                        }`}
                       aria-expanded={openDropdown === link.id}
                       aria-haspopup="true"
                     >
                       {link.title}
                       <ChevronDown
-                        className={`h-5 w-5 transition-transform duration-300 ${
-                          openDropdown === link.id ? "rotate-180" : ""
-                        }`}
+                        className={`h-5 w-5 transition-transform duration-300 ${openDropdown === link.id ? "rotate-180" : ""
+                          }`}
                       />
                     </button>
                     <div
-                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                        openDropdown === link.id
-                          ? "max-h-96 opacity-100 transform translate-y-0"
-                          : "max-h-0 opacity-0 transform -translate-y-2"
-                      }`}
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${openDropdown === link.id
+                        ? "max-h-96 opacity-100 transform translate-y-0"
+                        : "max-h-0 opacity-0 transform -translate-y-2"
+                        }`}
                     >
                       <div className="pl-4 pt-2 space-y-2">
                         {link.sublinks?.map((sublink, index) => (
                           <Link
                             key={sublink.id}
                             href={sublink.path}
-                            className={`block py-2 text-base transition-all duration-200 ${
-                              pathname === sublink.path
-                                ? "text-amber-500"
-                                : "text-gray-300 hover:text-amber-500"
-                            }`}
+                            className={`block py-2 text-base transition-all duration-200 ${pathname === sublink.path
+                              ? "text-amber-500"
+                              : "text-gray-300 hover:text-amber-500"
+                              }`}
                             style={{
                               transitionDelay:
                                 openDropdown === link.id
                                   ? `${index * 50}ms`
                                   : "0ms",
                             }}
-                            // onClick={closeAllDropdowns}
+                          // onClick={closeAllDropdowns}
                           >
                             {sublink.title}
                           </Link>
@@ -417,12 +453,11 @@ export default function Header() {
                 ) : (
                   <Link
                     href={link.path || "#"}
-                    className={`block py-2 text-lg font-medium transition-colors ${
-                      pathname === link.path
-                        ? "text-amber-500"
-                        : "text-white hover:text-amber-500"
-                    }`}
-                    // onClick={closeAllDropdowns}
+                    className={`block py-2 text-lg font-medium transition-colors ${pathname === link.path
+                      ? "text-amber-500"
+                      : "text-white hover:text-amber-500"
+                      }`}
+                  // onClick={closeAllDropdowns}
                   >
                     {link.title}
                   </Link>
@@ -430,19 +465,7 @@ export default function Header() {
               </div>
             ))}
 
-            {/* WhatsApp Button */}
-            <div className="pt-4">
-              <a
-                href="https://wa.me/447342193341"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center w-full rounded-lg bg-green-500 px-4 py-3 text-white font-medium transition-all duration-200 hover:bg-green-600 transform hover:scale-105"
-                onClick={closeAllDropdowns}
-              >
-                <FaWhatsapp className="mr-2 h-5 w-5" />
-                WhatsApp Us
-              </a>
-            </div>
+
           </nav>
         </div>
       </div>
