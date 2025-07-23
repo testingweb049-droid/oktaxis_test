@@ -111,7 +111,8 @@ export default function HeroSection() {
       />
 
       <div className="container relative z-10 mx-auto flex h-full flex-col gap-6 sm:gap-8 md:gap-24 items-start justify-center px-4 sm:px-6 text-white lg:px-5">
-        <div className="w-full px-2 sm:px-0 max-w-4xl">
+       <div className="w-full pt-4 sm:pt-0 px-2 sm:px-0 max-w-4xl">
+
           <h1
             ref={titleRef}
             className="mb-2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight tracking-tight"

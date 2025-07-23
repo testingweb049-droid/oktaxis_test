@@ -3,17 +3,17 @@
 import { useEffect, useRef } from "react"
 import Image, { StaticImageData } from "next/image"
 import HeroSectionBookingForm from "../NewBookingForm/HeroBookingForm"
-
+import { ReactNode } from "react";
 interface HeroSectionProps {
    bgImage: string | StaticImageData
   title: string
-  // description: string
+  description: string| ReactNode
 }
 
 export default function HeroSection2({
   bgImage,
   title,
-  // description,
+  description,
 }: HeroSectionProps) {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
@@ -99,12 +99,12 @@ export default function HeroSection2({
           <h1 ref={titleRef} className="mb-2 sm:mb-4 text-4xl font-bold md:text-4xl lg:text-4xl lg:leading-[55px]">
             {title}
           </h1>
-          {/* <p ref={subtitleRef} className="text-lg md:text-xl max-w-6xl lg:text-xl">
+          <p ref={subtitleRef} className="text-lg md:text-xl max-w-6xl lg:text-xl">
             {description}
-          </p> */}
+          </p>
         </div>
 
-        <div ref={formContainerRef} className="relative w-full max-w-full">
+        <div ref={formContainerRef} id="booking-form" className="relative w-full max-w-full">
           <HeroSectionBookingForm/>
         </div>
       </div>

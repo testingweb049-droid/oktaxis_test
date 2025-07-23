@@ -19,42 +19,42 @@ const defaultOffers: OfferItem[] = [
     icon: '/minute.svg',
     title: '30 Minutes Free Wait Time',
     description:
-      'We offer a generous 30-minute free wait time, allowing you to take your time and enjoy every moment without feeling rushed. Perfect for Manchester airport services or event pickups where delays can happen.',
+      'No rush after landing—perfect for delays at Manchester or Liverpool airports.',
   },
   {
     id: 2,
     icon: '/free.svg',
     title: 'Free Cancellation Up to 48 Hours',
     description:
-      'Plans change, and we get that. We provide free cancellation up to 48 hours before your scheduled pickup, giving you flexibility for wedding chauffeur services Manchester or business trips.',
+      'Flexible for business trips or last-minute changes.',
   },
   {
     id: 3,
     icon: '/flight.svg',
     title: 'Flight Tracking',
     description:
-      "For destination weddings, out-of-town guests, or executive airport transfers, our flight tracking service ensures we're always on time, even if your flight isn't. Real-time monitoring for Manchester and Liverpool airports keeps your journey stress-free.",
+      "Our chauffeurs monitor flights to ensure timely pickups, even for early or delayed arrivals.",
   },
   {
     id: 4,
     icon: '/pilot.svg',
     title: 'Multilingual and Professional Chauffeurs',
     description:
-      "Our chauffeurs are more than just drivers; they're your concierges, fluent in multiple languages and trained to provide top-notch service. Ideal for international clients on city tours Manchester or corporate hourly chauffeur Manchester hires.",
+      "Fluent in multiple languages, acting as your personal concierge for international travelers.",
   },
   {
     id: 5,
     icon: '/pricing.svg',
     title: 'Transparent Pricing',
     description:
-      "No hidden fees, no surprises. Our transparent pricing ensures you know exactly what you're paying for, whether it's a stadium transfer from Manchester to Old Trafford or a full-day luxury ride.",
+      "Fixed rates with no surprises, whether it's a short ride or long-distance UK transfer.",
   },
   {
     id: 6,
     icon: '/meet.svg',
     title: 'Meet and Greet',
     description:
-      'Your chauffeur will be waiting for you with a warm welcome, ready to assist with anything you need. This premium touch elevates our Manchester airport chauffeur services and special event transports.',
+      'Personalized welcome at arrivals with luggage assistance.',
   },
 ];
 
@@ -62,43 +62,42 @@ const hourlyChauffeurOffers: OfferItem[] = [
   {
     id: 1,
     icon: '/24-hours-support 1.svg',
-    title: 'Book by the hour',
-    description: 'Flexible hourly booking to suit your personal or professional schedule.',
+    title: 'Customized Scheduling',
+    description: 'Hire by the hour or full day—adapt your itinerary on the go without worries.',
   },
   {
     id: 2,
-    icon: '/free.svg',
-    title: 'Free cancellation',
-    description:
-      'Plans change, and we get that. We provide free cancellation up to 48 hours before your scheduled pickup, giving you flexibility for wedding chauffeur services Manchester or business trips.',
+    icon: '/pilot.svg',
+    title: 'Professional Multilingual Chauffeurs',
+    description: 'Trained concierges fluent in multiple languages, ensuring seamless service for international clients.',
   },
   {
     id: 3,
-    icon: '/hourglass 1.svg',
-    title: 'Wait & return option available',
-    description: 'We wait while you attend appointments, meetings, or errands.',
+    icon: '/free.svg',
+    title: 'Premium Amenities',
+    description: 'Complimentary Wi-Fi, bottled water, tissues, and charging ports in every vehicle.',
   },
   {
     id: 4,
-    icon: '/pilot.svg',
-    title: 'Multilingual and professional chauffeurs',
-    description:
-      "Our chauffeurs are more than just drivers; they're your concierges, fluent in multiple languages and trained to provide top-notch service. Ideal for international clients on city tours Manchester or corporate hourly chauffeur Manchester hires.",
+    icon: '/hourglass 1.svg',
+    title: 'Punctuality Guarantee',
+    description: 'Always on time, with wait-and-return options for appointments or errands.',
   },
   {
     id: 5,
     icon: '/pricing.svg',
-    title: 'Transparent pricing',
-    description:
-      "No hidden fees, no surprises. Our transparent pricing ensures you know exactly what you're paying for, whether it's a stadium transfer from Manchester to Old Trafford or a full-day luxury ride.",
+    title: 'Transparent & Affordable Pricing',
+    description: 'Fixed hourly rates with no surprises, starting from £40/hour for economy options.',
   },
   {
     id: 6,
     icon: '/car 1.svg',
-    title: 'Premium vehicles, always pristine',
-    description: 'Enjoy our executive fleet, cleaned and maintained to the highest standard.',
+    title: 'Eco-Friendly Fleet',
+    description: 'Hybrid and electric vehicles available for sustainable luxury travel.',
   },
 ];
+
+
 const chauffeurServicesOffers: OfferItem[] = [
   {
     id: 1,
@@ -348,13 +347,22 @@ const Offer: React.FC = () => {
       />
 
       <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          What Do We <span className="text-brand">Offer</span> at OKTaxis?
-        </h1>
+        <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          {pathname === '/services/hourly-chauffeur' ? (
+            <>
+              Why Choose <span className="text-brand">OKTaxis</span> for Hourly Chauffeur Services in Manchester?
+            </>
+          ) : (
+            <>
+              Why Choose <span className="text-brand">OKTaxis</span> for Your Airport Transfers in Manchester?
+            </>
+          )}
+        </h2>
+
         <p className="text-lg text-gray-700 max-w-3xl mx-auto mt-4">
-          At OKTaxis, we redefine premium chauffeur services in Manchester with a focus on convenience,
-          luxury, and reliability. Whether you're booking airport transfers, hourly hire, wedding or stadium rides —
-          our features ensure a seamless experience.
+          {pathname === '/services/hourly-chauffeur'
+            ? "We elevate your chauffeur by the hour Manchester experience with features focused on flexibility and excellence. Here's what makes us stand out:"
+            : "We redefine chauffeur service at Manchester airport with features designed for convenience and luxury. Here's what sets us apart:"}
         </p>
       </div>
 
@@ -377,7 +385,7 @@ const Offer: React.FC = () => {
         ))}
       </div>
 
-    
+
     </section>
   );
 };

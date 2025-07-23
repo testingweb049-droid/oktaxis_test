@@ -3,6 +3,7 @@ import Offer from "@/components/ui/do-offer";
 import HeroSection2 from "@/components/ui/hero-section2";
 import ImageTextSection from "@/components/ui/ImageTextSection";
 import Image from "next/image";
+import Link from "next/link";
 import {
   FaRoute,
   FaMapMarkerAlt,
@@ -15,29 +16,52 @@ export default function HourlyChauffeur() {
   return (
     <>
       <Seo
-        title="Hourly Chauffeur Service in Manchester | OKTaxis"
-        description="Book flexible hourly chauffeur services in Manchester with OKTaxis. Perfect for errands, meetings, or city tours. Affordable rates, luxury cars, and professional drivers."
+        title="Hourly Chauffeur Manchester | Luxury Hire by the Hour or Day
+"
+        description="Book flexible hourly chauffeur in Manchester with OKTaxis. Enjoy luxury vehicles, professional drivers, and transparent pricing for business, leisure, or events. Free cancellation up to 48 hours."
         url="https://oktaxis.co.uk/services/hourly-chauffeur"
         image="https://oktaxis.co.uk/images/hourly-service.png"
       />
       <HeroSection2
         bgImage="/images/hourly-service.png"
-        title="Flexible Hourly Chauffeurs for Business or Leisure Travel"
-      // description="Need on-demand travel? With OKTaxis, enjoy flexible hourly chauffeur services ideal for city errands, business meetings, or leisurely trips. Whether you're navigating Manchester airport or planning a day around town, our experienced chauffeurs ensure you travel efficiently in comfort and style."
+        title="Flexible Hourly Chauffeur in Manchester for Business & Leisure"
+        description={
+          <>
+            Searching for reliable <strong>hourly chauffeur Manchester</strong> services?{" "}
+            OKTaxis offers premium <strong>Manchester hourly chauffeur service</strong> tailored to your schedule.
+            Whether you need a chauffeur by the hour for meetings, city tours, shopping, or full-day hires, our executive
+            fleet and professional drivers ensure luxury and convenience across Manchester and the UK.
+            <br /><br />
+            As a leading provider of <strong>luxury chauffeur hire Manchester</strong>, we specialize in on-demand rides
+            with no hidden fees. Perfect for corporate events, weddings, stadium transfers, or sightseeing—book now for
+            punctual, stress-free travel.
+            <br /><br />
+            <div className="mb-8">
+              <Link href="#booking-form" className="text-brand underline font-semibold">Book Your Hourly Chauffeur</Link>{" "}
+              |{" "}
+              <Link href="/contact" className="text-brand underline font-semibold">Contact Us</Link>
+            </div>
+
+          </>
+        }
       />
+
+
       <Offer />
       <ImageTextSection
         imageSrc="/stadium transfers to manchester united.png"
         imageAlt="Hourly chauffeur service"
         title=
         {
-          <span className="text-3xl md:text-4xl font-bold">
-            Premium Hourly  {' '}
+
+          <h2 className="text-3xl md:text-4xl font-bold">
+            Our Luxury Hourly  {' '}
             <span className="text-brand text-3xl md:text-4xl font-bold">Chauffeur</span>{' '}
-            Service
-          </span>
+            Services in <span className="text-brand text-3xl md:text-4xl font-bold">Manchester</span>{' '}
+          </h2>
         }
-        text="Our flexible hourly chauffeur service allows you to hire a luxury vehicle and driver by the hour or day. Simply tell us your schedule and destinations, and we'll handle the driving. This service is ideal for day-long business meetings, shopping trips, city tours or any occasion where you need a dedicated chauffeur on demand. You avoid parking, directions or waiting – we're at your disposal to take you anywhere on your itinerary."
+        text="Discover the convenience of Manchester hourly chauffeur service with OKTaxis. We provide on-demand chauffeurs for any occasion, from business meetings to leisure outings.
+"
         bgColor="bg-white"
         imagePosition="left"
       />
@@ -47,13 +71,15 @@ export default function HourlyChauffeur() {
         imageAlt="Chauffeur convenience"
         title=
         {
-          <span className="text-3xl md:text-4xl font-bold">
-            Ultimate {' '}
-            <span className="text-brand text-3xl md:text-4xl font-bold"> Convenience & Privacy</span>{' '}
 
-          </span>
+          <h3 className="text-3xl md:text-4xl font-bold">
+            Book by the Hour for {' '}
+            <span className="text-brand text-3xl md:text-4xl font-bold"> Ultimate Flexibility</span>{' '}
+
+          </h3>
         }
-        text="Enjoy the ultimate convenience and privacy with our chauffeur-by-the-hour option. Our professional drivers arrive in full uniform, opening doors and ensuring a seamless experience from start to finish. Vehicle interiors are stocked with amenities like bottled water, tissues, and charging ports. Whether you need a few hours or a full day, OK Taxis gives you total flexibility and peace of mind, all backed by our punctuality guarantee and premium service standards."
+        text="Hire a dedicated chauffeur for as little as one hour or extend to a full day. Ideal for multi-stop trips, corporate events, or exploring Manchester's attractions like Old Trafford or the city center. Our drivers handle navigation, parking, and logistics, letting you focus on what matters.
+"
         bgColor="bg-white"
         imagePosition="right"
       />
@@ -80,19 +106,27 @@ export default function HourlyChauffeur() {
         {/* Right side content */}
         <div className="flex flex-col space-y-6 md:w-1/2">
           <div className="flex items-start gap-3">
-            <FaCarSide className="text-brand mt-1" />
-            <h2 className="text-3xl  font-semibold">
+            {/* <FaCarSide className="text-brand mt-1" /> */}
+            <h3 className="text-3xl md:text-4xl font-bold">
+              Premium Features  for a{' '}
+              <span className="text-brand text-3xl md:text-4xl font-bold"> Seamless Experience</span>{' '}
 
-              <span className="text-3xl md:text-4xl font-bold">
+            </h3>
 
-                <span className="text-brand text-3xl md:text-4xl font-bold">Affordable Hourly</span>{' '}
-                Rates for Quality Car Services{' '}
-                <span className="text-brand text-3xl md:text-4xl font-bold">In Manchester UK</span>{' '}
-              </span>
-
-            </h2>
           </div>
-          <ul className="space-y-4 text-gray-700 text-lg">
+          <p className="text-lg text-gray-600 mb-8">
+            Enjoy door-to-door service in pristine vehicles. With free cancellation up to 48 hours and wait-and-return options, our luxury chauffeur hire Manchester is designed for busy professionals and tourists alike. Vehicles are equipped for comfort, making long hours feel effortless.
+
+          </p>
+          <div>
+            <Link
+              href="/contact"
+              className="inline-block bg-brand text-white px-6 py-3 rounded-full font-semibold hover:bg-opacity-90 transition"
+            >
+              Get a Free Quote Now
+            </Link>
+          </div>
+          {/* <ul className="space-y-4 text-gray-700 text-lg">
             <li className="flex items-start gap-3">
               <FaMoneyBillWave className="mt-1 text-brand" />
               <span>
@@ -121,7 +155,7 @@ export default function HourlyChauffeur() {
                 luxurious vans perfect for group travel.
               </span>
             </li>
-          </ul>
+          </ul> */}
         </div>
       </section>
 
@@ -129,96 +163,120 @@ export default function HourlyChauffeur() {
 
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center  mb-12">
-           
-            {
-              <span className="text-3xl md:text-4xl font-bold">
-                Hourly Chauffeu {' '}
-                <span className="text-brand text-3xl md:text-4xl font-bold">Benefits</span>{' '}
-
-              </span>
-            }
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            <span className="text-3xl md:text-4xl font-bold">
+              Key Benefits of Our Manchester Hourly{' '}
+              <span className="text-brand text-3xl md:text-4xl font-bold">Chauffeur Service</span>
+            </span>
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-gray-50 p-6 rounded-xl text-center">
               <div className="w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
                 <Image
                   src="/Group 7.png"
-                  alt="Car service in Manchester"
+                  alt="Customized itinerary"
                   width={600}
                   height={400}
-
-
                   priority={false}
                 />
               </div>
-              <h3 className="text-xl font-semibold mb-2">
-                Customized Itinerary
-              </h3>
+              <h3 className="text-xl font-semibold mb-2">Customized Itineraries</h3>
               <p className="text-gray-600">
-                Change plans on the go without worrying about timing or routes.
-                Our chauffeurs adapt to your schedule.
+                Change plans mid-journey—our chauffeurs adapt instantly to your evolving schedule.
               </p>
             </div>
+
             <div className="bg-gray-50 p-6 rounded-xl text-center">
-              <div className=" w-14 h-14  flex items-center justify-center mb-4 mx-auto">
+              <div className="w-14 h-14 flex items-center justify-center mb-4 mx-auto">
                 <Image
                   src="/Group 5.png"
-                  alt="Car service in Manchester"
+                  alt="Multiple stops"
                   width={600}
                   height={400}
-
-
                   priority={false}
                 />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Multiple Stops</h3>
+              <h3 className="text-xl font-semibold mb-2">Multiple Stops & Waits</h3>
               <p className="text-gray-600">
-                Run errands, attend meetings or make stops – our service is
-                truly door-to-door.
+                Perfect for shopping, appointments, or events with built-in flexibility at every step.
               </p>
             </div>
+
             <div className="bg-gray-50 p-6 rounded-xl text-center">
-              <div className=" w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+              <div className="w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
                 <Image
                   src="/Group 6.png"
-                  alt="Car service in Manchester"
+                  alt="Transparent pricing"
                   width={600}
                   height={400}
-
-
                   priority={false}
                 />
               </div>
               <h3 className="text-xl font-semibold mb-2">No Hidden Fees</h3>
               <p className="text-gray-600">
-                Hourly hire comes with transparent pricing, so you know the cost
-                of each hour upfront.
+                Upfront hourly pricing ensures complete transparency and peace of mind from booking to drop-off.
               </p>
             </div>
+
             <div className="bg-gray-50 p-6 rounded-xl text-center">
-              <div className=" w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+              <div className="w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
                 <Image
                   src="/Group 8.png"
-                  alt="Car service in Manchester"
+                  alt="Concierge service"
                   width={600}
                   height={400}
-
-
                   priority={false}
                 />
               </div>
-              <h3 className="text-xl font-semibold mb-2">
-                Professional Service
-              </h3>
+              <h3 className="text-xl font-semibold mb-2">Professional Concierge Service</h3>
               <p className="text-gray-600">
-                Enjoy complimentary refreshments, Wi-Fi and all the comforts of
-                our luxury fleet throughout your journey.
+                Chauffeurs in uniform offer door-opening, luggage handling, and local tips with professionalism.
+              </p>
+            </div>
+
+            <div className="bg-gray-50 p-6 rounded-xl text-center">
+              <div className="w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+                <Image
+                  src="/Group 10.png"
+                  alt="Complimentary perks"
+                  width={600}
+                  height={400}
+                  priority={false}
+                />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Complimentary Perks</h3>
+              <p className="text-gray-600">
+                Wi-Fi, bottled water, tissues, and more—all to make your ride more relaxing and productive.
+              </p>
+            </div>
+
+            <div className="bg-gray-50 p-6 rounded-xl text-center">
+              <div className="w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+                <Image
+                  src="/Group 9.png"
+                  alt="UK-wide chauffeur service"
+                  width={600}
+                  height={400}
+                  priority={false}
+                />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Wide Coverage</h3>
+              <p className="text-gray-600">
+                Available across Manchester and UK-wide. Ideal for local errands or long-distance luxury travel.
               </p>
             </div>
           </div>
+
+          <div className="mt-12 max-w-3xl mx-auto text-center text-gray-700 text-lg">
+            <p>
+              For business users, our service supports productivity on the move—perfect for executives
+              needing reliable, luxury chauffeur hire in Manchester.
+            </p>
+          </div>
         </div>
       </section>
+
     </>
   );
 }
