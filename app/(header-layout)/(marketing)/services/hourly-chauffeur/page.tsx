@@ -25,29 +25,47 @@ export default function HourlyChauffeur() {
       <HeroSection2
         bgImage="/images/hourly-service.png"
         title="Flexible Hourly Chauffeur in Manchester for Business & Leisure"
-        description={
-          <>
-            Searching for reliable <strong>hourly chauffeur Manchester</strong> services?{" "}
-            OKTaxis offers premium <strong>Manchester hourly chauffeur service</strong> tailored to your schedule.
-            Whether you need a chauffeur by the hour for meetings, city tours, shopping, or full-day hires, our executive
-            fleet and professional drivers ensure luxury and convenience across Manchester and the UK.
-            <br /><br />
-            As a leading provider of <strong>luxury chauffeur hire Manchester</strong>, we specialize in on-demand rides
-            with no hidden fees. Perfect for corporate events, weddings, stadium transfers, or sightseeing—book now for
-            punctual, stress-free travel.
-            <br /><br />
-            <div className="mb-8">
-              <Link href="#booking-form" className="text-brand underline font-semibold">Book Your Hourly Chauffeur</Link>{" "}
-              |{" "}
-              <Link href="/contact" className="text-brand underline font-semibold">Contact Us</Link>
-            </div>
 
-          </>
-        }
       />
 
 
       <Offer />
+      <ImageTextSection
+        imageSrc="/images/hourly-service.png"
+        imageAlt="Hourly Chauffeur Manchester"
+        title={
+          <h2 className="text-3xl md:text-4xl font-bold">
+            Reliable <span className="text-brand">Hourly Chauffeurs</span> in Manchester
+          </h2>
+        }
+        text={
+          <>
+            <p className="mb-4">
+              Searching for reliable <strong>hourly chauffeur Manchester</strong> services? OKTaxis offers premium <strong>Manchester hourly chauffeur service</strong> tailored to your schedule. Whether you need a chauffeur by the hour for meetings, city tours, shopping, or full-day hires, our executive fleet and professional drivers ensure luxury and convenience across Manchester and the UK.
+            </p>
+            <p className="mb-6">
+              As a leading provider of <strong>luxury chauffeur hire Manchester</strong>, we specialize in on-demand rides with no hidden fees. Perfect for corporate events, weddings, stadium transfers, or sightseeing—book now for punctual, stress-free travel.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="#booking-form"
+                className="inline-block bg-brand hover:bg-brand-dark text-white font-semibold py-3 px-6 rounded-lg transition duration-300"
+              >
+                Book Your Hourly Chauffeur
+              </Link>
+              {/* <Link
+                href="/contact"
+                className="inline-block text-brand underline font-semibold py-3 px-4"
+              >
+                Contact Us
+              </Link> */}
+            </div>
+          </>
+        }
+        bgColor="bg-white"
+        imagePosition="right"
+      />
+
       <ImageTextSection
         imageSrc="/stadium transfers to manchester united.png"
         imageAlt="Hourly chauffeur service"

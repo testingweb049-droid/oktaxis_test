@@ -64,7 +64,7 @@ export default function FleetClasses() {
             <p className="text-sm uppercase tracking-wider text-gray-500">MEMORABLE JOURNEY</p>
             <h2 className="text-3xl font-bold md:text-4xl">
               Experience <span className="text-brand">Luxury with Our</span> <br className="md:hidden" />
-              Limousine <span className="text-brand">Services</span>
+              Chauffeur  <span className="text-brand">Services</span>
             </h2>
           </div>
 
