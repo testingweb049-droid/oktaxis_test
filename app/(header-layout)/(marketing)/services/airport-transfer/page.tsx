@@ -28,22 +28,39 @@ export default function AirportTransfer() {
       <HeroSection2
         bgImage="/images/airport-transfer.png"
         title="Reliable Manchester Airport Transfers & Executive Chauffeur Services"
-        description={
-          <>
-            Looking for dependable <strong>Manchester airport transfers</strong>? At OKTaxis, we specialize in premium <strong>airport taxi Manchester</strong> services across Manchester, Liverpool, and the UK. Whether you're arriving at Manchester Airport (MAN) or heading to Liverpool John Lennon Airport, our professional chauffeurs ensure a luxurious, punctual journey. With real-time flight tracking, meet-and-greet service, and a fleet of executive vehicles, we make airport travel effortless for business professionals, families, and tourists.
-            <br /><br />
-            As a trusted <strong>airport taxi Manchester</strong> provider, we've served thousands of passengers with 5-star rated transfers. Book now for fixed rates, no hidden fees, and ultimate comfort.
-            <br /><br />
-            <div className="mb-8">
-              <Link href="#booking-form" className="text-brand underline font-semibold">Book Your Transfer</Link>{" "}
-              |{" "}
-              <Link href="/contact" className="text-brand underline font-semibold">Contact Us</Link>
-            </div>
-          </>
-        }
+
       />
 
       <Offer />
+      <ImageTextSection
+        imageSrc="/images/airport-transfer.png"
+        imageAlt="Manchester Airport Transfers"
+        title={
+          <h2 className="text-3xl md:text-4xl font-bold">
+            Dependable <span className="text-brand">Manchester Airport Transfers</span>
+          </h2>
+        }
+        text={
+          <>
+            <p className="mb-4">
+              Looking for dependable <strong>Manchester airport transfers</strong>? At OKTaxis, we specialize in premium <strong>airport taxi Manchester</strong> services across Manchester, Liverpool, and the UK. Whether you're arriving at Manchester Airport (MAN) or heading to Liverpool John Lennon Airport, our professional chauffeurs ensure a luxurious, punctual journey. With real-time flight tracking, meet-and-greet service, and a fleet of executive vehicles, we make airport travel effortless for business professionals, families, and tourists.
+            </p>
+            <p className="mb-6">
+              As a trusted <strong>airport taxi Manchester</strong> provider, we've served thousands of passengers with 5-star rated transfers. Book now for fixed rates, no hidden fees, and ultimate comfort.
+            </p>
+            <Link
+              href="#booking-form"
+              className="inline-block bg-brand hover:bg-brand-dark text-white font-semibold py-3 px-6 rounded-lg transition duration-300"
+            >
+              Book Your Transfer
+            </Link>
+          </>
+        }
+        bgColor="bg-white"
+        imagePosition="right"
+      />
+
+
       <ImageTextSection
         imageSrc="/Manchester Taxis.png"
         imageAlt="Executive"
@@ -57,12 +74,7 @@ export default function AirportTransfer() {
             <p className="mb-4">
               Travel in style with our Manchester airport taxi options. We offer 24/7 transfers to and from major UK airports, including Manchester, Liverpool, Leeds Bradford, Birmingham, and London hubs.
             </p>
-            <h3 className="text-xl md:text-2xl font-bold mt-6 mb-2">
-              Seamless Pickups and Drop-Offs
-            </h3>
-            <p>
-              Our chauffeurs track your flight in real-time for hassle-free airport transfers Manchester. You'll be greeted by name, assisted with luggage, and escorted to a premium vehicle. Ideal for early mornings or late nights—count on us for punctuality and comfort.
-            </p>
+
           </>
         }
         bgColor="bg-white"
@@ -72,7 +84,7 @@ export default function AirportTransfer() {
         imageSrc="/images/airport-transfer.png"
         imageAlt="Stress-Free Travel Experience"
         title={
-           
+
           <h3 className="text-3xl md:text-4xl font-bold">
             Seamless {' '}
             <span className="text-brand text-3xl md:text-4xl font-bold">Pickups and Drop-Offs</span>{' '}

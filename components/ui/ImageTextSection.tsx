@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 interface ImageTextSectionProps {
   imageSrc: string;
   imageAlt: string;
-  title: string | ReactNode;
+  title?: string | ReactNode;
 
   text: string | ReactNode;
   bgColor?: string;

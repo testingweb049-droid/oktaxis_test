@@ -14,6 +14,7 @@ import { CalendarDays, TimerIcon } from "lucide-react";
 import { SlLocationPin } from "react-icons/sl";
 import { MdMoreTime } from "react-icons/md";
 import { toast } from "@/components/ui/use-toast";
+import { usePathname } from "next/navigation";
 
 function formatTime12(hour: number, minute: number): string {
   const hour12 = ((hour + 11) % 12) + 1;
@@ -39,9 +40,21 @@ import {
 const libraries: Libraries = ["places"];
 
 function HeroSectionBookingForm() {
+  const pathname = usePathname();
+  const isHourlyOnlyPage =
+    pathname?.includes("event-weddings") || pathname?.includes("chauffeur-services");
+
   const [dateOpen, setDateOpen] = useState(false);
-  const { form, category, setCategory, NextStep, loading, Step1, resetForm } =
-    useCustomForm();
+  const { form, NextStep, loading, Step1, resetForm } = useCustomForm();
+
+  const [category, setCategory] = useState<"trips" | "hourly">("trips");
+
+  useEffect(() => {
+    if (isHourlyOnlyPage && category !== "hourly") {
+      setCategory("hourly");
+    }
+  }, [isHourlyOnlyPage]);
+
   const [durationOpen, setDurationOpen] = useState(false);
 
   const [fromLocation, setFromLocation] = useState("");
@@ -65,37 +78,42 @@ function HeroSectionBookingForm() {
   useEffect(() => {
     Step1();
 
+    if (isHourlyOnlyPage) {
+      setCategory("hourly");
+    }
+
     const from = form.getValues("pickup_location");
     const to = form.getValues("dropoff_location");
-    if (from) {
-      setFromLocation(from);
-    }
-    if (to) {
-      setToLocation(to);
-    }
-  }, []);
+    if (from) setFromLocation(from);
+    if (to) setToLocation(to);
+  }, [pathname]);
+
+
 
   return (
     <div className="flex flex-col gap-5 w-full   mx-auto text-black">
       <div className="flex items-center gap-5">
-        <div
-          onClick={() => {
-            if (category !== "trips") {
-              setCategory("trips");
-              resetForm();
-              setFromLocation("");
-              setToLocation("");
-            }
-          }}
-          className={cn(
-            "px-4 w-28 cursor-pointer py-2 font-semibold rounded-3xl  text-center  ",
-            category === "trips"
-              ? " bg-brand text-black "
-              : " text-white border border-white   "
-          )}
-        >
-          Trip
-        </div>
+        {!isHourlyOnlyPage && (
+          <div
+            onClick={() => {
+              if (category !== "trips") {
+                setCategory("trips");
+                resetForm();
+                setFromLocation("");
+                setToLocation("");
+              }
+            }}
+            className={cn(
+              "px-4 w-28 cursor-pointer py-2 font-semibold rounded-3xl text-center",
+              category === "trips"
+                ? "bg-brand text-black"
+                : "text-white border border-white"
+            )}
+          >
+            Trip
+          </div>
+        )}
+
         <div
           onClick={() => {
             if (category !== "hourly") {
@@ -106,15 +124,17 @@ function HeroSectionBookingForm() {
             }
           }}
           className={cn(
-            "px-4 w-28 py-2 cursor-pointer font-semibold rounded-3xl text-center   ",
+            "px-4 w-28 py-2 cursor-pointer font-semibold rounded-3xl text-center",
             category === "hourly"
-              ? " bg-[#F0A857] text-black "
-              : " text-white border border-white  "
+              ? "bg-brand text-black"
+              : "text-white border border-white"
           )}
         >
           Hourly
         </div>
       </div>
+
+
 
       <div className="w-full flex gap-2 bg-white rounded-2xl lg:rounded-full p-3 sm:p-2 overflow-hidden">
 
