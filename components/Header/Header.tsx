@@ -240,7 +240,7 @@ export default function Header() {
               <div className="flex items-center gap-5 md:hidden mr-8">
                 {/* WhatsApp */}
                 <a
-                  href="https://wa.me/447342193341"
+                  href="https://wa.me/+447788710290"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center w-9 h-9   rounded-md bg-[#25D366] text-white shadow"
@@ -252,7 +252,7 @@ export default function Header() {
 
                 {/* Instagram */}
                 <a
-                  href="https://www.instagram.com/oktaxis/"
+                  href="https://www.instagram.com/oktax_is/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center w-9 h-9 rounded-md bg-[#F56040] text-white shadow"
@@ -335,7 +335,7 @@ export default function Header() {
             {/* Call Button */}
             <div className="hidden md:flex items-center space-x-3 ml-2">
               <a
-                href="https://wa.me/447342193341"
+                href="https://wa.me/+447788710290"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all bg-white text-black hover:bg-gray-100"
@@ -345,7 +345,7 @@ export default function Header() {
                 WhatsApp Us
               </a>
               <a
-                href="https://www.instagram.com/oktaxis/"
+                href="https://www.instagram.com/oktax_is/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all bg-white text-black hover:bg-gray-100"

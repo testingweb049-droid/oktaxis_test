@@ -130,7 +130,7 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
 
         console.log("distance : ", form.getValues('distance'))
 
-        const output = await trigger(category === 'hourly' ? ['pickup_date', 'pickup_time', 'pickup_location', 'duration',] : ['pickup_date', 'pickup_time', 'dropoff_location', 'pickup_location', 'distance', 'dropoff_location_lag_alt', 'pickup_location_lag_alt'])
+        const output = await trigger(category === 'trips' ? ['pickup_date', 'pickup_time', 'dropoff_location', 'pickup_location', 'distance', 'dropoff_location_lag_alt', 'pickup_location_lag_alt'] : ['pickup_date', 'pickup_time', 'pickup_location', 'duration'])
         console.log("output : ", form.formState.errors)
         if (!output) {
           toast({

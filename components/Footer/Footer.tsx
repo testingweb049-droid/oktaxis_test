@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Facebook, Instagram } from "lucide-react";
 import Logo from "@/assets/logo-white.png";
 import { footerNavLinks } from "@/constants/headerFooterData";
-// footer
+
 const footerData = {
   airportTransfers: [
     { title: "Manchester" },
@@ -30,7 +30,7 @@ const footerData = {
       href: "https://www.facebook.com/profile.php?id=61572964094684",
       label: "Facebook",
     },
-    { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
+    { icon: Instagram, href: "https://www.instagram.com/oktax_is/", label: "Instagram" },
   ],
   legalLinks: [
     { title: "FAQs", href: "/faqs" },
@@ -112,10 +112,10 @@ export default function Footer() {
           <p className="text-sm mb-4">
             <strong>Telephone:</strong>{" "}
             <a
-              href="tel:+447342193341"
+              href="tel:+447788710290"
               className="underline hover:text-brand"
             >
-              +44&nbsp;7342&nbsp;193341
+              +44&nbsp;7788&nbsp;710290
             </a>
           </p>
 
