@@ -32,8 +32,8 @@ export async function createOrderById({orderId,clientSecret}:{orderId:string,cli
    
    console.log("three")
    const mailOptions = {
-     from: 'reservation@oktaxis.co.uk',
-     to: ['mussaddiqmahmood1038@gmail.com' , 'info@oktaxis.co.uk',order[0].email,],
+     from: 'info@oktaxis.co.uk',
+     to: ['info@oktaxis.co.uk',order[0].email,],
      subject: 'Order Placed Successfully!',
      html: `
      <html lang="en">
