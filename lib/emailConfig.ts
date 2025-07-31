@@ -3,7 +3,7 @@ export const emailConfig = {
       port: 465,
       secure: true,
       auth: {
-        user: "reservation@oktaxis.co.uk", 
+        user: "info@oktaxis.co.uk", 
         pass: ";U3nJxy=hs",
       },
     };
