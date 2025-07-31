@@ -45,9 +45,10 @@ function HeroSectionBookingForm() {
     pathname?.includes("event-weddings") || pathname?.includes("chauffeur-services");
 
   const [dateOpen, setDateOpen] = useState(false);
-  const { form, NextStep, loading, Step1, resetForm } = useCustomForm();
+  const { form, NextStep,category,setCategory, loading, Step1, resetForm } = useCustomForm();
 
-  const [category, setCategory] = useState<"trips" | "hourly">("trips");
+  // const [category, setCategory] = useState<"trips" | "hourly">("trips");
+  
 
   useEffect(() => {
     if (isHourlyOnlyPage && category !== "hourly") {
@@ -585,7 +586,8 @@ function HeroSectionBookingForm() {
                   const pickup = normalize(fromLocation);
                   const dropoff = normalize(toLocation);
 
-                  if (pickup && dropoff && pickup === dropoff) {
+                  // Same pickup & drop-off check for trips
+                  if (category === "trips" && pickup && dropoff && pickup === dropoff) {
                     toast({
                       title: "Same Pickup & Drop-off",
                       description: "Pickup and drop-off locations cannot be the same. Please choose different locations.",
@@ -597,7 +599,7 @@ function HeroSectionBookingForm() {
                   const pickupDate = form.getValues("pickup_date");
                   const pickupTime = form.getValues("pickup_time");
 
-                  if (!pickupDate || !pickupTime?.hour || pickupTime.minute === undefined) {
+                  if (!pickupDate || pickupTime?.hour === undefined || pickupTime.minute === undefined) {
                     toast({
                       title: "Missing Time",
                       description: "Please select both pickup date and time.",
@@ -606,35 +608,46 @@ function HeroSectionBookingForm() {
                     return;
                   }
 
-                  const pickupDateTime = new Date(pickupDate);
-                  pickupDateTime.setHours(pickupTime.hour);
-                  pickupDateTime.setMinutes(pickupTime.minute);
-                  pickupDateTime.setSeconds(0);
-                  pickupDateTime.setMilliseconds(0);
+                  // Validate 8 hours rule for trips
+                  if (category === "trips") {
+                    const pickupDateTime = new Date(pickupDate);
+                    pickupDateTime.setHours(pickupTime.hour);
+                    pickupDateTime.setMinutes(pickupTime.minute);
+                    pickupDateTime.setSeconds(0);
+                    pickupDateTime.setMilliseconds(0);
 
-                  const now = new Date();
-                  const eightHoursLater = new Date(now.getTime() + 8 * 60 * 60 * 1000);
+                    const now = new Date();
+                    const eightHoursLater = new Date(now.getTime() + 8 * 60 * 60 * 1000);
 
-                  if (pickupDateTime < eightHoursLater) {
+                    if (pickupDateTime < eightHoursLater) {
+                      toast({
+                        title: "Booking Too Soon",
+                        description: "Please choose a pickup time at least 8 hours from now.",
+                        variant: "destructive",
+                      });
+                      return;
+                    }
+                  }
+
+                  // Check duration for hourly
+                  if (category === "hourly" && !form.getValues("duration")) {
                     toast({
-                      title: "Booking Too Soon",
-                      description: "Please choose a pickup time at least 8 hours from now.",
+                      title: "Missing Duration",
+                      description: "Please select a duration for your hourly booking.",
                       variant: "destructive",
                     });
+                    setDurationOpen(true); // ✅ Auto-open the duration popover
                     return;
                   }
 
                   // ✅ All validations passed
                   NextStep();
                 }}
-
-
-
-
                 className="rounded-full bg-black text-white py-2 px-4 w-5/6 "
               >
                 {loading ? "Loading..." : "Book Now"}
               </button>
+
 
 
 
