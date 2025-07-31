@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Facebook, Instagram } from "lucide-react";
 import Logo from "@/assets/logo-white.png";
 import { footerNavLinks } from "@/constants/headerFooterData";
-
+// footer
 const footerData = {
   airportTransfers: [
     { title: "Manchester" },
