@@ -89,7 +89,7 @@ function CarList() {
   return (
     <div className="w-full flex flex-col gap-5">
       {fleets
-
+        .filter(item => !(category === "hourly" && item.name === "Economy"))
         .map((item) => {
           let price = 0;
 
