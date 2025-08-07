@@ -631,14 +631,22 @@ function Step3Form() {
 
         {/* Number of Passengers */}
         <div className="flex flex-col gap-1 md:hidden">
-          <label className="text-sm font-medium">Number of Passengers</label>
+          <label className="text-sm font-medium">
+            Number of Passengers <span className="text-red-500">*</span>
+          </label>
           <select
-            className="p-2 rounded-xl border border-gray-500"
+            name="passengers"
+            className={cn(
+              "p-2 rounded-xl border",
+              errors.passengers ? "border-red-500" : "border-gray-500"
+            )}
             value={watch('passengers')}
             onChange={(e) => setValue('passengers', parseInt(e.target.value))}
           >
-            {[...Array(5).keys()].map(i => (
-              <option key={i} value={i}>{i}</option>
+            {[0, 1, 2, 3, 4].map(i => (
+              <option key={i} value={i}>
+                {i < 4 ? i : '4+'}
+              </option>
             ))}
           </select>
           {errors.passengers && (
@@ -646,21 +654,30 @@ function Step3Form() {
           )}
         </div>
 
+
         {/* Number of Suitcases */}
         <div className="flex flex-col gap-1 md:hidden">
           <label className="text-sm font-medium">
             Number of Bags <span className="text-red-500">*</span>
           </label>
           <select
-            className="p-2 rounded-xl border border-gray-500"
+            name="bags"
+            className={cn(
+              "p-2 rounded-xl border",
+              errors.bags ? "border-red-500" : "border-gray-500"
+            )}
             value={watch('bags')}
             onChange={(e) => setValue('bags', parseInt(e.target.value))}
           >
-            {[...Array(3).keys()].map(i => (
+            {[0, 1, 2, 3, 4].map(i => (
               <option key={i} value={i}>{i}</option>
             ))}
           </select>
+          {errors.bags && (
+            <p className="text-xs text-red-500 mt-1">Bags required</p>
+          )}
         </div>
+
         {/* Airport Pickup Toggle */}
         <div className="flex items-center gap-2 mt-2">
           <input

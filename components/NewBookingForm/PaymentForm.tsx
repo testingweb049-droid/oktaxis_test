@@ -153,15 +153,15 @@ function StripePaymentForm({ clientSecret }: StripePaymentFormProps) {
 function MyPaymentForm() {
   const [clientSecret, setClientSecret] = useState<string | null>(null)
   const { form } = useCustomForm()
-  const amount = Number(form.getValues("price")) + (form.watch('flight_track') ? 7 : 0) + (form.watch('meet_greet') ? 15 : 0)
-  console.log("amount : ", amount)
+  const amount = Number(form.getValues("price")) + (form.watch('flight_track') ? 7 : 0 ) + (form.watch('meet_greet') ? 15 : 0 )
+  console.log("amount : ",amount)
 
   // Fetch client secret on component mount
   React.useEffect(() => {
     const fetchClientSecret = async () => {
       try {
         // This would be your server endpoint to create a PaymentIntent
-        const response = await fetch("http://localhost:3000/api/create-payment-intent", {
+        const response = await fetch("https://oktaxis.co.uk/api/create-payment-intent", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -170,15 +170,7 @@ function MyPaymentForm() {
         })
 
         const data = await response.json()
-        console.log("Stripe response:", data)
-
-        if (!data.clientSecret) {
-          console.error("❌ No clientSecret received")
-          return
-        }
-
         setClientSecret(data.clientSecret)
-
       } catch (error) {
         console.error("Error fetching client secret:", error)
       }
@@ -190,51 +182,12 @@ function MyPaymentForm() {
   if (!clientSecret) {
     return <div>Loading payment form...</div>
   }
+
   return (
-    <div className="w-full max-w-xl mx-auto p-6 bg-white rounded-lg shadow-md border border-gray-200">
-      {/* Price Breakdown Header */}
-      <div className="mb-6">
-        <div className="text-left text-sm mb-4">
-
-          <p className="text-gray-700 font-medium">
-            Total
-          </p>
-          <p className="text-2xl font-bold text-black mt-1">
-            £{amount}{" "}
-
-          </p>
-        </div>
-
-        {/* Stripe Security Heading */}
-        <div>
-          <Image src="/stripe.jpg" alt="wifi" width={600} height={400} />
-        </div>
-
-
-
-
-        {/* Card Logos */}
-        {/* <div className="flex flex-wrap items-center gap-2 mt-4">
-          {[
-            "/visa.png",
-            "/mastercard.png",
-            "/amex.png",
-            "/jcb.png",
-            "/discover.png",
-            "/unionpay.png",
-          ].map((src, i) => (
-            <img key={i} src={src} alt="card" className="h-6" />
-          ))}
-        </div> */}
-      </div>
-
-      {/* Stripe Elements Form */}
-      <Elements stripe={stripePromise} options={{ clientSecret }}>
-        <StripePaymentForm clientSecret={clientSecret} />
-      </Elements>
-    </div>
+    <Elements stripe={stripePromise} options={{ clientSecret }}>
+      <StripePaymentForm clientSecret={clientSecret} />
+    </Elements>
   )
-
 }
 
 export default MyPaymentForm
