@@ -1,29 +1,28 @@
-import React, { useRef, useState } from 'react';
-import useCustomForm from '@/hooks/useFormContext';
+'use client'
+
+import React, { useRef, useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import MyPaymentForm from './PaymentForm';
-import { BiSolidShoppingBags } from "react-icons/bi";
-import { MdPeopleAlt } from "react-icons/md";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import MyPaymentForm from './PaymentForm'; // Assuming this component exists
+import { BiSolidShoppingBags } from "react-icons/bi"; // Assuming this icon is used elsewhere
+import { MdPeopleAlt } from "react-icons/md"; // Assuming this icon is used elsewhere
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { CalendarDays, TimerIcon } from 'lucide-react';
-import { format, isSameDay } from "date-fns";
+import { CalendarDays, TimerIcon, ChevronUp, ChevronDown, Clock, ChevronRight } from 'lucide-react';
+import { format, isSameDay, isBefore, addMonths, subMonths } from "date-fns";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { toast } from '@/hooks/use-toast';
+import DateTimePicker from '../../components/ui/date-time-picker'; // Import the new DateTimePicker component
+import useCustomForm from '@/hooks/useFormContext';
+import { startOfDay } from 'date-fns';
 
+// Helper: format time to 12-hour format with AM/PM
 function formatTime12(hour: number, minute: number): string {
   const hour12 = ((hour + 11) % 12) + 1;
   const minuteStr = minute.toString().padStart(2, "0");
   const amPm = hour >= 12 ? "PM" : "AM";
   return `${hour12}:${minuteStr} ${amPm}`;
 }
-
-
 
 // Helper: check if selected time is in the past (on the same day)
 function isTimeBeforeNow(hour: number, minute: number): boolean {
@@ -32,22 +31,20 @@ function isTimeBeforeNow(hour: number, minute: number): boolean {
   const selectedMinutes = hour * 60 + minute;
   return selectedMinutes < nowMinutes;
 }
+
 // form
-function Step3Form() {
-  const pickupTimeRef = useRef<HTMLDivElement>(null);
-  const returnTimeRef = useRef<HTMLDivElement>(null);
-  const [dateOpen, setDateOpen] = useState(false);
+function Step3Form() { // Use 'any' for simplicity in v0, you'd use proper types
   const { form, step, Step1, Step2, NextStep, loading } = useCustomForm();
+  const returnTimeRef = useRef<HTMLDivElement>(null);
   const { formState: { errors }, setValue, watch, clearErrors, trigger } = form;
   const [returnDateOpen, setReturnDateOpen] = useState(false);
   const [mobileReturnDateOpen, setMobileReturnDateOpen] = useState(false);
-  const pickupDate = watch('pickup_date');
-  const pickupTime = watch('pickup_time');
-  const returnDate = watch('return_date');
-  const returnTime = watch('return_time');
-  const isReturn = watch('is_return');
 
-  const isSameDayReturn = returnDate && pickupDate && isSameDay(returnDate, pickupDate);
+  const pickupDate = watch('pickup_date') ?? null;
+  const pickupTime = watch('pickup_time') ?? null;
+  const returnDate = watch('return_date') ?? null;
+  const returnTime = watch('return_time') ?? null;
+  const isReturn = watch('is_return');
 
   const requiredFields = [
     "name",
@@ -60,8 +57,43 @@ function Step3Form() {
   ] as const;
 
 
+
+  // Handlers for return time
+  // const handleReturnHourChange = (increment: boolean) => {
+  //   const currentHour = returnTime?.hour ?? 0;
+  //   let newHour = currentHour;
+  //   if (increment) {
+  //     newHour = (currentHour + 1) % 24;
+  //   } else {
+  //     newHour = (currentHour - 1 + 24) % 24;
+  //   }
+  //   setValue("return_time", { ...returnTime, hour: newHour });
+  // };
+
+  // const handleReturnMinuteChange = (increment: boolean) => {
+  //   const currentMinute = returnTime?.minute ?? 0;
+  //   let newMinute = currentMinute;
+  //   if (increment) {
+  //     newMinute = (currentMinute + 5) % 60; // Increment by 5 minutes
+  //   } else {
+  //     newMinute = (currentMinute - 5 + 60) % 60; // Decrement by 5 minutes
+  //   }
+  //   setValue("return_time", { ...returnTime, minute: newMinute });
+  // };
+
+  // const handleReturnAmPmToggle = () => {
+  //   const currentHour = returnTime?.hour ?? 0;
+  //   let newHour = currentHour;
+  //   if (currentHour >= 12) { // Currently PM, switch to AM
+  //     newHour -= 12;
+  //   } else { // Currently AM, switch to PM
+  //     newHour += 12;
+  //   }
+  //   setValue("return_time", { ...returnTime, hour: newHour });
+  // };
+
   return (
-    <div className="w-full max-w-2xl mx-auto p-4 bg-white shadow-lg rounded-2xl border border-gray-300">
+    <div className="w-full max-w-2xl mx-auto p-2 bg-white shadow-lg rounded-2xl border border-gray-300">
       <h2 className="text-xl font-semibold uppercase text-black mx-3 pt-7">Booking Details</h2>
       <div className='w-full flex flex-col gap-5 px-3 md:px-5 py-5'>
         <div className="flex flex-col gap-1">
@@ -81,7 +113,6 @@ function Step3Form() {
             placeholder="Enter your name"
           />
         </div>
-
         <div className="flex flex-col gap-1">
           <label htmlFor="email" className="text-sm font-medium text-black">Email Address <span className="text-red-500">*</span></label>
           <input
@@ -99,551 +130,48 @@ function Step3Form() {
             placeholder="Enter your email"
           />
         </div>
-        {/* Always show Pickup Date & Time */}
-        {(isReturn || !isReturn) && (
-          <div className="w-full block md:hidden">
-            <label className="block text-sm font-medium text-black mb-2">Pickup Date & Time</label>
-            <Popover open={dateOpen} onOpenChange={setDateOpen}>
-              <PopoverTrigger asChild>
-                <div
-                  className={cn("w-full flex h-full items-center gap-2 justify-start px-3 py-3 border rounded-xl cursor-pointer",
-                    errors.pickup_date ? "border-red-500" : "border-gray-500")}
-                  onClick={() => setDateOpen(true)}
-                >
-                  <CalendarDays className="size-5" />
-                  <div className="flex flex-col">
-                    {pickupDate && pickupTime ? (
-                      <p className="text-sm text-black">
-                        {format(pickupDate, "PPP")} at {formatTime12(pickupTime?.hour || 0, pickupTime?.minute || 0)}
-                      </p>
-                    ) : (
-                      <p className="text-sm text-gray-400">Select date and time</p>
-                    )}
-                  </div>
-                </div>
-              </PopoverTrigger>
+        <DateTimePicker
+          label="Pickup Date & Time"
+          selectedDate={pickupDate}
+          selectedTime={pickupTime}
+          setValue={(field, value) => setValue(field as any, value)}
+          dateFieldName="pickup_date"
+          timeFieldName="pickup_time"
+          minSelectableDate={startOfDay(new Date())}
+        />
 
-              <PopoverContent className="w-[280px] p-4 bg-white z-[999]" align="start">
-                <p className="text-sm font-semibold mb-2">Select A Date</p>
-                <Calendar
-                  mode="single"
-                  selected={pickupDate ?? undefined}
-                  onSelect={(date) => {
-                    clearErrors("pickup_date");
-                    setValue("pickup_date", date);
-                    setTimeout(() => {
-                      pickupTimeRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-                    }, 100);
-                  }}
-                  disabled={(date) => date < new Date()}
-                  initialFocus
-                />
-
-                {pickupDate && (
-                  <>
-                    <div ref={pickupTimeRef}>
-                      <p className="text-sm font-semibold mt-4 mb-2">Select A Time</p>
-                      <div className="grid grid-cols-2 gap-2 mb-4">
-                        {/* Hour Input */}
-                        <div className="relative " ref={pickupTimeRef}>
-                          <label className="text-xs font-medium mb-1 block">Hour</label>
-                          <div className="relative">
-                            <input
-                              type="text"
-                              readOnly
-                              inputMode="none"
-                              value={pickupTime ? ((pickupTime.hour + 11) % 12) + 1 : 12}
-                              className="w-full border rounded px-2 py-2 text-center text-md"
-                            />
-
-                            <button
-                              type="button"
-                              className="absolute right-1 top-0 text-md"
-                              onClick={() => {
-                                const current = pickupTime ?? { hour: 12, minute: 0 };
-                                let hour = ((current.hour + 11) % 12) + 1;
-                                hour = hour < 12 ? hour + 1 : 1;
-                                const isPM = current.hour >= 12;
-                                setValue("pickup_time", {
-                                  ...current,
-                                  hour: isPM ? (hour === 12 ? 12 : hour + 12) : (hour === 12 ? 0 : hour),
-                                });
-                              }}
-                            >
-                              ▲
-                            </button>
-                            <button
-                              type="button"
-                              className="absolute right-1 bottom-0 text-md"
-                              onClick={() => {
-                                const current = pickupTime ?? { hour: 12, minute: 0 };
-                                let hour = ((current.hour + 11) % 12) + 1;
-                                hour = hour > 1 ? hour - 1 : 12;
-                                const isPM = current.hour >= 12;
-                                setValue("pickup_time", {
-                                  ...current,
-                                  hour: isPM ? (hour === 12 ? 12 : hour + 12) : (hour === 12 ? 0 : hour),
-                                });
-                              }}
-                            >
-                              ▼
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Minute Input */}
-                        <div className="relative">
-                          <label className="text-xs font-medium mb-1 block">Minute</label>
-                          <div className="relative">
-                            <input
-                              type="text"
-                              readOnly
-                              inputMode="none"
-                              value={pickupTime?.minute ?? 0}
-                              className="w-full border rounded px-2 py-2 text-center text-md"
-                            />
-                            <button
-                              type="button"
-                              className="absolute right-1 top-0 text-md"
-                              onClick={() => {
-                                const current = pickupTime ?? { hour: 0, minute: 0 };
-                                let minute = current.minute ?? 0;
-                                minute = minute < 55 ? minute + 5 : 0;
-                                setValue("pickup_time", { ...current, minute });
-                              }}
-                            >
-                              ▲
-                            </button>
-                            <button
-                              type="button"
-                              className="absolute right-1 bottom-0 text-md"
-                              onClick={() => {
-                                const current = pickupTime ?? { hour: 0, minute: 0 };
-                                let minute = current.minute ?? 0;
-                                minute = minute > 0 ? minute - 5 : 55;
-                                setValue("pickup_time", { ...current, minute });
-                              }}
-                            >
-                              ▼
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* AM/PM Buttons */}
-                      <div className="flex justify-between">
-                        {["AM", "PM"].map((period) => {
-                          const currentHour = returnTime?.hour ?? 0;
-                          const isPM = currentHour >= 12;
-                          const isActive = (period === "PM" && isPM) || (period === "AM" && !isPM);
-                          return (
-                            <button
-                              type="button"
-                              key={period}
-                              className={cn(
-                                "w-[48%] py-1 rounded-full text-sm font-semibold",
-                                isActive ? "bg-blue-500 text-white" : "border border-gray-400 text-gray-700"
-                              )}
-                              onClick={() => {
-                                const time = returnTime ?? { hour: 12, minute: 0 };
-                                let newHour = time.hour;
-                                if (period === "AM" && newHour >= 12) newHour -= 12;
-                                if (period === "PM" && newHour < 12) newHour += 12;
-                                setValue("return_time", { ...time, hour: newHour });
-                              }}
-                            >
-                              {period}
-                            </button>
-                          );
-                        })}
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={() => setDateOpen(false)}
-                        className="w-full bg-blue-600 text-white py-2 rounded-full font-bold mt-4"
-                      >
-                        DONE
-                      </button>
-                    </div>
-
-                  </>
-                )}
-
-
-              </PopoverContent>
-            </Popover>
-          </div>
-        )}
-
-        {/* RETURN DATE & TIME */}
         {isReturn && (
-          <>
-            {/* DESKTOP ONLY */}
-            <div className="hidden md:block w-full">
-              <label className="block text-sm font-medium text-black mb-2">Return Date & Time</label>
-              <Popover open={returnDateOpen} onOpenChange={setReturnDateOpen}>
-                <PopoverTrigger asChild>
-                  <div
-                    className={cn(
-                      "w-full flex h-full items-center gap-2 justify-start px-3 py-3 border rounded-xl cursor-pointer",
-                      errors.return_date ? "border-red-500" : "border-gray-500"
-                    )}
-                    onClick={() => setReturnDateOpen(true)} // ✅ use correct setter
-                  >
-                    <CalendarDays className="size-5" />
-                    <div className="flex flex-col">
-                      {returnDate && returnTime ? (
-                        <p className="text-sm text-black">
-                          {format(returnDate, "PPP")} at {formatTime12(returnTime?.hour || 0, returnTime?.minute || 0)}
-                        </p>
-                      ) : (
-                        <p className="text-sm text-gray-400">Select date and time</p>
-                      )}
-                    </div>
-                  </div>
-                </PopoverTrigger>
-
-                <PopoverContent className="w-[280px] p-4 bg-white z-[999]" align="start">
-                  <p className="text-sm font-semibold mb-2">Select A Date</p>
-                  <Calendar
-                    mode="single"
-                    selected={returnDate ?? undefined}
-                    onSelect={(date) => {
-                      clearErrors("return_date");
-                      setValue("return_date", date);
-                      setTimeout(() => {
-                        returnTimeRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-                      }, 100);
-                    }}
-                    disabled={(date) => date < new Date()}
-                    initialFocus
-                  />
-
-
-                  {pickupDate && (
-                    <>
-                      <div ref={returnTimeRef}>
-                        <p className="text-sm font-semibold mt-4 mb-2">Select A Time</p>
-                        <div className="grid grid-cols-2 gap-2 mb-4">
-                          {/* Hour Input */}
-                          <div className="relative">
-                            <label className="text-xs font-medium mb-1 block">Hour</label>
-                            <div className="relative">
-                              <input
-                                type="text"
-                                readOnly
-                                inputMode="none"
-                                value={returnTime ? ((returnTime.hour + 11) % 12) + 1 : 12}
-                                className="w-full border rounded px-2 py-2 text-center text-md"
-                              />
-                              <button
-                                type="button"
-                                className="absolute right-1 top-0 text-md"
-                                onClick={() => {
-                                  const current = returnTime ?? { hour: 12, minute: 0 };
-                                  let hour = ((current.hour + 11) % 12) + 1;
-                                  hour = hour < 12 ? hour + 1 : 1;
-                                  const isPM = current.hour >= 12;
-                                  setValue("return_time", {
-                                    ...current,
-                                    hour: isPM ? (hour === 12 ? 12 : hour + 12) : (hour === 12 ? 0 : hour),
-                                  });
-                                }}
-                              >
-                                ▲
-                              </button>
-                              <button
-                                type="button"
-                                className="absolute right-1 bottom-0 text-md"
-                                onClick={() => {
-                                  const current = returnTime ?? { hour: 12, minute: 0 };
-                                  let hour = ((current.hour + 11) % 12) + 1;
-                                  hour = hour > 1 ? hour - 1 : 12;
-                                  const isPM = current.hour >= 12;
-                                  setValue("return_time", {
-                                    ...current,
-                                    hour: isPM ? (hour === 12 ? 12 : hour + 12) : (hour === 12 ? 0 : hour),
-                                  });
-                                }}
-                              >
-                                ▼
-                              </button>
-                            </div>
-                          </div>
-
-                          {/* Minute Input */}
-                          <div className="relative">
-                            <label className="text-xs font-medium mb-1 block">Minute</label>
-                            <div className="relative">
-                              <input
-                                readOnly
-                                type="number"
-                                min={0}
-                                max={59}
-                                step={5}
-                                value={returnTime?.minute ?? 0}
-                                onChange={(e) => {
-                                  const minute = parseInt(e.target.value);
-                                  const current = returnTime ?? { hour: 0, minute: 0 };
-                                  setValue("return_time", {
-                                    ...current,
-                                    minute: isNaN(minute) ? 0 : minute,
-                                  });
-                                }}
-                                className="w-full border rounded px-2 py-2 text-center text-md"
-                              />
-                              <button
-                                type="button"
-                                className="absolute right-1 top-0 text-md"
-                                onClick={() => {
-                                  const current = returnTime ?? { hour: 0, minute: 0 };
-                                  let minute = current.minute ?? 0;
-                                  minute = minute < 55 ? minute + 5 : 0;
-                                  setValue("return_time", { ...current, minute });
-                                }}
-                              >
-                                ▲
-                              </button>
-                              <button
-                                type="button"
-                                className="absolute right-1 bottom-0 text-md"
-                                onClick={() => {
-                                  const current = returnTime ?? { hour: 0, minute: 0 };
-                                  let minute = current.minute ?? 0;
-                                  minute = minute > 0 ? minute - 5 : 55;
-                                  setValue("return_time", { ...current, minute });
-                                }}
-                              >
-                                ▼
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <button
-                          type="button"
-                          onClick={() => setReturnDateOpen(false)}
-                          className="w-full bg-blue-600 text-white py-2 rounded-full font-bold"
-                        >
-                          DONE
-                        </button>
-                      </div>
-
-                    </>
-                  )}
-
-
-                </PopoverContent>
-              </Popover>
-            </div>
-            {/* MOBILE ONLY */}
-            <div className="block md:hidden w-full">
-              <label className="block text-sm font-medium text-black mb-2">Return Date & Time</label>
-
-              <Popover open={mobileReturnDateOpen} onOpenChange={setMobileReturnDateOpen}>
-                <PopoverTrigger asChild>
-                  <div
-                    className={cn(
-                      "w-full flex h-full items-center gap-2 justify-start px-3 py-3 border rounded-xl cursor-pointer",
-                      errors.return_date ? "border-red-500" : "border-gray-500"
-                    )}
-                    onClick={() => setMobileReturnDateOpen(true)}
-                  >
-                    <CalendarDays className="size-5" />
-                    <div className="flex flex-col">
-                      {returnDate && returnTime ? (
-                        <p className="text-sm text-black">
-                          {format(returnDate, "PPP")} at {formatTime12(returnTime?.hour || 0, returnTime?.minute || 0)}
-                        </p>
-                      ) : (
-                        <p className="text-sm text-gray-400">Select date and time</p>
-                      )}
-                    </div>
-                  </div>
-                </PopoverTrigger>
-
-                <PopoverContent className="w-[280px] p-4 bg-white z-[999]" align="start">
-                  <p className="text-sm font-semibold mb-2">Select A Date</p>
-                  <Calendar
-                    mode="single"
-                    selected={returnDate ?? undefined}
-                    onSelect={(date) => {
-                      clearErrors("return_date");
-                      setValue("return_date", date);
-                    }}
-                    disabled={(date) => {
-                      // Disable all dates before the pickup date
-                      if (!pickupDate || !pickupTime) return date < new Date(); // fallback
-                      const pickup = new Date(pickupDate);
-                      pickup.setHours(pickupTime.hour);
-                      pickup.setMinutes(pickupTime.minute);
-                      return date < pickup;
-                    }}
-                    initialFocus
-                  />
-
-
-                  {returnDate && (
-                    <>
-                      <p className="text-sm font-semibold mt-4 mb-2">Select A Time</p>
-                      <div className="grid grid-cols-2 gap-2 mb-4">
-                        {/* Hour Input */}
-                        <div className="relative">
-                          <label className="text-xs font-medium mb-1 block">Hour</label>
-                          <div className="relative">
-                            <input
-                              type="text"
-                              readOnly
-                              inputMode="none"
-                              value={returnTime ? ((returnTime.hour + 11) % 12) + 1 : 12}
-                              className="w-full border rounded px-2 py-2 text-center text-md"
-                            />
-                            <button
-                              type="button"
-                              className="absolute right-1 top-0 text-md"
-                              onClick={() => {
-                                const current = returnTime ?? { hour: 12, minute: 0 };
-                                let hour = ((current.hour + 11) % 12) + 1;
-                                hour = hour < 12 ? hour + 1 : 1;
-                                const isPM = current.hour >= 12;
-                                setValue("return_time", {
-                                  ...current,
-                                  hour: isPM ? (hour === 12 ? 12 : hour + 12) : (hour === 12 ? 0 : hour),
-                                });
-                              }}
-                            >
-                              ▲
-                            </button>
-                            <button
-                              type="button"
-                              className="absolute right-1 bottom-0 text-md"
-                              onClick={() => {
-                                const current = returnTime ?? { hour: 12, minute: 0 };
-                                let hour = ((current.hour + 11) % 12) + 1;
-                                hour = hour > 1 ? hour - 1 : 12;
-                                const isPM = current.hour >= 12;
-                                setValue("return_time", {
-                                  ...current,
-                                  hour: isPM ? (hour === 12 ? 12 : hour + 12) : (hour === 12 ? 0 : hour),
-                                });
-                              }}
-                            >
-                              ▼
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Minute Input */}
-                        <div className="relative">
-                          <label className="text-xs font-medium mb-1 block">Minute</label>
-                          <div className="relative">
-                            <input
-                              readOnly
-                              type="number"
-                              min={0}
-                              max={59}
-                              step={5}
-                              value={returnTime?.minute ?? 0}
-                              onChange={(e) => {
-                                const minute = parseInt(e.target.value);
-                                const current = returnTime ?? { hour: 0, minute: 0 };
-                                setValue("return_time", {
-                                  ...current,
-                                  minute: isNaN(minute) ? 0 : minute,
-                                });
-                              }}
-                              className="w-full border rounded px-2 py-2 text-center text-md"
-                            />
-                            <button
-                              type="button"
-                              className="absolute right-1 top-0 text-md"
-                              onClick={() => {
-                                const current = returnTime ?? { hour: 0, minute: 0 };
-                                let minute = current.minute ?? 0;
-                                minute = minute < 55 ? minute + 5 : 0;
-                                setValue("return_time", { ...current, minute });
-                              }}
-                            >
-                              ▲
-                            </button>
-                            <button
-                              type="button"
-                              className="absolute right-1 bottom-0 text-md"
-                              onClick={() => {
-                                const current = returnTime ?? { hour: 0, minute: 0 };
-                                let minute = current.minute ?? 0;
-                                minute = minute > 0 ? minute - 5 : 55;
-                                setValue("return_time", { ...current, minute });
-                              }}
-                            >
-                              ▼
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* AM/PM Buttons */}
-                      <div className="flex justify-between">
-                        {["AM", "PM"].map((period) => {
-                          const currentHour = returnTime?.hour ?? 0;
-                          const isPM = currentHour >= 12;
-                          const isActive = (period === "PM" && isPM) || (period === "AM" && !isPM);
-                          return (
-                            <button
-                              type="button"
-                              key={period}
-                              className={cn(
-                                "w-[48%] py-1 rounded-full text-sm font-semibold",
-                                isActive ? "bg-blue-500 text-white" : "border border-gray-400 text-gray-700"
-                              )}
-                              onClick={() => {
-                                const time = returnTime ?? { hour: 12, minute: 0 };
-                                let newHour = time.hour;
-                                if (period === "AM" && newHour >= 12) newHour -= 12;
-                                if (period === "PM" && newHour < 12) newHour += 12;
-                                setValue("return_time", { ...time, hour: newHour });
-                              }}
-                            >
-                              {period}
-                            </button>
-                          );
-                        })}
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={() => setMobileReturnDateOpen(false)}
-                        className="w-full bg-blue-600 text-white py-2 rounded-full font-bold mt-4"
-                      >
-                        DONE
-                      </button>
-                    </>
-                  )}
-                </PopoverContent>
-              </Popover>
-            </div>
-
-
-          </>
+          <DateTimePicker
+            label="Return Date & Time"
+            selectedDate={returnDate}
+            selectedTime={returnTime}
+            setValue={(field, value) => setValue(field as any, value)}
+            dateFieldName="return_date"
+            timeFieldName="return_time"
+            minSelectableDate={
+              pickupDate
+                ? startOfDay(new Date(pickupDate.getFullYear(), pickupDate.getMonth(), pickupDate.getDate() + 1))
+                : startOfDay(new Date())
+            }
+          />
         )}
+
 
 
         <div className="flex flex-col gap-1">
           <label className="text-sm font-medium text-black">
             Phone Number <span className="text-red-500">*</span>
           </label>
-          <PhoneInput
-            country={'pk'}
+          <input
+            type="text"
+            name="phone"
             value={watch('phone')}
-            onChange={(phone) => setValue('phone', phone)}
-            inputClass={cn(
-              '!w-full !rounded-xl',
-              errors.phone && '!border-red-500'
+            onChange={(e) => setValue('phone', e.target.value)}
+           className={cn(
+              'p-2 rounded-xl border text-sm md:text-base placeholder:text-xs sm:placeholder:text-sm',
+              errors.phone ? 'border-red-500' : 'border-gray-500'
             )}
-            inputProps={{
-              name: 'phone',
-            }}
+            placeholder="Enter phone number"
           />
           {errors.phone && (
             <p className="text-xs text-red-500 mt-1">Phone is required</p>
@@ -674,8 +202,6 @@ function Step3Form() {
             <p className="text-xs text-red-500 mt-1">Passengers required</p>
           )}
         </div>
-
-
         {/* Number of Suitcases */}
         <div className="flex flex-col gap-1 md:hidden">
           <label className="text-sm font-medium">
@@ -698,7 +224,6 @@ function Step3Form() {
             <p className="text-xs text-red-500 mt-1">Bags required</p>
           )}
         </div>
-
         {/* Airport Pickup Toggle */}
         <div className="flex items-center gap-2 mt-2">
           <input
@@ -709,11 +234,9 @@ function Step3Form() {
           />
           <label className="text-sm font-medium">Airport Pickup?</label>
         </div>
-
         {/* Airport Pickup Options */}
         {watch('airport_pickup') && (
           <div className="flex flex-col gap-5 mt-5">
-
             {/* Flight Number */}
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium">Flight Number</label>
@@ -728,7 +251,6 @@ function Step3Form() {
                 Don’t worry. Even if your flight is delayed, we’ll monitor your flight and arrive on time, every time.
               </p>
             </div>
-
             {/* Flight Track Option */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
@@ -752,7 +274,6 @@ function Step3Form() {
                 </div>
               </div>
             </div>
-
             {/* Meet & Greet */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
@@ -778,7 +299,6 @@ function Step3Form() {
             </div>
           </div>
         )}
-
         {/* Payment Action Buttons */}
         <div className="flex flex-col gap-4 mt-8 w-full">
           <button
@@ -786,60 +306,43 @@ function Step3Form() {
             type="button"
             onClick={async () => {
               const valid = await trigger(requiredFields);
-
               if (!valid) {
                 // Give the DOM some time to render error classes before selecting
                 setTimeout(() => {
                   const firstErrorKey = Object.keys(form.formState.errors)[0]; // use formState directly
                   const el = document.querySelector(`[name="${firstErrorKey}"]`);
-
                   if (el) {
                     el.scrollIntoView({ behavior: "smooth", block: "center" });
                     (el as HTMLElement).focus();
                   }
-
                   toast({
                     variant: "destructive",
                     title: "Missing Information",
                     description: "Please fill in all required fields correctly.",
                   });
                 }, 0);
-
                 return;
               }
-
               const values = form.getValues();
               console.log("Form values:", values);
               NextStep();
             }}
-
           >
             GO TO PAYMENT →
           </button>
-
-
-
           <button
             type="button"
             onClick={() => {
               if (step === 3) Step2();
               else if (step === 2) Step1();
             }}
-            className="w-full border border-black text-black  py-3 px-6 rounded-full font-bold text-center"
+            className="w-full border border-black text-black py-3 px-6 rounded-full font-bold text-center"
           >
             ← BACK TO CARS
           </button>
         </div>
-
-        {/* {watch('payment_method') === 'online'
-          ? watch('payment_id')
-            ? <div onClick={() => NextStep()} className='w-full py-2 px-4 text-center font-bold text-white bg-black rounded-xl cursor-pointer'>{loading ? 'Loading...' : 'Place Order (Payment Done)'}</div>
-            : <MyPaymentForm />
-          : <div onClick={() => NextStep()} className='w-full py-2 px-4 text-center font-bold text-white bg-black rounded-xl cursor-pointer'>{loading ? 'Loading...' : 'Place Order'}</div>} */}
-
       </div>
     </div>
-
   );
 }
 
