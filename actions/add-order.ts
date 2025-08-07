@@ -77,7 +77,7 @@ export async function createOrder({
       return { error: 'order not placed due to backend issue', status: 500 };
     }
     const orderId = order[0].id;
-    const orderLink = `http://localhost:3000/order/${orderId}`;
+    const orderLink = `https://oktaxis.co.uk/order/${orderId}`;
 
     const transporter = nodemailer.createTransport(emailConfig);
 

@@ -22,7 +22,7 @@ export const fleets = [
   {
     name: "Economy",
     cars: "Skoda Octavia | Toyota Prius",
-    price: 1.2,
+    price: 1.3,
     minimumFare: 52,
     image: Economy,
     bags: 3,
@@ -34,7 +34,7 @@ export const fleets = [
   {
     name: "Executive",
     cars: "BMW 5 Series | Mercedes E-Class",
-    price: 1.3,
+    price: 1.4,
     minimumFare: 62,
     image: Executive,
     bags: 3,
@@ -46,7 +46,7 @@ export const fleets = [
   {
     name: "Executive Premium",
     cars: "Tesla Model S",
-    price: 2.0,
+    price: 2.1,
     minimumFare: 87,
     image: ExecutivePremium,
     bags: 3,
@@ -58,7 +58,7 @@ export const fleets = [
   {
     name: "Luxury Van",
     cars: "XL Passenger Van",
-    price: 2.0,
+    price: 2.2,
     minimumFare: 95,
     image: LuxuryVan,
     bags: 6,
@@ -98,13 +98,13 @@ function CarList() {
           price = Number((hours * item.hourly).toFixed(2));
         } else if (category === "trips") {
           if (item.name === "Economy") {
-            price = distance <= 43 ? 52 : 52 + (distance - 43) * 1.2;
+            price = distance <= 40 ? 52 : 52 + (distance - 40) * 1.3;
           } else if (item.name === "Executive") {
-            price = distance <= 47 ? 62 : 62 + (distance - 47) * 1.3;
+            price = distance <= 44 ? 62 : 62 + (distance - 44) * 1.4;
           } else if (item.name === "Executive Premium") {
-            price = distance <= 44 ? 87 : 87 + (distance - 44) * 2.0;
+            price = distance <= 41 ? 87 : 87 + (distance - 41) * 2.1;
           } else if (item.name === "Luxury Van") {
-            price = distance <= 47 ? 95 : 95 + (distance - 47) * 2.0;
+            price = distance <= 42 ? 95 : 95 + (distance - 42) * 2.2;
           }
         }
 
