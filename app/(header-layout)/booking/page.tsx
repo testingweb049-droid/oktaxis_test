@@ -27,7 +27,7 @@ function formatTime12(hour?: number, minute?: number): string {
 
 // re deploye
 function Page() {
-  const { form, category, step, Step2, Step1 } = useCustomForm();
+  const { form, category, step, Step2, Step1,loading,NextStep } = useCustomForm();
   const { getValues, watch } = form;
   const router = useRouter();
 
@@ -75,7 +75,7 @@ function Page() {
               Confirm Order
             </div>
           </div>  */}
-         
+
           <BookingStepper />
 
         </div>
@@ -189,7 +189,28 @@ function Page() {
 
               {step === 2 && <CarList />}
               {step === 3 && <Step3Form />}
-              {step === 4 && <MyPaymentForm />}
+              {step === 4 && (
+                watch("payment_method") === "online" ? (
+                  watch("payment_id") ? (
+                    <div
+                      onClick={() => NextStep()}
+                      className="w-full py-2 px-4 text-center font-bold text-white bg-black rounded-xl cursor-pointer"
+                    >
+                      {loading ? "Loading..." : "Place Order (Payment Done)"}
+                    </div>
+                  ) : (
+                    <MyPaymentForm />
+                  )
+                ) : (
+                  <div
+                    onClick={() => NextStep()}
+                    className="w-full py-2 px-4 text-center font-bold text-white bg-black rounded-xl cursor-pointer"
+                  >
+                    {loading ? "Loading..." : "Place Order"}
+                  </div>
+                )
+              )}
+
             </div>
           </div>
 
