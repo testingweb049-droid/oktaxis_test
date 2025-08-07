@@ -14,8 +14,8 @@ export default function Home() {
   return (
     <>
       <Seo
-        title="OkTaxis | Premier Manchester Airport Taxi & Chauffeur Service"
-        description="Book reliable airport transfers and local rides with OkTaxis. Serving Manchester 24/7 with luxury cars, professional drivers, and flat pricing."
+        title="Premium Chauffeur Services Manchester | Airport Transfers & Wedding Hire | OKTaxis"
+        description="Book premium chauffeur services in Manchester with OKTaxis. Luxury airport transfers, hourly hire, city tours, wedding chauffeurs, and stadium transfers. 24/7 reliable service."
         url="https://oktaxis.com"
         image="https://oktaxis.com/og-image.jpg"
       />

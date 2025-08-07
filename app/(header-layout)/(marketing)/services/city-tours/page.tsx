@@ -33,12 +33,12 @@ export default function CityTour() {
         title=
         {
           <span className="text-3xl md:text-4xl font-bold">
-            Discover Manchester in  {' '}
-            <span className="text-brand text-3xl md:text-4xl font-bold">Executive Comfort</span>{' '}
+            Explore Manchester in  {' '}
+            <span className="text-brand text-3xl md:text-4xl font-bold">Luxury</span>{' '}
 
           </span>
         }
-        text="Discover Manchester and nearby cities in executive comfort with OK Taxis' private city tours. Whether you're a first-time visitor or a local exploring new corners, our luxury chauffeur-driven tours offer a relaxing and enriching experience. From historical landmarks and vibrant cultural spots to boutique shopping and stunning countryside, we'll design a bespoke itinerary tailored to your interests. Our professional chauffeurs have in-depth knowledge of Manchester and surrounding areas, ensuring your tour is both informative and enjoyable."
+        text="Discover Manchester in executive comfort with OKTaxis’ private city tours. From first-time visitors to locals, our luxury chauffeur-driven tours visit iconic spots like Old Trafford, Manchester Cathedral, and the Northern Quarter. With bespoke itineraries tailored to your interests, our knowledgeable chauffeurs make every tour informative and enjoyable."
         bgColor="bg-white"
         imagePosition="left"
       />
@@ -49,19 +49,19 @@ export default function CityTour() {
         title=
         {
           <span className="text-3xl md:text-4xl font-bold">
-            Explore Beyond {' '}
+            Excursions Beyond {' '}
             <span className="text-brand text-3xl md:text-4xl font-bold">Manchester</span>{' '}
 
           </span>
         }
-        text="Beyond Manchester, we offer guided tours to nearby cities including Liverpool, Leeds, Chester, York, and Sheffield. Explore the Beatles' legacy in Liverpool, the Roman walls of Chester, the historic architecture of York, or the arts and nightlife of Leeds—all while traveling in a premium vehicle like a Mercedes E-Class or Tesla Model S. Prefer nature? Ask about our luxury excursions to the Peak District, Lake District, or scenic Cheshire villages. With complimentary refreshments, Wi-Fi, and a professional driver at your disposal, OK Taxis makes sightseeing a five-star experience."
+        text="Venture to Liverpool, Chester, Leeds, York, or Sheffield with our guided city tours. Explore the Beatles’ legacy, Chester’s Roman walls, or the Peak District’s natural beauty in a premium Mercedes E-Class or Tesla Model S. Enjoy complimentary Wi-Fi, refreshments, and a professional chauffeur for a five-star sightseeing experience."
         bgColor="bg-white"
         imagePosition="right"
       />
 
       <section className="flex flex-col gap-12 md:flex-row items-start justify-between container px-4 py-32">
         {/* Left side image */}
-   <div className="md:w-1/2 relative h-64 w-full md:h-80">
+        <div className="md:w-1/2 relative h-64 w-full md:h-80">
           <Image
             src="/Manchester.png"
             alt="Car service in Manchester"
@@ -86,9 +86,9 @@ export default function CityTour() {
 
               {
                 <span className="text-3xl md:text-4xl font-bold">
-                  Advantages of {' '}
-                  <span className="text-brand text-3xl md:text-4xl font-bold">Opting</span>{' '}
-                  for a Long-Distance  {' '}
+                  Benefits of {' '}
+                  <span className="text-brand text-3xl md:text-4xl font-bold"> Our</span>{' '}
+                  Long-Distance  {' '}
                   <span className="text-brand text-3xl md:text-4xl font-bold">Chauffeur Service</span>{' '}
                 </span>
               }
@@ -96,36 +96,28 @@ export default function CityTour() {
           </div>
           <ul className="space-y-6 text-gray-700 text-lg">
             <li className="leading-relaxed">
-              <strong>Privacy and Ease:</strong>
+              <strong>Privacy and Comfort:</strong>
               <br />
-              Unlike busy buses or trains, our executive car service provides a
-              private environment where you can unwind, catch up on work, or
-              simply enjoy the journey without distractions.
+              Unlike crowded trains or buses, our executive car service Manchester offers a private, distraction-free environment to relax or work during your journey.
             </li>
             <li className="leading-relaxed">
-              <strong>Direct and Efficient Journeys:</strong>
+              <strong>Direct and Efficient Travel:</strong>
               <br />
-              Bypass the delays and diversions common with public transport. Our
-              professional drivers take the quickest, most direct routes to
-              ensure you reach your destination promptly.
+              Avoid public transport delays with our chauffeurs’ direct routes, ensuring prompt arrivals for Manchester airport transfers or city tours.
             </li>
             <li className="leading-relaxed">
-              <strong>Assistance with Luggage:</strong>
+              <strong>Luggage Assistance:</strong>
               <br />
-              Travel stress-free knowing our chauffeurs will handle your luggage
-              with care, helping you load and unload to guarantee its safety
-              throughout your trip.
+              Our chauffeurs handle your bags with care, loading and unloading to ensure a stress-free trip.
             </li>
             <li className="leading-relaxed">
-              <strong>Convenient Door-to-Door Transfers:</strong>
+              <strong>Door-to-Door Convenience:</strong>
               <br />
-              Forget the hassle of getting to and from stations or airports. Our
-              bespoke airport transfer service collects you from your doorstep
-              and delivers you precisely where you need to be.
+              Skip the hassle of stations or airports with our bespoke service, picking you up and dropping you off exactly where you need to be.
             </li>
           </ul>
         </div>
-     
+
       </section>
 
       <FleetClasses />
@@ -133,12 +125,12 @@ export default function CityTour() {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center  mb-12">
             {
-          <span className="text-3xl md:text-4xl font-bold">
-            Our Tour  {' '}
-            <span className="text-brand text-3xl md:text-4xl font-bold">Services</span>{' '}
+              <span className="text-3xl md:text-4xl font-bold">
+                Our Tour  {' '}
+                <span className="text-brand text-3xl md:text-4xl font-bold">Services</span>{' '}
 
-          </span>
-        }
+              </span>
+            }
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-gray-50 p-6 rounded-xl text-center">
@@ -149,8 +141,7 @@ export default function CityTour() {
                 Manchester Sightseeing
               </h3>
               <p className="text-gray-600">
-                Explore top spots like Old Trafford, Manchester Cathedral, The
-                Lowry, and the Northern Quarter in VIP comfort.
+                Visit Old Trafford, Manchester Cathedral, The Lowry, and the Northern Quarter in VIP comfort.
               </p>
             </div>
             <div className="bg-gray-50 p-6 rounded-xl text-center">
@@ -161,8 +152,7 @@ export default function CityTour() {
                 Nearby City Excursions
               </h3>
               <p className="text-gray-600">
-                Enjoy seamless travel to Liverpool, Chester, Leeds, York and
-                more — all in one of our luxury vehicles.
+                Travel seamlessly to Liverpool, Chester, Leeds, York, or Sheffield in luxury vehicles.
               </p>
             </div>
             <div className="bg-gray-50 p-6 rounded-xl text-center">
@@ -170,11 +160,10 @@ export default function CityTour() {
                 <FaMapMarkedAlt className="text-white text-xl" />
               </div>
               <h3 className="text-xl font-semibold mb-2">
-                Bespoke Itineraries
+               Bespoke Itineraries
               </h3>
               <p className="text-gray-600">
-                Build your ideal tour day with multiple stops and flexible
-                pickup/drop-off locations.
+                Customize your tour with multiple stops and flexible pickup/drop-off locations.
               </p>
             </div>
             <div className="bg-gray-50 p-6 rounded-xl text-center">
@@ -185,8 +174,7 @@ export default function CityTour() {
                 Nature & Heritage Tours
               </h3>
               <p className="text-gray-600">
-                Travel to the Peak District, Lake Windermere or historic market
-                towns for a relaxing countryside escape.
+                Escape to the Peak District, Lake Windermere, or historic Cheshire villages for a serene getaway.
               </p>
             </div>
           </div>

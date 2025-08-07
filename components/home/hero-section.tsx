@@ -92,8 +92,10 @@ export default function HeroSection() {
   return (
     <section
       id="herosection"
-      className="relative min-h-screen w-full overflow-hidden pt-24 sm:pt-32 md:pt-44 pb-12"
+      className="relative w-full h-[600px] bg-v0-blue border-t-4 border-b-4 border-v0-blue overflow-visible pt-7 pb-40"
     >
+
+
       <Image
         src="/images/filters_format(webp).webp"
         alt="Luxury chauffeur service"
@@ -111,18 +113,20 @@ export default function HeroSection() {
       />
 
       <div className="container relative z-10 mx-auto flex h-full flex-col gap-6 sm:gap-8 md:gap-24 items-start justify-center px-4 sm:px-6 text-white lg:px-5">
-       <div className="w-full pt-4 sm:pt-0 px-2 sm:px-0 max-w-4xl">
+        <div className="w-full pt-5 sm:pt-0 px-2 md:mx-5  sm:px-0 max-w-6xl pb-20 sm:pb-16">
+
 
           <h1
             ref={titleRef}
-            className="mb-2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight tracking-tight"
+            className="mb-2 text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold leading-tight tracking-tight"
           >
             <span className="block text-white sm:hidden">
-              <span className="">Airport Transfers</span> & Taxi Service
+              <span className="">Luxury Transportation</span> in Manchester
+
             </span>
             <span className="hidden sm:block text-white">
-              <span className="">Airport Transfers</span>
-              <span className="block">& Taxi Service</span>
+              <span className="">Luxury Transportation</span>
+              <span className="block">in Manchester</span>
             </span>
           </h1>
 
@@ -130,7 +134,7 @@ export default function HeroSection() {
             ref={subtitleRef}
             className="mt-1 text-lg sm:text-base md:text-lg lg:text-2xl xl:text-3xl text-gray-200"
           >
-             Local taxi network serving Manchester & Liverpool Airport
+            Local taxi network serving Manchester & Liverpool Airport
           </p>
 
         </div>
@@ -138,13 +142,19 @@ export default function HeroSection() {
 
 
         {/* Form container */}
-        <div ref={formContainerRef} className="relative w-full px-2 sm:px-0">
+        <div
+          ref={formContainerRef}
+          className="absolute left-1/2 transform -translate-x-1/2 translate-y-[50%] w-full max-w-6xl mt-15 py-20 px-4 sm:px-6 lg:px-8 z-20"
+
+        >
           <HeroSectionBookingForm />
         </div>
+
+
       </div>
 
       {/* Gradient overlay */}
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent" />
+      <div className="absolute inset-x-0 top-30 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent" />
     </section>
   )
 }

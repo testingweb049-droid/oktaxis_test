@@ -18,7 +18,7 @@ export default function About() {
       />
       <HeroSection2
         bgImage={HeroImge.src}
-        title="About Us: Premium Chauffeur Services Manchester | OKTaxis"
+        title="Premium Chauffeur Services Manchester | OKTaxis"
       />
 
       {/* ✅ Offer section moved to top for consistency */}
@@ -72,17 +72,35 @@ export default function About() {
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2">
               <div className="inline-block bg-black text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
-                Our Commitment
+                Our Commitment to Excellence
               </div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">
-                The <span className="text-brand">OKTaxis</span> Difference
-              </h2>
               <div className="space-y-6 text-gray-600">
                 <p className="text-lg leading-relaxed">
                   At OKTaxis, we believe that details matter. Punctuality, safety, and transparent pricing are the cornerstones of our service – principles we've upheld through rigorous driver training and fleet maintenance. Our professional chauffeurs arrive on time, in uniform, and ready to assist with your luggage and needs, whether it's multilingual support for global visitors or child seats for family airport services. We've earned trustworthiness through consistent 4.9-star reviews on platforms like Google and Trustpilot, with clients praising our no-hidden-fees approach and 30-minute free wait times.
 
                 </p>
               </div>
+              <h2 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">
+                The <span className="text-brand">OKTaxis</span> Difference
+              </h2>
+              <div className="space-y-6 text-gray-600">
+                <p className="text-lg leading-relaxed">
+                  Serving Manchester and nearby cities like Liverpool, Leeds, and beyond, OKTaxis prides itself on a reputation for excellence. Whether you’re a busy executive needing executive airport transfers, a visitor on city tours Manchester, or a local resident heading out for a special occasion like a wedding or event, you can rely on our personal approach and 24/7 support. What sets us apart:
+
+                </p>
+                <ul className="list-disc pl-6 space-y-2 text-lg leading-relaxed">
+                  <li>
+                    <strong>Local Expertise:</strong> In-depth knowledge of Manchester's routes and attractions, honed from years of service.
+                  </li>
+                  <li>
+                    <strong>Client-Centric Focus:</strong> Tailored solutions, such as a meet-and-greet for Manchester airport services or flexible packages for wedding chauffeur Manchester.
+                  </li>
+                  <li>
+                    <strong>Proven Track Record:</strong> Hundreds of successful rides, including high-profile events, demonstrating our authority in the luxury transport niche.
+                  </li>
+                </ul>
+              </div>
+
             </div>
             <div className="lg:w-1/2 relative">
               <div className="relative aspect-video overflow-hidden rounded-2xl shadow-2xl">

@@ -9,11 +9,17 @@ import { calculateDistance } from "@/actions/get-distance";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { createOrder } from "@/actions/add-order";
-
+import { useOrderContext } from '@/context/OrderContext'
 export type tripMethodType = 'hourly' | 'trips'
 
 export const CombinedSchema = z.union([hourlyFormValidation, simpleFormValidation]);
 export type FormDataType = z.infer<typeof CombinedSchema>;
+function formatTime12(hour: number, minute: number): string {
+  const amPm = hour >= 12 ? 'PM' : 'AM';
+  const hour12 = ((hour + 11) % 12) + 1; // converts 0-23 to 1-12
+  const minuteStr = minute.toString().padStart(2, '0');
+  return `${hour12}:${minuteStr} ${amPm}`;
+}
 
 interface CreateFormType {
   form: UseFormReturn<FormDataType>;
@@ -24,8 +30,11 @@ interface CreateFormType {
   NextStep: () => void,
   Step1: () => void,
   Step2: () => void,
+  Step3: () => void,
   step: number,
-  error: string
+  error: string,
+  startLoading: (fn: () => void) => void;
+
 }
 
 export const FormContext = createContext<CreateFormType | null>(null);
@@ -35,6 +44,7 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
   const [step, setStep] = useState(1)
   const [loading, startLoading] = useTransition()
   const router = useRouter()
+  const { setOrder } = useOrderContext()
 
   const [error, setError] = useState('')
   const { toast } = useToast()
@@ -49,7 +59,8 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
       kids: 0,
       bags: 0,
       payment_method: 'online',
-      duration: 0
+      duration: 0,
+
     }
   });
 
@@ -66,111 +77,192 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
 
   function onSubmit() {
     console.log('submitt')
-    const { bags, dropoff_location, payment_id, email, payment_method, flight, duration, kids, name, passengers, phone, pickup_time, pickup_date, pickup_location, price, car, distance, flight_track, meet_greet, is_return, return_date, return_time, } = form.getValues();
-    const _pickup_time = `${pickup_time.hour.toString()} : ${pickup_time.minute.toString()} `
-    const _return_time = return_time ? `${return_time?.hour.toString()} : ${return_time?.minute.toString()} ` : null
+    const {
+      bags, dropoff_location, payment_id, email, payment_method, flight, duration, kids,
+      name, passengers, phone, pickup_time, pickup_date, pickup_location, price, car, distance,
+      flight_track, meet_greet, is_return, return_date, return_time,
+    } = form.getValues();
+
+    // Safeguard for pickup_time and return_time
+    const _pickup_time = pickup_time
+      ? formatTime12(pickup_time.hour, pickup_time.minute)
+      : "";
+
+    const _return_time = return_time
+      ? formatTime12(return_time.hour, return_time.minute)
+      : null;
+
+
+    // Safeguard for pickup_date: show error and return if not set
+    if (!pickup_date || !(pickup_date instanceof Date)) {
+      toast({
+        variant: "destructive",
+        title: "Missing Pickup Date",
+        description: "Please select a pickup date.",
+      });
+      return;
+    }
+
     const _price = Number(price) + (flight_track ? 7 : 0) + (meet_greet ? 15 : 0);
     startLoading(async () => {
       const response = await createOrder({
-        bags, dropoff_location, email, payment_id: payment_id ?? 'N/A', flight: flight ?? 'N/A', duration, kids, name, passengers, phone, pickup_time: _pickup_time, pickup_date, pickup_location, payment_method,
+        bags,
+        dropoff_location,
+        email,
+        payment_id: payment_id ?? 'N/A',
+        flight: flight ?? 'N/A',
+        duration,
+        kids,
+        name,
+        passengers,
+        phone,
+        pickup_time: _pickup_time,
+        pickup_date, // now always a Date
+        pickup_location,
+        payment_method,
         price: _price,
         car,
         distance: Number(distance),
         category: category ?? 'n/a',
         flight_track,
         meet_greet,
-        return_date, return_time: _return_time,
+        return_date,
+        return_time: _return_time,
         is_return
-
-
       });
+      localStorage.setItem("orderData", JSON.stringify({
+        bags,
+        dropoff_location,
+        email,
+        payment_id: payment_id ?? 'N/A',
+        flight: flight ?? 'N/A',
+        duration,
+        kids,
+        name,
+        passengers,
+        phone,
+        pickup_time: _pickup_time,
+        pickup_date,
+        pickup_location,
+        payment_method,
+        price: _price,
+        car,
+        distance: Number(distance),
+        category: category ?? 'n/a',
+        flight_track,
+        meet_greet,
+        return_date,
+        return_time: _return_time,
+        is_return,
+
+      }));
 
       console.log('response : ', response)
-      if (response.status === 201) {
-        router.push("/order-placed");
-        return;
+      if (response.status === 201 && response.order?.[0]) {
+        setOrder(response.order[0]) // Cast response to OrderProps if needed
+        router.push('/order-placed') // no query param required
       }
+
       setError(response.error)
     })
   }
-
   function NextStep() {
-    setError('')
+    setError('');
     startLoading(async () => {
-
       if (step === 1) {
-        const from = getValues('pickup_location_lag_alt')
-        const to = getValues('dropoff_location_lag_alt')
-        console.log("from ", from)
-        console.log("to ", to)
+        const from = getValues('pickup_location_lag_alt');
+        const to = getValues('dropoff_location_lag_alt');
+
         if (category === 'trips') {
           if (!from || !to) {
-            await trigger(['pickup_date', 'pickup_time', 'dropoff_location', 'pickup_location', 'distance', 'dropoff_location_lag_alt', 'pickup_location_lag_alt'])
+            await trigger([
+              'pickup_date', 'pickup_time',
+              'dropoff_location', 'pickup_location',
+              'distance', 'dropoff_location_lag_alt', 'pickup_location_lag_alt'
+            ]);
             toast({
               variant: "destructive",
               title: "From and To not Found",
-              description: "please reselect your locations",
-            })
+              description: "Please reselect your locations",
+            });
             return;
-          };
-          const res = await calculateDistance({ from, to })
+          }
+
+          const res = await calculateDistance({ from, to });
           if (res.status !== 200) {
-            await trigger(['pickup_date', 'pickup_time', 'dropoff_location', 'pickup_location', 'distance', 'dropoff_location_lag_alt', 'pickup_location_lag_alt'])
             toast({
               variant: "destructive",
               title: "Route not found",
-              description: "please select nearly places",
-            })
+              description: "Please select nearby places",
+            });
             return;
           }
+
           if (res.distance) {
-            setValue('distance', res.distance.toString())
+            setValue('distance', res.distance.toString());
           }
         }
 
-        console.log("distance : ", form.getValues('distance'))
+        const output = await trigger(category === 'trips'
+          ? ['pickup_date', 'pickup_time', 'dropoff_location', 'pickup_location', 'distance', 'dropoff_location_lag_alt', 'pickup_location_lag_alt']
+          : ['pickup_date', 'pickup_time', 'pickup_location', 'duration']
+        );
 
-        const output = await trigger(category === 'trips' ? ['pickup_date', 'pickup_time', 'dropoff_location', 'pickup_location', 'distance', 'dropoff_location_lag_alt', 'pickup_location_lag_alt'] : ['pickup_date', 'pickup_time', 'pickup_location', 'duration'])
-        console.log("output : ", form.formState.errors)
         if (!output) {
           toast({
             variant: "destructive",
-            title: "Validationos Error",
-            description: "please complete all required fields",
-          })
+            title: "Validation Error",
+            description: "Please complete all required fields.",
+          });
           return;
         }
 
         setStep(2);
         router.push('/booking#back-button');
       }
-      if (step === 2) {
-        const output = await trigger(['car', 'price'])
-        console.log("output : ", output)
+
+      else if (step === 2) {
+        const output = await trigger(['car', 'price']);
         if (!output) {
           toast({
             variant: "destructive",
-            title: "Validationos Error",
-            description: "please complete all required fields",
-          })
+            title: "Validation Error",
+            description: "Please complete all required fields.",
+          });
           return;
         }
         setStep(3);
         router.push('/booking#back-button');
-
       }
-      if (step === 3) {
-        const output = await trigger()
-        console.log("output : ",output)
+
+      else if (step === 3) {
+        const output = await trigger([
+          'name', 'email', 'phone', 'pickup_date', 'pickup_time', 'passengers', 'bags'
+        ]);
         if (!output) {
           toast({
             variant: "destructive",
-            title: "Validationos Error",
-            description: "please complete all required fields",
-          })
+            title: "Validation Error",
+            description: "Please complete all required fields.",
+          });
+          return;
+        }
+        setStep(4);
+        router.push('/booking#back-button');
+      }
+
+      else if (step === 4) {
+        const output = await trigger();
+        if (!output) {
+          toast({
+            variant: "destructive",
+            title: "Validation Error",
+            description: "Please complete all required fields.",
+          });
           return;
         }
 
+        // ✅ THIS is now only called on step 4
         if (form.watch('payment_method') === 'cod') {
           onSubmit();
           return;
@@ -180,15 +272,15 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
           toast({
             variant: "destructive",
             title: "Payment not done",
-            description: "please pay your amount",
-          })
+            description: "Please pay your amount.",
+          });
           return;
         }
-        console.log("submit work")
-        onSubmit();
 
+        console.log("submit work");
+        onSubmit();
       }
-    })
+    });
   }
 
 
@@ -203,9 +295,15 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
     router.push('/booking#back-button');
 
   }
+  function Step3() {
+    if (step !== 4) return;
+    setStep(3);
+    router.push('/booking#back-button');
+  }
+
 
   return (
-    <FormContext.Provider value={{ form, category, setCategory, resetForm, loading, NextStep, error, step, Step1, Step2 }}>
+    <FormContext.Provider value={{ form, category, setCategory, resetForm, loading, NextStep,startLoading, error, step, Step1, Step2, Step3 }}>
       {children}
     </FormContext.Provider>
   );

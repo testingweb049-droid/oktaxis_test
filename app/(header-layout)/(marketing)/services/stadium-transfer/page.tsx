@@ -16,7 +16,7 @@ export default function StadiumTransfer() {
       />
       <HeroSection2
         bgImage="/Manchester Stadium Transfers.jpg" // Updated image
-        title="Stadium Transfers"
+        title="Premier Stadium and Event Transfers in Manchester"
       // description="Need a transfer to a Manchester stadium? OKTaxi Service has got you covered. Avoid the hassle and secure your ride ahead of time by booking with us—so you won't be left stranded on match day. Dependable and professional taxi service in Manchester."
       />
       <Offer />
@@ -27,12 +27,12 @@ export default function StadiumTransfer() {
         {
           <span className="text-3xl md:text-4xl font-bold">
             Stress-Free{' '}
-            <span className="text-brand text-3xl md:text-4xl font-bold">Stadium </span>{' '}
+            <span className="text-brand text-3xl md:text-4xl font-bold">Stadium and Event</span>{' '}
             Transfers
 
           </span>
         }
-        text="Cheer on your team without worrying about the drive home. OK Taxis provides reliable and stylish transfers to Manchester's major stadiums and event venues. Pre-book your ride to Old Trafford, Etihad Stadium, AO Arena, or any large event, and our chauffeurs will ensure timely arrivals and departures. Our professional drivers know the event schedules and parking restrictions, so you can relax knowing we will navigate safely and efficiently around the crowds."
+        text="Cheer on your team or enjoy a concert without travel worries. OKTaxis offers reliable Old Trafford taxi service and transfers to Etihad Stadium, AO Arena, and other Manchester venues. Pre-book your ride, and our professional chauffeurs, familiar with event schedules and parking restrictions, will ensure timely and safe navigation through crowds for a hassle-free experience."
         bgColor="bg-white"
         imagePosition="left"
       />
@@ -49,7 +49,7 @@ export default function StadiumTransfer() {
             Solutions
           </span>
         }
-        text="We offer special event rates and can accommodate groups of any size. Whether it's a single, comfortable ride or multiple luxury cars for a large party, every passenger will enjoy a spacious, air-conditioned vehicle. Post-game, skip the taxi lines and ride directly away from the venue – our chauffeurs coordinate pickup points to get you moving quickly after the final whistle. Focus on the game or the concert, and let OK Taxis handle the journey."
+        text="Our special event rates cater to groups of all sizes. Whether a solo trip or a large party, our luxury vehicles—from sedans to minibuses—offer air-conditioned comfort. Skip post-event taxi queues with coordinated pickups, ensuring a swift exit after the final whistle or encore. Focus on the match or show, and let OKTaxis handle your Manchester event transport."
         bgColor="bg-white"
         imagePosition="right"
       />
@@ -72,42 +72,32 @@ export default function StadiumTransfer() {
         </div>
         {/* Left side content */}
         <div className="flex flex-col space-y-6 md:w-1/2">
-          <h2 className="text-3xl  font-semibold flex items-center gap-3">
-            {
-              <span className="text-3xl md:text-4xl font-bold">
-                Manchester Football{' '}
-                <span className="text-brand text-3xl md:text-4xl font-bold">Stadiums: </span>{' '}
-
-              </span>
-            }
+          <h2 className="text-3xl font-semibold flex items-center gap-3">
+            <span className="text-3xl md:text-4xl font-bold">
+              Manchester Stadium and{' '}
+              <span className="text-brand text-3xl md:text-4xl font-bold">Event Services</span>
+            </span>
           </h2>
           <ul className="space-y-4 text-gray-700 text-lg">
             <li>
-              Reliable transport services to Manchester City Football grounds
-              and any football stadium in Manchester or Liverpool. Convenient
-              transfers from stadiums to airports, ensuring smooth onward
-              journeys. Available for{" "}
-              <strong>
-                {" "}
-                football matches, rugby games, concerts, and other large events
-                in Manchester.
-              </strong>
+              <strong>Football and Event Venues:</strong> <br />
+              Reliable transport to Manchester City’s Etihad Stadium, Old Trafford, and Liverpool venues for matches, rugby games, or concerts.
             </li>
             <li>
-              <strong>Group Options:</strong> <br />
-              Meet you at the stadium entrance or a convenient nearby location
-              to save you time and stress. Group-friendly services with multiple
-              vehicles and minibuses available for corporate hospitality or
-              large fan groups.
+              <strong>Airport Connections:</strong> <br />
+              Seamless transfers from stadiums to Manchester Airport, ensuring smooth onward journeys.
             </li>
             <li>
-              <strong>Comfort and Convenience:</strong> <br />
-              Relax in luxury after the excitement with our premium fleet.
-              Comfortable, smooth journeys home or to your next destination
-              guaranteed.
+              <strong>Group-Friendly Options:</strong> <br />
+              Meet at stadium entrances or nearby locations for convenience, with minibuses available for corporate hospitality or fan groups.
+            </li>
+            <li>
+              <strong>Luxury Comfort:</strong> <br />
+              Relax post-event in our premium fleet, featuring spacious seating and a smooth ride to your next destination.
             </li>
           </ul>
         </div>
+
 
         {/* Right side image */}
       </section>
@@ -120,28 +110,22 @@ export default function StadiumTransfer() {
               {
                 <span className="text-3xl md:text-4xl font-bold">
                   Old{' '}
-                  <span className="text-brand text-3xl md:text-4xl font-bold">Trafford</span>{' '}
-                  Stadium {" "}
-                  <span className="text-brand text-3xl md:text-4xl font-bold">Transfers</span>{' '} 
+                  <span className="text-brand text-3xl md:text-4xl font-bold">Trafford and</span>{' '}
+                  Etihad Stadium {" "}
+                  <span className="text-brand text-3xl md:text-4xl font-bold">Transfers</span>{' '}
                 </span>
               }
             </h2>
             <ul className="space-y-4 text-gray-700 text-lg">
               <li>
-                Enjoy reliable taxi services anytime between the airport and two
-                of Manchester’s most iconic football venues{" "}
-                <strong> Old Trafford and the Etihad Stadium.</strong> Whether
-                you’re arriving for a{" "}
+                Count on OKTaxis for dependable taxi services between Manchester Airport and iconic venues like{" "}
+                <strong> Old Trafford and the Etihad Stadium.</strong> Whether attending a Premier League{" "}
                 <strong>
                   {" "}
-                  match, a concert, or any event, we provide timely,
-                  comfortable, and convenient transfers.
+                  match, concert, or special event, our professional chauffeurs provide timely, comfortable transfers.
                 </strong>{" "}
-                Our professional drivers ensure you get to{" "}
-                <strong> Old Trafford or the Etihad Stadium </strong> smoothly
-                from the airport, and just as easily return to the airport after
-                the excitement. Count on us for hassle-free travel anytime you
-                need a taxi to or from these legendary stadiums.
+
+                Arrive refreshed and return to the airport effortlessly with our luxury airport transfers Manchester.
               </li>
             </ul>
           </div>
@@ -169,14 +153,14 @@ export default function StadiumTransfer() {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center  mb-12">
-             
-              {
-          <span className="text-3xl md:text-4xl font-bold">
-             Our Stadium Transfer{' '}
-            <span className="text-brand text-3xl md:text-4xl font-bold">Services</span>{' '}
 
-          </span>
-        }
+            {
+              <span className="text-3xl md:text-4xl font-bold">
+                Our Stadium Transfer{' '}
+                <span className="text-brand text-3xl md:text-4xl font-bold">Services</span>{' '}
+
+              </span>
+            }
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-gray-50 p-6 rounded-xl text-center">
@@ -187,8 +171,7 @@ export default function StadiumTransfer() {
                 Matchdays & Concerts
               </h3>
               <p className="text-gray-600">
-                Available for football matches, rugby games, concerts and other
-                large events in Manchester.
+                 Available for football, rugby, concerts, and large events across Manchester.
               </p>
             </div>
             <div className="bg-gray-50 p-6 rounded-xl text-center">
@@ -197,8 +180,7 @@ export default function StadiumTransfer() {
               </div>
               <h3 className="text-xl font-semibold mb-2">Flexible Pickup</h3>
               <p className="text-gray-600">
-                We meet you at the stadium entrance or a convenient nearby
-                location, saving you time and stress.
+                 Meet at stadium entrances or nearby locations for time-saving convenience.
               </p>
             </div>
             <div className="bg-gray-50 p-6 rounded-xl text-center">
@@ -207,8 +189,7 @@ export default function StadiumTransfer() {
               </div>
               <h3 className="text-xl font-semibold mb-2">Group Friendly</h3>
               <p className="text-gray-600">
-                We can provide multiple vehicles and minibuses for corporate
-                hospitality or large fan groups.
+                Multiple vehicles and minibuses for corporate groups or fan parties.
               </p>
             </div>
             <div className="bg-gray-50 p-6 rounded-xl text-center">
@@ -216,11 +197,10 @@ export default function StadiumTransfer() {
                 <FaMusic className="text-white text-xl" />
               </div>
               <h3 className="text-xl font-semibold mb-2">
-                Comfort All The Way
+                Premium Comfort
               </h3>
               <p className="text-gray-600">
-                Relax in luxury after the excitement – our fleet ensures a
-                smooth journey home or on to your next destination.
+                Enjoy a luxurious, relaxing ride home or to your next destination after the event.
               </p>
             </div>
           </div>

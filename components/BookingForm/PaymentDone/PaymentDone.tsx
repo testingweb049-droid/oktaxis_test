@@ -1,4 +1,5 @@
-import { StatusCard } from '@/components/Sections/StatusCard';
+import StatusCard from '@/components/Sections/StatusCard'
+
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { SetStateAction, useEffect } from 'react'
 

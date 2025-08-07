@@ -32,12 +32,13 @@ export default function EventWedding() {
         title=
         {
           <span className="text-3xl md:text-4xl font-bold">
-            Make a {' '}
-            <span className="text-brand text-3xl md:text-4xl font-bold">Grand Entrance</span>{' '}
+
+            Unforgettable{' '}
+            <span className="text-brand text-3xl md:text-4xl font-bold">Grand Entrances</span>{' '}
 
           </span>
         }
-        text="Make a grand entrance on your special day with OK Taxis' premium event and wedding transportation. Our elegant cars and professional chauffeurs will ensure you arrive in style, whether you're walking down the aisle, attending a gala, or celebrating any milestone. We work closely with you to plan every detail – from route and timing to decorations or special requests – so that your event runs smoothly and memorably."
+        text="Make your event extraordinary with OKTaxis’ luxury wedding car hire and event transportation in Manchester. From perfectly timed routes to bespoke decorations, we plan every detail to ensure a flawless and memorable journey, whether for a wedding, gala, or milestone celebration."
         bgColor="bg-white"
         imagePosition="left"
       />
@@ -49,11 +50,11 @@ export default function EventWedding() {
         {
           <span className="text-3xl md:text-4xl font-bold">
             Versatile Event {' '}
-            <span className="text-brand text-3xl md:text-4xl font-bold">Transportation</span>{' '}
+            <span className="text-brand text-3xl md:text-4xl font-bold">and Corporate Transport</span>{' '}
 
           </span>
         }
-        text="In addition to weddings, our chauffeur service caters to corporate events, conferences, parties and more. Treat your guests or colleagues to VIP transfers, arriving in a sleek Mercedes or BMW while enjoying complimentary refreshments and privacy. We offer coordinated group transportation for large parties, complete with professional signage and reliable pick-ups. With OK Taxis, you can focus on enjoying the occasion while we take care of the journey."
+        text="Our chauffeur services extend to corporate events, conferences, and private parties in Manchester. Impress clients with VIP airport transfers in sleek Mercedes or BMWs, complete with complimentary refreshments and privacy. For large groups, we offer coordinated transport with professional signage and reliable pick-ups, letting you focus on the occasion."
         bgColor="bg-white"
         imagePosition="right"
       />
@@ -78,8 +79,7 @@ export default function EventWedding() {
               </div>
               <h3 className="text-xl font-semibold mb-2">Weddings</h3>
               <p className="text-gray-600">
-                Arrive at the ceremony and reception in luxury style. We offer
-                beautiful vehicles and respectful, timely service.
+                Arrive at your Manchester ceremony or reception in luxurious style with our decorated vehicles and timely service.
               </p>
             </div>
             <div className="bg-gray-50 p-6 rounded-xl text-center">
@@ -88,8 +88,7 @@ export default function EventWedding() {
               </div>
               <h3 className="text-xl font-semibold mb-2">Corporate Events</h3>
               <p className="text-gray-600">
-                Impress clients and colleagues with VIP transportation to
-                business meetings, conferences, or award ceremonies.
+                Impress with VIP transport for business meetings, conferences, or award ceremonies in Manchester.
               </p>
             </div>
             <div className="bg-gray-50 p-6 rounded-xl text-center">
@@ -100,8 +99,7 @@ export default function EventWedding() {
                 Parties & Celebrations
               </h3>
               <p className="text-gray-600">
-                Whether it's a birthday, anniversary or concert, enjoy a
-                seamless ride for you and your guests.
+                Enjoy seamless rides for birthdays, anniversaries, or concerts across Manchester.
               </p>
             </div>
             <div className="bg-gray-50 p-6 rounded-xl text-center">
@@ -110,8 +108,7 @@ export default function EventWedding() {
               </div>
               <h3 className="text-xl font-semibold mb-2">Group Transport</h3>
               <p className="text-gray-600">
-                We can coordinate multiple vehicles to keep large wedding
-                parties, tour groups or corporate teams together.
+                 Coordinated multi-vehicle services for wedding parties, corporate teams, or tour groups, ensuring everyone arrives together.
               </p>
             </div>
           </div>
