@@ -238,17 +238,7 @@ export default function Header() {
 
               {/* Social buttons for mobile only */}
               <div className="flex items-center gap-5 md:hidden mr-8">
-                {/* WhatsApp */}
-                <a
-                  href="https://wa.me/+447788710290"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center w-9 h-9   rounded-md bg-[#25D366] text-white shadow"
-                  onClick={() => setIsOpen(false)}
-                  aria-label="WhatsApp"
-                >
-                  <FaWhatsapp className="w-8 h-8" />
-                </a>
+               
 
                 {/* Instagram */}
                 <a
@@ -260,6 +250,17 @@ export default function Header() {
                   aria-label="Instagram"
                 >
                   <FaInstagram className="w-8 h-8" />
+                </a>
+                 {/* WhatsApp */}
+                <a
+                  href="https://wa.me/+447788710290"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-9 h-9   rounded-md bg-[#25D366] text-white shadow"
+                  onClick={() => setIsOpen(false)}
+                  aria-label="WhatsApp"
+                >
+                  <FaWhatsapp className="w-8 h-8" />
                 </a>
               </div>
 
@@ -334,16 +335,7 @@ export default function Header() {
 
             {/* Call Button */}
             <div className="hidden md:flex items-center space-x-3 ml-2">
-              <a
-                href="https://wa.me/+447788710290"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all bg-white text-black hover:bg-gray-100"
-                onClick={() => setIsOpen(false)}
-              >
-                <FaWhatsapp className="mr-2 h-5 w-5" />
-                WhatsApp Us
-              </a>
+            
               <a
                 href="https://www.instagram.com/oktax_is/"
                 target="_blank"
@@ -353,6 +345,16 @@ export default function Header() {
               >
                 <FaInstagram className="mr-2 h-5 w-5" />
                 Instagram
+              </a>
+                <a
+                href="https://wa.me/+447788710290"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all bg-white text-black hover:bg-gray-100"
+                onClick={() => setIsOpen(false)}
+              >
+                <FaWhatsapp className="mr-2 h-5 w-5" />
+                WhatsApp Us
               </a>
             </div>
 

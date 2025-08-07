@@ -105,18 +105,18 @@ export default function FleetClasses() {
                 <Image src={vehicle.image || "/placeholder.svg"} alt={vehicle.name} fill className="object-cover" />
               </div>
               <div className="p-6">
-                <h3 className="mb-2 text-xl font-bold text-gray-900">{vehicle.name}</h3>
-                <p className="mb-4 text-sm text-gray-600">{vehicle.cars}</p>
+                {/* <h3 className="mb-2 text-xl font-bold text-gray-900">{vehicle.name}</h3> */}
+                <h3 className="mb-2 text-xl font-bold text-gray-900" >{vehicle.cars}</h3>
 
                 <div className="flex items-center justify-start space-x-6">
                   <div className="flex items-center text-brand">
                     <Users className="mr-2 h-5 w-5" />
-                    <span className="text-sm">Max {vehicle.persons}</span>
+                    <span className="text-sm">{vehicle.persons} passengers</span>
                   </div>
                   <div className="flex items-center text-brand">
                     <Briefcase className="mr-2 h-5 w-5" />
-                    <span className="text-sm">Max {vehicle.bags}</span>
-                  </div>
+                    <span className="text-sm">{vehicle.bags} suitcases</span>
+                  </div> 
                 </div>
               </div>
             </div>

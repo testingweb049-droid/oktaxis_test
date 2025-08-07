@@ -15,7 +15,7 @@ export default function ChauffeurServices() {
       />
       <HeroSection2
         bgImage="/blog6.webp"
-        title="Professional Chauffeur Services in Manchester – Airport, Business & More"
+        title="Professional Chauffeur Services in Manchester Cooperate, Business & More"
       // description="Experience the highest level of comfort and class with OKTaxis' chauffeur services. Whether you're a corporate client, a tourist, or attending an important event, our professional drivers ensure a premium travel experience. From executive travel to Manchester airport, we provide punctual, discreet, and luxurious transport tailored to your needs."
       />
       <Offer />
@@ -25,12 +25,12 @@ export default function ChauffeurServices() {
         title=
         {
           <span className="text-3xl md:text-4xl font-bold">
-            Ultimate{' '}
-            <span className="text-brand text-3xl md:text-4xl font-bold">Comfort & Convenience</span>{' '}
+            Premium Chauffeur Service for {' '}
+            <span className="text-brand text-3xl md:text-4xl font-bold">Every Occasion</span>{' '}
 
           </span>
         }
-        text="Experience the ultimate in comfort and convenience with OK Taxis' premium chauffeur services. Whether it's a corporate event, executive travel, special occasion or simply a luxurious ride to your destination, our professional chauffeurs are at your service. We offer an executive car service in Manchester with fleet options to suit every need, from fuel-efficient sedans to spacious SUVs and vans."
+        text="Experience unmatched comfort with OKTaxis’ luxury chauffeur service Manchester. From Manchester airport transfers to corporate events or private tours, our professional chauffeurs and diverse fleet—ranging from fuel-efficient sedans to spacious SUVs—cater to every requirement with elegance and ease."
         bgColor="bg-white"
         imagePosition="left"
       />
@@ -43,10 +43,10 @@ export default function ChauffeurServices() {
           <span className="text-3xl md:text-4xl font-bold">
 
             <span className="text-brand text-3xl md:text-4xl font-bold">White-Glove</span>{' '}
-            Service
+            Chauffeur Experience
           </span>
         }
-        text="Our chauffeurs are more than drivers – they are trained professionals committed to delivering a white-glove experience. Dressed in uniform and well-versed in the city's roads, they ensure you arrive relaxed, on time and prepared for anything. Safety and discretion are paramount, so all vehicles are fully insured and sanitised before each journey, and our drivers respect your privacy throughout. With fixed competitive rates and simple booking, hiring an OK Taxis chauffeur is an effortless way to upgrade any trip."
+        text="Our chauffeurs are trained professionals dedicated to delivering a white-glove experience. Uniformed, knowledgeable about Manchester’s roads, and committed to safety, they ensure you arrive relaxed and on time. All vehicles are fully insured, sanitized before each trip, and equipped with Wi-Fi and bottled water for your comfort. With transparent pricing and easy booking, OKTaxis makes luxury travel in Manchester seamless."
         bgColor="bg-white"
         imagePosition="right"
       />
@@ -71,8 +71,7 @@ export default function ChauffeurServices() {
               </div>
               <h3 className="text-xl font-semibold mb-2">Versatile Travel</h3>
               <p className="text-gray-600">
-                Airport transfers, corporate travel, social events or private
-                tours – our chauffeurs adapt to any schedule.
+                Tailored for Manchester airport transfers, corporate travel, social events, or private tours.
               </p>
             </div>
             <div className="bg-gray-50 p-6 rounded-xl text-center">
@@ -81,8 +80,7 @@ export default function ChauffeurServices() {
               </div>
               <h3 className="text-xl font-semibold mb-2">Premium Amenities</h3>
               <p className="text-gray-600">
-                Each ride includes bottled water, Wi-Fi and climate-controlled
-                interiors for maximum comfort.
+                Enjoy complimentary bottled water, Wi-Fi, and climate-controlled interiors for a luxurious ride.
               </p>
             </div>
             <div className="bg-gray-50 p-6 rounded-xl text-center">
@@ -91,18 +89,16 @@ export default function ChauffeurServices() {
               </div>
               <h3 className="text-xl font-semibold mb-2">Licensed & Insured</h3>
               <p className="text-gray-600">
-                All vehicles and drivers meet official UK licensing and
-                insurance requirements for your peace of mind.
+                 All vehicles and drivers meet UK licensing and insurance standards for your peace of mind.
               </p>
             </div>
             <div className="bg-gray-50 p-6 rounded-xl text-center">
               <div className="bg-black w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
                 <FaCalendarAlt className="text-white text-xl" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Easy Booking</h3>
+              <h3 className="text-xl font-semibold mb-2">Effortless Booking</h3>
               <p className="text-gray-600">
-                Use our online form or contact us directly; we'll confirm
-                details and send a driver right to you, hassle-free.
+                Book online or contact us directly for quick confirmation and hassle-free chauffeur services in Manchester.
               </p>
             </div>
           </div>

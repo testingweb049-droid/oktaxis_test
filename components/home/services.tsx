@@ -102,7 +102,7 @@ export default function Services() {
   }
 
   return (
-    <section id="services" className="py-16" ref={ref}>
+    <section id="services" className="py-16 mt-40" ref={ref}>
       <div className="container mx-auto px-4 md:px-6">
         <div
           className="mb-8 animate-fade-in-up opacity-0"

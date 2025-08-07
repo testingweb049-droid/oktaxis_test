@@ -77,13 +77,13 @@ export async function createOrder({
       return { error: 'order not placed due to backend issue', status: 500 };
     }
     const orderId = order[0].id;
-    const orderLink = `${process.env.BASE_URL}/order/${orderId}`;
+    const orderLink = `http://localhost:3000/order/${orderId}`;
 
     const transporter = nodemailer.createTransport(emailConfig);
 
     const mailOptions = {
-      from: 'info@oktaxis.co.uk',
-      to: [email, 'info@oktaxis.co.uk'],
+      from: 'reservation@oktaxis.co.uk',
+      to: [email, 'reservation@oktaxis.co.uk'],
       subject: 'Order Placed Successfully!',
       html: `
        <html lang="en">
@@ -100,7 +100,7 @@ export async function createOrder({
       <div style="padding: 30px 25px;">
         <p style="font-size: 16px; color: #111827;">Hi <strong>${name}</strong>,</p>
         <p style="font-size: 16px; color: #111827; line-height: 1.6;">
-          Your booking has been successfully received and is being processed. You’ll receive confirmation shortly once everything is assigned.
+          Your booking has been successfully received and your ride is confirmed. Our driver will arrive approximately 15 minutes before your scheduled pickup time.
         </p>
 
         <div style="margin: 30px 0; text-align: center;">
@@ -114,7 +114,7 @@ export async function createOrder({
 
         <p style="font-size: 14px; color: #4b5563; line-height: 1.5;">
           Need help or have any questions? Contact us anytime at
-          <a href="mailto:info@oktaxis.co.uk" style="color: #F7931E; font-weight: 500;">info@oktaxis.co.uk</a>
+          <a href="mailto:reservation@oktaxis.co.uk" style="color: #F7931E; font-weight: 500;">reservation@oktaxis.co.uk</a>
         </p>
       </div>
 

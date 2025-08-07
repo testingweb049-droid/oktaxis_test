@@ -25,15 +25,15 @@ export async function createOrderById({orderId,clientSecret}:{orderId:string,cli
     }
   
    console.log("one")
-   const orderLink = `https://oktaxis.co.uk/order/${orderId}`; 
+   const orderLink = `http://localhost:3000/order/${orderId}`; 
    console.log("two")
    
    const transporter = nodemailer.createTransport(emailConfig);
    
    console.log("three")
    const mailOptions = {
-     from: 'info@oktaxis.co.uk',
-     to: ['info@oktaxis.co.uk',order[0].email,],
+     from: 'reservation@oktaxis.co.uk',
+     to: ['reservation@oktaxis.co.uk',order[0].email,],
      subject: 'Order Placed Successfully!',
      html: `
      <html lang="en">

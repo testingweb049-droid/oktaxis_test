@@ -14,6 +14,8 @@ import { FaTint } from "react-icons/fa";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import HourlyNoteDialog from "@/components/NewBookingForm/HourlyNoteDailog";
 import { format } from "date-fns";
+import BookingStepper from "@/components/NewBookingForm/booking-stepper";
+import MyPaymentForm from "@/components/NewBookingForm/PaymentForm";
 function formatTime12(hour?: number, minute?: number): string {
   if (hour == null || minute == null) return "";
   const period = hour >= 12 ? "PM" : "AM";
@@ -41,11 +43,11 @@ function Page() {
 
 
   return (
-    <div className=" w-full pb-10 ">
+    <div className=" w-full pb-10 bg-[#EBF1F5]">
       <div className="w-full h-16 sm:h-20 mb-4 bg-black/80"></div>
       <ContainerLayout>
         <div className="flex flex-col gap-5 w-full">
-          <div
+          {/* <div
             onClick={() => {
               if (step === 2) {
                 Step1();
@@ -59,8 +61,8 @@ function Page() {
             {" "}
             <IoArrowBackOutline className="text-xl" />{" "}
             <span id="back-button">Back</span>
-          </div>
-          <div className="w-full max-w-screen-sm grid grid-cols-2 items-center mx-auto">
+          </div> */}
+          {/* <div className="w-full max-w-screen-sm grid grid-cols-2 items-center mx-auto">
             <div className="pt-5 w-full border-t-2 border-brand text-gray-700 text-center">
               Select Fleet
             </div>
@@ -72,10 +74,13 @@ function Page() {
             >
               Confirm Order
             </div>
-          </div>
+          </div>  */}
+         
+          <BookingStepper />
+
         </div>
-        <div className="pt-10 lg:pt-20 w-full grid lg:grid-cols-7 gap-5">
-          <div className="w-full hidden lg:flex flex-col gap-10 lg:col-span-2">
+        <div >
+          {/* <div className="w-full hidden lg:flex flex-col gap-10 lg:col-span-2">
             <div className="w-full p-4 flex flex-col gap-5 bg-gray-100  h-fit rounded-xl">
               <div className="flex items-center justify-between w-full">
                 <div className="text-2xl">Summary</div>
@@ -178,11 +183,16 @@ function Page() {
                 </div>
               </div>
             </div>
+          </div> */}
+          <div className="w-full lg:col-span-5 flex justify-center">
+            <div className="w-full max-w-6xl">
+
+              {step === 2 && <CarList />}
+              {step === 3 && <Step3Form />}
+              {step === 4 && <MyPaymentForm />}
+            </div>
           </div>
-          <div className="w-full lg:col-span-5">
-            {step === 2 && <CarList />}
-            {step === 3 && <Step3Form />}
-          </div>
+
         </div>
         {category === "hourly" && <HourlyNoteDialog />}
       </ContainerLayout>

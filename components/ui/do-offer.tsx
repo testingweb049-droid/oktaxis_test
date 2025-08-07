@@ -18,43 +18,37 @@ const defaultOffers: OfferItem[] = [
     id: 1,
     icon: '/minute.svg',
     title: '30 Minutes Free Wait Time',
-    description:
-      'No rush after landing—perfect for delays at Manchester or Liverpool airports.',
+    description: 'Enjoy a stress-free 30-minute grace period on all bookings.',
   },
   {
     id: 2,
     icon: '/free.svg',
     title: 'Free Cancellation Up to 48 Hours',
-    description:
-      'Flexible for business trips or last-minute changes.',
+    description: 'Cancel up to 48 hours in advance at no charge.',
   },
   {
     id: 3,
     icon: '/flight.svg',
     title: 'Flight Tracking',
-    description:
-      "Our chauffeurs monitor flights to ensure timely pickups, even for early or delayed arrivals.",
+    description: "We track your flight to ensure on-time pickup, even with delays.",
   },
   {
     id: 4,
     icon: '/pilot.svg',
     title: 'Multilingual and Professional Chauffeurs',
-    description:
-      "Fluent in multiple languages, acting as your personal concierge for international travelers.",
+    description: "Courteous chauffeurs fluent in multiple languages.",
   },
   {
     id: 5,
     icon: '/pricing.svg',
     title: 'Transparent Pricing',
-    description:
-      "Fixed rates with no surprises, whether it's a short ride or long-distance UK transfer.",
+    description: "No hidden fees—clear, upfront pricing always.",
   },
   {
     id: 6,
     icon: '/meet.svg',
     title: 'Meet and Greet',
-    description:
-      'Personalized welcome at arrivals with luggage assistance.',
+    description: 'Your driver welcomes you inside with a name sign and assistance.',
   },
 ];
 
@@ -63,250 +57,232 @@ const hourlyChauffeurOffers: OfferItem[] = [
     id: 1,
     icon: '/24-hours-support 1.svg',
     title: 'Customized Scheduling',
-    description: 'Hire by the hour or full day—adapt your itinerary on the go without worries.',
+    description: 'Hire by the hour with total itinerary flexibility.',
   },
   {
     id: 2,
     icon: '/pilot.svg',
     title: 'Professional Multilingual Chauffeurs',
-    description: 'Trained concierges fluent in multiple languages, ensuring seamless service for international clients.',
+    description: 'Fluent, well-trained chauffeurs for international clients.',
   },
   {
     id: 3,
     icon: '/free.svg',
     title: 'Premium Amenities',
-    description: 'Complimentary Wi-Fi, bottled water, tissues, and charging ports in every vehicle.',
+    description: 'Wi-Fi, water, tissues, and chargers in every ride.',
   },
   {
     id: 4,
     icon: '/hourglass 1.svg',
     title: 'Punctuality Guarantee',
-    description: 'Always on time, with wait-and-return options for appointments or errands.',
+    description: "We're always on time, with wait-and-return options.",
   },
   {
     id: 5,
     icon: '/pricing.svg',
     title: 'Transparent & Affordable Pricing',
-    description: 'Fixed hourly rates with no surprises, starting from £40/hour for economy options.',
+    description: 'Clear hourly rates with no hidden charges.',
   },
   {
     id: 6,
     icon: '/car 1.svg',
     title: 'Eco-Friendly Fleet',
-    description: 'Hybrid and electric vehicles available for sustainable luxury travel.',
+    description: 'Travel greener with hybrid and electric cars.',
   },
 ];
-
 
 const chauffeurServicesOffers: OfferItem[] = [
   {
     id: 1,
     icon: '/chauffeur/seat 1.svg',
-    title: 'Business-Class Experience Every Ride',
-    description:
-      'Step into a world of refinement with our business-class chauffeur services. Each vehicle offers plush leather seating, climate control, and a smooth ride — designed to provide optimal comfort whether you’re heading to an executive meeting or catching a flight. We ensure every journey meets the expectations of today’s discerning business traveler.',
+    title: 'Business-Class Comfort Every Journey',
+    description: 'Luxurious interiors for stylish and relaxed travel.',
   },
   {
     id: 2,
     icon: '/chauffeur/electric-car 1.svg',
-    title: 'Clean, Quiet Vehicles for Work on the Go',
-    description:
-      'Our fleet is meticulously maintained and sound-insulated, offering a serene environment perfect for professionals who need to focus or take calls during transit. Whether you’re preparing for a pitch or relaxing after a long day, our quiet, spotless interiors provide the peace you need on the move.',
+    title: 'Quiet, Spotless Vehicles for Productivity',
+    description: 'Peaceful cabins ideal for work or rest.',
   },
   {
     id: 3,
     icon: '/chauffeur/customer-satisfaction (1) 1.svg',
-    title: 'Experienced in Handling VIP Clients',
-    description:
-      'We specialize in chauffeuring high-profile clients, including celebrities, diplomats, executives, and international guests. Our chauffeurs are trained in discretion, punctuality, and etiquette, ensuring a seamless, respectful experience from pickup to drop-off. You can trust us with your most important journeys.',
+    title: 'Expertise in VIP Transport',
+    description: 'Discreet, elite service for high-profile clients.',
   },
   {
     id: 4,
     icon: '/chauffeur/privacy 1.svg',
-    title: 'Privacy Glass and Professional Etiquette',
-    description:
-      'Our executive vehicles feature privacy-tinted glass and partitioned cabins where applicable, ensuring confidentiality for sensitive discussions or calls. Combined with our chauffeur’s impeccable manners and non-intrusive service, your personal and professional privacy is always respected.',
+    title: 'Privacy Glass and Professional Service',
+    description: 'Tinted windows and respectful chauffeurs ensure privacy.',
   },
   {
     id: 5,
     icon: '/chauffeur/direct-debit 1.svg',
-    title: 'Direct Billing & Corporate Accounts',
-    description:
-      'Designed for business convenience, we offer corporate account management with itemized monthly billing, tailored invoices, and expense tracking. No need to handle payments after each trip — everything is streamlined to meet your internal finance and compliance requirements.',
+    title: 'Corporate Accounts with Direct Billing',
+    description: 'Simplified billing for seamless business travel.',
   },
   {
     id: 6,
     icon: '/chauffeur/24-hours-support 1 (1).svg',
-    title: 'Available 24/7 for Early Flights or Meetings',
-    description:
-      'Whether you need to catch a 4 AM flight or attend a late-night event, we operate around the clock. Our team is ready whenever you are — with prompt arrivals and round-the-clock support for all your time-sensitive travel needs in Manchester and beyond.',
+    title: '24/7 Availability for Flights and Meetings',
+    description: 'Round-the-clock service, always on standby.',
   },
 ];
+
 const eventWeddingOffers: OfferItem[] = [
   {
     id: 1,
     icon: '/event-wedding/car-wash.svg',
-    title: 'Luxurious Wedding Cars with Ribbons',
-    description:
-      'Make a grand entrance with our beautifully decorated wedding cars. Each vehicle comes adorned with elegant ribbons, pristine interiors, and a polished exterior to perfectly complement your special day.',
+    title: 'Elegant Wedding Cars with Ribbons',
+    description: 'Stylish cars with ribbons for your big day.',
   },
   {
     id: 2,
     icon: '/event-wedding/chauffeur.svg',
-    title: 'Chauffeurs Trained for Special Events',
-    description:
-      'Our professional chauffeurs are trained specifically for weddings and formal events. They understand the importance of timing, courtesy, and presentation, ensuring your day runs smoothly and stylishly.',
+    title: 'Expert Chauffeurs for Special Occasions',
+    description: 'Polished drivers trained for events and weddings.',
   },
   {
     id: 3,
     icon: '/event-wedding/red-carpet.svg',
-    title: 'Red Carpet Entrance',
-    description:
-      'Experience celebrity treatment with our signature red carpet service. Ideal for weddings, galas, and VIP parties — your chauffeur will roll out the red carpet as you step out in style.',
+    title: 'Red Carpet Arrival',
+    description: 'Step out in style with our red carpet service.',
   },
   {
     id: 4,
     icon: '/event-wedding/guest.svg',
-    title: 'Cars for Guests, Family & VIPs',
-    description:
-      'We offer a wide selection of vehicles to accommodate everyone from close family to important VIPs. Let your guests arrive in comfort and elegance, all managed by our coordinated team.',
+    title: 'Vehicles for Guests, Family, and VIPs',
+    description: 'Comfortable rides for all your special guests.',
   },
   {
     id: 5,
     icon: '/event-wedding/all-inclusive.svg',
-    title: 'Custom Packages for All Budgets',
-    description:
-      'From simple transfers to full-day luxury bookings, we provide flexible packages tailored to your event and budget. Every detail is designed to match your preferences and expectations.',
+    title: 'Tailored Packages for Every Budget',
+    description: 'Custom packages to suit your needs and budget.',
   },
   {
     id: 6,
     icon: '/event-wedding/champagne-glass.svg',
-    title: 'Perfect for Parties, Proms & Ceremonies',
-    description:
-      'Not just for weddings — our stylish chauffeurs and elegant vehicles are perfect for parties, proms, graduation ceremonies, or any milestone event that deserves a premium touch.',
+    title: 'Ideal for Parties, Proms, and Ceremonies',
+    description: 'Make every celebration memorable with premium rides.',
   },
 ];
+
 const cityToursOffers: OfferItem[] = [
   {
     id: 1,
     icon: '/city-tours/route.svg',
-    title: 'Long-Distance Rides Across the UK',
-    description:
-      'Explore cities and scenic routes beyond Manchester with our long-distance city tour options. From countryside escapes to coastal drives, we cover every destination in comfort and style.',
+    title: 'Long-Distance Travel Across the UK',
+    description: 'Explore the UK in comfort and style.',
   },
   {
     id: 2,
     icon: '/city-tours/pricing (1) 1.svg',
-    title: 'Fixed Pricing',
-    description:
-      'No surprise costs or hidden charges. Our fixed pricing structure gives you peace of mind and allows you to plan your journey and budget with total clarity.',
+    title: 'Transparent Fixed Pricing',
+    description: 'Know your cost upfront with no surprises.',
   },
   {
     id: 3,
     icon: '/city-tours/shield.svg',
-    title: 'Safe, Punctual, and Smooth Journeys',
-    description:
-      'Count on us for reliable pick-ups, safe driving, and smooth routes. Our chauffeurs are trained for long trips, city navigation, and customer safety protocols.',
+    title: 'Safe, Timely, and Smooth Rides',
+    description: 'Reliable, smooth journeys every time.',
   },
   {
     id: 4,
     icon: '/city-tours/success.svg',
-    title: 'Ideal for Business Travel or Leisure',
-    description:
-      'Our city tours cater to both business professionals and leisure travelers alike. Whether you\'re attending corporate meetings, exploring local landmarks, or enjoying a weekend getaway, our tailored chauffeur service adapts to your schedule and style. Ride in comfort and arrive in style — every time.',
-
+    title: 'Perfect for Business or Leisure Travel',
+    description: 'Great for meetings, getaways, or sightseeing.',
   },
-
   {
     id: 5,
     icon: '/city-tours/web.svg',
-    title: 'Rest Stops on Request',
-    description:
-      'Need a coffee break, photo stop, or scenic pause? Just ask. We make your journey feel relaxed and customized by accommodating rest stops as needed.',
+    title: 'Rest Stops on Your Terms',
+    description: 'Pause anytime for food, photos, or views.',
   },
   {
     id: 6,
     icon: '/city-tours/people.svg',
-    title: 'Comfortable for Individuals or Groups',
-    description:
-      'Whether you’re traveling solo or with friends, family, or coworkers, our vehicles offer ample space, plush seating, and climate control for a pleasant ride.',
+    title: 'Comfort for Solo or Group Travel',
+    description: 'Spacious vehicles for all group sizes.',
   },
 ];
+
 const cityCenterOffers: OfferItem[] = [
   {
     id: 1,
     icon: '/city-center/visitor 1.svg',
-    title: 'Perfect for Locals and Visitors Alike',
-    description: 'Whether you’re a resident or just exploring, our city rides ensure a smooth, hassle-free experience with convenience and comfort every time.',
+    title: 'Perfect for Locals and Visitors',
+    description: 'Seamless rides for everyday or special trips.',
   },
   {
     id: 2,
     icon: '/city-center/nightlife 1.svg',
-    title: 'Nightlife, Shopping, Dining — We’ve Got You',
-    description: 'From trendy restaurants to vibrant nightlife and retail hubs, our chauffeurs get you where you need to be, safely and in style.',
+    title: 'Nightlife, Dining, and Shopping Covered',
+    description: 'Enjoy Manchester’s best spots in comfort.',
   },
   {
     id: 3,
     icon: '/city-center/shield.svg',
-    title: 'Quick & Safe City Rides Anytime',
-    description: 'Count on our professional drivers to navigate traffic and shortcuts, ensuring prompt and secure rides through the heart of the city.',
+    title: 'Fast and Safe City Rides Anytime',
+    description: 'Quick, secure rides through busy streets.',
   },
   {
     id: 4,
     icon: '/city-center/chauffeur.svg',
-    title: 'Clean Cars, Friendly Drivers',
-    description: 'Our spotless, well-maintained vehicles and courteous chauffeurs make every journey pleasant, whether it’s a short ride or multiple stops.',
+    title: 'Spotless Vehicles, Friendly Chauffeurs',
+    description: 'Clean cars and friendly drivers every time.',
   },
   {
     id: 5,
     icon: '/city-center/processing 1.svg',
-    title: 'Easy Booking, Fast Service',
-    description: 'With our user-friendly booking system and responsive support, scheduling your city ride is quick and efficient, just like the journey.',
+    title: 'Effortless Booking, Swift Service',
+    description: 'Easy online booking and fast response.',
   },
   {
     id: 6,
     icon: '/city-center/hotspot 1.svg',
-    title: 'Chauffeurs Know All Shortcuts & Hotspots',
-    description: 'Our local drivers know the city inside-out, ensuring timely drop-offs and tips on the best places to visit, dine, or relax.',
+    title: 'Local Experts with Insider Knowledge',
+    description: 'Chauffeurs who know all the local hotspots.',
   },
 ];
+
 const stadiumTransferOffers: OfferItem[] = [
   {
     id: 1,
     icon: '/stadium/person 2.svg',
-    title: 'Pick & Drop at All Major Venues',
-    description: 'We provide timely pick-up and drop-off at stadiums and arenas, ensuring you never miss the kickoff or opening act.',
+    title: 'Timely Pick-Up and Drop-Off at Major Venues',
+    description: 'Always on time for games and concerts.',
   },
   {
     id: 2,
     icon: '/stadium/warning (1) 1.svg',
-    title: 'Beat Traffic with Priority Routes',
-    description: 'Our experienced chauffeurs use real-time traffic data and priority access roads to avoid congestion and keep you on time.',
+    title: 'Beat Traffic with Smart Routing',
+    description: 'Avoid congestion with efficient routes.',
   },
   {
     id: 3,
     icon: '/stadium/clock (1) 1.svg',
-    title: 'No Parking Stress, No Delays',
-    description: 'Forget the hassle of finding parking — we handle the logistics so you can focus on enjoying the event.',
+    title: 'No Parking Hassles, No Delays',
+    description: 'Get dropped at the door—no parking stress.',
   },
   {
     id: 4,
     icon: '/stadium/people 1.svg',
-    title: 'Perfect for Families or Group Bookings',
-    description: 'Spacious and comfortable vehicles accommodate families, friends, or corporate groups traveling together to events.',
+    title: 'Ideal for Families and Group Bookings',
+    description: 'Travel together in comfort and style.',
   },
   {
     id: 5,
     icon: '/stadium/nightlife 2.svg',
-    title: 'Pre- and Post-Event Transfers',
-    description: "Whether you're heading to the match or celebrating afterward, our chauffeur service is available before and after the event.",
-
+    title: 'Pre- and Post-Event Convenience',
+    description: 'We’ve got you covered before and after events.',
   },
   {
     id: 6,
     icon: '/stadium/customer-satisfaction (1) 1 (1).svg',
-    title: 'Available for VIP Hospitality',
-    description: 'Delivering a premium experience tailored for VIP guests, corporate clients, and exclusive ticket holders.',
+    title: 'VIP Hospitality Transfers',
+    description: 'Luxury rides for premium ticket holders.',
   },
 ];
 
@@ -345,26 +321,54 @@ const Offer: React.FC = () => {
           }),
         }}
       />
-
       <div className="text-center mb-12">
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">
+        <h2 className="text-4xl md:text-5xl font-bold mb-4 md:mt-7 mt-32">
           {pathname === '/services/hourly-chauffeur' ? (
-            <>
-              Why Choose <span className="text-brand">OKTaxis</span> for Hourly Chauffeur Services in Manchester?
-            </>
+            <>Why Choose <span className="text-brand">OKTaxis</span> for Hourly Chauffeur Services in Manchester?</>
+          ) : pathname === '/services/stadium-transfer' ? (
+            <>Why Choose <span className="text-brand">OKTaxis</span> for Manchester Stadium Transfers and Events?</>
+          ) : pathname === '/services/city-tours' ? (
+            <>Why Choose <span className="text-brand">OKTaxis</span> for City Tours in Manchester?</>
+          ) : pathname === '/services/event-weddings' ? (
+            <>Why Choose <span className="text-brand">OKTaxis</span> for Weddings and Special Events in Manchester?</>
+          ) : pathname === '/fleet' ? (
+            <>What Do We Offer at <span className="text-brand">OKTaxis</span>?</>
           ) : (
-            <>
-              Why Choose <span className="text-brand">OKTaxis</span> for Your Airport Transfers in Manchester?
-            </>
+            <>Why Choose <span className="text-brand">OKTaxis</span> for Chauffeur Services in Manchester and Executive Travel?</>
           )}
         </h2>
 
         <p className="text-lg text-gray-700 max-w-3xl mx-auto mt-4">
-          {pathname === '/services/hourly-chauffeur'
-            ? "We elevate your chauffeur by the hour Manchester experience with features focused on flexibility and excellence. Here's what makes us stand out:"
-            : "We redefine chauffeur service at Manchester airport with features designed for convenience and luxury. Here's what sets us apart:"}
+          {pathname === '/services/hourly-chauffeur' ? (
+            "We elevate your chauffeur by the hour Manchester experience with features focused on flexibility and excellence. Here's what makes us stand out:"
+          ) : pathname === '/services/stadium-transfer' ? (
+            "Experience seamless and luxurious transport with OKTaxis’ chauffeur services for Manchester airport transfers and event venues. Here’s why we stand out:"
+          ) : pathname === '/services/city-tours' ? (
+            "Experience luxury and convenience with OKTaxis’ long-distance chauffeur services in Manchester. Perfect for airport transfers, city tours, and beyond, here’s what makes us exceptional:"
+          ) : pathname === '/services/event-weddings' ? (
+            "Experience unparalleled luxury and reliability with OKTaxis’ chauffeur services in Manchester. Tailored for airport transfers, weddings, and special events, here’s what makes us stand out:"
+          ) : pathname === '/fleet' ? (
+            "At OKTaxis, we redefine premium chauffeur services Manchester with a focus on convenience, luxury, and reliability. Whether you're booking Manchester airport chauffeur transfers, flexible hourly chauffeurs, city tours Manchester, wedding chauffeur services Manchester, or stadium transfers Manchester, our features ensure a seamless experience. Discover how we stand out as Manchester's top luxury transportation provider."
+          ) : (
+            "Discover luxury and reliability with OKTaxis’ premium chauffeur services in Manchester. Tailored for airport transfers, business trips, and special events, here’s what sets us apart:"
+          )}
         </p>
+
+        {pathname === '/fleet' && (
+          <>
+            <h3 className="text-2xl font-semibold mt-8">
+              Key Features of Our Premium Chauffeur Services
+            </h3>
+            <p className="text-lg text-gray-700 mt-2">
+              We've designed our services to prioritize your comfort and peace of mind. Here's what sets OKTaxis apart:
+            </p>
+          </>
+        )}
       </div>
+
+
+
+
 
       <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {offers.map(({ id, icon, title, description }) => (

@@ -13,6 +13,7 @@ function OrderPage({ id }: { id: string }) {
     const fetchOrder = async () => {
       try {
         const result = await getOrderById(id);
+        console.log(order)
         if (result.status === 200 && result.order) {
           setOrder(result.order);
         } else {
@@ -44,21 +45,48 @@ function OrderPage({ id }: { id: string }) {
       <div className="max-w-4xl w-full bg-white p-6 sm:p-10 rounded-xl shadow-lg border border-gray-200">
         {/* Main Headings */}
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold text-white bg-brandColor py-4 rounded-md shadow">
+          <h1 className="text-3xl font-bold text-white bg-brand py-4 rounded-md shadow">
             Order Details
           </h1>
         </div>
 
         {/* Primary Journey Info */}
+        {/* Conditional Journey Info */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-[15px] mb-8">
           <Field label="Pick-Up Location" value={order.pickup_location} />
-          <Field label="Drop-Off Location" value={order.dropoff_location || 'N/A'} />
-          <Field label="Distance" value={order.distance ? `${toMiles(Number(order.distance))} mi` : 'N/A'} />
-          <Field label="Pick-Up Date" value={new Date(order.pickup_date).toLocaleDateString()} />
-          <Field label="Pick-Up Time" value={order.pickup_time || 'N/A'} />
-          <Field label="Price" value={`£${Number(order.price).toFixed(2)}`} />
-          <Field label="Car Type" value={order.car || 'N/A'} />
+          {order.category === 'hourly' ? (
+            <>
+              <Field label="Duration (hours)" value={`${order.duration ?? 0}`} />
+              <Field label="Price" value={`£${Number(order.price).toFixed(2)}`} />
+              <Field
+                label="Pick-Up Date"
+                value={
+                  order.pickup_date
+                    ? new Date(order.pickup_date).toLocaleDateString()
+                    : 'N/A'
+                }
+              />
+              <Field label="Pick-Up Time" value={order.pickup_time || 'N/A'} />
+            </>
+          ) : (
+            <>
+              <Field label="Drop-Off Location" value={order.dropoff_location || 'N/A'} />
+              <Field label="Distance" value={order.distance ? `${toMiles(Number(order.distance))} miles` : 'N/A'} />
+              <Field
+                label="Pick-Up Date"
+                value={
+                  order.pickup_date
+                    ? new Date(order.pickup_date).toLocaleDateString()
+                    : 'N/A'
+                }
+              />
+              <Field label="Pick-Up Time" value={order.pickup_time || 'N/A'} />
+              <Field label="Price" value={`£${Number(order.price).toFixed(2)}`} />
+              <Field label="Car" value={order.car || 'N/A'} />
+            </>
+          )}
         </div>
+
 
         <div className="mb-10 text-sm text-gray-600">
           <p className="font-medium text-gray-700">Order ID:</p>
@@ -75,7 +103,7 @@ function OrderPage({ id }: { id: string }) {
           {order.stop_1 && <Field label="Stop 1 Location" value={order.stop_1} />}
           {order.stop_2 && <Field label="Stop 2 Location" value={order.stop_2} />}
           {order.stop_3 && <Field label="Stop 3 Location" value={order.stop_3} />}
-          {order.duration && <Field label="Duration" value={`${order.duration} Hours`} />}
+          {/* {order.duration && <Field label="Duration" value={`${order.duration} Hours`} />} */}
           {order.is_return && (
             <>
               <Field label="Return Date" value={order.return_date ? new Date(order.return_date).toLocaleDateString() : 'N/A'} />
@@ -85,16 +113,24 @@ function OrderPage({ id }: { id: string }) {
         </div>
 
         {/* Customer & Extras */}
+        {/* Customer & Extras */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm text-gray-700">
           <Field label="Name" value={order.name} />
           <Field label="Email" value={order.email} />
           <Field label="Phone" value={order.phone} />
-          <Field label="Flight" value={order.flight || 'N/A'} />
-          <Field label="Flight Track (7£)" value={order.flight_track ? 'Yes' : 'No'} />
-          <Field label="Meet & Greet (15£)" value={order.meet_greet ? 'Yes' : 'No'} />
-          <Field label="Payment Method" value={order.payment_method || 'N/A'} />
+
+          {order.category !== 'hourly' && (
+            <>
+              <Field label="Flight Number" value={order.flight || 'No'} />
+              <Field label="Flight Track (7£)" value={order.flight_track ? 'Yes' : 'No'} />
+              <Field label="Meet & Greet (15£)" value={order.meet_greet ? 'Yes' : 'No'} />
+              <Field label="Payment Method" value={order.payment_method || 'N/A'} />
+            </>
+          )}
+
           <Field label="Created At" value={new Date(order.created_at).toLocaleString()} />
         </div>
+
       </div>
     </div>
   );

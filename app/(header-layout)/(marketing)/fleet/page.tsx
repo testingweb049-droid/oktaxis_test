@@ -21,6 +21,8 @@ export default function Fleet() {
       //   description="Our meticulously maintained fleet offers a range of premium vehicles to suit every occasion. Each car is chosen for its comfort, style and performance, ensuring you travel in true executive luxury. All vehicles are cleaned and inspected before every journey, and come equipped with plush leather seating, climate control, complimentary bottled water and unlimited Wi-Fi to keep you comfortable and connected on the road."
       />
       <Offer />
+      
+
       <ImageTextSection
         imageSrc="/Taxi In Manchester Taxi Service.png"
         imageAlt="Executive Airport Transfer"
@@ -33,9 +35,7 @@ export default function Fleet() {
         </span>
         }
         text="Our meticulously maintained fleet offers a range of premium vehicles to suit every occasion in Manchester and the North West. Each car is chosen for its comfort, style, and performance, ensuring you travel in true executive luxury. All vehicles are cleaned and inspected before every journey, and come equipped with plush leather seating, climate control, complimentary bottled water, and unlimited Wi-Fi to keep you comfortable and connected on the road.
-Whether for Manchester airport services, wedding chauffeur Manchester hires, or stadium transfers, our fleet is tailored to your needs. Explore the options below:
-
-                      "
+Whether for Manchester airport services, wedding chauffeur Manchester hires, or stadium transfers, our fleet is tailored to your needs. Explore the options below:"
         bgColor="bg-white"
         imagePosition="right"
       />

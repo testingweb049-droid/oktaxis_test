@@ -5,10 +5,10 @@ import { GoPeople } from "react-icons/go";
 import { PiSuitcase } from "react-icons/pi";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import Executive from "@/assets/vehicles/Executive.png";
-import Economy from "@/assets/vehicles/Economy.png";
-import ExecutivePremium from "@/assets/vehicles/ExecutivePremium.png";
-import LuxuryVan from "@/assets/vehicles/luxuryVan.png";
+import Executive from "@/assets/vehicles/Mercedes-S-Class-cutout.png";
+import Economy from "@/assets/vehicles/Econamy.png";
+import ExecutivePremium from "@/assets/vehicles/Tesla Model S.png";
+import LuxuryVan from "@/assets/vehicles/Mercedes-V-Class-cutout.png";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 
 const fleetFeatures = [
@@ -33,7 +33,7 @@ export const fleets = [
   },
   {
     name: "Executive",
-    cars: "BMW 5 Series | MERC E Class",
+    cars: "BMW 5 Series | Mercedes E-Class",
     price: 1.3,
     minimumFare: 62,
     image: Executive,
@@ -87,10 +87,11 @@ function CarList() {
   const hours = Number(getValues("duration") ?? 0);
 
   return (
-    <div className="w-full flex flex-col gap-5">
-      {fleets
-        .filter(item => !(category === "hourly" && item.name === "Economy"))
-        .map((item) => {
+
+    <div className="w-full flex flex-col gap-6">
+
+
+     {fleets.map((item) => {
           let price = 0;
 
           if (category === "hourly") {
@@ -121,89 +122,171 @@ function CarList() {
               : 0;
 
           return (
+
             <div
               key={item.name}
               className={cn(
-                "w-full rounded-xl border border-black/50 grid md:grid-cols-4 divide-y md:divide-x",
-                item.name === getValues("car") ? "bg-gray-100" : "bg-white"
+                "w-full bg-white rounded-xl  shadow-md flex flex-col md:flex-row overflow-hidden",
+                item.name === getValues("car") ? "ring-2 ring-black" : ""
               )}
             >
-              <div className="flex flex-col gap-2 w-full">
-                <div className="px-3 w-fit mt-3 py-1 text-green-800 border-r border-t border-b border-green-800 font-medium bg-green-200 rounded-r-xl">
-                  Free Cancelation
+
+
+              <div className="flex flex-col gap-3 w-full">
+                <div className="px-5 mt-3 hidden md:block py-1 text-black font-medium">
+                  <p className="text-[#121212] font-bold text-xl">{item.cars}</p>
+
+                  <div className="flex mt-2 w-full gap-8 items-center text-[#121212] text-sm font-medium ">
+                    <div className="flex items-center gap-1 whitespace-nowrap">
+                      <Image
+                        src="/icon-1.png"
+                        alt="adults"
+                        width={18}
+                        height={18}
+                        className="object-contain"
+                      />
+                      <span className="leading-none"> {item.persons} adults </span>
+                    </div>
+
+                    <div className="flex items-center gap-1 whitespace-nowrap">
+                      <Image
+                        src="/icon-2.png"
+                        alt="suitcases"
+                        width={18}
+                        height={18}
+                        className="object-contain"
+                      />
+                      <span className="leading-none"> {item.bags} suitcases </span>
+                    </div>
+
+                    <div className="flex items-center gap-1 whitespace-nowrap">
+                      <Image
+                        src="/icon-3.png"
+                        alt="carry bags"
+                        width={18}
+                        height={18}
+                        className="object-contain"
+                      />
+                      <span className="leading-none"> 2 carry bags </span>
+                    </div>
+
+                    <div className="flex items-center gap-1 whitespace-nowrap">
+                      <Image
+                        src="/icon-4.png"
+                        alt="wifi"
+                        width={18}
+                        height={18}
+                        className="object-contain"
+                      />
+                      <span className="leading-none"> WiFi </span>
+                    </div>
+                  </div>
+
                 </div>
-                <div className="flex flex-col gap-2 w-full px-3 pb-3">
-                  <div className="w-full h-32 md:h-44 rounded-xl overflow-hidden">
+
+                <div className="flex  md:flex-row items-center justify-between w-full px-2 pt-4  gap-5">
+                  {/* LEFT: Car Image */}
+                  <div className="flex w-35 justify-center bg-white">
+
                     <Image
                       src={item.image}
-                      alt={item.name}
-                      className="w-full h-full object-cover"
+                      alt={item.cars}
+                      className="object-contain w-40 h-16 md:w-[400px] md:h-[240px]"
                     />
+
                   </div>
-                  <div className="flex items-center justify-center w-full gap-5">
-                    <div className="flex items-center gap-1">
-                      <GoPeople className="text-brand size-5 font-bold" />
-                      <div>max {item.persons}</div>
+
+                  {/* RIGHT: Title + Features */}
+                  <div className=" block md:hidden">
+                    <p className="text-[#121212] font-bold text-lg md:text-xl mb-2">
+                      {item.cars}
+                    </p>
+
+                    <div className="flex flex-wrap gap-x-2 gap-y-1 text-[#121212] text-sm font-medium">
+                      <div className="flex items-center gap-1">
+                        <Image src="/icon-1.png" alt="adults" width={16} height={16} />
+                        <span>{item.persons} adults</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Image src="/icon-2.png" alt="suitcases" width={16} height={16} />
+                        <span>{item.bags} suitcases</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Image src="/icon-3.png" alt="carry bags" width={16} height={16} />
+                        <span>2 carry bags</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Image src="/icon-4.png" alt="wifi" width={16} height={16} />
+                        <span>WiFi</span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <PiSuitcase className="text-brand size-5 font-black" />
-                      <div>max {item.bags}</div>
-                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+
+              <div className="px-5 py-2 md:py-3 w-full flex flex-col gap-1 md:gap-3 md:col-span-2">
+                {/* <p className="text-2xl font-semibold">{item.name}</p>
+                <p className="text-gray-700 text-lg">{item.cars} or similar</p> */}
+
+                <div className="hidden md:flex flex-col gap-2 mt-32">
+
+                  <div className="space-y-3">
+                    {fleetFeatures.map((feature) => (
+                      <div key={feature} className="flex items-center gap-3">
+                        <div className="w-6 h-6 rounded-full bg-brand flex items-center justify-center flex-shrink-0">
+                          <IoCheckmarkDoneCircleOutline className="w-4 h-4 text-black" />
+                        </div>
+                        <span className="text-gray-700 font-medium text-sm">{feature}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              <div className="px-3 py-2 md:py-3 w-full flex flex-col gap-1 md:gap-3 md:col-span-2">
-                <p className="text-2xl font-semibold">{item.name}</p>
-                <p className="text-gray-700 text-lg">{item.cars} or similar</p>
-
-                <div className="flex flex-col gap-2">
-                  {fleetFeatures.map((feature) => (
-                    <div key={feature} className="flex items-center gap-2 text-gray-600 text-sm">
-                      <IoCheckmarkDoneCircleOutline />
-                      <p>{feature}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="w-full px-3 py-2 md:py-3 flex flex-col justify-center gap-5">
+              <div className="w-full px-4 py-3 md:py-3 flex flex-col p-6 justify-center gap-5 bg-gray-50 border-t md:border-t-0 md:border-l border-gray-200">
                 {!item.specailRequest ? (
-                  <div className="flex flex-col gap-3 md:gap-5">
-                    <div className="flex flex-col gap-1">
-                      <p>One Way</p>
+                  <div className="flex flex-row  justify-between nowhitespace  md:flex-col md:gap-4 ">
+                    <div className="flex flex-col gap-1 w-full">
+                      {category === "trips" && (
+                        <p className="text-center font-bold">One Way</p>
+                      )}
                       <button
                         type="button"
                         onClick={() => {
                           setValue("is_return", false);
-                          setValue("car", item.name);
+                          setValue("car", item.cars);
                           setValue("price", price);
                           NextStep();
                         }}
-                        className="w-full bg-black text-white px-4 py-3 rounded-xl text-center font-bold cursor-pointer"
+                        className="w-full md:w-full bg-black text-white px-4 py-3 rounded-xl text-center font-bold cursor-pointer"
                       >
                         £ {price}
                       </button>
                     </div>
 
+
                     {category === "trips" && (
                       <div className="flex flex-col gap-1">
-                        <p>Return Way</p>
+                        <p className="text-center font-bold">Return Way</p>
                         <button
                           type="button"
                           onClick={() => {
                             setValue("is_return", true);
-                            setValue("car", item.name);
+                            setValue("car", item.cars);
                             setValue("price", returnPrice);
                             NextStep();
                           }}
-                          className="w-full bg-black text-white px-4 py-3 rounded-xl text-center font-bold cursor-pointer relative"
+                          className="relative  w-full bg-black text-white px-4 py-3 rounded-xl text-center font-bold cursor-pointer"
                         >
                           £ {returnPrice}
                           {discountPercent > 0 && (
-                            <span className="absolute top-1 right-1 px-2 py-1 bg-green-500 rounded-lg text-white text-xs">
+                            <span className="absolute top-1 right-1 sm:top-1 sm:right-1 px-1.5  text-[7px] sm:text-xs sm:px-2 sm:py-1 bg-brand rounded-lg text-white font-semibold z-10">
                               {discountPercent}% off
                             </span>
+
+
                           )}
                         </button>
                       </div>

@@ -5,12 +5,12 @@ import Image, { StaticImageData } from "next/image"
 import HeroSectionBookingForm from "../NewBookingForm/HeroBookingForm"
 import { ReactNode } from "react";
 interface HeroSectionProps {
-   bgImage: string | StaticImageData
+  bgImage: string | StaticImageData
 
   title?: string
- description?: string | ReactNode
+  description?: string | ReactNode
 
- 
+
 }
 
 export default function HeroSection2({
@@ -88,18 +88,21 @@ export default function HeroSection2({
   }, [])
 
   return (
-    <section id="herosection" className="relative min-h-[60vh] h-full w-full overflow-hidden pt-32 md:pt-44 pb-12">
-      <Image 
-        src={bgImage} 
-        alt="Luxury chauffeur service" 
-        fill 
-        className="object-cover" 
-        priority 
+    <section
+      id="herosection"
+      className="relative w-full h-[600px] bg-v0-blue border-t-4 border-b-4 border-v0-blue overflow-visible pt-7 pb-40"
+    >
+      <Image
+        src={bgImage}
+        alt="Luxury chauffeur service"
+        fill
+        className="object-cover"
+        priority
       />
       <div ref={overlayRef} className="absolute inset-0 bg-black" />
-      <div className="container relative z-10 mx-auto flex h-full flex-col gap-10 items-center justify-around px-3 text-white lg:px-5">
-        <div>
-          <h1 ref={titleRef} className="mb-2 sm:mb-4 text-4xl font-bold md:text-4xl lg:text-4xl lg:leading-[55px]">
+      <div className="container relative z-10 mx-auto flex h-full flex-col gap-6 sm:gap-8 md:gap-24 items-center justify-center px-4 sm:px-6 text-white lg:px-5">
+        <div className="w-full pt-5 sm:pt-0 px-2 md:mx-5 md:text-center  sm:px-0 max-w-6xl pb-20 sm:pb-16">
+          <h1 ref={titleRef} className="mb-2  sm:mb-4 text-3xl font-bold md:text-4xl lg:text-4xl lg:leading-[55px]">
             {title}
           </h1>
           <p ref={subtitleRef} className="text-lg md:text-xl max-w-6xl lg:text-xl">
@@ -107,8 +110,12 @@ export default function HeroSection2({
           </p>
         </div>
 
-        <div ref={formContainerRef} id="booking-form" className="relative w-full max-w-full">
-          <HeroSectionBookingForm/>
+        <div
+          ref={formContainerRef}
+          className="absolute  top-[60%] sm:top-[50%] md:top-[45%] transform -translate-x-1/2 translate-y-[50%] w-full max-w-6xl mt-15 py-20 px-4 sm:px-6 lg:px-8 z-20"
+
+        >
+          <HeroSectionBookingForm />
         </div>
       </div>
 

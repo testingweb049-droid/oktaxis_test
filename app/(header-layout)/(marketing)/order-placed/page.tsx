@@ -1,5 +1,6 @@
 'use client'
-import { StatusCard } from '@/components/Sections/StatusCard'
+import StatusCard from '@/components/Sections/StatusCard'
+
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
