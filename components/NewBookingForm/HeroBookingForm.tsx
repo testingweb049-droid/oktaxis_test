@@ -182,7 +182,7 @@ function HeroSectionBookingForm() {
                             }}
                             disabled={loading}
                             placeholder="Enter pickup location"
-                            className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl focus:outline-none text-black text-sm"
+                            className="w-full pl-10 pr-3 py-3 border border-gray-200  text-[16px] rounded-xl focus:outline-none text-black text-sm"
                           />
                         </div>
                       </Autocomplete>
@@ -239,7 +239,7 @@ function HeroSectionBookingForm() {
                               }}
                               disabled={loading}
                               placeholder="Enter drop off location"
-                              className="w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none text-black text-sm"
+                              className="w-full pl-10 pr-3 py-2.5 border  text-[16px] border-gray-200 rounded-xl focus:outline-none text-black text-sm"
                             />
                           </div>
                         </Autocomplete>
@@ -335,19 +335,23 @@ function HeroSectionBookingForm() {
                         <PopoverContent className="w-auto p-0 bg-white relative z-[200]" align="start">
                           <Calendar
                             mode="single"
-                            selected={field.value ?? undefined} // 👈 This removes 'null'
+                            selected={field.value ?? undefined}
                             onSelect={(date) => {
                               form.clearErrors("pickup_date")
                               field.onChange(date)
                               form.resetField("pickup_time")
+
+                              // 🔽 Scroll to time section
+                              setTimeout(() => {
+                                document.getElementById("time-section")?.scrollIntoView({ behavior: "smooth" });
+                              }, 100); // small delay to ensure section is rendered
                             }}
                             disabled={(date) => isBeforeNewJerseyToday(date)}
                             initialFocus
                           />
 
-
                           {field.value && (
-                            <div className="mt-4 border-t pt-4 px-2">
+                            <div id="time-section"  className="mt-4 border-t pt-4 px-2">
                               <p className="text-sm font-semibold mb-2">Select Time</p>
 
                               <div className="grid grid-cols-2 gap-2 mb-4">
@@ -355,6 +359,7 @@ function HeroSectionBookingForm() {
                                   <label className="text-xs font-medium">Hour</label>
                                   <input
                                     type="number"
+                                    readOnly
                                     min={0}
                                     max={23}
                                     value={form.getValues("pickup_time")?.hour ?? 0}
@@ -366,7 +371,7 @@ function HeroSectionBookingForm() {
                                         hour: isNaN(hour) ? 0 : hour,
                                       })
                                     }}
-                                    className="w-full border rounded px-2 py-1"
+                                    className="w-full border rounded px-2 py-1  text-[16px]"
                                   />
 
                                 </div>
@@ -375,6 +380,7 @@ function HeroSectionBookingForm() {
                                   <label className="text-xs font-medium">Minute</label>
                                   <input
                                     type="number"
+                                    readOnly
                                     min={0}
                                     max={59}
                                     step={5} // optional for up/down arrows
@@ -391,7 +397,7 @@ function HeroSectionBookingForm() {
                                         minute: isNaN(minute) ? 0 : minute,
                                       })
                                     }}
-                                    className="w-full border rounded px-2 py-1"
+                                    className="w-full border rounded px-2 py-1  text-[16px]"
                                   />
 
                                 </div>
