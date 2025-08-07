@@ -65,6 +65,7 @@ function Step3Form() {
           <label htmlFor="name" className="text-sm font-medium text-black">Full Name <span className="text-red-500">*</span></label>
           <input
             id="name"
+            name="name"
             className={cn(
               'p-2 rounded-xl border text-sm md:text-base placeholder:text-xs sm:placeholder:text-sm',
               errors.name ? 'border-red-500' : 'border-gray-500'
@@ -82,6 +83,7 @@ function Step3Form() {
           <label htmlFor="email" className="text-sm font-medium text-black">Email Address <span className="text-red-500">*</span></label>
           <input
             id="email"
+            name="email"
             className={cn(
               'p-2 rounded-xl border text-sm md:text-base placeholder:text-xs sm:placeholder:text-sm',
               errors.email ? 'border-red-500' : 'border-gray-500'
@@ -98,7 +100,7 @@ function Step3Form() {
         {(isReturn || !isReturn) && (
           <div className="w-full block md:hidden">
             <label className="block text-sm font-medium text-black mb-2">Pickup Date & Time</label>
-           <Popover open={dateOpen} onOpenChange={setDateOpen}>
+            <Popover open={dateOpen} onOpenChange={setDateOpen}>
               <PopoverTrigger asChild>
                 <div
                   className={cn("w-full flex h-full items-center gap-2 justify-start px-3 py-3 border rounded-xl cursor-pointer",
@@ -118,170 +120,170 @@ function Step3Form() {
                 </div>
               </PopoverTrigger>
 
-                <PopoverContent className="w-[280px] p-4 bg-white z-[999]" align="start">
-                  <p className="text-sm font-semibold mb-2">Select A Date</p>
-                  <Calendar
-                    mode="single"
-                    selected={pickupDate ?? undefined}
-                    onSelect={(date) => {
-                      clearErrors("pickup_date");
-                      setValue("pickup_date", date);
-                    }}
-                    disabled={(date) => date < new Date()}
-                    initialFocus
-                  />
+              <PopoverContent className="w-[280px] p-4 bg-white z-[999]" align="start">
+                <p className="text-sm font-semibold mb-2">Select A Date</p>
+                <Calendar
+                  mode="single"
+                  selected={pickupDate ?? undefined}
+                  onSelect={(date) => {
+                    clearErrors("pickup_date");
+                    setValue("pickup_date", date);
+                  }}
+                  disabled={(date) => date < new Date()}
+                  initialFocus
+                />
 
-                  {pickupDate && (
-                    <>
-                      <p className="text-sm font-semibold mt-4 mb-2">Select A Time</p>
-                      <div className="grid grid-cols-2 gap-2 mb-4">
-                        {/* Hour Input */}
+                {pickupDate && (
+                  <>
+                    <p className="text-sm font-semibold mt-4 mb-2">Select A Time</p>
+                    <div className="grid grid-cols-2 gap-2 mb-4">
+                      {/* Hour Input */}
+                      <div className="relative">
+                        <label className="text-xs font-medium mb-1 block">Hour</label>
                         <div className="relative">
-                          <label className="text-xs font-medium mb-1 block">Hour</label>
-                          <div className="relative">
-                            <input
-                              type="number"
+                          <input
+                            type="number"
 
-                              min={1}
-                              max={23}
-                              value={pickupTime?.hour ?? 0}
-                              onChange={(e) => {
-                                let hour = parseInt(e.target.value);
-                                const current = pickupTime ?? { hour: 0, minute: 0 };
-                                const isPM = current.hour >= 12;
-                                if (isPM && hour < 12) hour += 12;
-                                setValue("pickup_time", {
-                                  ...current,
-                                  hour: isNaN(hour) ? 0 : hour,
-                                });
-                              }}
+                            min={1}
+                            max={23}
+                            value={pickupTime?.hour ?? 0}
+                            onChange={(e) => {
+                              let hour = parseInt(e.target.value);
+                              const current = pickupTime ?? { hour: 0, minute: 0 };
+                              const isPM = current.hour >= 12;
+                              if (isPM && hour < 12) hour += 12;
+                              setValue("pickup_time", {
+                                ...current,
+                                hour: isNaN(hour) ? 0 : hour,
+                              });
+                            }}
 
 
 
-                              className="w-full border rounded px-2 py-1 text-center appearance-none"
-                            />
-                            <button
-                              type="button"
-                              className="absolute right-1 top-0 text-xs"
-                              onClick={() => {
-                                const current = pickupTime ?? { hour: 12, minute: 0 };
-                                let hour = ((current.hour + 11) % 12) + 1;
-                                hour = hour < 12 ? hour + 1 : 1;
-                                const isPM = current.hour >= 12;
-                                setValue("pickup_time", {
-                                  ...current,
-                                  hour: isPM ? (hour === 12 ? 12 : hour + 12) : (hour === 12 ? 0 : hour),
-                                });
-                              }}
-                            >
-                              ▲
-                            </button>
-                            <button
-                              type="button"
-                              className="absolute right-1 bottom-0 text-xs"
-                              onClick={() => {
-                                const current =  pickupTime?? { hour: 12, minute: 0 };
-                                let hour = ((current.hour + 11) % 12) + 1;
-                                hour = hour > 1 ? hour - 1 : 12;
-                                const isPM = current.hour >= 12;
-                                setValue("pickup_time", {
-                                  ...current,
-                                  hour: isPM ? (hour === 12 ? 12 : hour + 12) : (hour === 12 ? 0 : hour),
-                                });
-                              }}
-                            >
-                              ▼
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Minute Input */}
-                        <div className="relative">
-                          <label className="text-xs font-medium mb-1 block">Minute</label>
-                          <div className="relative">
-                            <input
-                              type="number"
-                              min={0}
-                              max={59}
-                              step={5}
-                              value={pickupTime?.minute ?? 0}
-                              onChange={(e) => {
-                                const minute = parseInt(e.target.value);
-                                const current = pickupTime ?? { hour: 0, minute: 0 };
-                               setValue("pickup_time", {
-                                  ...current,
-                                  minute: isNaN(minute) ? 0 : minute,
-                                });
-                              }}
-                              className="w-full border rounded px-2 py-1 text-center appearance-none"
-                            />
-                            <button
-                              type="button"
-                              className="absolute right-1 top-0 text-xs"
-                              onClick={() => {
-                                const current = pickupTime ?? { hour: 0, minute: 0 };
-                                let minute = current.minute ?? 0;
-                                minute = minute < 55 ? minute + 5 : 0;
-                                setValue("pickup_time", { ...current, minute });
-                              }}
-                            >
-                              ▲
-                            </button>
-                            <button
-                              type="button"
-                              className="absolute right-1 bottom-0 text-xs"
-                              onClick={() => {
-                                const current = pickupTime ?? { hour: 0, minute: 0 };
-                                let minute = current.minute ?? 0;
-                                minute = minute > 0 ? minute - 5 : 55;
-                                setValue("pickup_time", { ...current, minute });
-                              }}
-                            >
-                              ▼
-                            </button>
-                          </div>
+                            className="w-full border rounded px-2 py-1 text-center appearance-none"
+                          />
+                          <button
+                            type="button"
+                            className="absolute right-1 top-0 text-xs"
+                            onClick={() => {
+                              const current = pickupTime ?? { hour: 12, minute: 0 };
+                              let hour = ((current.hour + 11) % 12) + 1;
+                              hour = hour < 12 ? hour + 1 : 1;
+                              const isPM = current.hour >= 12;
+                              setValue("pickup_time", {
+                                ...current,
+                                hour: isPM ? (hour === 12 ? 12 : hour + 12) : (hour === 12 ? 0 : hour),
+                              });
+                            }}
+                          >
+                            ▲
+                          </button>
+                          <button
+                            type="button"
+                            className="absolute right-1 bottom-0 text-xs"
+                            onClick={() => {
+                              const current = pickupTime ?? { hour: 12, minute: 0 };
+                              let hour = ((current.hour + 11) % 12) + 1;
+                              hour = hour > 1 ? hour - 1 : 12;
+                              const isPM = current.hour >= 12;
+                              setValue("pickup_time", {
+                                ...current,
+                                hour: isPM ? (hour === 12 ? 12 : hour + 12) : (hour === 12 ? 0 : hour),
+                              });
+                            }}
+                          >
+                            ▼
+                          </button>
                         </div>
                       </div>
 
-                      {/* AM/PM Buttons */}
-                      <div className="flex justify-between">
-                        {["AM", "PM"].map((period) => {
-                          const currentHour = returnTime?.hour ?? 0;
-                          const isPM = currentHour >= 12;
-                          const isActive = (period === "PM" && isPM) || (period === "AM" && !isPM);
-                          return (
-                            <button
-                              type="button"
-                              key={period}
-                              className={cn(
-                                "w-[48%] py-1 rounded-full text-sm font-semibold",
-                                isActive ? "bg-blue-500 text-white" : "border border-gray-400 text-gray-700"
-                              )}
-                              onClick={() => {
-                                const time = returnTime ?? { hour: 12, minute: 0 };
-                                let newHour = time.hour;
-                                if (period === "AM" && newHour >= 12) newHour -= 12;
-                                if (period === "PM" && newHour < 12) newHour += 12;
-                                setValue("return_time", { ...time, hour: newHour });
-                              }}
-                            >
-                              {period}
-                            </button>
-                          );
-                        })}
+                      {/* Minute Input */}
+                      <div className="relative">
+                        <label className="text-xs font-medium mb-1 block">Minute</label>
+                        <div className="relative">
+                          <input
+                            type="number"
+                            min={0}
+                            max={59}
+                            step={5}
+                            value={pickupTime?.minute ?? 0}
+                            onChange={(e) => {
+                              const minute = parseInt(e.target.value);
+                              const current = pickupTime ?? { hour: 0, minute: 0 };
+                              setValue("pickup_time", {
+                                ...current,
+                                minute: isNaN(minute) ? 0 : minute,
+                              });
+                            }}
+                            className="w-full border rounded px-2 py-1 text-center appearance-none"
+                          />
+                          <button
+                            type="button"
+                            className="absolute right-1 top-0 text-xs"
+                            onClick={() => {
+                              const current = pickupTime ?? { hour: 0, minute: 0 };
+                              let minute = current.minute ?? 0;
+                              minute = minute < 55 ? minute + 5 : 0;
+                              setValue("pickup_time", { ...current, minute });
+                            }}
+                          >
+                            ▲
+                          </button>
+                          <button
+                            type="button"
+                            className="absolute right-1 bottom-0 text-xs"
+                            onClick={() => {
+                              const current = pickupTime ?? { hour: 0, minute: 0 };
+                              let minute = current.minute ?? 0;
+                              minute = minute > 0 ? minute - 5 : 55;
+                              setValue("pickup_time", { ...current, minute });
+                            }}
+                          >
+                            ▼
+                          </button>
+                        </div>
                       </div>
+                    </div>
 
-                      <button
-                        type="button"
-                        onClick={() => setDateOpen(false)}
-                        className="w-full bg-blue-600 text-white py-2 rounded-full font-bold mt-4"
-                      >
-                        DONE
-                      </button>
-                    </>
-                  )}
-                </PopoverContent>
-              </Popover>
+                    {/* AM/PM Buttons */}
+                    <div className="flex justify-between">
+                      {["AM", "PM"].map((period) => {
+                        const currentHour = returnTime?.hour ?? 0;
+                        const isPM = currentHour >= 12;
+                        const isActive = (period === "PM" && isPM) || (period === "AM" && !isPM);
+                        return (
+                          <button
+                            type="button"
+                            key={period}
+                            className={cn(
+                              "w-[48%] py-1 rounded-full text-sm font-semibold",
+                              isActive ? "bg-blue-500 text-white" : "border border-gray-400 text-gray-700"
+                            )}
+                            onClick={() => {
+                              const time = returnTime ?? { hour: 12, minute: 0 };
+                              let newHour = time.hour;
+                              if (period === "AM" && newHour >= 12) newHour -= 12;
+                              if (period === "PM" && newHour < 12) newHour += 12;
+                              setValue("return_time", { ...time, hour: newHour });
+                            }}
+                          >
+                            {period}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setDateOpen(false)}
+                      className="w-full bg-blue-600 text-white py-2 rounded-full font-bold mt-4"
+                    >
+                      DONE
+                    </button>
+                  </>
+                )}
+              </PopoverContent>
+            </Popover>
           </div>
         )}
 
@@ -606,16 +608,27 @@ function Step3Form() {
         )}
 
 
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-black">
+            Phone Number <span className="text-red-500">*</span>
+          </label>
+          <PhoneInput
+            country={'pk'}
+            value={watch('phone')}
+            onChange={(phone) => setValue('phone', phone)}
+            inputClass={cn(
+              '!w-full !rounded-xl',
+              errors.phone && '!border-red-500'
+            )}
+            inputProps={{
+              name: 'phone',
+            }}
+          />
+          {errors.phone && (
+            <p className="text-xs text-red-500 mt-1">Phone is required</p>
+          )}
+        </div>
 
-        <PhoneInput
-          country={'pk'}
-          value={watch('phone')}
-          onChange={(phone) => {
-            setValue('phone', phone);
-            errors.phone = undefined;
-          }}
-          inputClass={cn('!w-full !rounded-xl', errors.phone && '!border-red-500')}
-        />
         {/* Number of Passengers */}
         <div className="flex flex-col gap-1 md:hidden">
           <label className="text-sm font-medium">Number of Passengers</label>
@@ -628,6 +641,9 @@ function Step3Form() {
               <option key={i} value={i}>{i}</option>
             ))}
           </select>
+          {errors.passengers && (
+            <p className="text-xs text-red-500 mt-1">Passengers required</p>
+          )}
         </div>
 
         {/* Number of Suitcases */}
@@ -732,27 +748,37 @@ function Step3Form() {
             type="button"
             onClick={async () => {
               const valid = await trigger(requiredFields);
-              if (!valid) {
-                alert("Please fill in all required fields correctly.");
 
-                // Scroll to the first error (optional, improves UX)
-                const firstErrorKey = Object.keys(errors)[0];
-                const el = document.querySelector(`[name="${firstErrorKey}"]`);
-                if (el) {
-                  (el as HTMLElement).scrollIntoView({ behavior: "smooth", block: "center" });
-                  (el as HTMLElement).focus();
-                }
+              if (!valid) {
+                // Give the DOM some time to render error classes before selecting
+                setTimeout(() => {
+                  const firstErrorKey = Object.keys(form.formState.errors)[0]; // use formState directly
+                  const el = document.querySelector(`[name="${firstErrorKey}"]`);
+
+                  if (el) {
+                    el.scrollIntoView({ behavior: "smooth", block: "center" });
+                    (el as HTMLElement).focus();
+                  }
+
+                  toast({
+                    variant: "destructive",
+                    title: "Missing Information",
+                    description: "Please fill in all required fields correctly.",
+                  });
+                }, 0);
 
                 return;
               }
 
               const values = form.getValues();
               console.log("Form values:", values);
-              NextStep()
+              NextStep();
             }}
+
           >
             GO TO PAYMENT →
           </button>
+
 
 
           <button
