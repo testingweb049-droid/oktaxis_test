@@ -335,23 +335,19 @@ function HeroSectionBookingForm() {
                         <PopoverContent className="w-auto p-0 bg-white relative z-[200]" align="start">
                           <Calendar
                             mode="single"
-                            selected={field.value ?? undefined}
+                            selected={field.value ?? undefined} // 👈 This removes 'null'
                             onSelect={(date) => {
                               form.clearErrors("pickup_date")
                               field.onChange(date)
                               form.resetField("pickup_time")
-
-                              // 🔽 Scroll to time section
-                              setTimeout(() => {
-                                document.getElementById("time-section")?.scrollIntoView({ behavior: "smooth" });
-                              }, 100); // small delay to ensure section is rendered
                             }}
                             disabled={(date) => isBeforeNewJerseyToday(date)}
                             initialFocus
                           />
 
+
                           {field.value && (
-                            <div id="time-section"  className="mt-4 border-t pt-4 px-2">
+                            <div className="mt-4 border-t pt-4 px-2">
                               <p className="text-sm font-semibold mb-2">Select Time</p>
 
                               <div className="grid grid-cols-2 gap-2 mb-4">
@@ -359,7 +355,7 @@ function HeroSectionBookingForm() {
                                   <label className="text-xs font-medium">Hour</label>
                                   <input
                                     type="number"
-                                    readOnly
+
                                     min={0}
                                     max={23}
                                     value={form.getValues("pickup_time")?.hour ?? 0}
@@ -380,7 +376,6 @@ function HeroSectionBookingForm() {
                                   <label className="text-xs font-medium">Minute</label>
                                   <input
                                     type="number"
-                                    readOnly
                                     min={0}
                                     max={59}
                                     step={5} // optional for up/down arrows
