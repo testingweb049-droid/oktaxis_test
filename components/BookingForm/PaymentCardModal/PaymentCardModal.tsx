@@ -3,7 +3,7 @@
 import React, { useState } from "react"
 import { loadStripe } from "@stripe/stripe-js"
 import { sendBookingEmail } from '@/lib/utils'
-import { StatusCard } from "@/components/Sections/StatusCard"
+import StatusCard from "@/components/Sections/StatusCard"
 import { useFormikContext } from 'formik'
 import {
   Elements,
