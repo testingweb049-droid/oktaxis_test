@@ -99,9 +99,21 @@ function StripePaymentForm({ clientSecret }: StripePaymentFormProps) {
   }
   return (
     <div className="mt-5 w-full flex flex-col gap-5">
-
+      <div className="w-full flex justify-center mb-4">
+        <Image
+          src="/secured-by-stripe.jpg" // Replace with your image path
+          alt="Payment Image"
+          width={300} // Adjust the width as needed
+          height={100} // Adjust the height as needed
+          className="object-contain"
+        />
+      </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <PaymentElement />
+
+        <div className="px-5 py-5 bg-white rounded-lg shadow-sm mb-4">
+          <PaymentElement />
+        </div>
+
 
         <button
           type="submit"
@@ -153,8 +165,8 @@ function StripePaymentForm({ clientSecret }: StripePaymentFormProps) {
 function MyPaymentForm() {
   const [clientSecret, setClientSecret] = useState<string | null>(null)
   const { form } = useCustomForm()
-  const amount = Number(form.getValues("price")) + (form.watch('flight_track') ? 7 : 0 ) + (form.watch('meet_greet') ? 15 : 0 )
-  console.log("amount : ",amount)
+  const amount = Number(form.getValues("price")) + (form.watch('flight_track') ? 7 : 0) + (form.watch('meet_greet') ? 15 : 0)
+  console.log("amount : ", amount)
 
   // Fetch client secret on component mount
   React.useEffect(() => {
