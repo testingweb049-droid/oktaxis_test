@@ -1,10 +1,8 @@
-'use client'
-
 import React, { useRef, useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import MyPaymentForm from './PaymentForm'; // Assuming this component exists
-import { BiSolidShoppingBags } from "react-icons/bi"; // Assuming this icon is used elsewhere
-import { MdPeopleAlt } from "react-icons/md"; // Assuming this icon is used elsewhere
+import MyPaymentForm from './PaymentForm'; 
+import { BiSolidShoppingBags } from "react-icons/bi"; 
+import { MdPeopleAlt } from "react-icons/md"; 
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarDays, TimerIcon, ChevronUp, ChevronDown, Clock, ChevronRight } from 'lucide-react';
@@ -12,30 +10,12 @@ import { format, isSameDay, isBefore, addMonths, subMonths } from "date-fns";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { toast } from '@/hooks/use-toast';
-import DateTimePicker from '../../components/ui/date-time-picker'; // Import the new DateTimePicker component
+import DateTimePicker from '../../components/ui/date-time-picker'; 
 import useCustomForm from '@/hooks/useFormContext';
 import { startOfDay } from 'date-fns';
 
-// Helper: format time to 12-hour format with AM/PM
-function formatTime12(hour: number, minute: number): string {
-  const hour12 = ((hour + 11) % 12) + 1;
-  const minuteStr = minute.toString().padStart(2, "0");
-  const amPm = hour >= 12 ? "PM" : "AM";
-  return `${hour12}:${minuteStr} ${amPm}`;
-}
-
-// Helper: check if selected time is in the past (on the same day)
-function isTimeBeforeNow(hour: number, minute: number): boolean {
-  const now = new Date();
-  const nowMinutes = now.getHours() * 60 + now.getMinutes();
-  const selectedMinutes = hour * 60 + minute;
-  return selectedMinutes < nowMinutes;
-}
-
-// form
-function Step3Form() { // Use 'any' for simplicity in v0, you'd use proper types
+function Step3Form() {
   const { form, step, Step1, Step2, NextStep, loading } = useCustomForm();
-  const returnTimeRef = useRef<HTMLDivElement>(null);
   const { formState: { errors }, setValue, watch, clearErrors, trigger } = form;
   const [returnDateOpen, setReturnDateOpen] = useState(false);
   const [mobileReturnDateOpen, setMobileReturnDateOpen] = useState(false);
@@ -56,41 +36,51 @@ function Step3Form() { // Use 'any' for simplicity in v0, you'd use proper types
     "bags",
   ] as const;
 
+  // Handler for form submission
+  const handleSubmit = async () => {
+    const valid = await trigger(requiredFields);
 
+    // Check if date and time are selected
+    if (!pickupDate || !pickupTime) {
+      toast({
+        variant: "destructive",
+        title: "Missing Date or Time",
+        description: "Please select both pickup date and time.",
+      });
+      return;
+    }
 
-  // Handlers for return time
-  // const handleReturnHourChange = (increment: boolean) => {
-  //   const currentHour = returnTime?.hour ?? 0;
-  //   let newHour = currentHour;
-  //   if (increment) {
-  //     newHour = (currentHour + 1) % 24;
-  //   } else {
-  //     newHour = (currentHour - 1 + 24) % 24;
-  //   }
-  //   setValue("return_time", { ...returnTime, hour: newHour });
-  // };
+    if (isReturn && (!returnDate || !returnTime)) {
+      toast({
+        variant: "destructive",
+        title: "Missing Return Date or Time",
+        description: "Please select both return date and time.",
+      });
+      return;
+    }
 
-  // const handleReturnMinuteChange = (increment: boolean) => {
-  //   const currentMinute = returnTime?.minute ?? 0;
-  //   let newMinute = currentMinute;
-  //   if (increment) {
-  //     newMinute = (currentMinute + 5) % 60; // Increment by 5 minutes
-  //   } else {
-  //     newMinute = (currentMinute - 5 + 60) % 60; // Decrement by 5 minutes
-  //   }
-  //   setValue("return_time", { ...returnTime, minute: newMinute });
-  // };
+    if (!valid) {
+      setTimeout(() => {
+        const firstErrorKey = Object.keys(form.formState.errors)[0];
+        const el = document.querySelector(`[name="${firstErrorKey}"]`);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+          (el as HTMLElement).focus();
+        }
+        toast({
+          variant: "destructive",
+          title: "Missing Information",
+          description: "Please fill in all required fields correctly.",
+        });
+      }, 0);
+      return;
+    }
 
-  // const handleReturnAmPmToggle = () => {
-  //   const currentHour = returnTime?.hour ?? 0;
-  //   let newHour = currentHour;
-  //   if (currentHour >= 12) { // Currently PM, switch to AM
-  //     newHour -= 12;
-  //   } else { // Currently AM, switch to PM
-  //     newHour += 12;
-  //   }
-  //   setValue("return_time", { ...returnTime, hour: newHour });
-  // };
+    // Proceed if everything is valid
+    const values = form.getValues();
+    console.log("Form values:", values);
+    NextStep();
+  };
 
   return (
     <div className="w-full max-w-2xl mx-auto p-2 bg-white shadow-lg rounded-2xl border border-gray-300">
@@ -103,7 +93,7 @@ function Step3Form() { // Use 'any' for simplicity in v0, you'd use proper types
             name="name"
             className={cn(
               'p-2 rounded-xl border text-sm md:text-base placeholder:text-xs sm:placeholder:text-sm',
-              errors.name ? 'border-red-500' : 'border-gray-500'
+              errors.name ? 'border-red-500' : 'border-gray-500',
             )}
             value={watch('name')}
             onChange={(e) => {
@@ -113,6 +103,7 @@ function Step3Form() { // Use 'any' for simplicity in v0, you'd use proper types
             placeholder="Enter your name"
           />
         </div>
+        
         <div className="flex flex-col gap-1">
           <label htmlFor="email" className="text-sm font-medium text-black">Email Address <span className="text-red-500">*</span></label>
           <input
@@ -120,7 +111,7 @@ function Step3Form() { // Use 'any' for simplicity in v0, you'd use proper types
             name="email"
             className={cn(
               'p-2 rounded-xl border text-sm md:text-base placeholder:text-xs sm:placeholder:text-sm',
-              errors.email ? 'border-red-500' : 'border-gray-500'
+              errors.email ? 'border-red-500' : 'border-gray-500',
             )}
             value={watch('email')}
             onChange={(e) => {
@@ -130,15 +121,18 @@ function Step3Form() { // Use 'any' for simplicity in v0, you'd use proper types
             placeholder="Enter your email"
           />
         </div>
-        <DateTimePicker
-          label="Pickup Date & Time"
-          selectedDate={pickupDate}
-          selectedTime={pickupTime}
-          setValue={(field, value) => setValue(field as any, value)}
-          dateFieldName="pickup_date"
-          timeFieldName="pickup_time"
-          minSelectableDate={startOfDay(new Date())}
-        />
+        
+        <div className="md:hidden">
+          <DateTimePicker
+            label="Pickup Date & Time"
+            selectedDate={pickupDate}
+            selectedTime={pickupTime}
+            setValue={(field, value) => setValue(field as any, value)}
+            dateFieldName="pickup_date"
+            timeFieldName="pickup_time"
+            minSelectableDate={startOfDay(new Date())}
+          />
+        </div>
 
         {isReturn && (
           <DateTimePicker
@@ -148,15 +142,9 @@ function Step3Form() { // Use 'any' for simplicity in v0, you'd use proper types
             setValue={(field, value) => setValue(field as any, value)}
             dateFieldName="return_date"
             timeFieldName="return_time"
-            minSelectableDate={
-              pickupDate
-                ? startOfDay(new Date(pickupDate.getFullYear(), pickupDate.getMonth(), pickupDate.getDate() + 1))
-                : startOfDay(new Date())
-            }
+            minSelectableDate={pickupDate ? startOfDay(new Date(pickupDate.getFullYear(), pickupDate.getMonth(), pickupDate.getDate() + 1)) : startOfDay(new Date())}
           />
         )}
-
-
 
         <div className="flex flex-col gap-1">
           <label className="text-sm font-medium text-black">
@@ -167,63 +155,69 @@ function Step3Form() { // Use 'any' for simplicity in v0, you'd use proper types
             name="phone"
             value={watch('phone')}
             onChange={(e) => setValue('phone', e.target.value)}
-           className={cn(
+            className={cn(
               'p-2 rounded-xl border text-sm md:text-base placeholder:text-xs sm:placeholder:text-sm',
-              errors.phone ? 'border-red-500' : 'border-gray-500'
+              errors.phone ? 'border-red-500' : 'border-gray-500',
             )}
             placeholder="Enter phone number"
           />
-          {errors.phone && (
-            <p className="text-xs text-red-500 mt-1">Phone is required</p>
-          )}
+          {errors.phone && <p className="text-xs text-red-500 mt-1">Phone is required</p>}
         </div>
 
-        {/* Number of Passengers */}
-        <div className="flex flex-col gap-1 md:hidden">
-          <label className="text-sm font-medium">
-            Number of Passengers <span className="text-red-500">*</span>
-          </label>
-          <select
-            name="passengers"
-            className={cn(
-              "p-2 rounded-xl border",
-              errors.passengers ? "border-red-500" : "border-gray-500"
-            )}
-            value={watch('passengers')}
-            onChange={(e) => setValue('passengers', parseInt(e.target.value))}
-          >
-            {[0, 1, 2, 3, 4].map(i => (
-              <option key={i} value={i}>
-                {i < 4 ? i : '4+'}
-              </option>
-            ))}
-          </select>
-          {errors.passengers && (
-            <p className="text-xs text-red-500 mt-1">Passengers required</p>
-          )}
-        </div>
-        {/* Number of Suitcases */}
-        <div className="flex flex-col gap-1 md:hidden">
-          <label className="text-sm font-medium">
-            Number of Bags <span className="text-red-500">*</span>
-          </label>
-          <select
-            name="bags"
-            className={cn(
-              "p-2 rounded-xl border",
-              errors.bags ? "border-red-500" : "border-gray-500"
-            )}
-            value={watch('bags')}
-            onChange={(e) => setValue('bags', parseInt(e.target.value))}
-          >
-            {[0, 1, 2, 3, 4].map(i => (
-              <option key={i} value={i}>{i}</option>
-            ))}
-          </select>
-          {errors.bags && (
-            <p className="text-xs text-red-500 mt-1">Bags required</p>
-          )}
-        </div>
+        {/* Number of Passengers and Bags in one row */}
+        <div className="flex  md:hidden block gap-5 flex-row sm:gap-4">
+  {/* Number of Passengers */}
+  <div className="flex flex-col gap-1 w-full sm:w-1/2">
+    <label className="text-sm font-medium">
+      Passengers <span className="text-red-500">*</span>
+    </label>
+    <select
+      name="passengers"
+      className={cn(
+        'p-2 rounded-xl border text-sm md:text-base placeholder:text-xs sm:placeholder:text-sm',
+        errors.passengers ? 'border-red-500' : 'border-gray-500',
+        'text-base touch-manipulation' // Ensure font-size is >= 16px and prevent zoom
+      )}
+      value={watch('passengers')}
+      onChange={(e) => setValue('passengers', parseInt(e.target.value))}
+    >
+      {[0, 1, 2, 3, 4].map(i => (
+        <option key={i} value={i}>
+          {i < 4 ? i : '4+'}
+        </option>
+      ))}
+    </select>
+    {errors.passengers && (
+      <p className="text-xs text-red-500 mt-1">Passengers required</p>
+    )}
+  </div>
+
+  {/* Number of Bags */}
+  <div className="flex  flex-col gap-1  w-full sm:w-1/2">
+    <label className="text-sm font-medium">
+      Suitcases<span className="text-red-500">*</span>
+    </label>
+    <select
+      name="bags"
+      className={cn(
+        'p-2 rounded-xl border text-sm md:text-base placeholder:text-xs sm:placeholder:text-sm',
+        errors.bags ? 'border-red-500' : 'border-gray-500',
+        'text-base touch-manipulation' // Ensure font-size is >= 16px and prevent zoom
+      )}
+      value={watch('bags')}
+      onChange={(e) => setValue('bags', parseInt(e.target.value))}
+    >
+      {[0, 1, 2, 3, 4].map(i => (
+        <option key={i} value={i}>{i}</option>
+      ))}
+    </select>
+    {errors.bags && (
+      <p className="text-xs text-red-500 mt-1">Bags required</p>
+    )}
+  </div>
+</div>
+
+
         {/* Airport Pickup Toggle */}
         <div className="flex items-center gap-2 mt-2">
           <input
@@ -234,6 +228,7 @@ function Step3Form() { // Use 'any' for simplicity in v0, you'd use proper types
           />
           <label className="text-sm font-medium">Airport Pickup?</label>
         </div>
+
         {/* Airport Pickup Options */}
         {watch('airport_pickup') && (
           <div className="flex flex-col gap-5 mt-5">
@@ -251,6 +246,7 @@ function Step3Form() { // Use 'any' for simplicity in v0, you'd use proper types
                 Don’t worry. Even if your flight is delayed, we’ll monitor your flight and arrive on time, every time.
               </p>
             </div>
+
             {/* Flight Track Option */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
@@ -274,6 +270,7 @@ function Step3Form() { // Use 'any' for simplicity in v0, you'd use proper types
                 </div>
               </div>
             </div>
+
             {/* Meet & Greet */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
@@ -299,6 +296,7 @@ function Step3Form() { // Use 'any' for simplicity in v0, you'd use proper types
             </div>
           </div>
         )}
+
         {/* Payment Action Buttons */}
         <div className="flex flex-col gap-4 mt-8 w-full">
           <button
@@ -307,9 +305,8 @@ function Step3Form() { // Use 'any' for simplicity in v0, you'd use proper types
             onClick={async () => {
               const valid = await trigger(requiredFields);
               if (!valid) {
-                // Give the DOM some time to render error classes before selecting
                 setTimeout(() => {
-                  const firstErrorKey = Object.keys(form.formState.errors)[0]; // use formState directly
+                  const firstErrorKey = Object.keys(form.formState.errors)[0];
                   const el = document.querySelector(`[name="${firstErrorKey}"]`);
                   if (el) {
                     el.scrollIntoView({ behavior: "smooth", block: "center" });

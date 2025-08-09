@@ -7,18 +7,18 @@ import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
 interface Time {
-  hour: number
-  minute: number
+    hour: number
+    minute: number
 }
 
 interface DateTimePickerProps {
-  label: string
-  selectedDate: Date | null
-  selectedTime?: Time | null // ✅ allow undefined
-  setValue: (field: string, value: any) => void
-  dateFieldName: string
-  timeFieldName: string
-  minSelectableDate?: Date | null
+    label: string
+    selectedDate: Date | null
+    selectedTime?: Time | null // ✅ allow undefined
+    setValue: (field: string, value: any) => void
+    dateFieldName: string
+    timeFieldName: string
+    minSelectableDate?: Date | null
 }
 
 
@@ -236,20 +236,20 @@ export default function DateTimePicker({
                             className="flex items-center justify-between px-2 py-1 border-t border-zinc-700 overflow-x-auto gap-2 whitespace-nowrap"
                         >
                             <div className="flex items-center gap-2 min-w-0">
-                                <Clock className="h-4 w-4 text-white flex-shrink-0" />
+                                <Clock className="h-5 w-5 text-white flex-shrink-0" />
 
                                 {/* Hour Select */}
                                 <div className="flex items-center bg-zinc-800 rounded-sm px-1 py-0.5">
-                                    <span className="font-bold text-sm">
+                                    <span className="font-bold text-md">
                                         {(selectedTime?.hour ?? 0) % 12 === 0 ? 12 : (selectedTime?.hour ?? 0) % 12}
                                     </span>
                                     <div className="flex flex-col ml-1 text-gray-400">
                                         <ChevronUp
-                                            className="h-3 w-3 cursor-pointer hover:text-white"
+                                            className="h-5 w-5 cursor-pointer hover:text-white"
                                             onClick={() => handleHourChange(true)}
                                         />
                                         <ChevronDown
-                                            className="h-3 w-3 cursor-pointer hover:text-white"
+                                            className="h-5 w-5 cursor-pointer hover:text-white"
                                             onClick={() => handleHourChange(false)}
                                         />
                                     </div>
@@ -259,16 +259,16 @@ export default function DateTimePicker({
 
                                 {/* Minute Select */}
                                 <div className="flex items-center bg-zinc-800 rounded-sm px-1 py-0.5">
-                                    <span className="font-bold text-sm">
+                                    <span className="font-bold text-md">
                                         {(selectedTime?.minute ?? 0).toString().padStart(2, "0")}
                                     </span>
                                     <div className="flex flex-col ml-1 text-gray-400">
                                         <ChevronUp
-                                            className="h-3 w-3 cursor-pointer hover:text-white"
+                                            className="h-5 w-5 cursor-pointer hover:text-white"
                                             onClick={() => handleMinuteChange(true)}
                                         />
                                         <ChevronDown
-                                            className="h-3 w-3 cursor-pointer hover:text-white"
+                                            className="h-5 w-5 cursor-pointer hover:text-white"
                                             onClick={() => handleMinuteChange(false)}
                                         />
                                     </div>
@@ -287,7 +287,7 @@ export default function DateTimePicker({
                             <Button
                                 type="button"
                                 onClick={() => setOpen(false)}
-                                className="bg-brand text-black text-sm font-bold hover:bg-brand px-3 py-1.5 whitespace-nowrap"
+                                className="bg-brand text-black text-sm font-bold hover:bg-brand md:px-3 md:py-1.5 px-2 py-1 whitespace-nowrap"
                             >
                                 Apply
                             </Button>
