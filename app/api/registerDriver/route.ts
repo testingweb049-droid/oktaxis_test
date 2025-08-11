@@ -1,16 +1,32 @@
 import sendEmail from "@/lib/sendEmail";
 import { isValidEmail, safeLog, sanitizeHtml } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
-// ggg
-// ggg
-// ggg
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, email, phone, vehicleType, licenseNumber } = body;
+    const {
+      name,
+      email,
+      phone,
+      vehicleType,
+      preferredContact,
+      carMake,
+      carModel,
+      licenseNumber,
+    } = body;
 
     // Input validation
-    if (!name || !email || !phone || !vehicleType || !licenseNumber) {
+    if (
+      !name ||
+      !email ||
+      !phone ||
+      !vehicleType ||
+      !preferredContact ||
+      !carMake ||
+      !carModel ||
+      !licenseNumber
+    ) {
       return NextResponse.json(
         { message: "Missing required fields" },
         { status: 400 }
@@ -28,6 +44,9 @@ export async function POST(req: NextRequest) {
     // Sanitize inputs for security
     const sanitizedName = sanitizeHtml(name);
     const sanitizedVehicleType = sanitizeHtml(vehicleType);
+    const sanitizedPreferredContact = sanitizeHtml(preferredContact);
+    const sanitizedCarMake = sanitizeHtml(carMake);
+    const sanitizedCarModel = sanitizeHtml(carModel);
     const sanitizedLicenseNumber = sanitizeHtml(licenseNumber);
 
     // Log sanitized input data in development only
@@ -38,6 +57,9 @@ export async function POST(req: NextRequest) {
         email,
         phone,
         vehicleType: sanitizedVehicleType,
+        preferredContact: sanitizedPreferredContact,
+        carMake: sanitizedCarMake,
+        carModel: sanitizedCarModel,
         licenseNumber: sanitizedLicenseNumber,
       },
       false
@@ -72,6 +94,9 @@ export async function POST(req: NextRequest) {
           <p><b>Email:</b> ${email}</p>
           <p><b>Phone:</b> ${phone}</p>
           <p><b>Vehicle Type:</b> ${sanitizedVehicleType}</p>
+          <p><b>Preferred Contact:</b> ${sanitizedPreferredContact}</p>
+          <p><b>Car Make:</b> ${sanitizedCarMake}</p>
+          <p><b>Car Model:</b> ${sanitizedCarModel}</p>
           <p><b>License Number:</b> ${sanitizedLicenseNumber}</p>
         </div>
       </div>
@@ -93,6 +118,13 @@ export async function POST(req: NextRequest) {
         <div style="${contentStyle}">
           <p>Dear ${sanitizedName},</p>
           <p>Thank you for registering as a driver with OkTaxis. Your application has been successfully received.</p>
+          <p><b>Submitted Details:</b></p>
+          <ul>
+            <li><b>Preferred Contact:</b> ${sanitizedPreferredContact}</li>
+            <li><b>Car Make:</b> ${sanitizedCarMake}</li>
+            <li><b>Car Model:</b> ${sanitizedCarModel}</li>
+            <li><b>License Number:</b> ${sanitizedLicenseNumber}</li>
+          </ul>
           <p>We will review your details and get back to you shortly.</p>
           <p>Best regards,<br>The OkTaxis Team</p>
         </div>
