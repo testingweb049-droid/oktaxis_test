@@ -103,7 +103,7 @@ function StripePaymentForm({ clientSecret }: StripePaymentFormProps) {
         <Image
           src="/secured-by-stripe.jpg" // Replace with your image path
           alt="Payment Image"
-          width={300} // Adjust the width as needed
+          width={100} // Adjust the width as needed
           height={100} // Adjust the height as needed
           className="object-contain"
         />
