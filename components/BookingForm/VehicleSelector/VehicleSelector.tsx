@@ -232,7 +232,7 @@ export default function VehicleSelector({
                   <CardTitle className="text-lg font-semibold">
                     {car.title}
                   </CardTitle>
-                  <CardTitle className="text-sm font-medium text-gray-500 leading-none">
+                  <CardTitle className="text-base font-medium text-gray-500 leading-none">
                     {car.category}
                   </CardTitle>
                 </CardHeader>
@@ -245,11 +245,11 @@ export default function VehicleSelector({
                   <div className="flex justify-between items-center w-full">
                     <div className="flex items-center">
                       <UserRound className="w-4 h-4 mr-1" />
-                      <span className="text-sm">{car.seats} Seats</span>
+                      <span className="text-base">{car.seats} Seats</span>
                     </div>
                     <div className="flex items-center">
                       <UserRound className="w-4 h-4 mr-1" />
-                      <span className="text-sm">{car.bags} Bags</span>
+                      <span className="text-base">{car.bags} Bags</span>
                     </div>
                   </div>
                   <div className="text-center mt-2 font-medium">

@@ -1,203 +1,149 @@
-"use client";
+import sendEmail from "@/lib/sendEmail";
+import { isValidEmail, safeLog, sanitizeHtml } from "@/lib/utils";
+import { NextRequest, NextResponse } from "next/server";
 
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { registerDriverEmail } from "@/lib/utils";
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useState } from "react";
-import * as Yup from "yup";
-import { ChevronDown } from "lucide-react";
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const {
+      name,
+      email,
+      phone,
+      vehicleType,
+      preferredContact,
+      carMake,
+      carModel,
+      licenseNumber,
+    } = body;
 
-// Validation schema using Yup
-const validationSchema = Yup.object({
-  name: Yup.string().required("First Name is required"),
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
-  phone: Yup.string().required("Phone number is required"),
-  vehicleType: Yup.string().required("Vehicle Type is required"),
-  licenseNumber: Yup.string().required("License Number is required"),
-});
-
-export interface DriverFormValues {
-  name: string;
-  email: string;
-  phone: string;
-  vehicleType: string;
-  licenseNumber: string;
-}
-
-export default function RegisterDriverForm() {
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleSubmit = async (
-    values: DriverFormValues,
-    {
-      setSubmitting,
-      resetForm,
-    }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void }
-  ) => {
-    try {
-      setError("");
-
-      // Use the registerDriverEmail utility function
-      await registerDriverEmail(values);
-
-      setFormSubmitted(true);
-      resetForm();
-      setTimeout(() => setFormSubmitted(false), 5000);
-    } catch (err) {
-      console.error("Error submitting form:", err);
-      setError("Failed to submit form. Please try again.");
-    } finally {
-      setSubmitting(false);
+    // Input validation
+    if (
+      !name ||
+      !email ||
+      !phone ||
+      !vehicleType ||
+      !preferredContact ||
+      !carMake ||
+      !carModel ||
+      !licenseNumber
+    ) {
+      return NextResponse.json(
+        { message: "Missing required fields" },
+        { status: 400 }
+      );
     }
-  };
 
-  return (
-    <Formik
-      initialValues={{
-        name: "",
-        email: "",
-        phone: "",
-        vehicleType: "",
-        licenseNumber: "",
-      }}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      {({
-        values,
-        setFieldValue,
-        isSubmitting,
-      }: {
-        values: DriverFormValues;
-        setFieldValue: (field: string, value: any) => void;
-        isSubmitting: boolean;
-      }) => (
-        <Form className="space-y-5">
-          <div className="text-2xl font-bold text-center">
-            Register as Driver
-          </div>
-          <div>
-            <Field
-              name="name"
-              as={Input}
-              placeholder="Enter Your Name"
-              className="w-full px-4 py-5 border-gray-300 rounded-md"
-            />
-            <ErrorMessage
-              name="name"
-              component="p"
-              className="text-red-500 text-sm mt-1"
-            />
-          </div>
+    // Validate email format
+    if (!isValidEmail(email)) {
+      return NextResponse.json(
+        { message: "Invalid email format" },
+        { status: 400 }
+      );
+    }
 
-          <div>
-            <Field
-              name="email"
-              type="email"
-              as={Input}
-              placeholder="Enter Your Email Address"
-              className="w-full px-4 py-5 border-gray-300 rounded-md"
-            />
-            <ErrorMessage
-              name="email"
-              component="p"
-              className="text-red-500 text-sm mt-1"
-            />
-          </div>
+    // Sanitize inputs for security
+    const sanitizedName = sanitizeHtml(name);
+    const sanitizedVehicleType = sanitizeHtml(vehicleType);
+    const sanitizedPreferredContact = sanitizeHtml(preferredContact);
+    const sanitizedCarMake = sanitizeHtml(carMake);
+    const sanitizedCarModel = sanitizeHtml(carModel);
+    const sanitizedLicenseNumber = sanitizeHtml(licenseNumber);
 
-          <div>
-            <Field
-              name="phone"
-              type="tel"
-              as={Input}
-              placeholder="Enter Your Contact Number"
-              className="w-full px-4 py-5 border-gray-300 rounded-md"
-            />
-            <ErrorMessage
-              name="phone"
-              component="p"
-              className="text-red-500 text-sm mt-1"
-            />
-          </div>
+    // Log sanitized input data in development only
+    safeLog(
+      "Driver registration submission:",
+      {
+        name: sanitizedName,
+        email,
+        phone,
+        vehicleType: sanitizedVehicleType,
+        preferredContact: sanitizedPreferredContact,
+        carMake: sanitizedCarMake,
+        carModel: sanitizedCarModel,
+        licenseNumber: sanitizedLicenseNumber,
+      },
+      false
+    );
 
-          {/* Dropdown for Vehicle Type */}
-          {/* Dropdown for Vehicle Type with clickable icon only */}
-          <div>
-            <div className="relative w-full">
-              <div className="px-4 py-3 border rounded-md bg-white border-gray-300 text-left">
-                {values.vehicleType || "Select Vehicle Type"}
-              </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <div className="absolute right-2 top-1/2 -translate-y-1/2 p-1 cursor-pointer">
-                    <ChevronDown className="h-5 w-5 text-gray-600" />
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-full mt-2">
-                  {["Sedan", "SUV", "Van", "Luxury", "Other"].map((option) => (
-                    <DropdownMenuItem
-                      key={option}
-                      onClick={() => setFieldValue("vehicleType", option)}
-                      className="cursor-pointer hover:bg-brand hover:text-white"
-                    >
-                      {option}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-            <ErrorMessage
-              name="vehicleType"
-              component="p"
-              className="text-red-500 text-sm mt-1"
-            />
-          </div>
+    const commonStyles = `
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    `;
 
-          <div>
-            <Field
-              name="licenseNumber"
-              as={Input}
-              placeholder="Enter Your License Number"
-              className="w-full px-4 py-5 border-gray-300 rounded-md"
-            />
-            <ErrorMessage
-              name="licenseNumber"
-              component="p"
-              className="text-red-500 text-sm mt-1"
-            />
-          </div>
+    const headerStyle = `
+      background-color: #1f2937; 
+      color: white;
+      padding: 20px;
+      text-align: center;
+    `;
 
-          {error && <div className="text-red-500">{error}</div>}
+    const contentStyle = `
+      background-color: #f9f9f9;
+      padding: 20px;
+    `;
 
-          <div className="text-center">
-            <Button
-              type="submit"
-              className={`w-48 ${
-                formSubmitted
-                  ? "bg-blue-500 hover:bg-blue-400"
-                  : "bg-brand hover:bg-brand"
-              } text-white font-medium py-2 px-4 rounded-md transition-colors`}
-              disabled={isSubmitting}
-            >
-              {formSubmitted
-                ? "Request Submitted"
-                : isSubmitting
-                ? "Submitting..."
-                : "Submit Your Request"}
-            </Button>
-          </div>
-        </Form>
-      )}
-    </Formik>
-  );
+    // Admin Email Content
+    const adminEmailContent = `
+      <div style="${commonStyles}">
+        <div style="${headerStyle}">
+          <h2>New Driver Registration</h2>
+        </div>
+        <div style="${contentStyle}">
+          <p><b>Name:</b> ${sanitizedName}</p>
+          <p><b>Email:</b> ${email}</p>
+          <p><b>Phone:</b> ${phone}</p>
+          <p><b>Vehicle Type:</b> ${sanitizedVehicleType}</p>
+          <p><b>Preferred Contact:</b> ${sanitizedPreferredContact}</p>
+          <p><b>Car Make:</b> ${sanitizedCarMake}</p>
+          <p><b>Car Model:</b> ${sanitizedCarModel}</p>
+          <p><b>License Number:</b> ${sanitizedLicenseNumber}</p>
+        </div>
+      </div>
+    `;
+
+    // Send email to admin
+    await sendEmail({
+      to: process.env.EMAIL_USER || "info@oktaxis.co.uk",
+      subject: "New Driver Registration",
+      html: adminEmailContent,
+    });
+
+    // User Email Content
+    const userEmailContent = `
+      <div style="${commonStyles}">
+        <div style="${headerStyle}">
+          <h2>Welcome to OkTaxis</h2>
+        </div>
+        <div style="${contentStyle}">
+          <p>Dear ${sanitizedName},</p>
+          <p>Thank you for registering as a driver with OkTaxis. Your application has been successfully received.</p>
+          <p><b>Submitted Details:</b></p>
+          <ul>
+            <li><b>Preferred Contact:</b> ${sanitizedPreferredContact}</li>
+            <li><b>Car Make:</b> ${sanitizedCarMake}</li>
+            <li><b>Car Model:</b> ${sanitizedCarModel}</li>
+            <li><b>License Number:</b> ${sanitizedLicenseNumber}</li>
+          </ul>
+          <p>We will review your details and get back to you shortly.</p>
+          <p>Best regards,<br>The OkTaxis Team</p>
+        </div>
+      </div>
+    `;
+
+    // Send email to user
+    await sendEmail({
+      to: email,
+      subject: "Driver Registration Confirmation",
+      html: userEmailContent,
+    });
+
+    return NextResponse.json({ message: "Emails sent successfully" });
+  } catch (error) {
+    console.error("Failed to send emails:", error);
+    return NextResponse.json(
+      { message: "Failed to send emails" },
+      { status: 500 }
+    );
+  }
 }

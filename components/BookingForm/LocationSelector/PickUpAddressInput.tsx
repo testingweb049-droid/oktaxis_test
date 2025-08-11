@@ -26,7 +26,7 @@ const PickUpAddressInput = ({ showAirportSelector, bookingType }: any) => {
   return (
     <>
     <div className="relative flex h-20 lg:h-[55px] flex-col md:flex-row overflow-hidden rounded-lg bg-gray-50 shadow-sm ">
-      <div className="flex w-full h-8 md:h-14 md:w-[80px] items-center justify-start md:justify-end px-4 py-1 text-sm font-medium text-gray-700">
+      <div className="flex w-full h-8 md:h-14 md:w-[80px] items-center justify-start md:justify-end px-4 py-1 text-base font-medium text-gray-700">
         From:
       </div>
       <div className="w-full flex-1">

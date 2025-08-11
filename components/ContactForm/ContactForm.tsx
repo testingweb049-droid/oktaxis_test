@@ -75,7 +75,7 @@ export default function ContactForm() {
             <ErrorMessage
               name="name"
               component="p"
-              className="text-red-500 text-sm mt-1"
+              className="text-red-500 text-base mt-1"
             />
           </div>
 
@@ -90,7 +90,7 @@ export default function ContactForm() {
             <ErrorMessage
               name="email"
               component="p"
-              className="text-red-500 text-sm mt-1"
+              className="text-red-500 text-base mt-1"
             />
           </div>
 
@@ -102,13 +102,13 @@ export default function ContactForm() {
               placeholder="Enter Your Contact Number"
               className="w-full px-4 py-5 border-gray-300 rounded-md"
             />
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-base text-gray-500">
               Contact should be exactly 10 digits, e.g., 2241111111
             </p>
             <ErrorMessage
               name="phone"
               component="p"
-              className="text-red-500 text-sm mt-1"
+              className="text-red-500 text-base mt-1"
             />
           </div>
 

@@ -59,6 +59,9 @@ export const registerDriverEmail = async (values: any) => {
         email: values.email,
         phone: values.phone,
         vehicleType: values.vehicleType,
+        preferredContact: values.preferredContact,
+        carMake: values.carMake,
+        carModel: values.carModel,
         licenseNumber: values.licenseNumber,
       }),
     });
@@ -70,11 +73,12 @@ export const registerDriverEmail = async (values: any) => {
     }
 
     console.log("Emails sent successfully");
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error sending emails:", error.message);
     throw error;
   }
 };
+
 
 export const contactEmail = async (values: any) => {
   try {

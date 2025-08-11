@@ -13,8 +13,8 @@ export default function PassengerCount() {
         onValueChange={(value) => setFieldValue("passengerCount", value)} // Update form state
       >
         <SelectTrigger className="w-full bg-white rounded-lg py-7 flex gap-2">
-          <span className="text-sm text-gray-500">Passengers:</span>
-          <SelectValue placeholder="Please select your passengers" className="text-sm" />
+          <span className="text-base text-gray-500">Passengers:</span>
+          <SelectValue placeholder="Please select your passengers" className="text-base" />
         </SelectTrigger>
         <SelectContent>
           {passengerNumbers.map((number) => (

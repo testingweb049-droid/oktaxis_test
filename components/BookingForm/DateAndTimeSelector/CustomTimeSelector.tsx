@@ -106,7 +106,7 @@ const CustomTimeSelector = () => {
           >
             {/* Hours Column */}
             <div className="space-y-2">
-              <div className="font-medium text-sm text-gray-600 px-3">Hour</div>
+              <div className="font-medium text-base text-gray-600 px-3">Hour</div>
               <div className="grid grid-cols-1 gap-1 max-h-[200px] overflow-y-auto no-scrollbar bg-gray-100 rounded-md">
                 {hoursOptions.map((hour) => (
                   <div
@@ -127,7 +127,7 @@ const CustomTimeSelector = () => {
 
             {/* Minutes Column */}
             <div className="space-y-2">
-              <div className="font-medium text-sm text-gray-600 px-3">Minute</div>
+              <div className="font-medium text-base text-gray-600 px-3">Minute</div>
               <div className="grid grid-cols-1 gap-1 max-h-[200px] overflow-y-auto no-scrollbar bg-gray-100 rounded-md">
                 {minutesOptions.map((minute) => (
                   <div
@@ -148,7 +148,7 @@ const CustomTimeSelector = () => {
 
             {/* Period Column */}
             {/* <div className="space-y-2">
-              <div className="font-medium text-sm text-gray-600">Period</div>
+              <div className="font-medium text-base text-gray-600">Period</div>
               <div className="grid grid-cols-1 gap-1">
                 {periodOptions.map((p) => (
                   <div

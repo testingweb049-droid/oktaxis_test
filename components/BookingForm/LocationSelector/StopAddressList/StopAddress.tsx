@@ -19,7 +19,7 @@ export default function StopInput({ index, onRemove }: StopInputProps) {
 
   return (
     <div className="flex overflow-hidden rounded-lg bg-gray-50 h-[54px] shadow-sm">
-      <div className="flex w-[80px] items-center justify-end px-4 text-sm font-medium text-gray-700">
+      <div className="flex w-[80px] items-center justify-end px-4 text-base font-medium text-gray-700">
         Stop {index + 1}:
       </div>
       <div className="relative flex-1">
