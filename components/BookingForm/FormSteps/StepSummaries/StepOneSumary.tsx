@@ -38,58 +38,58 @@ const StepOneSummary = ({
 
       <div className="flex items-center gap-2">
         <Car className="text-gray-500 w-4 h-4" />
-        <p className="font-semibold text-sm">Booking Type:</p>
-        <span className="text-sm">{bookingType || "Not Selected"}</span>
+        <p className="font-semibold text-base">Booking Type:</p>
+        <span className="text-base">{bookingType || "Not Selected"}</span>
       </div>
 
       {/* Display the selected hours for hourly booking type */}
       {bookingType === "hourly" && (
         <div className="flex items-center gap-2">
           <ClockIcon className="text-brand w-4 h-4" />
-          <p className="font-semibold text-sm">Selected Hours:</p>
-          <span className="text-sm">{hourlyCharter ? `${hourlyCharter} HRS` : "Not Selected"}</span>
+          <p className="font-semibold text-base">Selected Hours:</p>
+          <span className="text-base">{hourlyCharter ? `${hourlyCharter} HRS` : "Not Selected"}</span>
         </div>
       )}
 
       <div className="flex items-center gap-2">
         <MapPin className="text-brand w-4 h-4" />
-        <p className="font-semibold text-sm">Pickup Address:</p>
-        <span className="text-sm">{pickUpAddress || "Not Selected"}</span>
+        <p className="font-semibold text-base">Pickup Address:</p>
+        <span className="text-base">{pickUpAddress || "Not Selected"}</span>
       </div>
 
       {/* Display Airline and Flight Number if provided */}
       {airline && (
         <div className="flex items-center gap-2">
           <Plane className="text-blue-500 w-4 h-4" />
-          <p className="font-semibold text-sm">Airline:</p>
-          <span className="text-sm">{airline || "Not Provided"}</span>
+          <p className="font-semibold text-base">Airline:</p>
+          <span className="text-base">{airline || "Not Provided"}</span>
         </div>
       )}
 
       {flightNumber && (
         <div className="flex items-center gap-2">
           <Plane className="text-blue-500 w-4 h-4" />
-          <p className="font-semibold text-sm">Flight Number:</p>
-          <span className="text-sm">{flightNumber || "Not Provided"}</span>
+          <p className="font-semibold text-base">Flight Number:</p>
+          <span className="text-base">{flightNumber || "Not Provided"}</span>
         </div>
       )}
 
       <div className="flex items-center gap-2">
         <MapPin className="text-red-500 w-4 h-4" />
-        <p className="font-semibold text-sm">Drop-Off Address:</p>
-        <span className="text-sm">{dropOffAddress || "Not Selected"}</span>
+        <p className="font-semibold text-base">Drop-Off Address:</p>
+        <span className="text-base">{dropOffAddress || "Not Selected"}</span>
       </div>
 
       {/* Display stop addresses if they exist */}
       {stops.length > 0 && (
         <div>
 
-          <p className="font-semibold text-sm">Stops:</p>
+          <p className="font-semibold text-base">Stops:</p>
           <div className="flex flex-col gap-2 ml-4 mt-2">
             {stops.map((stop, index) => (
               <div key={index} className="flex items-center gap-2 bg-gray-100 rounded-lg p-2">
                 <MapPin className="text-blue-500 w-4 h-4" />
-                <span className="text-sm">{stop || "No Address Provided"}</span>
+                <span className="text-base">{stop || "No Address Provided"}</span>
               </div>
             ))}
           </div>
@@ -98,20 +98,20 @@ const StepOneSummary = ({
 
       <div className="flex items-center gap-2">
         <CalendarIcon className="text-purple-500 w-4 h-4" />
-        <p className="font-semibold text-sm">Date:</p>
-        <span className="text-sm">{formatDate(date)}</span>
+        <p className="font-semibold text-base">Date:</p>
+        <span className="text-base">{formatDate(date)}</span>
       </div>
 
       <div className="flex items-center gap-2">
         <ClockIcon className="text-brand w-4 h-4" />
-        <p className="font-semibold text-sm">Time:</p>
-        <span className="text-sm">{time || "Not Selected"}</span>
+        <p className="font-semibold text-base">Time:</p>
+        <span className="text-base">{time || "Not Selected"}</span>
       </div>
 
       <div className="flex items-center gap-2">
         <LandPlot className="text-gray-800 w-4 h-4" />
-        <p className="font-semibold text-sm">Distance:</p>
-        <span className="text-sm">{`${distance} miles` || "Not Calculated"}</span>
+        <p className="font-semibold text-base">Distance:</p>
+        <span className="text-base">{`${distance} miles` || "Not Calculated"}</span>
       </div>
     </div>
   );

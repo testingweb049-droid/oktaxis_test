@@ -103,9 +103,9 @@ function StripePaymentForm({ clientSecret }: StripePaymentFormProps) {
         <Image
           src="/secured-by-stripe.jpg" // Replace with your image path
           alt="Payment Image"
-          width={100} // Adjust the width as needed
-          height={100} // Adjust the height as needed
-          className="object-contain"
+          width={200} // Adjust the width as needed
+          height={150} // Adjust the height as needed
+          className="object-contain w-full h-full"
         />
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -118,7 +118,7 @@ function StripePaymentForm({ clientSecret }: StripePaymentFormProps) {
         <button
           type="submit"
           disabled={!stripe || loading}
-          className="w-full mt-4 bg-black hover:bg-[#28282B] rounded-full text-white py-2 px-4 text-sm flex items-center justify-center"
+          className="w-full mt-4 bg-black hover:bg-[#28282B] rounded-full text-white py-2 px-4 text-base flex items-center justify-center"
         >
           {loading ? (
             <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
@@ -149,7 +149,7 @@ function StripePaymentForm({ clientSecret }: StripePaymentFormProps) {
             else if (step === 2) Step1()
             else if (step === 4) Step3()
           }}
-          className="w-full border border-black text-black mt-2 text-sm py-2 px-4 rounded-full font-bold text-center"
+          className="w-full border border-black text-black mt-2 text-base py-2 px-4 rounded-full font-bold text-center"
         >
           ← Back to Your Details
         </button>

@@ -27,52 +27,52 @@ interface StepThreeSummaryProps {
   
         <div className="flex items-center gap-2">
           <FolderPen className="text-brand w-4 h-4" />
-          <p className="font-semibold text-sm">Name:</p>
-          <span className="text-sm">{passengerInfo?.name || 'Not Provided'}</span>
+          <p className="font-semibold text-base">Name:</p>
+          <span className="text-base">{passengerInfo?.name || 'Not Provided'}</span>
         </div>
   
         <div className="flex items-center gap-2">
           <Phone className="text-brand w-4 h-4" />
-          <p className="font-semibold text-sm">Phone:</p>
-          <span className="text-sm">{passengerInfo?.phone || 'Not Provided'}</span>
+          <p className="font-semibold text-base">Phone:</p>
+          <span className="text-base">{passengerInfo?.phone || 'Not Provided'}</span>
         </div>
   
         <div className="flex items-center gap-2">
           <Mail className="text-sky-500 w-4 h-4" />
-          <p className="font-semibold text-sm">Email:</p>
-          <span className="text-sm">{passengerInfo?.email || 'Not Provided'}</span>
+          <p className="font-semibold text-base">Email:</p>
+          <span className="text-base">{passengerInfo?.email || 'Not Provided'}</span>
         </div>
   
         <div className="flex items-center gap-2">
           <Briefcase className="text-gray-500 w-4 h-4" />
-          <p className="font-semibold text-sm">Bags:</p>
-          <span className="text-sm">{bagCount || 'Not Provided'}</span>
+          <p className="font-semibold text-base">Bags:</p>
+          <span className="text-base">{bagCount || 'Not Provided'}</span>
         </div>
   
         <div className="flex items-center gap-2">
           <PersonStanding className="text-blue-500 w-4 h-4" />
-          <p className="font-semibold text-sm">Passengers:</p>
-          <span className="text-sm">{passengerCount || 'Not Provided'}</span>
+          <p className="font-semibold text-base">Passengers:</p>
+          <span className="text-base">{passengerCount || 'Not Provided'}</span>
         </div>
 
         <div className="flex items-center gap-2">
           <Baby className="text-brand w-4 h-4" />
-          <p className="font-semibold text-sm">Children:</p>
-          <span className="text-sm">{childCount || ''}</span>
+          <p className="font-semibold text-base">Children:</p>
+          <span className="text-base">{childCount || ''}</span>
         </div>
 
         <div className="flex items-center gap-2">
           <StickyNote className="text-stone-500 w-4 h-4" />
-          <p className="font-semibold text-sm">Passenger Instructions:</p>
-          <span className="text-sm">{textarea || 'Not Provided'}</span>
+          <p className="font-semibold text-base">Passenger Instructions:</p>
+          <span className="text-base">{textarea || 'Not Provided'}</span>
         </div>
   
         {passengerNotes && (
           <div className="flex flex-col gap-2">
             {/* <RockingChair className="text-blue-500 w-4 h-4" /> */}
-            <p className="font-semibold text-sm">Notes:</p>
+            <p className="font-semibold text-base">Notes:</p>
             <div className="bg-gray-100 rounded-lg p-2">
-              <span className="text-sm">{passengerNotes}</span>
+              <span className="text-base">{passengerNotes}</span>
             </div>
           </div>
         )}

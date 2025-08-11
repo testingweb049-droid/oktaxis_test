@@ -13,8 +13,8 @@ export default function BagCount() {
         onValueChange={(value) => setFieldValue("bagCount", value)} // Update form state
       >
         <SelectTrigger className="w-full bg-white py-7 flex gap-2 rounded-lg focus:ring-0">
-          <span className="text-sm text-gray-500">Bags:</span>
-          <SelectValue placeholder="Please select your bags" className="text-sm" />
+          <span className="text-base text-gray-500">Bags:</span>
+          <SelectValue placeholder="Please select your bags" className="text-base" />
         </SelectTrigger>
         <SelectContent>
           {baggageNumbers.map((number) => (

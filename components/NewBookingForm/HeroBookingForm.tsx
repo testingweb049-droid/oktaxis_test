@@ -138,14 +138,14 @@ function HeroSectionBookingForm() {
                             }}
                             disabled={loading}
                             placeholder="Enter pickup location"
-                            className="w-full pl-10 pr-3 py-3 border border-gray-200  text-[16px] rounded-xl focus:outline-none text-black text-sm"
+                            className="w-full pl-10 pr-3 py-3 border border-gray-200  text-[16px] rounded-xl focus:outline-none text-black text-base"
                           />
                         </div>
                       </Autocomplete>
                     )}
                     {/* ADD THIS: Error message */}
                     {form.formState.errors.pickup_location && (
-                      <p className="text-red-500 text-sm mt-1">
+                      <p className="text-red-500 text-base mt-1">
                         {form.formState.errors.pickup_location.message?.toString()}
                       </p>
                     )}
@@ -193,13 +193,13 @@ function HeroSectionBookingForm() {
                               }}
                               disabled={loading}
                               placeholder="Enter drop off location"
-                              className="w-full pl-10 pr-3 py-2.5 border  text-[16px] border-gray-200 rounded-xl focus:outline-none text-black text-sm"
+                              className="w-full pl-10 pr-3 py-2.5 border  text-[16px] border-gray-200 rounded-xl focus:outline-none text-black text-base"
                             />
                           </div>
                         </Autocomplete>
                       )}
                       {form.formState.errors.dropoff_location && (
-                        <p className="text-red-500 text-sm mt-1">
+                        <p className="text-red-500 text-base mt-1">
                           {form.formState.errors.dropoff_location.message?.toString()}
                         </p>
                       )}
@@ -224,7 +224,7 @@ function HeroSectionBookingForm() {
                                 value={field.value ? `${field.value} Hour` : ""}
                                 placeholder="Select duration"
                                 readOnly
-                                className="w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none text-black text-sm"
+                                className="w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none text-black text-base"
                               />
                             </div>
                           </FormControl>
@@ -250,7 +250,7 @@ function HeroSectionBookingForm() {
                         </PopoverContent>
                       </Popover>
                       {form.formState.errors.duration && (
-                        <p className="text-red-500 text-sm mt-1">
+                        <p className="text-red-500 text-base mt-1">
                           {form.formState.errors.duration.message?.toString()}
                         </p>
                       )}
@@ -270,7 +270,7 @@ function HeroSectionBookingForm() {
                   minSelectableDate={new Date()} // Assuming current date is the minimum for pickup
                 />
                 {form.formState.errors.pickup_date && (
-                  <p className="text-red-500 text-sm mt-1">{form.formState.errors.pickup_date.message?.toString()}</p>
+                  <p className="text-red-500 text-base mt-1">{form.formState.errors.pickup_date.message?.toString()}</p>
                 )}
               </div>
 
@@ -278,11 +278,11 @@ function HeroSectionBookingForm() {
             {/* Counter Fields */}
             <div className="hidden md:grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Number of Travelers */}
-              <div className="flex flex-col gap-1 w-full pl-6 pr-2 py-2 border border-gray-200 rounded-lg text-black text-sm">
+              <div className="flex flex-col gap-1 w-full pl-6 pr-2 py-2 border border-gray-200 rounded-lg text-black text-base">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <User className="text-brand w-5 h-5" />
-                    <span className="text-gray-700 text-sm font-medium">Travelers</span>
+                    <span className="text-gray-700 text-base font-medium">Travelers</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <button
@@ -309,11 +309,11 @@ function HeroSectionBookingForm() {
                 )}
               </div>
               {/* Number of Bags */}
-              <div className="flex flex-col gap-1 w-full pl-6 pr-2 py-2 border border-gray-200 rounded-lg text-black text-sm">
+              <div className="flex flex-col gap-1 w-full pl-6 pr-2 py-2 border border-gray-200 rounded-lg text-black text-base">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <ShoppingBag className="text-brand w-5 h-5" />
-                    <span className="text-gray-700 text-sm font-medium">Bags</span>
+                    <span className="text-gray-700 text-base font-medium">Bags</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <button

@@ -30,7 +30,7 @@ function HourlyNoteDialog() {
             <Ruler className="text-gray-700 mt-1" />
             <div>
               <h3 className="font-medium text-lg">Distance Included</h3>
-              <p className="text-gray-600 text-sm">
+              <p className="text-gray-600 text-base">
                 Your booking covers <strong>16 miles/hour</strong>. Extra distance or time costs extra.
               </p>
             </div>
@@ -41,7 +41,7 @@ function HourlyNoteDialog() {
             <Building className="text-gray-700 mt-1" />
             <div>
               <h3 className="font-medium text-lg">Return Location</h3>
-              <p className="text-gray-600 text-sm">
+              <p className="text-gray-600 text-base">
                 Trips must end in the same city or area as pickup. Different city trips need one-way booking or a return fee.
               </p>
             </div>
@@ -52,7 +52,7 @@ function HourlyNoteDialog() {
             <Users className="text-gray-700 mt-1" />
             <div>
               <h3 className="font-medium text-lg">Capacity Limits</h3>
-              <p className="text-gray-600 text-sm">
+              <p className="text-gray-600 text-base">
                 Follow guest and luggage limits for safety. Pick a bigger vehicle if unsure—drivers may refuse if limits are exceeded.
               </p>
             </div>
@@ -63,7 +63,7 @@ function HourlyNoteDialog() {
             <CarFront className="text-gray-700 mt-1" />
             <div>
               <h3 className="font-medium text-lg">Vehicle Assignment</h3>
-              <p className="text-gray-600 text-sm">
+              <p className="text-gray-600 text-base">
                 Vehicle images are samples. You’ll get a similar-quality vehicle.
               </p>
             </div>

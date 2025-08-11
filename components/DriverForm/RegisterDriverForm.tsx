@@ -14,7 +14,7 @@ import { useState } from "react";
 import * as Yup from "yup";
 import { ChevronDown } from "lucide-react";
 
-// Validation schema using Yup
+// Validation schema
 const validationSchema = Yup.object({
   name: Yup.string().required("First Name is required"),
   email: Yup.string()
@@ -22,7 +22,9 @@ const validationSchema = Yup.object({
     .required("Email is required"),
   phone: Yup.string().required("Phone number is required"),
   vehicleType: Yup.string().required("Vehicle Type is required"),
-  licenseNumber: Yup.string().required("License Number is required"),
+  preferredContact: Yup.string().required("Preferred Contact is required"),
+  carMake: Yup.string().required("Car Make is required"),
+  carModel: Yup.string().required("Car Model is required"),
 });
 
 export interface DriverFormValues {
@@ -30,7 +32,9 @@ export interface DriverFormValues {
   email: string;
   phone: string;
   vehicleType: string;
-  licenseNumber: string;
+  preferredContact: string;
+  carMake: string;
+  carModel: string;
 }
 
 export default function RegisterDriverForm() {
@@ -39,17 +43,11 @@ export default function RegisterDriverForm() {
 
   const handleSubmit = async (
     values: DriverFormValues,
-    {
-      setSubmitting,
-      resetForm,
-    }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void }
+    { setSubmitting, resetForm }: any
   ) => {
     try {
       setError("");
-
-      // Use the registerDriverEmail utility function
       await registerDriverEmail(values);
-
       setFormSubmitted(true);
       resetForm();
       setTimeout(() => setFormSubmitted(false), 5000);
@@ -68,24 +66,18 @@ export default function RegisterDriverForm() {
         email: "",
         phone: "",
         vehicleType: "",
-        licenseNumber: "",
+        preferredContact: "WhatsApp",
+        carMake: "",
+        carModel: "",
       }}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      {({
-        values,
-        setFieldValue,
-        isSubmitting,
-      }: {
-        values: DriverFormValues;
-        setFieldValue: (field: string, value: any) => void;
-        isSubmitting: boolean;
-      }) => (
+      {({ values, setFieldValue, isSubmitting }) => (
         <Form className="space-y-5">
-          <div className="text-2xl font-bold text-center">
-            Register as Driver
-          </div>
+          <div className="text-2xl font-bold text-center">Register as Driver</div>
+
+          {/* Name */}
           <div>
             <Field
               name="name"
@@ -93,13 +85,10 @@ export default function RegisterDriverForm() {
               placeholder="Enter Your Name"
               className="w-full px-4 py-5 border-gray-300 rounded-md"
             />
-            <ErrorMessage
-              name="name"
-              component="p"
-              className="text-red-500 text-sm mt-1"
-            />
+            <ErrorMessage name="name" component="p" className="text-red-500 text-base mt-1" />
           </div>
 
+          {/* Email */}
           <div>
             <Field
               name="email"
@@ -108,13 +97,10 @@ export default function RegisterDriverForm() {
               placeholder="Enter Your Email Address"
               className="w-full px-4 py-5 border-gray-300 rounded-md"
             />
-            <ErrorMessage
-              name="email"
-              component="p"
-              className="text-red-500 text-sm mt-1"
-            />
+            <ErrorMessage name="email" component="p" className="text-red-500 text-base mt-1" />
           </div>
 
+          {/* Phone */}
           <div>
             <Field
               name="phone"
@@ -123,15 +109,10 @@ export default function RegisterDriverForm() {
               placeholder="Enter Your Contact Number"
               className="w-full px-4 py-5 border-gray-300 rounded-md"
             />
-            <ErrorMessage
-              name="phone"
-              component="p"
-              className="text-red-500 text-sm mt-1"
-            />
+            <ErrorMessage name="phone" component="p" className="text-red-500 text-base mt-1" />
           </div>
 
-          {/* Dropdown for Vehicle Type */}
-          {/* Dropdown for Vehicle Type with clickable icon only */}
+          {/* Vehicle Type */}
           <div>
             <div className="relative w-full">
               <div className="px-4 py-3 border rounded-md bg-white border-gray-300 text-left">
@@ -156,36 +137,68 @@ export default function RegisterDriverForm() {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <ErrorMessage
-              name="vehicleType"
-              component="p"
-              className="text-red-500 text-sm mt-1"
-            />
+            <ErrorMessage name="vehicleType" component="p" className="text-red-500 text-base mt-1" />
           </div>
 
+          {/* Preferred Contact Method */}
+          <div>
+            <div className="relative w-full">
+              <div className="px-4 py-3 border rounded-md bg-white border-gray-300 text-left">
+                {values.preferredContact || "Select Preferred Contact"}
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2 p-1 cursor-pointer">
+                    <ChevronDown className="h-5 w-5 text-gray-600" />
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-full mt-2">
+                  {["WhatsApp", "Email", "Phone Number"].map((option) => (
+                    <DropdownMenuItem
+                      key={option}
+                      onClick={() => setFieldValue("preferredContact", option)}
+                      className="cursor-pointer hover:bg-brand hover:text-white"
+                    >
+                      {option}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+            <ErrorMessage name="preferredContact" component="p" className="text-red-500 text-base mt-1" />
+          </div>
+
+          {/* Car Make */}
           <div>
             <Field
-              name="licenseNumber"
+              name="carMake"
               as={Input}
-              placeholder="Enter Your License Number"
+              placeholder="Enter Car Make"
               className="w-full px-4 py-5 border-gray-300 rounded-md"
             />
-            <ErrorMessage
-              name="licenseNumber"
-              component="p"
-              className="text-red-500 text-sm mt-1"
-            />
+            <ErrorMessage name="carMake" component="p" className="text-red-500 text-base mt-1" />
           </div>
 
+          {/* Car Model */}
+          <div>
+            <Field
+              name="carModel"
+              as={Input}
+              placeholder="Enter Car Model"
+              className="w-full px-4 py-5 border-gray-300 rounded-md"
+            />
+            <ErrorMessage name="carModel" component="p" className="text-red-500 text-base mt-1" />
+          </div>
+
+          {/* Error Message */}
           {error && <div className="text-red-500">{error}</div>}
 
+          {/* Submit */}
           <div className="text-center">
             <Button
               type="submit"
               className={`w-48 ${
-                formSubmitted
-                  ? "bg-blue-500 hover:bg-blue-400"
-                  : "bg-brand hover:bg-brand"
+                formSubmitted ? "bg-blue-500 hover:bg-blue-400" : "bg-brand hover:bg-brand"
               } text-white font-medium py-2 px-4 rounded-md transition-colors`}
               disabled={isSubmitting}
             >

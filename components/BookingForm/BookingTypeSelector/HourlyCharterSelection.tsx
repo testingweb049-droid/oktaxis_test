@@ -13,7 +13,7 @@ export default function HourlyCharterSelection() {
 
   return (
     <div className="w-full space-y-2">
-      <p className="text-sm text-gray-500">Enter hours (Minimum 2 hours)</p>
+      <p className="text-base text-gray-500">Enter hours (Minimum 2 hours)</p>
       <Select
         value={values.hourlyCharter || "2"}
         onValueChange={handleChange} 

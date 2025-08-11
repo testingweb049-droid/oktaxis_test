@@ -87,12 +87,12 @@ function Step3Form() {
       <h2 className="text-xl font-semibold uppercase text-black mx-3 pt-7">Booking Details</h2>
       <div className='w-full flex flex-col gap-5 px-3 md:px-5 py-5'>
         <div className="flex flex-col gap-1">
-          <label htmlFor="name" className="text-sm font-medium text-black">Full Name <span className="text-red-500">*</span></label>
+          <label htmlFor="name" className="text-base font-medium text-black">Full Name <span className="text-red-500">*</span></label>
           <input
             id="name"
             name="name"
             className={cn(
-              'p-2 rounded-xl border text-sm md:text-base placeholder:text-xs sm:placeholder:text-sm',
+              'p-2 rounded-xl border text-base md:text-base placeholder:text-xs sm:placeholder:text-base',
               errors.name ? 'border-red-500' : 'border-gray-500',
             )}
             value={watch('name')}
@@ -105,12 +105,12 @@ function Step3Form() {
         </div>
         
         <div className="flex flex-col gap-1">
-          <label htmlFor="email" className="text-sm font-medium text-black">Email Address <span className="text-red-500">*</span></label>
+          <label htmlFor="email" className="text-base font-medium text-black">Email Address <span className="text-red-500">*</span></label>
           <input
             id="email"
             name="email"
             className={cn(
-              'p-2 rounded-xl border text-sm md:text-base placeholder:text-xs sm:placeholder:text-sm',
+              'p-2 rounded-xl border text-base md:text-base placeholder:text-xs sm:placeholder:text-base',
               errors.email ? 'border-red-500' : 'border-gray-500',
             )}
             value={watch('email')}
@@ -147,7 +147,7 @@ function Step3Form() {
         )}
 
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-black">
+          <label className="text-base font-medium text-black">
             Phone Number <span className="text-red-500">*</span>
           </label>
           <input
@@ -156,7 +156,7 @@ function Step3Form() {
             value={watch('phone')}
             onChange={(e) => setValue('phone', e.target.value)}
             className={cn(
-              'p-2 rounded-xl border text-sm md:text-base placeholder:text-xs sm:placeholder:text-sm',
+              'p-2 rounded-xl border text-base md:text-base placeholder:text-xs sm:placeholder:text-base',
               errors.phone ? 'border-red-500' : 'border-gray-500',
             )}
             placeholder="Enter phone number"
@@ -168,13 +168,13 @@ function Step3Form() {
         <div className="flex  md:hidden block gap-5 flex-row sm:gap-4">
   {/* Number of Passengers */}
   <div className="flex flex-col gap-1 w-full sm:w-1/2">
-    <label className="text-sm font-medium">
+    <label className="text-base font-medium">
       Passengers <span className="text-red-500">*</span>
     </label>
     <select
       name="passengers"
       className={cn(
-        'p-2 rounded-xl border text-sm md:text-base placeholder:text-xs sm:placeholder:text-sm',
+        'p-2 rounded-xl border text-base md:text-base placeholder:text-xs sm:placeholder:text-base',
         errors.passengers ? 'border-red-500' : 'border-gray-500',
         'text-base touch-manipulation' // Ensure font-size is >= 16px and prevent zoom
       )}
@@ -194,13 +194,13 @@ function Step3Form() {
 
   {/* Number of Bags */}
   <div className="flex  flex-col gap-1  w-full sm:w-1/2">
-    <label className="text-sm font-medium">
+    <label className="text-base font-medium">
       Suitcases<span className="text-red-500">*</span>
     </label>
     <select
       name="bags"
       className={cn(
-        'p-2 rounded-xl border text-sm md:text-base placeholder:text-xs sm:placeholder:text-sm',
+        'p-2 rounded-xl border text-base md:text-base placeholder:text-xs sm:placeholder:text-base',
         errors.bags ? 'border-red-500' : 'border-gray-500',
         'text-base touch-manipulation' // Ensure font-size is >= 16px and prevent zoom
       )}
@@ -226,7 +226,7 @@ function Step3Form() {
             onChange={(e) => setValue('airport_pickup', e.target.checked)}
             className="size-5 accent-black"
           />
-          <label className="text-sm font-medium">Airport Pickup?</label>
+          <label className="text-base font-medium">Airport Pickup?</label>
         </div>
 
         {/* Airport Pickup Options */}
@@ -234,13 +234,13 @@ function Step3Form() {
           <div className="flex flex-col gap-5 mt-5">
             {/* Flight Number */}
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium">Flight Number</label>
+              <label className="text-base font-medium">Flight Number</label>
               <input
                 type="text"
                 placeholder="Flight Number"
                 value={watch('flight') || ''}
                 onChange={(e) => setValue('flight', e.target.value)}
-                className="w-full p-2 rounded-xl border border-gray-500 text-sm placeholder:text-xs"
+                className="w-full p-2 rounded-xl border border-gray-500 text-base placeholder:text-xs"
               />
               <p className="text-xs text-gray-500 mt-1">
                 Don’t worry. Even if your flight is delayed, we’ll monitor your flight and arrive on time, every time.
@@ -250,7 +250,7 @@ function Step3Form() {
             {/* Flight Track Option */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
-                <p className="font-medium text-sm">Flight Track</p>
+                <p className="font-medium text-base">Flight Track</p>
                 <span className="border bg-brand font-semibold p-1 px-2 rounded-lg text-xs text-black">7£</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -259,14 +259,14 @@ function Step3Form() {
                   className="flex items-center gap-2 cursor-pointer"
                 >
                   <div className={cn('rounded-full border size-4 border-gray-500', watch('flight_track') ? 'bg-black' : '')}></div>
-                  <p className="text-sm">Yes</p>
+                  <p className="text-base">Yes</p>
                 </div>
                 <div
                   onClick={() => { if (!watch('payment_id')) setValue("flight_track", false) }}
                   className="flex items-center gap-2 cursor-pointer"
                 >
                   <div className={cn('rounded-full border size-4 border-gray-500', !watch('flight_track') ? 'bg-black' : '')}></div>
-                  <p className="text-sm accent-black">No</p>
+                  <p className="text-base accent-black">No</p>
                 </div>
               </div>
             </div>
@@ -274,7 +274,7 @@ function Step3Form() {
             {/* Meet & Greet */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
-                <p className="font-medium text-sm">Meet & Greet</p>
+                <p className="font-medium text-base">Meet & Greet</p>
                 <span className="border bg-brand font-semibold p-1 px-2 rounded-lg text-xs text-black">15£</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -283,14 +283,14 @@ function Step3Form() {
                   className="flex items-center gap-2 cursor-pointer"
                 >
                   <div className={cn('rounded-full border size-4 border-gray-500', watch('meet_greet') ? 'bg-black' : '')}></div>
-                  <p className="text-sm">Yes</p>
+                  <p className="text-base">Yes</p>
                 </div>
                 <div
                   onClick={() => { if (!watch('payment_id')) setValue("meet_greet", false) }}
                   className="flex items-center gap-2 cursor-pointer"
                 >
                   <div className={cn('rounded-full border size-4 border-gray-500', !watch('meet_greet') ? 'bg-black' : '')}></div>
-                  <p className="text-sm">No</p>
+                  <p className="text-base">No</p>
                 </div>
               </div>
             </div>

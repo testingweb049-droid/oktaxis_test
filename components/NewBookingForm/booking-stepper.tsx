@@ -144,7 +144,7 @@ export default function BookingStepper() {
               <div key={stepItem.number} className="flex items-center">
                 <div className="flex items-center">
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold border transition-all duration-200 ${status === "completed" || status === "current"
+                    className={`w-10 h-10 rounded-full flex items-center justify-center text-base font-semibold border transition-all duration-200 ${status === "completed" || status === "current"
                       ? "bg-black text-white border-blue-500"
                       : "text-gray-500 border-gray-300 bg-white"
                       }`}
