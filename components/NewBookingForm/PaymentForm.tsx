@@ -98,8 +98,8 @@ function StripePaymentForm({ clientSecret }: StripePaymentFormProps) {
     }
   }
   return (
-    <div className="mt-5 w-full flex flex-col gap-5">
-      <div className="w-full flex justify-center mb-4">
+    <div className="mt-5 w-full flex flex-col ">
+      <div className="w-full flex justify-center bg-white p-2 rounded-t-lg ">
         <Image
           src="/secured-by-stripe.jpg" // Replace with your image path
           alt="Payment Image"

@@ -154,7 +154,7 @@ function Step3Form() {
             type="text"
             name="phone"
             value={watch('phone')}
-            onChange={(e) => setValue('phone', e.target.value)}
+            onChange={(e) => {if(isNaN(Number(e.target.value)) && e.target.value.length >0){return;} setValue('phone', e.target.value)}}
             className={cn(
               'p-2 rounded-xl border text-base md:text-base placeholder:text-xs sm:placeholder:text-base',
               errors.phone ? 'border-red-500' : 'border-gray-500',
