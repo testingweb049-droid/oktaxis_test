@@ -1,9 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { useInView } from "react-intersection-observer"
-import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
+import { useState } from "react"
 
 const services = [
   {
@@ -59,21 +58,7 @@ const services = [
 ]
 
 export default function Services() {
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 })
-  const serviceRefs = useRef<(HTMLDivElement | null)[]>([])
   const [expandedCard, setExpandedCard] = useState<number | null>(null)
-
-  useEffect(() => {
-    if (inView) {
-      serviceRefs.current.forEach((el, index) => {
-        if (el) {
-          el.style.transition = `opacity 0.6s ease-out ${index * 0.15}s, transform 0.6s ease-out ${index * 0.15}s`
-          el.style.opacity = "1"
-          el.style.transform = "translateY(0)"
-        }
-      })
-    }
-  }, [inView])
 
   const largeServices = services.filter((s) => s.size === "large")
   const smallServices = services.filter((s) => s.size === "small")
@@ -102,14 +87,12 @@ export default function Services() {
   }
 
   return (
-    <section id="services" className="py-3 mt-40" ref={ref}>
+    <section id="services" className="py-3 mt-40">
       <div className="container mx-auto px-4 md:px-6">
-        <div
-          className="mb-8 animate-fade-in-up opacity-0"
-          style={{ animation: inView ? "fadeInUp 0.6s ease-out forwards" : "none" }}
-        >
+        <div className="mb-8">
           <h2 className="text-3xl font-bold tracking-tight text-black md:text-4xl lg:text-5xl">
-            <span className="text-brand">Our Premium</span> Chauffeur <span className="text-brand">Services</span> in Manchester
+            <span className="text-brand">Our Premium</span> Chauffeur{" "}
+            <span className="text-brand">Services</span> in Manchester
           </h2>
           <p className="mt-4 text-lg text-gray-700 max-w-3xl">
             Discover OKTaxis' range of luxury services tailored for Manchester and the North West.
@@ -119,13 +102,9 @@ export default function Services() {
         </div>
 
         <div className="mb-6 grid gap-6 md:grid-cols-2">
-          {largeServices.map((service, index) => (
+          {largeServices.map((service) => (
             <Link href={`/services/${service.slug}`} key={service.id}>
-              <div
-                ref={(el) => { serviceRefs.current[index] = el }}
-                className="group relative overflow-hidden rounded-lg shadow-lg transition-all duration-500 cursor-pointer"
-                style={{ opacity: 0, transform: "translateY(30px)" }}
-              >
+              <div className="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer">
                 <div className={cardImgHeight}>
                   <Image
                     src={service.image}
@@ -148,13 +127,9 @@ export default function Services() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
-          {smallServices.map((service, index) => (
+          {smallServices.map((service) => (
             <Link href={`/services/${service.slug}`} key={service.id}>
-              <div
-                ref={(el) => { serviceRefs.current[index + largeServices.length] = el }}
-                className="group relative overflow-hidden rounded-lg shadow-lg transition-all duration-500 cursor-pointer"
-                style={{ opacity: 0, transform: "translateY(30px)" }}
-              >
+              <div className="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer">
                 <div className={cardImgHeight}>
                   <Image
                     src={service.image}

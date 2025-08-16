@@ -22,7 +22,7 @@ export default function BookingStepper() {
   const progress = (step / totalSteps) * 100;
 
   return (
-    <div className="w-full mb-5">
+    <div className="w-full mb-5 max-w-6xl mx-auto ">
       {/* ✅ Mobile Version */}
       <div className="bg-gray-100 px-5 py-6 rounded-md sm:hidden">
         <div className="flex items-center gap-4">
@@ -36,8 +36,8 @@ export default function BookingStepper() {
                 strokeWidth="4"
                 fill="none"
                 d="M18 2.0845
-              a 15.9155 15.9155 0 0 1 0 31.831
-              a 15.9155 15.9155 0 0 1 0 -31.831"
+                   a 15.9155 15.9155 0 0 1 0 31.831
+                   a 15.9155 15.9155 0 0 1 0 -31.831"
               />
               {/* Progress Circle (Yellow) */}
               <path
@@ -129,8 +129,6 @@ export default function BookingStepper() {
             </p>
           </>
         )}
-
-
         {/* Stepper */}
         <div
           className={cn(
@@ -169,8 +167,6 @@ export default function BookingStepper() {
           })}
         </div>
       </div>
-
-
     </div>
   );
 }

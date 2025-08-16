@@ -16,6 +16,7 @@ import HourlyNoteDialog from "@/components/NewBookingForm/HourlyNoteDailog";
 import { format } from "date-fns";
 import BookingStepper from "@/components/NewBookingForm/booking-stepper";
 import MyPaymentForm from "@/components/NewBookingForm/PaymentForm";
+import GoogleMapsRoute from "@/components/NewBookingForm/GoogleMap";
 function formatTime12(hour?: number, minute?: number): string {
   if (hour == null || minute == null) return "";
   const period = hour >= 12 ? "PM" : "AM";
@@ -186,6 +187,16 @@ function Page() {
           </div> */}
           <div className="w-full lg:col-span-5 flex justify-center">
             <div className="w-full max-w-6xl">
+             <GoogleMapsRoute
+  fromCoords={{
+    lng: Number(watch('pickup_location_lag_alt')?.split(',')[1] ?? 0),
+    lat: Number(watch('pickup_location_lag_alt')?.split(',')[0] ?? 0),
+  }}
+  toCoords={{
+    lng: Number(watch('dropoff_location_lag_alt')?.split(',')[1] ?? 0),
+    lat: Number(watch('dropoff_location_lag_alt')?.split(',')[0] ?? 0),
+  }}
+/>
 
               {step === 2 && <CarList />}
               {step === 3 && <Step3Form />}
