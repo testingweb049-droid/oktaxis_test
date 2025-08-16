@@ -165,7 +165,7 @@ function Step3Form() {
         </div>
 
         {/* Number of Passengers and Bags in one row */}
-        <div className="flex  md:hidden block gap-5 flex-row sm:gap-4">
+        <div className="flex  md:hidden gap-5 flex-row sm:gap-4">
   {/* Number of Passengers */}
   <div className="flex flex-col gap-1 w-full sm:w-1/2">
     <label className="text-base font-medium">
@@ -215,8 +215,7 @@ function Step3Form() {
       <p className="text-xs text-red-500 mt-1">Bags required</p>
     )}
   </div>
-</div>
-
+        </div>
 
         {/* Airport Pickup Toggle */}
         <div className="flex items-center gap-2 mt-2">
