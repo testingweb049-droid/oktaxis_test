@@ -297,7 +297,7 @@ function CarList() {
       >
         £ {returnPrice}
         {discountPercent > 0 && (
-          <span className="absolute top-1 right-1 px-1.5 text-[7px] sm:text-xs sm:px-2 sm:py-1 bg-brand rounded-lg text-white font-semibold z-10">
+          <span className="absolute -top-1 -right-1 px-1.5 text-[10px] sm:text-xs sm:px-2 sm:py-1 bg-brand rounded-lg text-white font-semibold z-10">
             {discountPercent}% off
           </span>
         )}
