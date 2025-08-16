@@ -232,7 +232,7 @@ export default function DateTimePicker({
           </div>
           {isDate  ? 
           <>
-          <div className="bg-brand text-black font-bold text-lg py-2 px-4 flex items-center justify-between rounded-t-md">
+          <div className="bg-yellow-500 text-black font-bold text-lg py-2 px-4 flex items-center justify-between rounded-t-md">
             <div
               className="size-8 flex items-center justify-center text-black hover:bg-yellow-400"
               onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
