@@ -22,7 +22,7 @@ export default function BookingStepper() {
   const progress = (step / totalSteps) * 100;
 
   return (
-    <div className="w-full mb-5">
+    <div className="w-full mb-5 max-w-6xl mx-auto ">
       {/* ✅ Mobile Version */}
       <div className="bg-gray-100 px-5 py-6 rounded-md sm:hidden">
         <div className="flex items-center gap-4">
