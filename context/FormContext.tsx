@@ -75,7 +75,6 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
     // setCategory('trips')
   }
 
-  console.log("errors : ", form.formState.errors)
 
 
 
@@ -171,6 +170,7 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
       setError(response.error)
     })
   }
+
   function NextStep() {
     setError('');
     startLoading(async () => {
@@ -308,8 +308,7 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
  
   function resetOrder(link:string){
     setOrder(null)
-    router.push('/booking#back-button');
-
+    router.push(link);
   }
 
   return (
