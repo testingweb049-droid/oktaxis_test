@@ -30,9 +30,12 @@ function HeroSectionBookingForm() {
   const [travelers, setTravelers] = useState(1)
   const [bags, setBags] = useState(1)
 
-  const [stops, setStops] = useState<string[]>([])
-  const [stopCoords, setStopCoords] = useState<string[]>([])
   const stopsRefs = useRef<(google.maps.places.Autocomplete | null)[]>([])
+
+  const stopsCount = watch("stops") || 0
+  const stop1 = watch("stop_1") || ""
+  const stop2 = watch("stop_2") || ""
+  const stop3 = watch("stop_3") || ""
 
   useEffect(() => {
     if (isHourlyOnlyPage && category !== "hourly") {
@@ -57,44 +60,29 @@ function HeroSectionBookingForm() {
   }
 
   const addStop = () => {
-    if (stops.length < 3) {
-      const newStops = [...stops, ""]
-      const newCoords = [...stopCoords, ""]
-      setStops(newStops)
-      setStopCoords(newCoords)
-      setValue("stops", newStops.length)
+    if (stopsCount < 3) {
+      setValue("stops", stopsCount + 1)
     }
   }
 
-  const removeStop = (index: number) => {
-    const newStops = stops.filter((_, i) => i !== index)
-    const newCoords = stopCoords.filter((_, i) => i !== index)
-    setStops(newStops)
-    setStopCoords(newCoords)
-    setValue("stops", newStops.length)
-
-    // Clear form values for removed stops
-    if (index === 0) {
-      setValue("stop_1", "")
-      setValue("stop_1_lag_alt", "")
-    } else if (index === 1) {
-      setValue("stop_2", "")
-      setValue("stop_2_lag_alt", "")
-    } else if (index === 2) {
-      setValue("stop_3", "")
-      setValue("stop_3_lag_alt", "")
+  const removeStop = () => {
+    if (stopsCount > 0) {
+      // Clear the last stop's data
+      if (stopsCount === 3) {
+        setValue("stop_3", "")
+        setValue("stop_3_lag_alt", "")
+      } else if (stopsCount === 2) {
+        setValue("stop_2", "")
+        setValue("stop_2_lag_alt", "")
+      } else if (stopsCount === 1) {
+        setValue("stop_1", "")
+        setValue("stop_1_lag_alt", "")
+      }
+      setValue("stops", stopsCount - 1)
     }
   }
 
   const updateStop = (index: number, value: string, coords: string) => {
-    const newStops = [...stops]
-    const newCoords = [...stopCoords]
-    newStops[index] = value
-    newCoords[index] = coords
-    setStops(newStops)
-    setStopCoords(newCoords)
-
-    // Update form values
     if (index === 0) {
       setValue("stop_1", value)
       setValue("stop_1_lag_alt", coords)
@@ -105,6 +93,13 @@ function HeroSectionBookingForm() {
       setValue("stop_3", value)
       setValue("stop_3_lag_alt", coords)
     }
+  }
+
+  const getStopValue = (index: number) => {
+    if (index === 0) return stop1
+    if (index === 1) return stop2
+    if (index === 2) return stop3
+    return ""
   }
 
   useEffect(() => {
@@ -132,7 +127,7 @@ function HeroSectionBookingForm() {
             <MapPin className="w-4 h-4 md:w-5 md:h-5 text-[#F4910B]" />
             Additional Stops
           </h3>
-          {stops.length < 3 && (
+          {stopsCount < 3 && (
             <button
               type="button"
               onClick={addStop}
@@ -144,9 +139,12 @@ function HeroSectionBookingForm() {
           )}
         </div>
 
-        {stops.length > 0 && <div className="space-y-3 md:space-y-4">
-            {stops.map((stop, index) => {
+        {stopsCount > 0 &&  (
+          <div className="space-y-3 md:space-y-4">
+            {Array.from({ length: stopsCount }, (_, index) => {
               const color = stopColors[index]
+              const stopValue = getStopValue(index)
+
               return (
                 <div
                   key={index}
@@ -182,8 +180,8 @@ function HeroSectionBookingForm() {
                           <div className="relative">
                             <SlLocationPin className="absolute left-2 md:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-3 h-3 md:w-4 md:h-4" />
                             <input
-                              value={stop}
-                              onChange={(e) => updateStop(index, e.target.value, stopCoords[index] || "")}
+                              value={stopValue}
+                              onChange={(e) => updateStop(index, e.target.value, "")}
                               placeholder={`Enter stop ${index + 1} location`}
                               className="w-full pl-7 md:pl-10 pr-2 md:pr-3 py-2 md:py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F4910B] focus:border-transparent text-black text-sm md:text-base bg-white"
                             />
@@ -192,13 +190,15 @@ function HeroSectionBookingForm() {
                       )}
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => removeStop(index)}
-                      className="w-6 h-6 md:w-8 md:h-8 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-110 flex-shrink-0"
-                    >
-                      <X className="w-3 h-3 md:w-4 md:h-4" />
-                    </button>
+                    {index === stopsCount - 1 && (
+                      <button
+                        type="button"
+                        onClick={removeStop}
+                        className="w-6 h-6 md:w-8 md:h-8 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-110 flex-shrink-0"
+                      >
+                        <X className="w-3 h-3 md:w-4 md:h-4" />
+                      </button>
+                    )}
                   </div>
 
                   {/* Progress indicator */}
@@ -224,7 +224,7 @@ function HeroSectionBookingForm() {
                   <div className="w-2 h-2 md:w-3 md:h-3 bg-[#F4910B] rounded-full"></div>
                   <span className="text-xs">Pickup</span>
                 </div>
-                {stops.map((_, index) => (
+                {Array.from({ length: stopsCount }, (_, index) => (
                   <div key={index} className="flex items-center gap-1 flex-shrink-0">
                     <div className="w-3 h-0.5 md:w-4 md:h-0.5 bg-gray-300"></div>
                     <div className={`w-2 h-2 md:w-3 md:h-3 ${stopColors[index].bg} rounded-full`}></div>
@@ -238,7 +238,8 @@ function HeroSectionBookingForm() {
                 </div>
               </div>
             </div> */}
-          </div>}
+          </div>
+        )}
       </div>
     )
   }
