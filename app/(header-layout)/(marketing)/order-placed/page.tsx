@@ -1,4 +1,3 @@
-'use client'
 import {StatusCard} from '@/components/Sections/StatusCard'
 import React from 'react'
 
