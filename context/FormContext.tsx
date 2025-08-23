@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createContext, ReactNode, useEffect, useState, useTransition } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState, useTransition } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { hourlyFormValidation, simpleFormValidation } from "@/types/FormInterfaces";
@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { createOrder } from "@/actions/add-order";
 import { useOrderContext } from '@/context/OrderContext'
+import { OrderProps } from "@/types/OrderProps";
 export type tripMethodType = 'hourly' | 'trips'
 
 export const CombinedSchema = z.union([hourlyFormValidation, simpleFormValidation]);
@@ -23,6 +24,8 @@ function formatTime12(hour: number, minute: number): string {
 
 interface CreateFormType {
   form: UseFormReturn<FormDataType>;
+  order: OrderProps | null;
+  resetOrder: (link:string)=>void;
   category: tripMethodType;
   resetForm: () => void;
   setCategory: (category: tripMethodType) => void;
@@ -41,10 +44,11 @@ export const FormContext = createContext<CreateFormType | null>(null);
 
 export function CustomFormProvider({ children }: { children: ReactNode }) {
   const [category, setCategory] = useState<tripMethodType>('trips');
+  const [order, setOrder] = useState<OrderProps | null>(null);
+  
   const [step, setStep] = useState(1)
   const [loading, startLoading] = useTransition()
   const router = useRouter()
-  const { setOrder } = useOrderContext()
 
   const [error, setError] = useState('')
   const { toast } = useToast()
@@ -160,6 +164,7 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
       console.log('response : ', response)
       if (response.status === 201 && response.order?.[0]) {
         setOrder(response.order[0]) // Cast response to OrderProps if needed
+        resetForm();
         router.push('/order-placed') // no query param required
       }
 
@@ -300,10 +305,15 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
     setStep(3);
     router.push('/booking#back-button');
   }
+ 
+  function resetOrder(link:string){
+    setOrder(null)
+    router.push('/booking#back-button');
 
+  }
 
   return (
-    <FormContext.Provider value={{ form, category, setCategory, resetForm, loading, NextStep,startLoading, error, step, Step1, Step2, Step3 }}>
+    <FormContext.Provider value={{ form, category, setCategory, resetForm, loading, NextStep,startLoading, error, step, Step1, Step2, Step3, order, resetOrder }}>
       {children}
     </FormContext.Provider>
   );
