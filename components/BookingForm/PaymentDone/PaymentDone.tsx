@@ -1,4 +1,4 @@
-import StatusCard from '@/components/Sections/StatusCard'
+import {StatusCard} from '@/components/Sections/StatusCard'
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { SetStateAction, useEffect } from 'react'
@@ -18,7 +18,7 @@ function PaymentDone({ setPaymentDone, paymentDone }: { setPaymentDone: React.Di
         <div className={`absolute w-full h-full z-50  hidden ${paymentDone ? "visible" : "hidden"} `}>
             <div className="w-full h-full bg-black/30 flex items-center justify-center transition-all duration-300 relative">
 
-                <StatusCard type="success" onClose={() => { setPaymentDone(false) }} />
+                <StatusCard  />
             </div>
         </div>
     )
