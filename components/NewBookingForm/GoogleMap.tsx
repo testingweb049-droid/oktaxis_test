@@ -72,6 +72,7 @@ export default function GoogleMapsRoute({
         zoom: 13,
         center: fromCoords,
         mapTypeId: window.google.maps.MapTypeId.ROADMAP,
+        disableDefaultUI: true,
         styles: [
           {
             featureType: "poi",
