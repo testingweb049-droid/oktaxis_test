@@ -107,7 +107,7 @@ function useSharedDateTimeLogic({
   }
 
   const handleHourChange = (increment: boolean) => {
-    const currentHour = selectedTime?.hour ?? (increment ? 1 : 23)
+    const currentHour = selectedTime?.hour ?? (increment ? 12 : 23)
     let newHour = currentHour
     if (increment && currentHour < 23) {
       newHour = currentHour + 1
@@ -126,11 +126,11 @@ function useSharedDateTimeLogic({
     const currentMinute = selectedTime?.minute ?? (increment ? 0 : 45)
     let newMinute = currentMinute
     if (increment) {
-      newMinute = (currentMinute + 15) % 60
+      newMinute = (currentMinute + 5) % 60
     } else {
-      newMinute = (currentMinute - 15 + 60) % 60
+      newMinute = (currentMinute - 5 + 60) % 60
     }
-    const updated = { ...selectedTime, minute: newMinute, hour: selectedTime?.hour ?? 1 }
+    const updated = { ...selectedTime, minute: newMinute, hour: selectedTime?.hour ?? 12 }
     setValue(timeFieldName, updated)
   }
 
@@ -373,7 +373,7 @@ function TimePickerView({
                 </span>
               </>
             ) : (
-              <span className="text-gray-500">--:-- --</span>
+              <span className="text-gray-500">01:00 AM</span>
             )}
           </div>
         </div>
@@ -392,7 +392,7 @@ function TimePickerView({
             className="text-xl font-bold text-[#F4910B] mb-2 cursor-grab active:cursor-grabbing select-none bg-gray-800 px-2 py-1 rounded-lg border border-gray-600 hover:border-[#F4910B] transition-colors"
             onMouseDown={(e) => handleMouseDown("hour", e)}
           >
-            {selectedTime ? getDisplayHour(selectedTime.hour).toString().padStart(2, "0") : "--"}
+            {selectedTime ? getDisplayHour(selectedTime.hour).toString().padStart(2, "0") : "01"}
           </div>
 
           <button
@@ -417,7 +417,7 @@ function TimePickerView({
             className="text-xl font-bold text-[#F4910B] mb-2 cursor-grab active:cursor-grabbing select-none bg-gray-800 px-2 py-1 rounded-lg border border-gray-600 hover:border-[#F4910B] transition-colors"
             onMouseDown={(e) => handleMouseDown("minute", e)}
           >
-            {selectedTime ? selectedTime.minute.toString().padStart(2, "0") : "--"}
+            {selectedTime ? selectedTime.minute.toString().padStart(2, "0") : "00"}
           </div>
 
           <button
@@ -439,7 +439,7 @@ function TimePickerView({
           </button>
 
           <div className="text-xl font-bold text-[#F4910B] mb-2 cursor-pointer select-none bg-gray-800 px-2 py-1 rounded-lg border border-gray-600 hover:border-[#F4910B] transition-colors">
-            {selectedTime ? getAmPm(selectedTime.hour) : "--"}
+            {selectedTime ? getAmPm(selectedTime.hour) : "AM"}
           </div>
 
           <button
