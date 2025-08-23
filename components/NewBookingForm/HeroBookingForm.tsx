@@ -3,15 +3,14 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { useEffect, useRef, useState } from "react"
-import { User, ShoppingBag, Minus, Plus } from "lucide-react"
+import { User, ShoppingBag, Minus, Plus, MapPin, X } from "lucide-react"
 import { SlLocationPin } from "react-icons/sl"
 import { MdMoreTime } from "react-icons/md"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "@/hooks/use-toast"
 import { usePathname } from "next/navigation"
 import { Autocomplete, type Libraries, useLoadScript } from "@react-google-maps/api"
-import useCustomForm from "@/hooks/useFormContext" // Corrected import
-import DateTimePicker from '../../components/ui/date-time-picker'; // Import the new DateTimePicker component
-// import type { google } from "googlemaps" // Declare the google variable
+import useCustomForm from "@/hooks/useFormContext"
+import DateTimePicker from "@/components/ui/date-time-picker"
 
 const libraries: Libraries = ["places"]
 
@@ -19,10 +18,21 @@ function HeroSectionBookingForm() {
   const pathname = usePathname()
   const isHourlyOnlyPage = pathname?.includes("event-weddings") || pathname?.includes("chauffeur-services")
   const { form, NextStep, category, setCategory, loading, Step1, resetForm } = useCustomForm()
-    const { formState: { errors }, setValue, watch, clearErrors, trigger } = form;
+  const {
+    formState: { errors },
+    setValue,
+    watch,
+    clearErrors,
+    trigger,
+  } = form
+
   // Additional state for counters
   const [travelers, setTravelers] = useState(1)
   const [bags, setBags] = useState(1)
+
+  const [stops, setStops] = useState<string[]>([])
+  const [stopCoords, setStopCoords] = useState<string[]>([])
+  const stopsRefs = useRef<(google.maps.places.Autocomplete | null)[]>([])
 
   useEffect(() => {
     if (isHourlyOnlyPage && category !== "hourly") {
@@ -46,6 +56,57 @@ function HeroSectionBookingForm() {
     NextStep()
   }
 
+  const addStop = () => {
+    if (stops.length < 3) {
+      const newStops = [...stops, ""]
+      const newCoords = [...stopCoords, ""]
+      setStops(newStops)
+      setStopCoords(newCoords)
+      setValue("stops", newStops.length)
+    }
+  }
+
+  const removeStop = (index: number) => {
+    const newStops = stops.filter((_, i) => i !== index)
+    const newCoords = stopCoords.filter((_, i) => i !== index)
+    setStops(newStops)
+    setStopCoords(newCoords)
+    setValue("stops", newStops.length)
+
+    // Clear form values for removed stops
+    if (index === 0) {
+      setValue("stop_1", "")
+      setValue("stop_1_lag_alt", "")
+    } else if (index === 1) {
+      setValue("stop_2", "")
+      setValue("stop_2_lag_alt", "")
+    } else if (index === 2) {
+      setValue("stop_3", "")
+      setValue("stop_3_lag_alt", "")
+    }
+  }
+
+  const updateStop = (index: number, value: string, coords: string) => {
+    const newStops = [...stops]
+    const newCoords = [...stopCoords]
+    newStops[index] = value
+    newCoords[index] = coords
+    setStops(newStops)
+    setStopCoords(newCoords)
+
+    // Update form values
+    if (index === 0) {
+      setValue("stop_1", value)
+      setValue("stop_1_lag_alt", coords)
+    } else if (index === 1) {
+      setValue("stop_2", value)
+      setValue("stop_2_lag_alt", coords)
+    } else if (index === 2) {
+      setValue("stop_3", value)
+      setValue("stop_3_lag_alt", coords)
+    }
+  }
+
   useEffect(() => {
     Step1()
     if (isHourlyOnlyPage) {
@@ -56,6 +117,131 @@ function HeroSectionBookingForm() {
     if (from) setFromLocation(from)
     if (to) setToLocation(to)
   }, [pathname])
+
+  const StopsSection = () => {
+    const stopColors = [
+      { bg: "bg-blue-500", border: "border-blue-500", text: "text-blue-600", bgLight: "bg-blue-50" },
+      { bg: "bg-green-500", border: "border-green-500", text: "text-green-600", bgLight: "bg-green-50" },
+      { bg: "bg-purple-500", border: "border-purple-500", text: "text-purple-600", bgLight: "bg-purple-50" },
+    ]
+
+    return (
+      <div className="space-y-3 md:space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <h3 className="text-base md:text-lg font-semibold text-gray-800 flex items-center gap-2">
+            <MapPin className="w-4 h-4 md:w-5 md:h-5 text-[#F4910B]" />
+            Additional Stops
+          </h3>
+          {stops.length < 3 && (
+            <button
+              type="button"
+              onClick={addStop}
+              className="px-3 py-2 md:px-4 md:py-2 bg-[#F4910B] hover:bg-[#e8840a] text-white rounded-lg font-medium transition-all duration-200 flex items-center gap-2 shadow-md hover:shadow-lg transform hover:scale-105 text-sm md:text-base"
+            >
+              <Plus className="w-3 h-3 md:w-4 md:h-4" />
+              Add Stop
+            </button>
+          )}
+        </div>
+
+        {stops.length > 0 && <div className="space-y-3 md:space-y-4">
+            {stops.map((stop, index) => {
+              const color = stopColors[index]
+              return (
+                <div
+                  key={index}
+                  className={`relative p-3 md:p-4 rounded-xl border-2 ${color.border} ${color.bgLight} transition-all duration-300 hover:shadow-md`}
+                >
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <div
+                      className={`w-6 h-6 md:w-8 md:h-8 ${color.bg} text-white rounded-full flex items-center justify-center font-bold text-xs md:text-sm shadow-md flex-shrink-0`}
+                    >
+                      {index + 1}
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      {!isLoaded ? (
+                        <div className="text-center text-sm">Loading...</div>
+                      ) : (
+                        <Autocomplete
+                          options={{ componentRestrictions: { country: "uk" } }}
+                          onLoad={(autocomplete) => {
+                            stopsRefs.current[index] = autocomplete
+                          }}
+                          onPlaceChanged={() => {
+                            const autocomplete = stopsRefs.current[index]
+                            if (autocomplete) {
+                              const place = autocomplete.getPlace()
+                              if (place.formatted_address && place.geometry?.location) {
+                                const coords = `${place.geometry.location.lat()},${place.geometry.location.lng()}`
+                                updateStop(index, place.formatted_address, coords)
+                              }
+                            }
+                          }}
+                        >
+                          <div className="relative">
+                            <SlLocationPin className="absolute left-2 md:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-3 h-3 md:w-4 md:h-4" />
+                            <input
+                              value={stop}
+                              onChange={(e) => updateStop(index, e.target.value, stopCoords[index] || "")}
+                              placeholder={`Enter stop ${index + 1} location`}
+                              className="w-full pl-7 md:pl-10 pr-2 md:pr-3 py-2 md:py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F4910B] focus:border-transparent text-black text-sm md:text-base bg-white"
+                            />
+                          </div>
+                        </Autocomplete>
+                      )}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => removeStop(index)}
+                      className="w-6 h-6 md:w-8 md:h-8 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-110 flex-shrink-0"
+                    >
+                      <X className="w-3 h-3 md:w-4 md:h-4" />
+                    </button>
+                  </div>
+
+                  {/* Progress indicator */}
+                  <div className="mt-2 md:mt-3 flex items-center gap-1">
+                    {[0, 1, 2].map((i) => (
+                      <div
+                        key={i}
+                        className={`h-0.5 md:h-1 flex-1 rounded-full transition-all duration-300 ${
+                          i <= index ? color.bg : "bg-gray-200"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
+
+            {/* Journey visualization */}
+            {/* <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-3 md:p-4 rounded-xl border border-gray-200">
+              <h4 className="text-xs md:text-sm font-semibold text-gray-700 mb-2">Your Journey</h4>
+              <div className="flex items-center gap-1 md:gap-2 text-xs text-gray-600 overflow-x-auto">
+                <div className="flex items-center gap-1 flex-shrink-0">
+                  <div className="w-2 h-2 md:w-3 md:h-3 bg-[#F4910B] rounded-full"></div>
+                  <span className="text-xs">Pickup</span>
+                </div>
+                {stops.map((_, index) => (
+                  <div key={index} className="flex items-center gap-1 flex-shrink-0">
+                    <div className="w-3 h-0.5 md:w-4 md:h-0.5 bg-gray-300"></div>
+                    <div className={`w-2 h-2 md:w-3 md:h-3 ${stopColors[index].bg} rounded-full`}></div>
+                    <span className="text-xs">Stop {index + 1}</span>
+                  </div>
+                ))}
+                <div className="flex items-center gap-1 flex-shrink-0">
+                  <div className="w-3 h-0.5 md:w-4 md:h-0.5 bg-gray-300"></div>
+                  <div className="w-2 h-2 md:w-3 md:h-3 bg-gray-600 rounded-full"></div>
+                  <span className="text-xs">Dropoff</span>
+                </div>
+              </div>
+            </div> */}
+          </div>}
+      </div>
+    )
+  }
 
   return (
     <div className="w-full max-w-7xl mx-auto">
@@ -96,10 +282,11 @@ function HeroSectionBookingForm() {
           Hourly
         </button>
       </div>
+
       {/* Main Form */}
       <div className="bg-white rounded-2xl p-8 shadow-2xl border border-gray-100 ring-1 ring-black/5">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             {/* Location and Date/Time Fields */}
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
               <FormField
@@ -138,12 +325,11 @@ function HeroSectionBookingForm() {
                             }}
                             disabled={loading}
                             placeholder="Enter pickup location"
-                            className="w-full pl-10 pr-3 py-3 border border-gray-200  text-[16px] rounded-xl focus:outline-none text-black text-base"
+                            className="w-full pl-10 pr-3 py-3 border border-gray-200  text-[16px] rounded-xl focus:outline-none text-black text-base"
                           />
                         </div>
                       </Autocomplete>
                     )}
-                    {/* ADD THIS: Error message */}
                     {form.formState.errors.pickup_location && (
                       <p className="text-red-500 text-base mt-1">
                         {form.formState.errors.pickup_location.message?.toString()}
@@ -152,6 +338,7 @@ function HeroSectionBookingForm() {
                   </FormItem>
                 )}
               />
+
               {/* Drop off Location */}
               {category === "trips" && (
                 <FormField
@@ -193,7 +380,7 @@ function HeroSectionBookingForm() {
                               }}
                               disabled={loading}
                               placeholder="Enter drop off location"
-                              className="w-full pl-10 pr-3 py-2.5 border  text-[16px] border-gray-200 rounded-xl focus:outline-none text-black text-base"
+                              className="w-full pl-10 pr-3 py-2.5 border  text-[16px] border-gray-200 rounded-xl focus:outline-none text-black text-base"
                             />
                           </div>
                         </Autocomplete>
@@ -207,6 +394,7 @@ function HeroSectionBookingForm() {
                   )}
                 />
               )}
+
               {/* Duration for Hourly */}
               {category === "hourly" && (
                 <FormField
@@ -258,23 +446,29 @@ function HeroSectionBookingForm() {
                   )}
                 />
               )}
+
               <div className="hidden md:block mt-3">
-                {/* Replaced with DateTimePicker */}
                 <DateTimePicker
                   label="Date & Time"
-                  selectedDate={form.watch("pickup_date") ?? null}  // Fallback to null if undefined
+                  selectedDate={form.watch("pickup_date") ?? null}
                   selectedTime={form.watch("pickup_time")}
                   setValue={(field, value) => setValue(field as any, value)}
                   dateFieldName="pickup_date"
                   timeFieldName="pickup_time"
-                  minSelectableDate={new Date()} // Assuming current date is the minimum for pickup
+                  minSelectableDate={new Date()}
                 />
                 {form.formState.errors.pickup_date && (
                   <p className="text-red-500 text-base mt-1">{form.formState.errors.pickup_date.message?.toString()}</p>
                 )}
               </div>
-
             </div>
+
+            {category === "trips" && (
+              <div className="border-t border-gray-200 pt-6">
+                <StopsSection />
+              </div>
+            )}
+
             {/* Counter Fields */}
             <div className="hidden md:grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Number of Travelers */}
@@ -308,6 +502,7 @@ function HeroSectionBookingForm() {
                   <p className="text-red-500 text-xs mt-1">{form.formState.errors.passengers.message?.toString()}</p>
                 )}
               </div>
+
               {/* Number of Bags */}
               <div className="flex flex-col gap-1 w-full pl-6 pr-2 py-2 border border-gray-200 rounded-lg text-black text-base">
                 <div className="flex items-center justify-between">
@@ -338,6 +533,7 @@ function HeroSectionBookingForm() {
                 )}
               </div>
             </div>
+
             {/* Book Now Button */}
             <button
               type="button"
@@ -346,7 +542,6 @@ function HeroSectionBookingForm() {
                 if (category === "trips") {
                   const pickupLocation = form.getValues("pickup_location")
                   const dropoffLocation = form.getValues("dropoff_location")
-                  // Normalize and compare
                   if (pickupLocation && dropoffLocation && normalize(pickupLocation) === normalize(dropoffLocation)) {
                     toast({
                       title: "Invalid Locations",
@@ -361,9 +556,8 @@ function HeroSectionBookingForm() {
                   const pickupDate = form.getValues("pickup_date")
                   const pickupTime = form.getValues("pickup_time")
                   if (!pickupDate || !pickupTime) {
-                    // Check if both date and time are selected
                     toast({
-                      title: "Missing Date or Time", // Updated title
+                      title: "Missing Date or Time",
                       description: "Please select both pickup date and time.",
                       variant: "destructive",
                     })
@@ -373,8 +567,8 @@ function HeroSectionBookingForm() {
                     pickupDate.getFullYear(),
                     pickupDate.getMonth(),
                     pickupDate.getDate(),
-                    pickupTime.hour, // Use hour from pickupTime
-                    pickupTime.minute, // Use minute from pickupTime
+                    pickupTime.hour,
+                    pickupTime.minute,
                   )
                   const now = new Date()
                   const eightHoursLater = new Date(now.getTime() + 8 * 60 * 60 * 1000)
@@ -399,60 +593,37 @@ function HeroSectionBookingForm() {
                 NextStep()
               }}
               disabled={loading}
-  className="
-    w-full
-    bg-black
-    text-white
-    py-3
-    px-6
-    rounded-xl
-    font-semibold
-    text-base
-    hover:bg-gray-900
-    transition-colors
-    md:py-4
-    md:px-8
-    md:text-lg
-    flex
-    items-center
-    justify-center
-    gap-2
-    disabled:opacity-70
-    disabled:cursor-not-allowed
-  "
->
-  {loading ? (
-    <>
-      <svg
-        className="animate-spin h-5 w-5 text-white"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <circle
-          className="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          strokeWidth="4"
-        ></circle>
-        <path
-          className="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-        ></path>
-      </svg>
-      <span>Loading...</span>
-    </>
-  ) : (
-    "Book Now"
-  )}
-</button>
+              className="w-full bg-black text-white py-3 px-6 rounded-xl font-semibold text-base hover:bg-gray-900 transition-colors md:py-4 md:px-8 md:text-lg flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                <>
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                  </svg>
+                  <span>Loading...</span>
+                </>
+              ) : (
+                "Book Now"
+              )}
+            </button>
           </form>
         </Form>
       </div>
     </div>
   )
 }
+
 export default HeroSectionBookingForm
