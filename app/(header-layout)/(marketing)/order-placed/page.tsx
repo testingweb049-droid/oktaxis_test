@@ -1,7 +1,9 @@
+'use client'
 import {StatusCard} from '@/components/Sections/StatusCard'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 function Page() {
+ 
   return (
     <div className={` w-full h-full flex items-center justify-center `}>
         <StatusCard  />

@@ -3,6 +3,7 @@
 import type React from "react"
 import { Clock, MapPin, Car, CreditCard, Phone, CheckCircle, Calendar, Route, Timer } from "lucide-react"
 import useCustomForm from "@/hooks/useFormContext"
+import { useEffect } from "react"
 
 
 
@@ -10,11 +11,13 @@ export function StatusCard() {
   const { order, resetOrder } = useCustomForm()
 
   // Demo order data for preview purposes
-  if(!order){
+  useEffect(() => {
+  if (!order) {
     resetOrder('/');
-    return;
-  }  
+  }
+}, [order, resetOrder]);
 
+if (!order){ return <div className="text-center py-14">Order not Found...</div>;}
   const displayOrder = order;
 
   return (
