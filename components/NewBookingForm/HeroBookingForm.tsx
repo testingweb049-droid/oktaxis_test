@@ -171,7 +171,7 @@ function HeroSectionBookingForm() {
                             if (autocomplete) {
                               const place = autocomplete.getPlace()
                               if (place.formatted_address && place.geometry?.location) {
-                                const coords = `${place.geometry.location.lat()},${place.geometry.location.lng()}`
+                                const coords = `${place.geometry.location.lat()},${place.geometry?.location.lng()}`
                                 updateStop(index, place.formatted_address, coords)
                               }
                             }
