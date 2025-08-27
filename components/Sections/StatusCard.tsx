@@ -34,7 +34,7 @@ if (!order){ return <div className="text-center py-14">Order not Found...</div>;
 
           <h1 className="text-4xl font-bold text-gray-900 mb-3">Booking Confirmed!</h1>
           <p className="text-lg text-gray-600 mb-2">
-            Thank you for choosing <span className="text-[#F4910B] font-semibold">TransferPro</span>
+            Thank you for choosing <span className="text-[#F4910B] font-semibold">Okataxis</span>
           </p>
           <div className="inline-flex items-center px-4 py-2 bg-[#F4910B] bg-opacity-10 rounded-full">
             <span className="text-[#F4910B] font-mono font-semibold text-sm">#{displayOrder.id}</span>
