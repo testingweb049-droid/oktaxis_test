@@ -107,7 +107,7 @@ function useSharedDateTimeLogic({
   }
 
   const handleHourChange = (increment: boolean) => {
-    const currentHour = selectedTime?.hour ?? (increment ? 12 : 23)
+    const currentHour = selectedTime?.hour ?? 0
     let newHour = currentHour
     if (increment && currentHour < 23) {
       newHour = currentHour + 1
@@ -373,7 +373,7 @@ function TimePickerView({
                 </span>
               </>
             ) : (
-              <span className="text-gray-500">01:00 AM</span>
+              <span className="text-gray-500">00:00 --</span>
             )}
           </div>
         </div>
@@ -392,7 +392,7 @@ function TimePickerView({
             className="text-xl font-bold text-[#F4910B] mb-2 cursor-grab active:cursor-grabbing select-none bg-gray-800 px-2 py-1 rounded-lg border border-gray-600 hover:border-[#F4910B] transition-colors"
             onMouseDown={(e) => handleMouseDown("hour", e)}
           >
-            {selectedTime ? getDisplayHour(selectedTime.hour).toString().padStart(2, "0") : "01"}
+            {selectedTime ? getDisplayHour(selectedTime.hour).toString().padStart(2, "0") : "00"}
           </div>
 
           <button
@@ -439,7 +439,7 @@ function TimePickerView({
           </button>
 
           <div className="text-xl font-bold text-[#F4910B] mb-2 cursor-pointer select-none bg-gray-800 px-2 py-1 rounded-lg border border-gray-600 hover:border-[#F4910B] transition-colors">
-            {selectedTime ? getAmPm(selectedTime.hour) : "AM"}
+            {selectedTime ? getAmPm(selectedTime.hour) : "--"}
           </div>
 
           <button

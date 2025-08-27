@@ -121,9 +121,9 @@ function HeroSectionBookingForm() {
     ]
 
     return (
-      <div className="space-y-3 md:space-y-4">
+      <div className="space-y-3 md:space-y-4 w-full">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <h3 className="text-base md:text-lg font-semibold text-gray-800 flex items-center gap-2">
+          <h3 className="text-base md:text-lg font-semibold text-gray-800 flex items-center gap-2 max-lg:hidden">
             <MapPin className="w-4 h-4 md:w-5 md:h-5 text-[#F4910B]" />
             Additional Stops
           </h3>
@@ -339,6 +339,12 @@ function HeroSectionBookingForm() {
                   </FormItem>
                 )}
               />
+            
+            {category === "trips" && (
+              <div className=" flex lg:hidden w-full">
+                <StopsSection />
+              </div>
+            )}
 
               {/* Drop off Location */}
               {category === "trips" && (
@@ -465,7 +471,7 @@ function HeroSectionBookingForm() {
             </div>
 
             {category === "trips" && (
-              <div className="border-t border-gray-200 pt-6">
+              <div className="border-t border-gray-200 pt-6 hidden lg:flex w-full ">
                 <StopsSection />
               </div>
             )}
