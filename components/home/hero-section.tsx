@@ -121,11 +121,11 @@ export default function HeroSection() {
             className="mb-2 text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold leading-tight tracking-tight"
           >
             <span className="block text-white sm:hidden">
-              <span className="">Luxury Transportation</span> in Manchester
+              <span className="">Airport Transfer</span> in Manchester
 
             </span>
             <span className="hidden sm:block text-white">
-              <span className="">Luxury Transportation</span>
+              <span className="">Airport Transfer</span>
               <span className="block">in Manchester</span>
             </span>
           </h1>
