@@ -144,7 +144,7 @@ export default function HeroSection() {
         {/* Form container */}
         <div
           ref={formContainerRef}
-          className="absolute left-1/2 transform -translate-x-1/2 translate-y-[50%] w-full max-w-6xl mt-15 py-20 px-4 sm:px-6 lg:px-8 z-20"
+          className="absolute left-1/2 transform -translate-x-1/2 translate-y-[50%] w-full max-w-6xl mt-15 py-16 lg:py-20 px-4 sm:px-6 lg:px-8 z-20"
 
         >
           <HeroSectionBookingForm />
