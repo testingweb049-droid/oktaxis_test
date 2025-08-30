@@ -121,11 +121,11 @@ export default function HeroSection() {
             className="mb-2 text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold leading-tight tracking-tight"
           >
             <span className="block text-white sm:hidden">
-              <span className="">Luxury Transportation</span> in Manchester
+              <span className="">Airport Transfer</span> in Manchester
 
             </span>
             <span className="hidden sm:block text-white">
-              <span className="">Luxury Transportation</span>
+              <span className="">Airport Transfer</span>
               <span className="block">in Manchester</span>
             </span>
           </h1>
@@ -144,7 +144,7 @@ export default function HeroSection() {
         {/* Form container */}
         <div
           ref={formContainerRef}
-          className="absolute left-1/2 transform -translate-x-1/2 translate-y-[50%] w-full max-w-6xl mt-15 py-20 px-4 sm:px-6 lg:px-8 z-20"
+          className="absolute left-1/2 transform -translate-x-1/2 translate-y-[50%] w-full max-w-6xl mt-15 py-16 lg:py-20 px-4 sm:px-6 lg:px-8 z-20"
 
         >
           <HeroSectionBookingForm />

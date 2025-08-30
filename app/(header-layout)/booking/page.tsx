@@ -187,7 +187,7 @@ function Page() {
           </div> */}
           <div className="w-full lg:col-span-5 flex justify-center">
             <div className="w-full max-w-6xl">
-             <GoogleMapsRoute
+            {step === 2 &&  <GoogleMapsRoute
   fromCoords={{
     lng: Number(watch('pickup_location_lag_alt')?.split(',')[1] ?? 0),
     lat: Number(watch('pickup_location_lag_alt')?.split(',')[0] ?? 0),
@@ -196,7 +196,7 @@ function Page() {
     lng: Number(watch('dropoff_location_lag_alt')?.split(',')[1] ?? 0),
     lat: Number(watch('dropoff_location_lag_alt')?.split(',')[0] ?? 0),
   }}
-/>
+/>}
 
               {step === 2 && <CarList />}
               {step === 3 && <Step3Form />}
