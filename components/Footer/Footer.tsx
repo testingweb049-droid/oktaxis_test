@@ -9,7 +9,7 @@ import { footerNavLinks } from "@/constants/headerFooterData";
 const footerData = {
   airportTransfers: [
     { title: "Manchester" },
-    { title: "Liverpool" },
+    { title: "Liverpool", href: "/liverpool" },
     { title: "London" },
     { title: "Leeds" },
     { title: "Birmingham" },
@@ -74,18 +74,26 @@ export default function Footer() {
         </div>
 
         {/* Top Cities */}
+
         <div>
           <h3 className="mb-4 text-base font-bold uppercase">Top Cities</h3>
           <ul className="space-y-2">
             {footerData.airportTransfers.map((item) => (
               <li key={item.title}>
-                <p className="text-sm text-gray-300 transition-colors hover:text-white">
-                  {item.title}
-                </p>
+                {item.href ? (
+                  <Link href={item.href}>
+                    <p className="text-sm text-gray-300 transition-colors hover:text-white">
+                      {item.title}
+                    </p>
+                  </Link>
+                ) : (
+                  <p className="text-sm text-gray-300">{item.title}</p>
+                )}
               </li>
             ))}
           </ul>
         </div>
+
 
         {/* Our Services */}
         <div>

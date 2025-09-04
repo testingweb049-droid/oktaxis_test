@@ -5,6 +5,7 @@ import Offer from "@/components/ui/do-offer";
 import Image from "next/image";
 import FleetClasses from "@/components/home/fleet";
 import Seo from "../../../components/Seo";
+import { Check } from "lucide-react";
 // about
 // about
 export default function About() {
@@ -42,36 +43,63 @@ export default function About() {
                 <div className="text-sm font-medium text-gray-600">
                   Client Satisfaction
                 </div>
+
               </div>
             </div>
             <div className="lg:w-1/2">
               <div className="inline-block bg-black text-brand px-4 py-2 rounded-full text-sm font-medium mb-4">
                 Discover Manchester
               </div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4 leading-tight">
                 Experience Manchester in{" "}
                 <span className="text-brand">Comfort & Style</span>
               </h2>
-              <div className="space-y-5 text-gray-600">
+              <div className="space-y-4 text-gray-600">
                 <p className="text-lg leading-relaxed">
-                  OKTaxis is a Manchester-based private hire company dedicated to delivering a premium travel experience. Our journey began with a simple goal: to offer first-class premium chauffeur services Manchester that combine luxury, reliability, and local expertise.
+                  Discover Manchester with OKTaxis in ultimate comfort and style, free from any hassle. Our vehicles feature plush leather seats, efficient air conditioning, and complimentary Wi-Fi, ideal for relaxing or working on the go. Local drivers share insider tips on spots like the Northern Quarter or Old Trafford, crafting personalised tours that capture the city's vibrant essence. Whether navigating buzzing streets or serene outskirts, we ensure discreet, secure rides with advanced safety tech and immaculate cars. 
+
 
                 </p>
-                <p className="text-lg leading-relaxed">
-                  Drawing from our roots in the North West, we've evolved by listening to client needs, such as providing flexible hourly chauffeurs for busy professionals or customized city tours Manchester for tourists exploring landmarks like the Manchester Cathedral or Salford Quays. This real-world experience allows us to anticipate challenges, like navigating match-day traffic for stadium transfers Manchester to Old Trafford or Etihad Stadium, ensuring every ride is stress-free.
 
-                </p>
               </div>
             </div>
+
+          </div>
+          <div className="container  mx-auto px-4 max-w-7xl">
+            <p className=" text-lg mt-4 pb-2 text-gray-700 leading-relaxed">
+              As your trusted travel partner, we even assist with dinner bookings or show tickets, making every trip fresh, enjoyable, and perfectly suited to VIPs or first-time visitors.
+            </p>
+
+
+            <ul className="mt-4 space-y-3 text-gray-800">
+              {[
+                "Plush leather seats and Wi-Fi",
+                "Efficient air con for comfort",
+                "Insider tips on local spots",
+                "Personalised city tours available",
+                "Discreet, secure VIP services",
+                "Assistance with bookings and tickets"
+              ].map((item, i) => (
+                <li key={i} className="flex items-start">
+                  <div className="flex-shrink-0 mt-1">
+                    <div className="w-6 h-6 bg-brand rounded-full flex items-center justify-center">
+                      <Check className="w-4 h-4 text-white" />
+                    </div>
+                  </div>
+                  <span className="ml-3 text-base md:text-lg">{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
+
 
       <section className="py-20">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2">
-              <div className="inline-block bg-black text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
+              {/* <div className="inline-block bg-black text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
                 Our Commitment to Excellence
               </div>
               <div className="space-y-6 text-gray-600">
@@ -79,28 +107,15 @@ export default function About() {
                   At OKTaxis, we believe that details matter. Punctuality, safety, and transparent pricing are the cornerstones of our service – principles we've upheld through rigorous driver training and fleet maintenance. Our professional chauffeurs arrive on time, in uniform, and ready to assist with your luggage and needs, whether it's multilingual support for global visitors or child seats for family airport services. We've earned trustworthiness through consistent 4.9-star reviews on platforms like Google and Trustpilot, with clients praising our no-hidden-fees approach and 30-minute free wait times.
 
                 </p>
-              </div>
+                  
+              </div> */}
               <h2 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">
                 The <span className="text-brand">OKTaxis</span> Difference
               </h2>
-              <div className="space-y-6 text-gray-600">
-                <p className="text-lg leading-relaxed">
-                  Serving Manchester and nearby cities like Liverpool, Leeds, and beyond, OKTaxis prides itself on a reputation for excellence. Whether you’re a busy executive needing executive airport transfers, a visitor on city tours Manchester, or a local resident heading out for a special occasion like a wedding or event, you can rely on our personal approach and 24/7 support. What sets us apart:
-
+              <div className="space-y-6 text-lg mt-4 pb-2 text-gray-700 leading-relaxed">
+                <p>What truly distinguishes OKTaxis in Manchester's chauffeur services is our unwavering commitment to trust, expertise, and personalised care as a family-run business. Backed by glowing reviews for consistent reliability, our drivers receive rigorous training in customer service and safe driving, ensuring professional interactions every time. We maintain affordable prices without compromising quality, with spotless cars ready for action—contact us at <strong className="text-brand">+44 7788 710290</strong> , <strong className="text-brand underline">info@oktaxis.co.uk</strong>, or visit 0B Portway, Wythenshawe, Manchester. Anticipating needs like luggage assistance or traffic avoidance, our intuitive tech simplifies bookings and updates, while staying informed on local events for seamless planning. Embracing eco-friendly practices, we foster lasting relationships through genuine, expert service that positions us as the premier choice.
                 </p>
-                <ul className="list-disc pl-6 space-y-2 text-lg leading-relaxed">
-                  <li>
-                    <strong>Local Expertise:</strong> In-depth knowledge of Manchester's routes and attractions, honed from years of service.
-                  </li>
-                  <li>
-                    <strong>Client-Centric Focus:</strong> Tailored solutions, such as a meet-and-greet for Manchester airport services or flexible packages for wedding chauffeur Manchester.
-                  </li>
-                  <li>
-                    <strong>Proven Track Record:</strong> Hundreds of successful rides, including high-profile events, demonstrating our authority in the luxury transport niche.
-                  </li>
-                </ul>
               </div>
-
             </div>
             <div className="lg:w-1/2 relative">
               <div className="relative aspect-video overflow-hidden rounded-2xl shadow-2xl">

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Script from 'next/script';
 import { usePathname } from 'next/navigation';
+import { Check } from 'lucide-react';
 
 interface OfferItem {
   id: number;
@@ -302,7 +303,7 @@ const Offer: React.FC = () => {
 
 
   return (
-    <section className="py-16 px-4 max-w-7xl mx-auto">
+    <section className="pt-32 mt-32 max-w-7xl mx-auto">
       <Script
         type="application/ld+json"
         id="ok-taxis-offers-schema"
@@ -321,9 +322,11 @@ const Offer: React.FC = () => {
           }),
         }}
       />
-      <div className="text-center mb-12">
-        <h2 className="text-4xl md:text-5xl font-bold mb-4 md:mt-7 mt-32">
-          {pathname === '/services/hourly-chauffeur' ? (
+      <div className="mx-4 mb-12">
+        <h2 className="text-4xl md:text-5xl font-bold mb-4 md:mt-7 ">
+          {pathname === '/liverpool' ? (
+            <>Why Choose <span className="text-brand">OK Taxis</span> for Premier Travel</>
+          ) : pathname === '/services/hourly-chauffeur' ? (
             <>Why Choose <span className="text-brand">OKTaxis</span> for Hourly Chauffeur Services in Manchester?</>
           ) : pathname === '/services/stadium-transfer' ? (
             <>Why Choose <span className="text-brand">OKTaxis</span> for Manchester Stadium Transfers and Events?</>
@@ -333,13 +336,55 @@ const Offer: React.FC = () => {
             <>Why Choose <span className="text-brand">OKTaxis</span> for Weddings and Special Events in Manchester?</>
           ) : pathname === '/fleet' ? (
             <>What Do We Offer at <span className="text-brand">OKTaxis</span>?</>
+          ) : pathname === '/services/airport-transfer' ? (
+            <>Why Choose Our<span className="text-brand"> Manchester Airport </span>Chauffeur <span className="text-brand">Service?</span> </>
           ) : (
             <>Why Choose <span className="text-brand">OKTaxis</span> for Chauffeur Services in Manchester and Executive Travel?</>
           )}
         </h2>
 
-        <p className="text-lg text-gray-700 max-w-3xl mx-auto mt-4">
-          {pathname === '/services/hourly-chauffeur' ? (
+        <p className="text-lg text-gray-700 max-w-3xl mt-4">
+          {pathname === '/liverpool' ? (
+            <div className="space-y-6 text-lg text-gray-700 max-w-3xl mt-4">
+              <p>
+                Selecting the ideal chauffeur service in <strong>Liverpool</strong> truly elevates your premier travel
+                experience, and at <span className="text-brand">OK Taxis</span>, we excel with reliable luxury executive
+                services centred on supreme comfort and style. Our professional chauffeurs bring vast experience and
+                unwavering punctuality, ensuring effortless arrivals at every destination.
+              </p>
+              <p>
+                We understand the pressures of business trips or special occasions, so our stress-free journeys allow you to
+                unwind completely. As Viktor, the dedicated owner with years in the industry, I've witnessed how our excellence
+                transforms ordinary rides into memorable ones. Operating from 0B Portway, Wythenshawe, Manchester, we're easily
+                reachable at <strong className="text-brand">+44 7788 710290</strong> or <strong>info@oktaxis.co.uk</strong> for prompt assistance.
+              </p>
+              <p>
+                What distinguishes us is seamless transportation addressing real challenges like delayed flights or hectic
+                schedules, with vehicles impeccably maintained for safety and equipped with complimentary Wi-Fi and bottled water.
+                We manage corporate events, airport transfers, and more with discreet professionalism, drawing on my career to
+                make every passenger feel valued. Our knowledgeable drivers master local routes to dodge delays, establishing us
+                as the trusted name redefining travel across the United Kingdom.
+              </p>
+
+              <div className="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                <div className="flex flex-col space-y-3">
+                  {[
+                    "Reliable chauffeurs for punctual pickups.",
+                    "Luxury vehicles with comfort features.",
+                    "Stress-free journeys tailored to your needs.",
+                    "Professional service ensuring safety and discretion."
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex items-start">
+                      <span className="mr-3 flex h-6 w-6 items-center justify-center rounded-full bg-brand text-white mt-1">
+                        <Check className="h-4 w-4" />
+                      </span>
+                      <p className="text-gray-700">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : pathname === '/services/hourly-chauffeur' ? (
             "We elevate your chauffeur by the hour Manchester experience with features focused on flexibility and excellence. Here's what makes us stand out:"
           ) : pathname === '/services/stadium-transfer' ? (
             "Experience seamless and luxurious transport with OKTaxis’ chauffeur services for Manchester airport transfers and event venues. Here’s why we stand out:"
@@ -348,10 +393,79 @@ const Offer: React.FC = () => {
           ) : pathname === '/services/event-weddings' ? (
             "Experience unparalleled luxury and reliability with OKTaxis’ chauffeur services in Manchester. Tailored for airport transfers, weddings, and special events, here’s what makes us stand out:"
           ) : pathname === '/fleet' ? (
-            "At OKTaxis, we redefine premium chauffeur services Manchester with a focus on convenience, luxury, and reliability. Whether you're booking Manchester airport chauffeur transfers, flexible hourly chauffeurs, city tours Manchester, wedding chauffeur services Manchester, or stadium transfers Manchester, our features ensure a seamless experience. Discover how we stand out as Manchester's top luxury transportation provider."
+            <><p>Here at OKTaxis, we focus on giving you dependable, custom trips right across the UK. We cover places like Manchester, Liverpool, London, Leeds, Birmingham, and Edinburgh, where our drivers really know the roads well. We make sure you're on time with live tracking and round-the-clock help on <strong>+44 7788 710290</strong>  or <strong>info@oktaxis.co.uk.</strong> Safety and comfort come first, based on our long track record of reliable service.</p>
+              <p>
+                We give you choices that suit any budget, whether you're going alone or with mates. Our cars come with Wi-Fi, spots to charge your phone, and plenty of room for bags. Our qualified drivers can share tips on the best ways to go and what's good locally. You get fair prices with no hidden extras—just straightforward, easy travel.</p></>
+          ) : pathname === '/services/airport-transfer' ? (
+            <div className="space-y-6  text-lg text-gray-700 max-w-3xl  mt-4">
+              <p>
+                When you need a reliable chauffeur service at <span className="font-semibold">Manchester Airport</span>,
+                <span className="text-brand underline"> OKTaxis</span> stands out for its luxury, professionalism, and trust, making every journey smooth and stress-free.
+                With years of experience chauffeuring business leaders, VIPs, and families since 2007, we turn hectic airport trips into calm experiences.
+              </p>
+
+              <p>
+                Based at 0B Portway, Wythenshaw, Manchester, we handle the third-busiest hub in the UK, serving 27 million passengers to 200 destinations with exceptional care.
+                Our 5 stars on Google reflect our commitment to excellence, ensuring confidence for corporate or leisure travellers.
+              </p>
+
+              <p>
+                Our licensed chauffeurs, trained with advanced driving credentials, deliver elite standards with security and discretion — perfect for overseas delegations or high-profile clients.
+                Unlike non-compliant providers risking fines or reputational damage, we’re fully compliant with regulations, insurance, and GDPR-assured data protection.
+              </p>
+
+              <p>
+                Clients like Sully from Derby and Jane praise our courteous, immaculate presentation, while our personalised care — including female chauffeurs on request — makes us the best chauffeur service at Manchester Airport.
+                Book via <a href="https://oktaxis.co.uk/" className="text-brand underline">OKTaxis.co.uk</a> or call <strong className="text-brand">+44 7788 710290</strong> for tailored airport transfers in Manchester.
+              </p>
+
+              <div className="bg-gray-50 p-6 rounded-2xl shadow-sm">
+
+                <div className="flex flex-col space-y-3">
+                  {[
+                    "Trusted Expertise: Over 15 years of professional service with 5-star ratings.",
+                    "Safe and Discreet: Licensed, insured drivers with privacy-first options.",
+                    "Personalised Service: Bespoke transfers for business or family needs.",
+                    "Compliant Operations: Full adherence to regulations for peace of mind.",
+                    "Local Knowledge: Navigating Northwest England for smooth, timely rides."
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex items-start">
+                      <span className="mr-3 flex h-6 w-6 items-center justify-center rounded-full bg-brand text-white mt-1">
+                        <Check className="h-4 w-4" />
+                      </span>
+                      <p className="text-gray-700">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           ) : (
-            "Discover luxury and reliability with OKTaxis’ premium chauffeur services in Manchester. Tailored for airport transfers, business trips, and special events, here’s what sets us apart:"
+            <div className="space-y-6  text-lg text-gray-700 max-w-3xl mx-auto mt-4">
+              <p>At OKTaxis, we deliver top-tier chauffeur services in Manchester, perfect for executive travel, business meetings, or leisurely explorations. Our fleet boasts luxurious Mercedes and BMWs, ensuring every journey is smooth, dependable, and comfortable. With vetted drivers who know the city intimately and always arrive punctually, we handle airport transfers, events, and more, prioritising your safety and ease. Available 24/7, our green hybrid cars, live tracking apps, and transparent pricing set us apart in the Manchester transport scene. As a seasoned, family-oriented service, we tailor rides for professionals and families, drawing on years of expertise to provide reliable, friendly experiences that build loyalty and trust.</p>
+
+              <div className="bg-gray-50 p-6 rounded-2xl shadow-sm">
+
+                <div className="flex flex-col space-y-3">
+                  {[
+                    "Luxurious Mercedes and BMW fleet",
+                    "Vetted, punctual local drivers",
+                    "24/7 availability for all journeys",
+                    "Hybrid cars for eco-friendly travel",
+                    "Transparent, fair upfront pricing",
+                    "Tailored services for pros and families"
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex items-start">
+                      <span className="mr-3 flex h-6 w-6 items-center justify-center rounded-full bg-brand text-white mt-1">
+                        <Check className="h-4 w-4" />
+                      </span>
+                      <p className="text-gray-700">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           )}
+
         </p>
 
         {pathname === '/fleet' && (

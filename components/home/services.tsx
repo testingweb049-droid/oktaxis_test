@@ -11,7 +11,7 @@ const services = [
     title: "Premium Manchester Airport Chauffeur Services",
     category: "Airport Transfers",
     description:
-      "Enjoy hassle-free Manchester airport services with OKTaxis. Whether you're landing or departing from Manchester or Liverpool airports, our executive airport transfers include real-time flight monitoring, meet-and-greet at arrivals, complimentary waiting time, luggage assistance, and child seats on request. As Manchester's leading provider of premium airport chauffeur services, we redefine luxury travel – no more queues or stress. Book your Manchester airport chauffeur today for fixed, transparent pricing.",
+      "Book our reliable Manchester Airport transfers for a smooth start. Enjoy flight tracking and meet-and-greet services with ease. Contact us for a stress-free ride.",
     image: "/images/airport-transfer.png",
     size: "large",
   },
@@ -21,41 +21,62 @@ const services = [
     title: "Convenient Hourly Chauffeur Hire in Manchester",
     category: "Hourly Chauffeur Service",
     description:
-      "Need on-demand travel? With OKTaxis, enjoy flexible hourly chauffeur services ideal for city errands, business meetings, or spontaneous outings. Our hourly chauffeur Manchester options provide 24/7 availability, adapting to your schedule with professional drivers and modern vehicles. Perfect for executives or tourists – travel comfortably anytime, anywhere in Manchester. Explore flexible rides in Manchester with no hidden fees.",
+      "Hire our hourly chauffeur service for flexible travel in Manchester. Get dedicated support and luxury vehicles at your pace. Book now for a tailored experience.",
     image: "/images/hourly-service.png",
     size: "large",
   },
   {
     id: 3,
-    slug: "chauffeur-services",
-    title: "Chauffeur Services for City Tours in Manchester",
-    category: "Chauffeur Services",
-    description:
-      "Experience the highest level of comfort and class with OKTaxis' chauffeur services in Manchester. Explore the best of the North with our exclusive city tours of Manchester, Liverpool, and the surrounding areas. From iconic landmarks to hidden gems, our city tours in Manchester are customized for an unforgettable journey. Whether you're a corporate client or visitor, our city-to-city chauffeur service ensures safe, stylish transport.",
-    image: "/blog6.webp",
-    size: "small",
-  },
-  {
-    id: 5,
-    slug: "stadium-transfers",
-    title: "Stadium Transfers and Special Events",
-    category: "Special Events",
-    description:
-      "For football fans and event-goers, OKTaxis offers reliable stadium transfers from Manchester to venues like Old Trafford and Etihad Stadium. Avoid match-day chaos with our luxury chauffeur service, including pickups, drop-offs, and hourly hire options. Ideal for special events, business travel, or VIP occasions, our seamless service includes amenities like Wi-Fi and refreshments.",
-    image: "/city.jpg",
-    size: "small",
-  },
-  {
-    id: 4,
     slug: "event-weddings",
     title: "Wedding Chauffeur Services in Manchester",
     category: "Event & Weddings",
     description:
-      "At OKTaxis, we specialize in providing luxury wedding chauffeur services in Manchester that make your special day truly unforgettable. Our event and wedding transfers feature premium vehicles for brides, grooms, and guests, with tailored packages for anniversaries and other occasions. From venue arrivals to post-event stadium transfers in Manchester (e.g., for celebrations near Old Trafford or Etihad), we handle it all with elegance. Make your event memorable – book a wedding chauffeur in Manchester now.",
+      "Choose our event & weddings service for special moments. We offer wedding car hire with champagne and expert event logistics. Reach us for perfect celebrations.",
     image: "/wedding.png",
     size: "small",
   },
+  {
+    id: 4,
+    slug: "chauffeur-services",
+    title: "Executive Chauffeur Services in Manchester",
+    category: "Chauffeur Services",
+    description:
+      "Trust our chauffeur services for all your travel needs. Experience executive chauffeur-driven vehicles with discretion and comfort. Explore our premium options.",
+    image: "/blog6.jpg",
+    size: "small",
+  },
+  {
+    id: 5,
+    slug: "city-tours",
+    title: "City Tours in Manchester",
+    category: "City Tours",
+    description:
+      "Explore Manchester with our city tours in style. Visit Northern Quarter and Spinningfields with expert guides. Book today for a memorable journey.",
+    image: "/city.jpg",
+    size: "small",
+  },
+  {
+    id: 6,
+    slug: "stadium-transfers",
+    title: "Stadium Transfers and Special Events",
+    category: "Stadium Transfer",
+    description:
+      "Get to stadium transfer for games like Etihad or Old Trafford. Enjoy luxury A-to-B transfers with punctual service. Reserve for your next match day.",
+    image: "/Manchester Stadium Transfers.jpg",
+    size: "small",
+  },
+  {
+    id: 7,
+    slug: "city-center",
+    title: "Manchester City Center Transfers",
+    category: "Manchester City Center",
+    image: "/Luxury Chauffeur Service (2).webp",
+    description:
+      "Travel to Manchester City Center with our premium service. Avoid traffic stress with door-to-door convenience. Book for a hassle-free trip.",
+    size: "small",
+  },
 ]
+
 
 export default function Services() {
   const [expandedCard, setExpandedCard] = useState<number | null>(null)
@@ -87,7 +108,7 @@ export default function Services() {
   }
 
   return (
-    <section id="services" className="py-3 mt-40">
+    <section id="services" className="pt-32 mt-32">
       <div className="container mx-auto px-4 md:px-6">
         <div className="mb-8">
           <h2 className="text-3xl font-bold tracking-tight text-black md:text-4xl lg:text-5xl">
@@ -100,37 +121,65 @@ export default function Services() {
             our professional drivers and luxury fleet (Mercedes, BMW, Audi) guarantee comfort and reliability.
           </p>
         </div>
-
-        <div className="mb-6 grid gap-6 md:grid-cols-2">
-          {largeServices.map((service) => (
-            <Link href={`/services/${service.slug}`} key={service.id}>
-              <div className="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer">
-                <div className={cardImgHeight}>
+        {/* Row 1: 1 big + 2 stacked */}
+        <div className="grid gap-6 md:grid-cols-3 mb-10">
+          {/* Big left card */}
+          <div className="md:col-span-2">
+            <Link href={`/services/${services[0].slug}`} key={services[0].id}>
+              <div className="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-full">
+                <div className="relative h-[500px] w-full overflow-hidden">
                   <Image
-                    src={service.image}
-                    alt={service.title}
+                    src={services[0].image}
+                    alt={services[0].title}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent opacity-80" />
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                     <p className="mb-2 text-sm font-medium uppercase tracking-wider text-brand">
-                      {service.category}
+                      {services[0].category}
                     </p>
-                    <h3 className="mb-3 text-2xl font-bold">{service.title}</h3>
-                    {renderDescription(service)}
+                    <h3 className="mb-3 text-3xl font-bold">{services[0].title}</h3>
+                    {renderDescription(services[0])}
                   </div>
                 </div>
               </div>
             </Link>
-          ))}
+          </div>
+
+          {/* Right side: 2 stacked smaller cards */}
+          <div className="flex flex-col gap-6">
+            {[services[1], services[2]].map((service) => (
+              <Link href={`/services/${service.slug}`} key={service.id}>
+                <div className="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-full">
+                  <div className="relative h-[240px] w-full overflow-hidden">
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent opacity-80" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                      <p className="mb-1 text-xs font-medium uppercase tracking-wider text-brand">
+                        {service.category}
+                      </p>
+                      <h3 className="mb-2 text-lg font-bold">{service.title}</h3>
+                      {renderDescription(service)}
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {smallServices.map((service) => (
+        {/* Row 2: 4 equal small cards */}
+        <div className="grid gap-6 md:grid-cols-4">
+          {services.slice(3).map((service) => (
             <Link href={`/services/${service.slug}`} key={service.id}>
-              <div className="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer">
-                <div className={cardImgHeight}>
+              <div className="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-full">
+                <div className="relative h-[260px] w-full overflow-hidden">
                   <Image
                     src={service.image}
                     alt={service.title}
@@ -138,11 +187,11 @@ export default function Services() {
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent opacity-80" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <p className="mb-2 text-sm font-medium uppercase tracking-wider text-brand">
+                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                    <p className="mb-1 text-xs font-medium uppercase tracking-wider text-brand">
                       {service.category}
                     </p>
-                    <h3 className="mb-3 text-xl font-bold">{service.title}</h3>
+                    <h3 className="mb-2 text-lg font-bold">{service.title}</h3>
                     {renderDescription(service)}
                   </div>
                 </div>
