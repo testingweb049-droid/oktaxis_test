@@ -15,6 +15,7 @@ import {
   FaStar,
 } from "react-icons/fa";
 import Seo from "../../../../../components/Seo";
+import { Check } from "lucide-react";
 export default function AirportTransfer() {
   return (
     <>
@@ -27,7 +28,7 @@ export default function AirportTransfer() {
 
       <HeroSection2
         bgImage="/images/airport-transfer.png"
-        title="Reliable Manchester Airport Transfers & Executive Chauffeur Services"
+        title="Premier Chauffeur Service at Manchester Airport for Luxury Transfers"
 
       />
 
@@ -35,84 +36,279 @@ export default function AirportTransfer() {
       <ImageTextSection
         imageSrc="/images/airport-transfer.png"
         imageAlt="Manchester Airport Transfers"
+        imagePosition="right"
+        headingAs="h2"
         title={
-          <h2 className="text-3xl md:text-4xl font-bold">
-            Dependable <span className="text-brand">Manchester Airport Transfers</span>
-          </h2>
+          <>
+            Simple Steps to Book a Luxury Chauffeur at{" "}
+            <span className="text-brand">Manchester Airport</span>
+          </>
         }
         text={
           <>
-            <p className="mb-4">
-              Looking for dependable <strong>Manchester airport transfers</strong>? At OKTaxis, we specialize in premium <strong>airport taxi Manchester</strong> services across Manchester, Liverpool, and the UK. Whether you're arriving at Manchester Airport (MAN) or heading to Liverpool John Lennon Airport, our professional chauffeurs ensure a luxurious, punctual journey. With real-time flight tracking, meet-and-greet service, and a fleet of executive vehicles, we make airport travel effortless for business professionals, families, and tourists.
+            <p>
+              Securing a luxury chauffeur service at Manchester Airport couldn't be simpler or more reassuring, especially for those juggling packed schedules and needing dependable airport transfers Manchester. From my long history managing high-end executive rides, I always advise kicking off with our user-friendly online platform at OKTaxis—just key in your flight info, terminal, and endpoint for a prompt quote.
             </p>
-            <p className="mb-6">
-              As a trusted <strong>airport taxi Manchester</strong> provider, we've served thousands of passengers with 5-star rated transfers. Book now for fixed rates, no hidden fees, and ultimate comfort.
+            <p className="mt-4">
+              This approach shines during rush periods at this bustling UK hub with its massive passenger volumes. Our attentive staff promises on-time collections, easing any post-flight fatigue.
             </p>
-            <Link
-              href="#booking-form"
-              className="inline-block bg-brand hover:bg-brand-dark text-white font-semibold py-3 px-6 rounded-lg transition duration-300"
-            >
-              Book Your Transfer
-            </Link>
           </>
         }
-        bgColor="bg-white"
-        imagePosition="right"
+
       />
+      <div className="container mx-auto px-4 max-w-7xl">
+
+        <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
+
+          Dial +44 7788 710290 or drop a line to <strong className="text-brand underline">info@oktaxis.co.uk </strong> for bespoke setups like varied routes or special offers across Greater Manchester.
+
+
+        </p>
+        <p className=" text-lg  text-gray-700 pb-4 leading-relaxed">
+          Operating from our Wythenshawe spot at 0B Portway, Manchester, we've streamlined arrangements for professionals and loved ones, featuring live flight tracking to adapt to any shifts. This thoughtful strategy earns loyalty, as mirrored in our strong 4.9 Google feedback. We aim to make your entire experience straightforward and utterly reliable.
+
+
+
+
+        </p>
+
+        <ul className="mt-6 space-y-3 text-gray-800">
+          {[
+            "Quick Online Quote: Instant, clear pricing options.",
+            "Flexible Booking Options: Hourly or return hires.",
+            "Personal Support Team: Phone advice for preferences.",
+            "Secure and Simple Process: GDPR-safe easy bookings.",
+            "Real-Time Adjustments: Tracking for smooth arrivals."
+          ].map((item, i) => (
+            <li key={i} className="flex items-start">
+              <div className="flex-shrink-0 mt-1">
+                <div className="w-6 h-6 bg-brand rounded-full flex items-center justify-center">
+                  <Check className="w-4 h-4 text-white" />
+                </div>
+              </div>
+              <span className="ml-3 text-base md:text-lg">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
 
 
       <ImageTextSection
         imageSrc="/Manchester Taxis.png"
         imageAlt="Executive"
+        imagePosition="left"
+        headingAs="h2"
+
         title={
-          <h2 className="text-3xl md:text-4xl font-bold">
-            Our Executive <span className="text-brand">Airport</span> Transfer Services
-          </h2>
+          <>
+            Key Benefits of <span className="text-brand">Executive Transfers</span> with Safety and Discretion
+          </>
         }
         text={
           <>
-            <p className="mb-4">
-              Travel in style with our Manchester airport taxi options. We offer 24/7 transfers to and from major UK airports, including Manchester, Liverpool, Leeds Bradford, Birmingham, and London hubs.
+            <p>
+              Selecting executive airport transfers Manchester puts a premium on safety and discretion, vital for VIPs and business pros at Manchester Airport. Through my transport insights gained since 2007, our credentialed licensed chauffeurs with security expertise set elite benchmarks, dodging pitfalls from unlicensed outfits like penalties or legal troubles.
+            </p>
+            <p className="mt-4">
+              Strict alignment with regulations, insurance, and protection protocols safeguards your standing and personnel.
+            </p>
+          </>
+        }
+
+      />
+      <div className="container mx-auto px-4 max-w-7xl">
+
+        <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
+
+          That's why top finance entities count on our subtle handling. We excel in tense scenarios, from private aircraft links to nocturnal drives, with quiet modes preserving confidentiality.
+
+        </p>
+        <p className=" text-lg  text-gray-700 pb-4 leading-relaxed">
+
+          Bolstered by thorough preparation and tools like contact masking, we guarantee total serenity, establishing us as the top chauffeur service at Manchester Airport.
+
+
+        </p>
+
+        <ul className="mt-4 space-y-3 text-gray-800">
+          {[
+            "Top Safety Features: Insured vehicles, skilled drivers.",
+            "Discreet Handling: Privacy modes for comfort.",
+            "Compliant Operations: Full licensing, data safeguards.",
+            "Personalised Security: Female drivers available.",
+            "Proven Trust: 4.9 ratings for reliability."
+          ].map((item, i) => (
+            <li key={i} className="flex items-start">
+              <div className="flex-shrink-0 mt-1">
+                <div className="w-6 h-6 bg-brand rounded-full flex items-center justify-center">
+                  <Check className="w-4 h-4 text-white" />
+                </div>
+              </div>
+              <span className="ml-3 text-base md:text-lg">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <ImageTextSection
+        imageSrc="/images/airport-transfer.png"
+        imageAlt="Stress-Free Travel Experience"
+        imagePosition="right"
+        headingAs="h3"
+        title={
+          <>
+            Exclusive <span className="text-brand font-bold">Chauffeur Transfers</span>{" "}
+            <span className="text-brand font-bold">from Manchester Airport</span> to Key Cities
+          </>
+        }
+        text={
+          <>
+            <p>
+              Our premium chauffeur transfers from Manchester Airport to places like Leeds and Liverpool blend elegance with efficiency, perfect for work or relaxation. Based on my direct dealings with global teams, we master Northwest pathways, sidestepping morning jams for a brisk 30-minute centre reach.
+            </p>
+            <p className="mt-4">
+              Extending to areas like Stockport and Cheshire, we connect seamlessly to highlights such as Grand Theatre or Albert Dock. This dependable timing fosters assurance in each outing. For elite excursions to Royal Armouries Museum or Beatles Story, our licensed crew ensures private rides that uphold reputations.
+            </p>
+          </>
+        }
+
+      />
+      <div className="container mx-auto px-4 max-w-7xl">
+
+        <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
+
+          Accolades from Ravi celebrate our route savvy in BMWs for corporate events, making trips truly pleasant. With mapping aids and online tools, we manage exact timings for all flights. As specialists in airport transfers Leeds to Manchester, we offer outstanding worth.
+
+
+        </p>
+
+
+        <ul className="mt-4 space-y-3 text-gray-800">
+          {[
+            "Tailored City Routes: Straight to Leeds, Liverpool.",
+            "Peak Time Expertise: Avoid crowds for speed.",
+            "Landmark Stops: Dock or museum inclusions.",
+            "Regional Reach: High Peak, Saddleworth covered.",
+            "Trusted Journeys: Pro handling for all."
+          ].map((item, i) => (
+            <li key={i} className="flex items-start">
+              <div className="flex-shrink-0 mt-1">
+                <div className="w-6 h-6 bg-brand rounded-full flex items-center justify-center">
+                  <Check className="w-4 h-4 text-white" />
+                </div>
+              </div>
+              <span className="ml-3 text-base md:text-lg">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <ImageTextSection
+        imageSrc="/images/mercedes.png"
+        imageAlt="Luxury Vehicles and Meet & Greet"
+        imagePosition="left"
+        headingAs="h2"
+        title={
+          <>
+            Luxury Vehicles and{" "}
+            <span className="text-brand">Meet &amp; Greet</span> for Smooth{" "}
+            <span className="text-brand">Airport Journeys</span>
+          </>
+        }
+        text={
+          <>
+            <div className="space-y-4 text-gray-700 leading-relaxed">
+              <p>
+                Dive into luxury vehicles and meet-and-greet at Manchester Airport for flawlessly smooth airport journeys, shifting landings into calm welcomes. Having driven in pristine Mercedes E-Class with plush interiors, I've observed how our elite selections grant ample space and relief after travels. Our V-Class variants include seating setups and chillers, suited for teams.
+
+
+              </p>
+              <p>
+                Featuring a free 60-minute wait plus perks like water, we cut down on hassles. Our polished meet-greet involves a warm driver at arrivals with iPad signage, aiding with bags and guiding to your ride.
+              </p>
+            </div>
+
+            {/* ✅ Feature Highlights */}
+
+          </>
+        }
+      />
+      <div className="container mx-auto px-4 max-w-7xl">
+
+        <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
+
+          My know-how in flight ops syncs perfectly via supports like Signature, flexing for changes. Cleaned cabins with kid seats and papers bring extra warmth. This fine-tuned care sets us apart in executive car service.
+        </p>
+
+        <ul className="mt-4 space-y-3 text-gray-800">
+          {[
+            "Premium Meet Service: Signs, luggage help.",
+            "Free Waiting Time: Hour post-landing grace.",
+            "Comfortable Features: Space, chillers, clean.",
+            "Vehicle Choices: Mercedes E-Class, V-Class.",
+            "Logistics Mastery: Monitoring for precision."
+          ].map((item, i) => (
+            <li key={i} className="flex items-start">
+              <div className="flex-shrink-0 mt-1">
+                <div className="w-6 h-6 bg-brand rounded-full flex items-center justify-center">
+                  <Check className="w-4 h-4 text-white" />
+                </div>
+              </div>
+              <span className="ml-3 text-base md:text-lg">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <ImageTextSection
+        imageSrc="/images/hourly-service.png"            // <- swap to any fleet image you like
+        imageAlt="Premium Chauffeur Fleet in Manchester"
+        imagePosition="right"
+        headingAs="h2"
+
+        title={
+          <>
+            Our Premium in Manchester —{" "}
+            <span className="text-brand">Fleet & Easy Booking</span> for{" "}
+            <span className="text-brand">Chauffeur Service</span> in Manchester
+          </>
+        }
+        text={
+          <>
+            <p>
+              Uncover our premium fleet for chauffeur service in Manchester, pairing high-end rides with hassle-free booking for peak convenience. Options like Mercedes E-Class and estates boast roomy storage for gear, kept impeccably through regular upkeep. Since launching in 2007, I've guided fleets radiating class and polish, securing 4.9 stars on FreeIndex. Complete with sanitisers, refreshments, and sharply dressed drivers, each trip exudes warmth and sophistication.
+
             </p>
 
           </>
         }
-        bgColor="bg-white"
-        imagePosition="left"
+
       />
-      <ImageTextSection
-        imageSrc="/images/airport-transfer.png"
-        imageAlt="Stress-Free Travel Experience"
-        title={
+      <div className="container mx-auto px-4 max-w-7xl">
 
-          <h3 className="text-3xl md:text-4xl font-bold">
-            Seamless {' '}
-            <span className="text-brand text-3xl md:text-4xl font-bold">Pickups and Drop-Offs</span>{' '}
+        <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
 
-          </h3>
-        }
-        text="Our chauffeurs track your flight in real-time for hassle-free airport transfers Manchester. You'll be greeted by name, assisted with luggage, and escorted to a premium vehicle. Ideal for early mornings or late nights—count on us for punctuality and comfort.
+          Booking eases via <strong className="text-brand underline">OK Taxis </strong> GET PRICES for straightforward distance or hourly fees. My routing skills dodge spots like Junction 21 for traffic-free paths, adding live updates for accuracy. Slip in stops for basics like groceries, with our sharp crew handling last details. This leads to happy faces and unforgettable ventures.
 
-"
-        bgColor="bg-white"
-        imagePosition="right"
-      />
+        </p>
 
-      <ImageTextSection
-        imageSrc="/images/mercedes.png"
-        imageAlt="Stress-Free Travel Experience"
-        title={
-          <span className="text-3xl md:text-4xl font-bold">
-            Stress-Free Travel {' '}
-            <span className="text-brand text-3xl md:text-4xl font-bold">Experience</span>{' '}
 
-          </span>
-        }
-        text="Say goodbye to travel worries. Our fleet includes spacious sedans and SUVs with complimentary Wi-Fi, refreshments, and climate control. Fixed pricing means no traffic surcharges. We also handle transfers to Liverpool John Lennon Airport and beyond, ensuring a smooth journey wherever you land in the UK.
-"
-        bgColor="bg-white"
-        imagePosition="left"
-      />
+        <ul className="mt-4 space-y-3 text-gray-800">
+          {[
+            "Varied Fleet Selection: Luxury models for sizes.",
+            "Effortless Online Booking: Quick site quotes.",
+            "Timely Route Planning: Navigation skips delays.",
+            "Thoughtful Extras: Tracking, custom stops.",
+            "Expert Driver Support: Qualified for style."
+          ].map((item, i) => (
+            <li key={i} className="flex items-start">
+              <div className="flex-shrink-0 mt-1">
+                <div className="w-6 h-6 bg-brand rounded-full flex items-center justify-center">
+                  <Check className="w-4 h-4 text-white" />
+                </div>
+              </div>
+              <span className="ml-3 text-base md:text-lg">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
       <FleetClasses />
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">

@@ -6,7 +6,7 @@ export default function WhyChoose() {
     <section className="py-20 bg-white text-white">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="flex flex-col lg:flex-row items-center gap-16">
-           <div className="lg:w-1/2 relative">
+          <div className="lg:w-1/2 relative">
             <div className="relative aspect-square overflow-hidden rounded-2xl shadow-2xl">
               <Image
                 src={FleetBg}
@@ -28,6 +28,9 @@ export default function WhyChoose() {
               Vehicle Options at <span className="text-brand">OKTaxis</span>
             </h2>
             
+            <p className="text-black mb-6">
+              Have a look at our different cars, grouped to make it simple to choose what's right for your journey. We work in main UK spots like Manchester, Liverpool, London, Leeds, Birmingham, and Edinburgh, with picks that mix price, fancy touches, and size. We keep everything in top nick so each trip feels new and safe—get in touch and give it a go.
+            </p>
             <div className="space-y-6">
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
@@ -40,11 +43,11 @@ export default function WhyChoose() {
                 <div className="ml-4">
                   <h3 className="text-xl text-black font-semibold mb-2">1. Economy Cars</h3>
                   <p className="text-black">
-                    These are practical, budget-friendly options like the Toyota Prius or Skoda Octavia. They're great for solo travelers or short trips across the city.
+                    Great for daily runs or if you're watching the pennies, our economy picks like the Skoda Octavia and Toyota Prius are thrifty on fuel and solid. They're small but cosy, ideal for one person or quick town jaunts.
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
                   <div className="w-8 h-8 bg-brand rounded-full flex items-center justify-center">
@@ -56,11 +59,11 @@ export default function WhyChoose() {
                 <div className="ml-4">
                   <h3 className="text-xl text-black font-semibold mb-2">2. Executive Cars</h3>
                   <p className="text-black">
-                    Need a more refined experience? Executive options like the Mercedes E-Class or BMW 5 Series offer extra legroom and a more professional presentation—ideal for meetings or client pickups.
+                    Go up a notch with executive ones like the BMW 5 Series and Mercedes E-Class, with soft seats and easy driving. Just right for work folks who want a smart, pro feel while moving.
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
                   <div className="w-8 h-8 bg-brand rounded-full flex items-center justify-center">
@@ -72,7 +75,7 @@ export default function WhyChoose() {
                 <div className="ml-4">
                   <h3 className="text-xl text-black font-semibold mb-2">3. Executive Premium</h3>
                   <p className="text-black">
-                    For top-tier comfort, look for vehicles like the Tesla Model S. These cars offer luxury interiors, smooth rides, and modern amenities like Wi-Fi or phone charging.
+                    For the best luxury, pick our premium Tesla Model S, with its modern electric power and quiet, clean drive. Made for people after class with no fumes at all.
                   </p>
                 </div>
               </div>
@@ -88,14 +91,14 @@ export default function WhyChoose() {
                 <div className="ml-4">
                   <h3 className="text-xl text-black font-semibold mb-2">4. XL & Group Vehicles</h3>
                   <p className="text-black">
-                    Traveling with a group or a lot of bags? A van or larger car (like a Ford Tourneo or Mercedes V-Class) might be your best bet. These fit up to 8 passengers with plenty of room for luggage.
+                    If you're with family or a bunch, our big Passenger Van has loads of space for up to eight plus their stuff. It's flexible and spacious, brilliant for airport drops or group days out in our areas.
                   </p>
                 </div>
               </div>
             </div>
           </div>
-          
-         
+
+
         </div>
       </div>
     </section>

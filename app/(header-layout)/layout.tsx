@@ -1,6 +1,5 @@
 import type React from "react";
 import Header from "@/components/Header/Header";
-// import FloatingReviewWidget from "@/components/floating/GoogleFloatingButton";
 
 export default function RootLayout({
   children,
@@ -17,22 +16,35 @@ export default function RootLayout({
         ></iframe>
       </noscript>
 
-      {/* ✅ Google Tag Manager script (only once per page) */}
+      {/* ✅ Structured Data (JSON-LD for SEO) */}
       <script
+        type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: `
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-MF6HV3CB');
-          `,
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://oktaxis.co.uk/#webpage",
+            url: "https://oktaxis.co.uk/",
+            name: "OkTaxis | Trusted Taxi Service in Manchester",
+            isPartOf: { "@id": "https://oktaxis.co.uk/#website" },
+            datePublished: "2024-12-04T00:00:00+00:00",
+            dateModified: "2025-02-21T00:00:00+00:00",
+            description:
+              "Book reliable and affordable taxi and chauffeur services in Manchester. 24/7 availability. Airport transfers, city rides & more.",
+            breadcrumb: { "@id": "https://oktaxis.co.uk/#breadcrumb" },
+            inLanguage: "en-GB",
+            potentialAction: [
+              {
+                "@type": "ReadAction",
+                target: ["https://oktaxis.co.uk/"],
+              },
+            ],
+          }),
         }}
       />
 
       <Header />
       {children}
-      {/* <FloatingReviewWidget /> */}
     </div>
   );
 }
