@@ -4,6 +4,7 @@ import HeroSection2 from "@/components/ui/hero-section2";
 import ImageTextSection from "@/components/ui/ImageTextSection";
 import { FaCar, FaShieldAlt, FaWifi, FaCalendarAlt } from "react-icons/fa";
 import Seo from "../../../../../components/Seo";
+import { Check } from "lucide-react";
 export default function ChauffeurServices() {
   return (
     <>
@@ -19,6 +20,48 @@ export default function ChauffeurServices() {
       // description="Experience the highest level of comfort and class with OKTaxis' chauffeur services. Whether you're a corporate client, a tourist, or attending an important event, our professional drivers ensure a premium travel experience. From executive travel to Manchester airport, we provide punctual, discreet, and luxurious transport tailored to your needs."
       />
       <Offer />
+    <ImageTextSection
+            imageSrc="/chauffeur--.jpg"
+            imageAlt="Manchester Airport Transfers"
+            imagePosition="left"
+            headingAs="h2"
+    
+            text={
+              <>
+                <p>
+                 At OKTaxis, we deliver top-tier chauffeur services in Manchester, perfect for executive travel, business meetings, or leisurely explorations. Our fleet boasts luxurious Mercedes and BMWs, ensuring every journey is smooth, dependable, and comfortable. With vetted drivers who know the city intimately and always arrive punctually, we handle airport transfers, events, and more, prioritising your safety and ease. 
+                </p>
+                <p className="mt-4">
+                  Available 24/7, our green hybrid cars, live tracking apps, and transparent pricing set us apart in the Manchester transport scene. As a seasoned, family-oriented service, we tailor rides for professionals and families, drawing on years of expertise to provide reliable, friendly experiences that build loyalty and trust.
+                </p>
+              </>
+            }
+    
+          />
+          <div className="container mx-auto px-4 max-w-7xl">
+    
+           
+    
+            <ul className="mt-6 space-y-3 text-gray-800">
+              {[
+                "Luxurious Mercedes and BMW fleet",
+                "Vetted, punctual local drivers",
+                "24/7 availability for all journeys",
+                "Hybrid cars for eco-friendly travel",
+                "Transparent, fair upfront pricing",
+                "Tailored services for pros and families"
+              ].map((item, i) => (
+                <li key={i} className="flex items-start">
+                  <div className="flex-shrink-0 mt-1">
+                    <div className="w-6 h-6 bg-brand rounded-full flex items-center justify-center">
+                      <Check className="w-4 h-4 text-white" />
+                    </div>
+                  </div>
+                  <span className="ml-3 text-base md:text-lg">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
       <ImageTextSection
         imageSrc="/luxury chauffeur service.png"
         imageAlt="Premium chauffeur service"
