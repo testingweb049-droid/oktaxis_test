@@ -115,14 +115,14 @@ function HeroSectionBookingForm() {
 
   const StopsSection = () => {
     const stopColors = [
-      { bg: "bg-blue-500", border: "border-blue-500", text: "text-blue-600", bgLight: "bg-blue-50" },
-      { bg: "bg-green-500", border: "border-green-500", text: "text-green-600", bgLight: "bg-green-50" },
-      { bg: "bg-purple-500", border: "border-purple-500", text: "text-purple-600", bgLight: "bg-purple-50" },
+      { bg: "lg:bg-blue-500", border: "lg:border-blue-500", text: "lg:text-blue-600", bgLight: "lg:bg-blue-50" },
+      { bg: "lg:bg-green-500", border: "lg:border-green-500", text: "lg:text-green-600", bgLight: "lg:bg-green-50" },
+      { bg: "lg:bg-purple-500", border: "lg:border-purple-500", text: "lg:text-purple-600", bgLight: "lg:bg-purple-50" },
     ]
 
     return (
       <div className="space-y-3 md:space-y-4 w-full">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center  items-end justify-end sm:justify-between gap-3 max-lg:hidden">
           <h3 className="text-base md:text-lg font-semibold text-gray-800 flex items-center gap-2 max-lg:hidden">
             <MapPin className="w-4 h-4 md:w-5 md:h-5 text-[#F4910B]" />
             Additional Stops
@@ -131,10 +131,10 @@ function HeroSectionBookingForm() {
             <button
               type="button"
               onClick={addStop}
-              className="px-3 py-2 md:px-4 md:py-2 bg-[#F4910B] hover:bg-[#e8840a] text-white rounded-lg font-medium transition-all duration-200 flex items-center gap-2 shadow-md hover:shadow-lg transform hover:scale-105 text-sm md:text-base"
+              className="px-2 py-1 md:px-4 md:py-2 bg-[#F4910B] hover:bg-[#e8840a] text-white rounded-lg font-medium transition-all duration-200 flex items-center gap-2 shadow-md hover:shadow-lg transform hover:scale-105 text-sm md:text-base max-lg:hidden"
             >
               <Plus className="w-3 h-3 md:w-4 md:h-4" />
-              Add Stop
+              <span className="max-lg:hidden">Add Stop</span>
             </button>
           )}
         </div>
@@ -148,11 +148,11 @@ function HeroSectionBookingForm() {
               return (
                 <div
                   key={index}
-                  className={`relative p-3 md:p-4 rounded-xl border-2 ${color.border} ${color.bgLight} transition-all duration-300 hover:shadow-md`}
+                  className={`relative p-0 md:p-4 rounded-xl lg:border-2 ${color.border} ${color.bgLight} transition-all duration-300 hover:shadow-md`}
                 >
                   <div className="flex items-center gap-2 md:gap-3">
                     <div
-                      className={`w-6 h-6 md:w-8 md:h-8 ${color.bg} text-white rounded-full flex items-center justify-center font-bold text-xs md:text-sm shadow-md flex-shrink-0`}
+                      className={`w-6 h-6 md:w-8 md:h-8 max-lg:hidden  text-white rounded-full flex items-center justify-center font-bold text-xs md:text-sm shadow-md flex-shrink-0`}
                     >
                       {index + 1}
                     </div>
@@ -202,7 +202,7 @@ function HeroSectionBookingForm() {
                   </div>
 
                   {/* Progress indicator */}
-                  <div className="mt-2 md:mt-3 flex items-center gap-1">
+                  <div className="mt-2 md:mt-3 flex items-center gap-1 max-lg:hidden">
                     {[0, 1, 2].map((i) => (
                       <div
                         key={i}
@@ -240,6 +240,21 @@ function HeroSectionBookingForm() {
             </div> */}
           </div>
         )}
+         
+        
+          {stopsCount < 3 && (
+            <div className="flex flex-col sm:flex-row sm:items-center  items-end justify-end sm:justify-between gap-3 lg:hidden">
+            <button
+              type="button"
+              onClick={addStop}
+              className="px-2 py-1 md:px-4 md:py-2 bg-[#F4910B] hover:bg-[#e8840a] text-white rounded-lg font-medium transition-all duration-200 flex items-center gap-2 shadow-md hover:shadow-lg transform hover:scale-105 text-sm md:text-base"
+            >
+              <Plus className="w-3 h-3 md:w-4 md:h-4" />
+              <span className="max-lg:hidden">Add Stop</span>
+            </button>
+            </div>
+          )}
+        
       </div>
     )
   }
@@ -247,7 +262,7 @@ function HeroSectionBookingForm() {
   return (
     <div className="w-full max-w-7xl mx-auto">
       {/* Tab Buttons */}
-      <div className="flex gap-4 mb-6">
+      <div className="flex gap-4 mb-3 lg:mb-6">
         {!isHourlyOnlyPage && (
           <button
             onClick={() => {
@@ -285,17 +300,17 @@ function HeroSectionBookingForm() {
       </div>
 
       {/* Main Form */}
-      <div className="bg-white rounded-2xl p-8 shadow-2xl border border-gray-100 ring-1 ring-black/5">
+      <div className="bg-white rounded-2xl p-4 sm:p-8 shadow-2xl border border-gray-100 ring-1 ring-black/5">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 lg:space-y-6">
             {/* Location and Date/Time Fields */}
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-2 lg:gap-6">
               <FormField
                 control={form.control}
                 name="pickup_location"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <label className="block text-gray-700 font-medium mb-2">Pickup Location</label>
+                    <label className="block text-gray-700 font-medium mb-1 lg:mb-2 max-lg:text-base">Pickup Location</label>
                     {!isLoaded ? (
                       <div className="text-center w-full">Loading...</div>
                     ) : (
@@ -316,7 +331,7 @@ function HeroSectionBookingForm() {
                         }}
                       >
                         <div className="relative">
-                          <SlLocationPin className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                          <SlLocationPin className="absolute left-2 lg:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 lg:w-5 lg:h-5 w-4 h-4" />
                           <input
                             value={fromLocation}
                             onChange={(e) => {
@@ -326,7 +341,7 @@ function HeroSectionBookingForm() {
                             }}
                             disabled={loading}
                             placeholder="Enter pickup location"
-                            className="w-full pl-10 pr-3 py-3 border border-gray-200  text-[16px] rounded-xl focus:outline-none text-black text-base"
+                            className="w-full pl-7 lg:pl-10 pr-3 py-2 lg:py-3 border border-gray-200  text-sm lg:text-[16px] rounded-xl focus:outline-none text-black "
                           />
                         </div>
                       </Autocomplete>
@@ -353,7 +368,7 @@ function HeroSectionBookingForm() {
                   name="dropoff_location"
                   render={({ field }) => (
                     <FormItem>
-                      <label className="block text-gray-700 font-medium mb-1">Drop off Location</label>
+                      <label className="block text-gray-700 font-medium mb-1 lg:mb-2 max-lg:text-base">Drop off Location</label>
                       {!isLoaded ? (
                         <div className="text-center w-full">Loading...</div>
                       ) : (
@@ -377,7 +392,7 @@ function HeroSectionBookingForm() {
                           }}
                         >
                           <div className="relative">
-                            <SlLocationPin className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                            <SlLocationPin className="absolute left-2 lg:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 lg:w-5 lg:h-5 w-4 h-4" />
                             <input
                               value={toLocation}
                               onChange={(e) => {
@@ -387,7 +402,7 @@ function HeroSectionBookingForm() {
                               }}
                               disabled={loading}
                               placeholder="Enter drop off location"
-                              className="w-full pl-10 pr-3 py-2.5 border  text-[16px] border-gray-200 rounded-xl focus:outline-none text-black text-base"
+                              className="w-full pl-7 lg:pl-10 pr-3 py-2 lg:py-3 border border-gray-200  text-sm lg:text-[16px] rounded-xl focus:outline-none text-black"
                             />
                           </div>
                         </Autocomplete>
