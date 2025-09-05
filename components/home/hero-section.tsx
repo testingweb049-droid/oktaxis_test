@@ -92,7 +92,7 @@ export default function HeroSection() {
   return (
     <section
       id="herosection"
-      className="relative w-full h-[600px] bg-v0-blue border-t-4 border-b-4 border-v0-blue overflow-visible pt-7 lg:pb-32 pb-40"
+      className="relative w-full h-[600px] bg-v0-blue border-t-4 border-b-4 border-v0-blue overflow-visible pt-7 pb-40"
     >
 
 
@@ -118,9 +118,8 @@ export default function HeroSection() {
 
           <h1
             ref={titleRef}
-            className="mb-2 text-3xl sm:text-4xl md:text-5xl lg:text-4xl xl:text-5xl font-extrabold leading-tight tracking-tight"
+            className="mb-2  text-2xl md:text-5xl lg:text-4xl xl:text-5xl font-extrabold leading-tight tracking-tight"
           >
-
             <span className="md:block text-white sm:hidden">
               
               <span className=""> Premier Luxury Chauffeur</span> Service Manchester  | Executive & VIP Travel Solutions
@@ -128,14 +127,6 @@ export default function HeroSection() {
             </span>
             {/* <span className="hidden sm:block text-white">
               <span className="">Luxury Transportation</span>
-
-            <span className="block text-white sm:hidden">
-              <span className="">Airport Transfer</span> in Manchester
-
-            </span>
-            <span className="hidden sm:block text-white">
-              <span className="">Airport Transfer</span>
-
               <span className="block">in Manchester</span>
             </span> */}
           </h1>
@@ -154,7 +145,7 @@ export default function HeroSection() {
         {/* Form container */}
         <div
           ref={formContainerRef}
-          className="absolute left-1/2 transform -translate-x-1/2 translate-y-[50%] w-full max-w-6xl mt-15 py-16 lg:py-20 px-4 sm:px-6 lg:px-8 z-20"
+          className="absolute left-1/2 transform -translate-x-1/2 translate-y-[50%] w-full max-w-6xl mt-15 py-20 px-4 sm:px-6 lg:px-8 z-20"
 
         >
           <HeroSectionBookingForm />

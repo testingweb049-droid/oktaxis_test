@@ -303,7 +303,7 @@ const Offer: React.FC = () => {
 
 
   return (
-    <section className="pt-32 mt-32 max-w-7xl mx-auto">
+    <section className="pt-32 mt-32  max-w-7xl mx-auto">
       <Script
         type="application/ld+json"
         id="ok-taxis-offers-schema"
