@@ -24,6 +24,24 @@ export default function Fleet() {
       />
 
       <Offer />
+      <ImageTextSection
+        imageSrc="/chauffeur.jpg"
+        imageAlt="Manchester Airport Transfers"
+        imagePosition="left"
+        headingAs="h2"
+
+        text={
+          <>
+            <p>
+              Here at OKTaxis, we focus on giving you dependable, custom trips right across the UK. We cover places like Manchester, Liverpool, London, Leeds, Birmingham, and Edinburgh, where our drivers really know the roads well. We make sure you're on time with live tracking and round-the-clock help on +44 7788 710290 or info@oktaxis.co.uk. Safety and comfort come first, based on our long track record of reliable service.
+            </p>
+            <p className="mt-4">
+              We give you choices that suit any budget, whether you're going alone or with mates. Our cars come with Wi-Fi, spots to charge your phone, and plenty of room for bags. Our qualified drivers can share tips on the best ways to go and what's good locally. You get fair prices with no hidden extras—just straightforward, easy travel.
+            </p>
+          </>
+        }
+
+      />
 
       <ImageTextSection
         imageSrc="/Taxi In Manchester Taxi Service.png"
@@ -54,17 +72,17 @@ export default function Fleet() {
               Here's the key stuff that makes it great:
             </p>
 
-         
+
           </>
         }
         bgColor="bg-white"
         imagePosition="right"
       />
-   
-  <div className="container mx-auto px-4 max-w-7xl">
 
-      
-       
+      <div className="container mx-auto px-4 max-w-7xl">
+
+
+
 
         <ul className="mt-6 space-y-3 text-gray-800">
           {[
@@ -72,7 +90,7 @@ export default function Fleet() {
             "Top safety kit like crash avoidance.",
             "Green choices that cut emissions.",
             "Extras you can add, like baby seats.",
-          
+
           ].map((item, i) => (
             <li key={i} className="flex items-start">
               <div className="flex-shrink-0 mt-1">

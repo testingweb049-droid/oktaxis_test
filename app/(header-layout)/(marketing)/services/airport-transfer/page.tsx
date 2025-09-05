@@ -34,6 +34,59 @@ export default function AirportTransfer() {
 
       <Offer />
       <ImageTextSection
+        imageSrc="/chauffeur.jpg"
+        imageAlt="Manchester Airport Transfers"
+        imagePosition="left"
+        headingAs="h2"
+
+        text={
+          <>
+            <p>
+              When you need a reliable chauffeur service at Manchester Airport, <strong className="text-brand underline"> OKTaxis</strong> stands out for its luxury, professionalism, and trust, making every journey smooth and stress-free. With years of experience chauffeuring business leaders, VIPs, and families since 2007, we turn hectic airport trips into calm experiences.
+            </p>
+            <p className="mt-4">
+              Based at 0B Portway, Wythenshaw, Manchester, we handle the third-busiest hub in the UK, serving 27 million passengers to 200 destinations with exceptional care. Our 5 stars on Google reflect our commitment to excellence, ensuring confidence for corporate or leisure travellers.
+            </p>
+          </>
+        }
+
+      />
+      <div className="container mx-auto px-4 max-w-7xl">
+
+        <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
+
+          Our licensed chauffeurs, trained with advanced driving credentials, deliver elite standards with security and discretion — perfect for overseas delegations or high-profile clients. Unlike non-compliant providers risking fines or reputational damage, we’re fully compliant with regulations, insurance, and GDPR-assured data protection.
+
+
+        </p>
+        <p className=" text-lg  text-gray-700 pb-4 leading-relaxed">
+          Clients like Sully from Derby and Jane praise our courteous, immaculate presentation, while our personalised care — including female chauffeurs on request — makes us the best chauffeur service at Manchester Airport. Book via <strong className="text-brand underline">OKTaxis.co.uk</strong>  or call <strong className="text-brand"> +44 7788 710290</strong> for tailored airport transfers in Manchester.
+
+
+
+
+        </p>
+
+        <ul className="mt-6 space-y-3 text-gray-800">
+          {[
+            "Trusted Expertise: Over 15 years of professional service with 5-star ratings.",
+            "Safe and Discreet: Licensed, insured drivers with privacy-first options.",
+            "Personalised Service: Bespoke transfers for business or family needs.",
+            "Compliant Operations: Full adherence to regulations for peace of mind.",
+            "Local Knowledge: Navigating Northwest England for smooth, timely rides."
+          ].map((item, i) => (
+            <li key={i} className="flex items-start">
+              <div className="flex-shrink-0 mt-1">
+                <div className="w-6 h-6 bg-brand rounded-full flex items-center justify-center">
+                  <Check className="w-4 h-4 text-white" />
+                </div>
+              </div>
+              <span className="ml-3 text-base md:text-lg">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <ImageTextSection
         imageSrc="/images/airport-transfer.png"
         imageAlt="Manchester Airport Transfers"
         imagePosition="right"

@@ -35,6 +35,63 @@ export default function Liverpool() {
 
             <Offer />
             <ImageTextSection
+                imageSrc="/city-center4.jpg"
+                imageAlt="Manchester Airport Transfers"
+                imagePosition="left"
+                headingAs="h2"
+
+                text={
+                    <>
+                        <p>
+                            Selecting the ideal chauffeur service in <strong>Liverpool</strong> truly elevates your premier travel
+                            experience, and at <span className="text-brand">OK Taxis</span>, we excel with reliable luxury executive
+                            services centred on supreme comfort and style. Our professional chauffeurs bring vast experience and
+                            unwavering punctuality, ensuring effortless arrivals at every destination.
+                        </p>
+                        <p>
+                            We understand the pressures of business trips or special occasions, so our stress-free journeys allow you to
+                            unwind completely. As Viktor, the dedicated owner with years in the industry, I've witnessed how our excellence
+                            transforms ordinary rides into memorable ones. Operating from 0B Portway, Wythenshawe, Manchester, we're easily
+                            reachable at <strong className="text-brand">+44 7788 710290</strong> or <strong>info@oktaxis.co.uk</strong> for prompt assistance.
+                        </p>
+                    </>
+                }
+
+            />
+            <div className="container mx-auto px-4 max-w-7xl">
+
+                <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
+
+                      
+                What distinguishes us is seamless transportation addressing real challenges like delayed flights or hectic
+                schedules, with vehicles impeccably maintained for safety and equipped with complimentary Wi-Fi and bottled water.
+                We manage corporate events, airport transfers, and more with discreet professionalism, drawing on my career to
+                make every passenger feel valued. Our knowledgeable drivers master local routes to dodge delays, establishing us
+                as the trusted name redefining travel across the United Kingdom.
+              
+
+                </p>
+               
+
+                <ul className="mt-6 space-y-3 text-gray-800">
+                    {[
+                        "Reliable chauffeurs for punctual pickups.",
+                    "Luxury vehicles with comfort features.",
+                    "Stress-free journeys tailored to your needs.",
+                    "Professional service ensuring safety and discretion."
+                    ].map((item, i) => (
+                        <li key={i} className="flex items-start">
+                            <div className="flex-shrink-0 mt-1">
+                                <div className="w-6 h-6 bg-brand rounded-full flex items-center justify-center">
+                                    <Check className="w-4 h-4 text-white" />
+                                </div>
+                            </div>
+                            <span className="ml-3 text-base md:text-lg">{item}</span>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            <ImageTextSection
                 imageSrc="/liverpool.jpg"
                 imageAlt="Manchester Airport Transfers"
                 imagePosition="right"
@@ -203,7 +260,7 @@ export default function Liverpool() {
                 headingAs="h2"
                 title={
                     <>
-                       
+
                         <span className="text-brand"> Luxury Vehicles </span> for Every{" "}
                         <span className="text-brand"> Occasion</span>
                     </>
