@@ -263,48 +263,48 @@ function CarList() {
                     </button>
                   )}
 
-                {category === "trips" && (
-  <div className="flex flex-row md:flex-col gap-3 w-full">
-    {/* One Way */}
-    <div className="flex flex-col gap-1 w-full">
-      <p className="text-center font-bold">One Way</p>
-      <button
-        type="button"
-        onClick={() => {
-          setValue("is_return", false);
-          setValue("car", item.cars);
-          setValue("price", price);
-          NextStep();
-        }}
-        className="w-full bg-black text-white px-4 py-3 rounded-xl text-center font-bold cursor-pointer"
-      >
-        £ {price}
-      </button>
-    </div>
+                  {category === "trips" && (
+                    <div className="flex flex-row md:flex-col gap-3 w-full">
+                      {/* One Way */}
+                      <div className="flex flex-col gap-1 w-full">
+                        <p className="text-center font-bold">One Way</p>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setValue("is_return", false);
+                            setValue("car", item.cars);
+                            setValue("price", price);
+                            NextStep();
+                          }}
+                          className="w-full bg-black text-white px-4 py-3 rounded-xl text-center font-bold cursor-pointer"
+                        >
+                          £ {price}
+                        </button>
+                      </div>
 
-    {/* Return Way */}
-    <div className="flex flex-col gap-1 w-full">
-      <p className="text-center font-bold">Return Way</p>
-      <button
-        type="button"
-        onClick={() => {
-          setValue("is_return", true);
-          setValue("car", item.cars);
-          setValue("price", returnPrice);
-          NextStep();
-        }}
-        className="relative w-full bg-black text-white px-4 py-3 rounded-xl text-center font-bold cursor-pointer"
-      >
-        £ {returnPrice}
-        {discountPercent > 0 && (
-          <span className="absolute -top-1 -right-1 px-1.5 text-[10px] sm:text-xs sm:px-2 sm:py-1 bg-brand rounded-lg text-white font-semibold z-10">
-            {discountPercent}% off
-          </span>
-        )}
-      </button>
-    </div>
-  </div>
-)}
+                      {/* Return Way */}
+                      <div className="flex flex-col gap-1 w-full">
+                        <p className="text-center font-bold">Return Way</p>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setValue("is_return", true);
+                            setValue("car", item.cars);
+                            setValue("price", returnPrice);
+                            NextStep();
+                          }}
+                          className="relative w-full bg-black text-white px-4 py-3 rounded-xl text-center font-bold cursor-pointer"
+                        >
+                          £ {returnPrice}
+                          {discountPercent > 0 && (
+                            <span className="absolute -top-1 -right-1 px-1.5 text-[10px] sm:text-xs sm:px-2 sm:py-1 bg-brand rounded-lg text-white font-semibold z-10">
+                              {discountPercent}% off
+                            </span>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  )}
 
                 </>
               ) : (
