@@ -490,8 +490,8 @@ function MobileDateTimePicker({
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/50 z-20" onClick={() => setOpen(false)} />
-      <div className="fixed inset-x-4 top-1/2 -translate-y-1/2 z-30 bg-black text-white rounded-xl shadow-2xl border border-gray-700 overflow-hidden h-auto max-h-[320px]">
+      <div className="fixed inset-0 bg-black/50 z-20 " onClick={() => setOpen(false)} />
+      <div className="fixed inset-x-4 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2  z-30 bg-black text-white rounded-xl shadow-2xl border border-gray-700 overflow-hidden h-auto max-h-[320px] w-60">
         <TabNavigation isDate={isDate} setIsDate={setIsDate} isMobile={true} />
 
         {isDate ? (
