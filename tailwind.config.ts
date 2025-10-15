@@ -13,7 +13,7 @@ const config = {
   theme: {
     extend: {
       colors: {
-        brand:'#F4910B',
+        brand:'#FFB400',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
