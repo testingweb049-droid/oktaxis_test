@@ -9,6 +9,7 @@ import ImageTextSection from "@/components/ui/ImageTextSection";
 import Seo from "../../components/Seo";
 import { Check, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import NewHeroSection from "./book-ride/NewHeroSection";
 // home
 export default function Home() {
   return (
@@ -20,7 +21,8 @@ export default function Home() {
         image="https://oktaxis.com/og-image.jpg"
       />
       <main className="min-h-screen">
-        <HeroSection />
+        <NewHeroSection/>
+        {/* <HeroSection /> */}
         <Services />
 
         <ImageTextSection

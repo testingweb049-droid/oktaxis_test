@@ -3,19 +3,21 @@ import React from 'react'
 import useFormStore from '@/stores/FormStore'
 import LocationInput from './LocationPicker'
 import { Loader } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 function HeroForm() {
   const { category, changeCategory, formError, formLoading, changeStep, formData, manageStops, setFormData } = useFormStore()
-  console.log("formData ",formData)
+  console.log("formData ",formData);
+  const router = useRouter()
 
   return (
     <div className='flex flex-col gap-5 w-full max-w-screen-sm'>
-      <div className='grid grid-cols-2 gap-5'>
+      <div className='grid grid-cols-3 lg:grid-cols-2 gap-5 max-lg:px-3 '>
         <div onClick={() => changeCategory('trip')} className={`p-2 w-full text-center font-semibold rounded-lg cursor-pointer ${category==='trip' ? 'bg-brand' : 'bg-white'}`}>Trip</div>
         <div onClick={() => changeCategory('hourly')} className={`p-2 w-full text-center font-semibold rounded-lg cursor-pointer ${category==='hourly' ? 'bg-brand' : 'bg-white'}`}>Hourly</div>
       </div>
 
-      <div className='p-3 rounded-lg bg-white flex flex-col gap-3'>
+      <div className='p-3 rounded-lg bg-white flex flex-col gap-3 border border-b'>
         <div className='flex gap-3 items-start'>
           {/* Left: Inputs */}
           <div className='flex flex-col gap-3 w-full'>
@@ -75,7 +77,7 @@ function HeroForm() {
         nodes.push(
           <div key={`between-${i}`} className="flex flex-col items-center">
            
-            <div className="w-px h-[9px] border-l-2 border-dotted border-gray-300" />
+            <div className="w-px h-[4.5px] sm:h-[9px] border-l-2 border-dotted border-gray-300" />
 
            
             <button
@@ -88,7 +90,7 @@ function HeroForm() {
             </button>
 
             
-            <div className="w-px h-[9px] border-l-2 border-dotted border-gray-300" />
+            <div className="w-px h-[4.5px] sm:h-[9px] border-l-2 border-dotted border-gray-300" />
           </div>
         );
       }
@@ -102,7 +104,7 @@ function HeroForm() {
 
         {formError && <div className='text-sm text-red-500'>{formError}</div>}
 
-        <div onClick={() => changeStep(true)} className={`flex items-center justify-center gap-2 w-full p-2 rounded-lg cursor-pointer font-semibold ${formLoading ? 'bg-blue-500 text-white' : 'bg-brand text-black '} `}>
+        <div onClick={async() => { const isOk = await changeStep(true); console.log("ikOk",isOk); if(isOk){router.replace('/book-ride')}}} className={`flex items-center justify-center gap-2 w-full p-2 rounded-lg cursor-pointer font-semibold ${formLoading ? 'bg-blue-500 text-white' : 'bg-brand text-black '} `}>
           <Loader className={`animate-spin ${formLoading ? '' : 'hidden'}`} size={20} />
           {formLoading ? 'Loading' : 'Quote Now'}
         </div>
