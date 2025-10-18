@@ -36,7 +36,7 @@ const commonFormDataFields = {
     coardinatesRequired: false,
   },
   car: { value: "", error: "", required: true, step: 2, coardinates: "", coardinatesRequired: false },
-  price: { value: "", error: "", required: true, step: 2, coardinates: "", coardinatesRequired: false },
+  price: { value: "20", error: "", required: true, step: 2, coardinates: "", coardinatesRequired: false },
   name: { value: "", error: "", required: true, step: 3, coardinates: "", coardinatesRequired: false },
   phone: { value: "", error: "", required: true, step: 3, coardinates: "", coardinatesRequired: false },
   email: { value: "", error: "", required: true, step: 3, coardinates: "", coardinatesRequired: false },

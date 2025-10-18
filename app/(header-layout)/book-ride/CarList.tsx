@@ -59,7 +59,7 @@ function CarList() {
   const handleSelect = (item: (typeof fleets)[0],price:number) => {
     setFormData("car", item.name, '');
     setFormData("price", price.toString(), '');
-    changeStep(true);
+    changeStep(true,2);
   };
 
   return (
@@ -74,8 +74,8 @@ function CarList() {
         return <div
           key={item.name}
           className={cn(
-            "grid max-md:grid-cols-6 grid-cols-4 gap-1 lg:gap-5 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden p-2 md:p-3",
-            "hover:shadow-md transition-shadow duration-200"
+            "grid max-md:grid-cols-6 grid-cols-4 gap-1 lg:gap-5 bg-white border  rounded-xl shadow-sm overflow-hidden p-2 md:p-3",
+            "hover:shadow-md transition-shadow duration-200" , item.name===formData.car.value ? 'border-brand' : 'border-gray-200'
           )}
         >
           {/* Image Section */}
@@ -126,7 +126,7 @@ function CarList() {
           </div>
         </div>
       })}
-       <div onClick={()=>{changeStep(false);}} className='p-2 rounded-lg border border-gray-500 w-full text-center text-gray-700 font-semibold cursor-pointer'>
+       <div onClick={()=>{changeStep(false,2);}} className='p-2 rounded-lg border border-gray-500 w-full text-center text-gray-700 font-semibold cursor-pointer'>
                     Back 
          </div>
     </div>

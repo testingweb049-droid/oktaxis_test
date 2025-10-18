@@ -63,10 +63,10 @@ const bagsArray = Array.from(
         <SelectableCheckbox fieldName='isFlightTrack' label='Flight Track' subLabel='£ 7'  />
         <SelectableCheckbox fieldName='isMeetGreet' label='Meet & Greet' subLabel='£ 15'  />
         </div>
-         <div onClick={()=>{changeStep(true);}} className='p-2 rounded-lg border border-gray-200 w-full text-center text-black font-bold cursor-pointer bg-brand'>
+         <div onClick={()=>{changeStep(true,3);}} className='p-2 rounded-lg border border-gray-200 w-full text-center text-black font-bold cursor-pointer bg-brand'>
                     Continue 
          </div>
-         <div onClick={()=>{changeStep(false);}} className='p-2 rounded-lg border border-gray-500 w-full text-center text-gray-700 font-semibold cursor-pointer'>
+         <div onClick={()=>{changeStep(false,3);}} className='p-2 rounded-lg border border-gray-500 w-full text-center text-gray-700 font-semibold cursor-pointer'>
                     Back 
          </div>
     </div>

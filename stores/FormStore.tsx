@@ -44,6 +44,7 @@ interface FormStoreType {
   step: number;
   category: "trip" | "hourly";
   formError: string;
+  isOrderDone: boolean;
   formLoading: boolean;
   formData: FormDataType;
   setFormData: (
@@ -57,8 +58,8 @@ interface FormStoreType {
     required:  boolean ,
    
   ) => void;
-  validateData: () => boolean;
-  changeStep: (isNext: boolean) => Promise<boolean>;
+  validateData: ( _step:number) => boolean;
+  changeStep: (isNext: boolean, _step:number) => Promise<boolean>;
   changeCategory: (newCategory: "trip" | "hourly") => void;
   manageStops: (action: "add" | "remove", index?: number) => void;
   resetForm: () => void;
@@ -81,7 +82,7 @@ const useFormStore = create<FormStoreType>((set, get) => ({
   formError: "",
   formLoading: false,
   formData: tripInitialFormData,
-
+  isOrderDone: false,
   setFormData: (key, value, coardinates = "", index) => {
     if (key === "stops" && typeof index === "number") {
       set((state) => {
@@ -108,8 +109,8 @@ const useFormStore = create<FormStoreType>((set, get) => ({
     }));
   },
 
-  validateData: () => {
-    const { step, formData } = get();
+  validateData: (_step:number) => {
+    const { formData } = get();
 
     // Validate all fields (including dynamic stops)
     const updated: FormDataType = { ...formData };
@@ -118,15 +119,15 @@ const useFormStore = create<FormStoreType>((set, get) => ({
     (Object.keys(formData) as (keyof FormDataType)[]).forEach((k) => {
       if (k === "stops") return;
       const item = formData[k] as FieldType<string>;
-      const hasErr = item.step === step && item.required && !item.value;
-      const hasErr2 = item.step === step && item.coardinatesRequired && !item.coardinates;
+      const hasErr = item.step === _step && item.required && !item.value;
+      const hasErr2 = item.step === _step && item.coardinatesRequired && !item.coardinates;
       (updated[k] as FieldType<string>) = { ...item, error: hasErr ? `${k} is required` : hasErr2 ? `${k} coordinates required` : "" };
     });
 
     // validate stops
     const stopsUpdated = formData.stops.map((s) => {
-      const hasErr = s.step === step && s.required && !s.value;
-      const hasErr2 = s.step === step && s.coardinatesRequired && !s.coardinates;
+      const hasErr = s.step === _step && s.required && !s.value;
+      const hasErr2 = s.step === _step && s.coardinatesRequired && !s.coardinates;
       return { ...s, error: hasErr ? `stop is required` : hasErr2 ? `stop coordinates required` : "" };
     });
 
@@ -146,26 +147,26 @@ const useFormStore = create<FormStoreType>((set, get) => ({
     return anyErrorField;
   },
 
-  changeStep: async (isNext: boolean) => {
-    const { step, formData, category, validateData } = get();
+  changeStep: async (isNext: boolean, _step:number) => {
+    const { formData, category, validateData } = get();
     if (!isNext) {
       set((state) => ({
         ...state,
-        step: isNext ? state.step + 1 : Math.max(1, state.step - 1),
+        step: isNext ? _step + 1 : Math.max(1, _step - 1),
       }));
       return true;
     }
 
     set((state) => ({ ...state, formError: "", formLoading: true }));
 
-    if (validateData()) {
+    if (validateData(_step)) {
       console.log("not validate")
       set((state) => ({ ...state, formError: "", formLoading: false }));
       return false;
     }
     
     console.log("validate")
-    if (step === 1 && category === "trip") {
+    if (_step === 1 && category === "trip") {
       try {
         const stopsCoords = formData.stops.map((s) => s.coardinates);
         const distanceResponse = await calculateDistance({
@@ -192,7 +193,7 @@ const useFormStore = create<FormStoreType>((set, get) => ({
       }
     }
 
-    if (step === 4) {
+    if (_step === 4) {
       const orderData = Object.entries(formData).reduce<Record<string, any>>((acc, [key, item]) => {
         if (key === "stops") {
           acc.stops = formData.stops.map((s) => ({ value: s.value, coardinates: s.coardinates }));
@@ -214,9 +215,13 @@ const useFormStore = create<FormStoreType>((set, get) => ({
         return false;
       }
     }
-
-    set((state) => ({ ...state, formError: "", formLoading: false, step: isNext ? state.step + 1 : Math.max(1, state.step - 1) }));
-    return true;
+    if(_step===4 && isNext){
+      set((state) => ({ ...state, formError: "", formLoading: false, step: 1, isOrderDone:true }));
+      return true;
+    }
+    console.log("working fine : ",_step)
+    set((state) => ({ ...state, formError: "", formLoading: false, step: isNext ? _step + 1 : Math.max(1, _step - 1) }));
+    return true; 
   },
 
   changeCategory: (newCategory) => {

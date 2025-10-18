@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import useFormStore from '@/stores/FormStore'
 import LocationInput from './LocationPicker'
 import { Loader, TimerIcon } from 'lucide-react'
@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import NewDropdownInput from './DropDownInput'
 
 function HeroForm() {
-  const { category, changeCategory, formError, formLoading, changeStep, formData, manageStops, setFormData } = useFormStore()
+  const { category, changeCategory, formError, formLoading, changeStep, formData, manageStops, isOrderDone, step, resetForm } = useFormStore()
 
   const router = useRouter()
   const durationArray = Array.from({ length: 48 }, (_, i) => {
@@ -18,6 +18,13 @@ function HeroForm() {
       : `${hours} ${hours === 1 ? "Hour" : "Hours"}`
   return { label, value: hours.toString() }
 })
+
+useEffect(()=>{
+  if(isOrderDone){
+    resetForm()
+  }
+},[step, isOrderDone])
+
 
   return (
     <div className='flex flex-col gap-5 w-full max-w-screen-sm'>
@@ -114,7 +121,7 @@ function HeroForm() {
 
         {formError && <div className='text-sm text-red-500'>{formError}</div>}
 
-        <div onClick={async() => { const isOk = await changeStep(true); console.log("ikOk",isOk); if(isOk){router.replace('/book-ride')}}} className={`flex items-center justify-center gap-2 w-full p-2 rounded-lg cursor-pointer font-semibold ${formLoading ? 'bg-blue-500 text-white' : 'bg-brand text-black '} `}>
+        <div onClick={async() => { const isOk = await changeStep(true,1); console.log("ikOk",isOk); if(isOk){router.replace('/book-ride')}}} className={`flex items-center justify-center gap-2 w-full p-2 rounded-lg cursor-pointer font-semibold ${formLoading ? 'bg-blue-500 text-white' : 'bg-brand text-black '} `}>
           <Loader className={`animate-spin ${formLoading ? '' : 'hidden'}`} size={20} />
           {formLoading ? 'Loading' : 'Quote Now'}
         </div>
