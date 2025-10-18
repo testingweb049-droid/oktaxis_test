@@ -26,9 +26,9 @@ export default function Steps() {
             <div
               className={`flex items-center justify-center w-6 h-6 rounded-full border-2 text-sm font-medium transition-colors
                 ${
-                  step === stepData.id
+                  step === stepData.id + 1
                     ? "bg-gray-900 text-white border-gray-900"
-                    : step > stepData.id
+                    : step > stepData.id + 1
                     ? "bg-gray-900 text-white border-gray-900"
                     : "bg-gray-100 text-gray-400 border-gray-300"
                 }`}
@@ -37,7 +37,7 @@ export default function Steps() {
             </div>
             <span
               className={`text-sm font-medium max-lg:hidden ${
-                step === stepData.id ? "text-gray-900" : "text-gray-400"
+                step === stepData.id + 1 ? "text-gray-900" : "text-gray-400"
               }`}
             >
               {stepData.title}

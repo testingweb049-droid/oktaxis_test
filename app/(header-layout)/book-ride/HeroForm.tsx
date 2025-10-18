@@ -2,13 +2,22 @@
 import React from 'react'
 import useFormStore from '@/stores/FormStore'
 import LocationInput from './LocationPicker'
-import { Loader } from 'lucide-react'
+import { Loader, TimerIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import NewDropdownInput from './DropDownInput'
 
 function HeroForm() {
   const { category, changeCategory, formError, formLoading, changeStep, formData, manageStops, setFormData } = useFormStore()
-  console.log("formData ",formData);
+
   const router = useRouter()
+  const durationArray = Array.from({ length: 48 }, (_, i) => {
+  const hours = (i + 1) / 2
+  const label =
+    hours === 0.5
+      ? "0.5 Hour"
+      : `${hours} ${hours === 1 ? "Hour" : "Hours"}`
+  return { label, value: hours.toString() }
+})
 
   return (
     <div className='flex flex-col gap-5 w-full max-w-screen-sm'>
@@ -23,7 +32,7 @@ function HeroForm() {
           <div className='flex flex-col gap-3 w-full'>
            <LocationInput field="fromLocation" placeholder="Pickup Location" />
 
-      {formData.stops.map((_, i) => (
+      {category !== 'hourly' && formData.stops.map((_, i) => (
         <LocationInput
           key={i}
           field={`stops`}
@@ -36,7 +45,8 @@ function HeroForm() {
         />
       ))}
 
-      <LocationInput field="toLocation" placeholder="Drop Off Location" />
+     {category !== 'hourly' && <LocationInput field="toLocation" placeholder="Drop Off Location" />}
+     {category === 'hourly' && <NewDropdownInput Icon={TimerIcon} fieldName='duration' placeholder='Duration in Hours' options={durationArray} />}
           </div>
 
         

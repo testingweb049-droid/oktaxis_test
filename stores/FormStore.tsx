@@ -2,6 +2,7 @@
 
 import { createOrder } from "@/actions/add-order";
 import { calculateDistance } from "@/actions/get-distance";
+import { hourlyInitialFormData, tripInitialFormData } from "@/constants/storeInitailObjects";
 import { create } from "zustand";
 
 interface FieldType<T> {
@@ -16,7 +17,7 @@ interface FieldType<T> {
 export interface FormDataType {
   fromLocation: FieldType<string>;
   toLocation: FieldType<string>;
-  stops: FieldType<string>[];        // <- dynamic stops array
+  stops: FieldType<string>[];        
   duration: FieldType<string>;
   distance: FieldType<number>;
   car: FieldType<string>;
@@ -36,6 +37,7 @@ export interface FormDataType {
   isAirportPickup: FieldType<boolean>;
   isFlightTrack: FieldType<boolean>;
   isMeetGreet: FieldType<boolean>;
+  isReturn: FieldType<boolean>;
 }
 
 interface FormStoreType {
@@ -49,6 +51,11 @@ interface FormStoreType {
     value: string | boolean | number,
     coardinates?: string,
     index?: number
+  ) => void;
+  setFieldOptions: (
+    key: keyof FormDataType | "stops",
+    required:  boolean ,
+   
   ) => void;
   validateData: () => boolean;
   changeStep: (isNext: boolean) => Promise<boolean>;
@@ -66,111 +73,7 @@ const makeStop = (required = false): FieldType<string> => ({
   step: 1,
 });
 
-const tripInitialFormData: FormDataType = {
-  fromLocation: {
-    value: "",
-    coardinates: "",
-    error: "",
-    required: true,
-    coardinatesRequired: true,
-    step: 1,
-  },
-  toLocation: {
-    value: "",
-    coardinates: "",
-    error: "",
-    required: true,
-    step: 1,
-    coardinatesRequired: true,
-  },
-  stops: [], 
-  duration: {
-    value: "",
-    error: "",
-    required: false,
-    step: 1,
-    coardinates: "",
-    coardinatesRequired: false,
-  },
-  distance: {
-    value: 0,
-    error: "",
-    required: true,
-    step: 2,
-    coardinates: "",
-    coardinatesRequired: false,
-  },
-  car: { value: "", error: "", required: true, step: 2, coardinates: "", coardinatesRequired: false },
-  price: { value: "", error: "", required: true, step: 2, coardinates: "", coardinatesRequired: false },
-  name: { value: "", error: "", required: true, step: 3, coardinates: "", coardinatesRequired: false },
-  phone: { value: "", error: "", required: true, step: 3, coardinates: "", coardinatesRequired: false },
-  email: { value: "", error: "", required: true, step: 3, coardinates: "", coardinatesRequired: false },
-  date: { value: "", error: "", required: true, step: 3, coardinates: "", coardinatesRequired: false },
-  time: { value: "", error: "", required: true, step: 3, coardinates: "", coardinatesRequired: false },
-  returnDate: { value: "", error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
-  returnTime: { value: "", error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
-  passengers: { value: "", error: "", required: true, step: 3, coardinates: "", coardinatesRequired: false },
-  bags: { value: "", error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
-  flightName: { value: "", error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
-  flightNumber: { value: "", error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
-  isAirportPickup: { value: false, error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
-  isFlightTrack: { value: false, error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
-  isMeetGreet: { value: false, error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
-  paymentId: { value: "", error: "", required: false, step: 4, coardinates: "", coardinatesRequired: false },
-};
 
-const hourlyInitialFormData: FormDataType = {
-  fromLocation: {
-    value: "",
-    coardinates: "",
-    error: "",
-    required: true,
-    coardinatesRequired: true,
-    step: 1,
-  },
-  toLocation: {
-    value: "",
-    coardinates: "",
-    error: "",
-    required: false,
-    step: 1,
-    coardinatesRequired: false,
-  },
-  stops: [], // keep dynamic
-  duration: {
-    value: "",
-    error: "",
-    required: true,
-    step: 1,
-    coardinates: "",
-    coardinatesRequired: false,
-  },
-  distance: {
-    value: 0,
-    error: "",
-    required: false,
-    step: 2,
-    coardinates: "",
-    coardinatesRequired: false,
-  },
-  car: { value: "", error: "", required: true, step: 2, coardinates: "", coardinatesRequired: false },
-  price: { value: "", error: "", required: true, step: 2, coardinates: "", coardinatesRequired: false },
-  name: { value: "", error: "", required: true, step: 3, coardinates: "", coardinatesRequired: false },
-  phone: { value: "", error: "", required: true, step: 3, coardinates: "", coardinatesRequired: false },
-  email: { value: "", error: "", required: true, step: 3, coardinates: "", coardinatesRequired: false },
-  date: { value: "", error: "", required: true, step: 3, coardinates: "", coardinatesRequired: false },
-  time: { value: "", error: "", required: true, step: 3, coardinates: "", coardinatesRequired: false },
-  returnDate: { value: "", error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
-  returnTime: { value: "", error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
-  passengers: { value: "", error: "", required: true, step: 3, coardinates: "", coardinatesRequired: false },
-  bags: { value: "", error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
-  flightName: { value: "", error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
-  flightNumber: { value: "", error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
-  isAirportPickup: { value: false, error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
-  isFlightTrack: { value: false, error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
-  isMeetGreet: { value: false, error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
-  paymentId: { value: "", error: "", required: false, step: 4, coardinates: "", coardinatesRequired: false },
-};
 
 const useFormStore = create<FormStoreType>((set, get) => ({
   step: 1,
@@ -192,6 +95,15 @@ const useFormStore = create<FormStoreType>((set, get) => ({
       formData: {
         ...state.formData,
         [key]: { ...state.formData[key as keyof FormDataType], value, coardinates, error:''  },
+      },
+    }));
+  },
+  setFieldOptions: (key, required) => {
+    if(key==='stops') return;
+    set((state) => ({
+      formData: {
+        ...state.formData,
+        [key]: { ...state.formData[key as keyof FormDataType], error:'', required  },
       },
     }));
   },
@@ -320,7 +232,6 @@ const useFormStore = create<FormStoreType>((set, get) => ({
   manageStops: (action, index) => {
     const { formData } = get();
     if (action === "add") {
-      // always add at the end (logic wise); UI will show + between items but we append
       set((state) => ({ ...state, formData: { ...state.formData, stops: [...state.formData.stops.slice(0,index), makeStop(true), ...state.formData.stops.slice(index,state.formData.stops.length ),] } }));
       return;
     }

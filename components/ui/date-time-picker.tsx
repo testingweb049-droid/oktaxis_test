@@ -492,10 +492,9 @@ function MobileDateTimePicker({
     <>
       <div className="fixed inset-0 bg-black/50 z-20 " onClick={() => setOpen(false)} />
       <div className="fixed inset-x-4 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2  z-30 bg-black text-white rounded-xl shadow-2xl border border-gray-700 overflow-hidden h-auto max-h-[320px] w-60">
-        <TabNavigation isDate={isDate} setIsDate={setIsDate} isMobile={true} />
+        
 
-        {isDate ? (
-          <CalendarView
+        <CalendarView
             currentMonth={currentMonth}
             setCurrentMonth={setCurrentMonth}
             daysOfWeek={daysOfWeek}
@@ -504,18 +503,8 @@ function MobileDateTimePicker({
             minSelectableDate={minSelectableDate}
             handleDateSelect={handleDateSelect}
           />
-        ) : (
-          <TimePickerView
-            selectedTime={selectedTime}
-            getDisplayHour={getDisplayHour}
-            getAmPm={getAmPm}
-            handleHourChange={handleHourChange}
-            handleMinuteChange={handleMinuteChange}
-            handlePeriodChange={handlePeriodChange}
-            handleMouseDown={handleMouseDown}
-            isMobile={true}
-          />
-        )}
+          <input className="w-full" type="time" />
+        
 
         {bothSelected && (
           <div className="p-3 border-t border-gray-700">
@@ -568,28 +557,16 @@ function DesktopDateTimePicker({
     <div className="absolute left-0 top-full mt-2 z-30 bg-black text-white rounded-xl shadow-2xl border border-gray-700 overflow-hidden w-full max-w-xs">
       <TabNavigation isDate={isDate} setIsDate={setIsDate} isMobile={false} />
 
-      {isDate ? (
         <CalendarView
-          currentMonth={currentMonth}
-          setCurrentMonth={setCurrentMonth}
-          daysOfWeek={daysOfWeek}
-          calendarDays={calendarDays}
-          selectedDate={selectedDate}
-          minSelectableDate={minSelectableDate}
-          handleDateSelect={handleDateSelect}
-        />
-      ) : (
-        <TimePickerView
-          selectedTime={selectedTime}
-          getDisplayHour={getDisplayHour}
-          getAmPm={getAmPm}
-          handleHourChange={handleHourChange}
-          handleMinuteChange={handleMinuteChange}
-          handlePeriodChange={handlePeriodChange}
-          handleMouseDown={handleMouseDown}
-          isMobile={false}
-        />
-      )}
+            currentMonth={currentMonth}
+            setCurrentMonth={setCurrentMonth}
+            daysOfWeek={daysOfWeek}
+            calendarDays={calendarDays}
+            selectedDate={selectedDate}
+            minSelectableDate={minSelectableDate}
+            handleDateSelect={handleDateSelect}
+          />
+          <input className="w-full" type="time" />
 
       {bothSelected && (
         <div className="p-3 border-t border-gray-700">
