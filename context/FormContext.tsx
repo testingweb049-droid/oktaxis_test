@@ -160,10 +160,10 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
       }));
 
       console.log('response : ', response)
-      if (response.status === 201 && response.order?.[0]) {
-        setOrder(response.order[0]) // Cast response to OrderProps if needed
+      if (response.status === 201 && response.order) {
+        setOrder(response.order) 
         resetForm();
-        router.push('/order-placed') // no query param required
+        router.push('/order-placed') 
       }
 
       setError(response.error)
@@ -191,8 +191,8 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
             });
             return;
           }
-
-          const res = await calculateDistance({ from, to });
+          const stops:string[] = []
+          const res = await calculateDistance({ from,to, stops});
           if (res.status !== 200) {
             toast({
               variant: "destructive",
@@ -202,8 +202,8 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
             return;
           }
 
-          if (res.distance) {
-            setValue('distance', res.distance.toString());
+          if (res.kmDistance) {
+            setValue('distance', res.kmDistance.toString());
           }
         }
 
