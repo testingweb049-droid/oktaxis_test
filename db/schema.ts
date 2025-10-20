@@ -5,6 +5,7 @@ import {
   pgTable,
   integer,
   boolean,
+  text
 } from "drizzle-orm/pg-core";
 
 export const orders = pgTable("okataxis_orders", {
@@ -13,9 +14,7 @@ export const orders = pgTable("okataxis_orders", {
   price: varchar("price").notNull(),
   car: varchar("car").notNull(),
   distance: varchar("distance"),
-  stop_1: varchar("stop_1"),
-  stop_2: varchar("stop_2"),
-  stop_3: varchar("stop_3"),
+  stops: text("stops").array(),
   pickup_date: timestamp("pickup_date"),
   pickup_time: varchar("pickup_time"),
   return_date: timestamp("return_date"),

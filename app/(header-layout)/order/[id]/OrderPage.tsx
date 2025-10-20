@@ -41,6 +41,9 @@ function OrderPage({ id }: { id: string }) {
   }
 
   return (
+    <div className=''>
+    <div className='h-24 bg-black'></div>
+   
     <div className="bg-gray-100 py-28 flex justify-center items-center min-h-screen border-b border-gray-300">
       <div className="max-w-4xl w-full bg-white p-6 sm:p-10 rounded-xl shadow-lg border border-gray-200">
         {/* Main Headings */}
@@ -100,9 +103,9 @@ function OrderPage({ id }: { id: string }) {
 
         {/* Optional Stops & Timing */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm text-gray-700 mb-10">
-          {order.stop_1 && <Field label="Stop 1 Location" value={order.stop_1} />}
-          {order.stop_2 && <Field label="Stop 2 Location" value={order.stop_2} />}
-          {order.stop_3 && <Field label="Stop 3 Location" value={order.stop_3} />}
+          {order.stops?.map((item,i)=>{
+            return <Field key={i} label={`Stop ${i+1} Location`} value={item} />
+          })}
           {/* {order.duration && <Field label="Duration" value={`${order.duration} Hours`} />} */}
           {order.is_return && (
             <>
@@ -133,6 +136,7 @@ function OrderPage({ id }: { id: string }) {
 
       </div>
     </div>
+     </div>
   );
 }
 

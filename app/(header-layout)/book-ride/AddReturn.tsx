@@ -12,7 +12,7 @@ export default function AddReturn() {
   const to = formData.toLocation?.value || ""
   const isReturn = formData.isReturn?.value || false
 
-  const discountedPrice = basePrice + (basePrice - basePrice / 10)
+  const discountedPrice = basePrice - (basePrice / 10)
   const formattedPrice = discountedPrice.toFixed(2)
 
   const headingText = `Heading back to ${from || "your location"}?`

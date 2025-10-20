@@ -9,22 +9,15 @@ interface FrontendOrderData {
   [key: string]: any;
 }
 
-/**
- * Creates a new order in the database and sends a confirmation email.
- */
 export async function createOrder(data: FrontendOrderData) {
   try {
-    // 🧩 Convert frontend data to match your database schema exactly
+   
     const orderData = {
       category: String(data.category || 'trip'),
       price: String(data.price || '0'),
       car: String(data.car || ''),
       distance: data.distance ? String(data.distance) : null,
-      stop_1: data.stop1 || null,
-      stop_2: data.stop2 || null,
-      stop_3: data.stop3 || null,
-
-      // convert date strings to valid timestamps for drizzle
+      stops: data.stops,
       pickup_date: data.date ? new Date(data.date) : null,
       pickup_time: String(data.time || ''),
       return_date: data.returnDate ? new Date(data.returnDate) : null,
@@ -51,7 +44,7 @@ export async function createOrder(data: FrontendOrderData) {
       meet_greet: Boolean(data.isMeetGreet),
     };
 
-    // 🧾 Insert order into DB and return inserted row
+    
     const inserted = await db.insert(orders).values(orderData).returning();
     const order = inserted[0];
 

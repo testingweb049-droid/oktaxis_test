@@ -9,7 +9,9 @@ import BackButton from './BackButton'
 
 function Step4() {
     const { formData } = useFormStore()
-    const totalPrice = (Number(formData.price.value) + (formData.isMeetGreet.value ? 15 : 0) + (formData.isFlightTrack.value ? 7 : 0)).toFixed(2)
+    const basePrice = Number(formData.price.value ?? 0)
+    const returnPrice = formData.isReturn ?  basePrice - (basePrice / 10) : 0
+    const totalPrice = (Number(formData.price.value) + (formData.isMeetGreet.value ? 15 : 0) + (formData.isFlightTrack.value ? 7 : 0) + returnPrice).toFixed(2)
   return (
     <div className='flex flex-col gap-10 w-full'>
         <div className='flex flex-col gap-6 w-full'>
@@ -27,6 +29,10 @@ function Step4() {
                    {formData.isFlightTrack.value && <div className='flex items-center justify-between gap-2'>
                       <div className='text-sm text-gray-500'>Flight Track</div>
                       <div className='text-sm text-gray-500'>£ 7</div>
+                   </div>}
+                   {returnPrice > 0 && <div className='flex items-center justify-between gap-2'>
+                      <div className='text-sm text-gray-500'>Return Transfer</div>
+                      <div className='text-sm text-gray-500'>£ {returnPrice}</div>
                    </div>}
                   
                 </div>

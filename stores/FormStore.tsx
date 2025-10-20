@@ -45,6 +45,7 @@ interface FormStoreType {
   isMobileDropdownOpen: boolean;
   category: "trip" | "hourly";
   formError: string;
+  orderId: string;
   isOrderDone: boolean;
   formLoading: boolean;
   formData: FormDataType;
@@ -86,6 +87,7 @@ const useFormStore = create<FormStoreType>((set, get) => ({
   formLoading: false,
   formData: tripInitialFormData,
   isOrderDone: false,
+  orderId:'',
   setFormData: (key, value, coardinates = "", index) => {
     if (key === "stops" && typeof index === "number") {
       set((state) => {
@@ -212,7 +214,7 @@ const useFormStore = create<FormStoreType>((set, get) => ({
           set({ formError: response.error, formLoading: false });
           return false;
         }
-        set({ formError: "", formLoading: false });
+        set({ formError: "", formLoading: false, orderId:response?.order?.id ?? ''  });
       } catch (error) {
         set({ formError: error instanceof Error ? error.message : "Failed to place order", formLoading: false });
         return false;
@@ -254,7 +256,7 @@ const useFormStore = create<FormStoreType>((set, get) => ({
     set((state)=>({...state, isMobileDropdownOpen:!state.isMobileDropdownOpen}))
   },
   
-  resetForm: () => set({ formData: tripInitialFormData, step: 1, category: "trip", formError: "", formLoading: false, isMobileDropdownOpen:false, isOrderDone:false }),
+  resetForm: () => set({ formData: tripInitialFormData, step: 1, category: "trip", formError: "", formLoading: false, isMobileDropdownOpen:false, isOrderDone:false, orderId:'' }),
 }));
 
 export default useFormStore;

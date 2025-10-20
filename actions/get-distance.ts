@@ -3,22 +3,17 @@
 export async function calculateDistance({
   from,
   to,
-  stop1,
-  stop2,
-  stop3,
+  stops,
 }: {
   from: string;
   to: string;
-  stop1?: string;
-  stop2?: string;
-  stop3?: string;
+  stops: string[];
 }) {
   try {
     if (!from || !to) {
       return { error: 'Both "from" and "to" parameters are required.' };
     }
 
-    const stops = [stop1, stop2, stop3].filter(Boolean) as string[];
 
     // Create route chain — always start from 'from' and end at 'to'
     const routePoints = [from, ...stops, to];

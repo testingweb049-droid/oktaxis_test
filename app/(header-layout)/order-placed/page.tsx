@@ -9,7 +9,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 function Page() {
-const { isOrderDone, formData, category }  = useFormStore()
+const { isOrderDone, formData, category, orderId }  = useFormStore()
 const router = useRouter()
 
  const { fromLocation, toLocation, stops, duration } = formData;
@@ -69,7 +69,11 @@ useEffect(()=>{
               </div>
 
               <div className='flex items-center justify-end w-full'>
+                <div className='flex items-center gap-5'>
+
                 <Link className='bg-brand px-3 py-2 text-black w-fit rounded-md' href='/' >Home</Link>
+                <Link className='bg-brand px-3 py-2 text-black w-fit rounded-md' href={`/order/${orderId}`} >View Order Details</Link>
+                </div>
               </div>
 
             </div>
