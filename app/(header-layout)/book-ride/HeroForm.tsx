@@ -34,7 +34,7 @@ useEffect(()=>{
       </div>
 
       <div className='p-3 rounded-lg bg-white flex flex-col gap-3 border border-b'>
-        <div className='flex gap-3 items-start'>
+        <div className='flex gap-3 items-start lg:max-h-[250px] lg:overflow-y-auto lg:p-1'>
           {/* Left: Inputs */}
           <div className='flex flex-col gap-3 w-full'>
            <LocationInput field="fromLocation" placeholder="Pickup Location" />

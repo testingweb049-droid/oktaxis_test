@@ -121,9 +121,9 @@ export default function GoogleMapsRoute() {
 
   return (
     <div
-      className={`w-full h-[350px] rounded-2xl overflow-hidden bg-white border-4 border-brand shadow-sm flex flex-col`}
+      className={`w-full h-[350px] rounded-2xl overflow-hidden bg-white border-2 lg:border-4 border-brand shadow-sm flex flex-col`}
     >
-      <div ref={mapRef} className="w-full h-full rounded-2xl" />
+      <div ref={mapRef} className="w-full h-full rounded-sm" />
       <div className="py-1 flex items-center gap-3 px-2 ">
       <div className="py-1 flex items-center gap-1 ">
        <Route color={brandColor} size={15}/>

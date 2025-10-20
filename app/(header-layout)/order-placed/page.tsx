@@ -4,11 +4,11 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { fleets } from '../book-ride/CarList'
 import { MdDone } from 'react-icons/md'
-import { PlaneIcon } from 'lucide-react'
+import { LocateIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-function page() {
+function Page() {
 const { isOrderDone, formData, category }  = useFormStore()
 const router = useRouter()
 
@@ -38,27 +38,27 @@ useEffect(()=>{
     <div className=' w-full bg-slate-100 flex flex-col min-h-[50vh]'>
         <div className='h-24 w-full bg-black'></div>
 
-        <div className='max-w-screen-lg mx-auto py-32 w-full flex items-center justify-center flex-col gap-16 text-center'>
+        <div className='max-w-screen-lg mx-auto py-16 lg:py-24 w-full flex items-center justify-center flex-col gap-6 lg:gap-12 text-center p-3'>
             
-            <div className='w-full flex items-center justify-center flex-col gap-6'>
-                <MdDone className='p-2 text-white bg-green-500 rounded-full ' size={35} />
-            <div className='text-gray-700 '>Great choice, {formData.name.value}</div>
-            <div className='text-black text-3xl lg:text-6xl'>YOUR RESERVATION IS CONFIRMED</div>
-            <div className='text-gray-700'>We've sent a confirmation email to {formData.email.value}</div>
+            <div className='w-full flex items-center justify-center flex-col gap-3 lg:gap-5'>
+                <MdDone className='p-2 text-white bg-green-500 rounded-full ' size={45} />
+            <div className='text-gray-800 '>Great choice, {formData.name.value}</div>
+            <div className='text-black text-2xl lg:text-4xl font-bold'>YOUR RESERVATION IS CONFIRMED</div>
+            <div className='text-gray-800'>We've sent a confirmation email to {formData.email.value}</div>
             </div>
 
          <div className='w-full grid md:grid-cols-3 gap-3 lg:gap-5'>
-            <div className='lg:col-span-2 w-full  rounded-r-lg border-4 border-gray-500 py-10 px-4 gap-8 flex flex-col justify-center'>
+            <div className='lg:col-span-2 w-full  bg-white max-lg:rounded-t-xl lg:rounded-l-xl border-2 border-gray-400 py-6 px-4 gap-8 flex flex-col justify-center text-start'>
               
-              <div className='text-3xl font-bold'>
+              <div className='text-2xl font-bold'>
                 Your itinerary
               </div>
 
-              <div className='flex flex-col gap-5 w-full'>
+              <div className='flex flex-col gap-3 w-full'>
               {locations.map((item)=>{
-                  return <div className='flex items-start gap-3 md:gap-5'>
-                    <PlaneIcon className='text-lg md:text-2xl text-black' />
-                    <div className='text-lg' >{item.value}</div>
+                  return <div key={item.value} className='flex items-start gap-3 md:gap-5'>
+                    <LocateIcon className='text-lg md:text-2xl text-black' />
+                    <div className='max-lg:text-sm' >{item.value}</div>
                 </div>
               })}
               </div>
@@ -69,11 +69,11 @@ useEffect(()=>{
               </div>
 
               <div className='flex items-center justify-end w-full'>
-                <Link className='bg-brand px-3 py-2 text-black w-fit' href='/' >Home</Link>
+                <Link className='bg-brand px-3 py-2 text-black w-fit rounded-md' href='/' >Home</Link>
               </div>
 
             </div>
-            {selectedFleet && <div className='rounded-l-lg border-4 border-gray-500 p-4 gap-5 flex flex-col items-center justify-center bg-gray-200'>
+            {selectedFleet && <div className='max-lg:rounded-b-xl lg:rounded-r-xl border-2 border-gray-400 p-4 gap-5 flex flex-col items-center justify-center bg-gray-300'>
                <Image src={selectedFleet.image} alt={selectedFleet.name} className='w-full object-contain' />
                <div className='font-bold'>{selectedFleet.name}</div>
             </div>}
@@ -85,4 +85,4 @@ useEffect(()=>{
   )
 }
 
-export default page
+export default Page

@@ -42,6 +42,7 @@ export interface FormDataType {
 
 interface FormStoreType {
   step: number;
+  isMobileDropdownOpen: boolean;
   category: "trip" | "hourly";
   formError: string;
   isOrderDone: boolean;
@@ -62,6 +63,7 @@ interface FormStoreType {
   changeStep: (isNext: boolean, _step:number) => Promise<boolean>;
   changeCategory: (newCategory: "trip" | "hourly") => void;
   manageStops: (action: "add" | "remove", index?: number) => void;
+  toggleMobileDropdown: () => void;
   resetForm: () => void;
 }
 
@@ -78,6 +80,7 @@ const makeStop = (required = false): FieldType<string> => ({
 
 const useFormStore = create<FormStoreType>((set, get) => ({
   step: 1,
+  isMobileDropdownOpen: false,
   category: "trip",
   formError: "",
   formLoading: false,
@@ -247,7 +250,11 @@ const useFormStore = create<FormStoreType>((set, get) => ({
     }
   },
 
-  resetForm: () => set({ formData: tripInitialFormData, step: 1, category: "trip", formError: "", formLoading: false }),
+  toggleMobileDropdown:()=>{
+    set((state)=>({...state, isMobileDropdownOpen:!state.isMobileDropdownOpen}))
+  },
+  
+  resetForm: () => set({ formData: tripInitialFormData, step: 1, category: "trip", formError: "", formLoading: false, isMobileDropdownOpen:false, isOrderDone:false }),
 }));
 
 export default useFormStore;

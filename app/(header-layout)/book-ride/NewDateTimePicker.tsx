@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, getDay, isSameDay, isBefore, startOfDay } from "date-fns"
 import { ChevronRight, TimerIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -9,6 +9,7 @@ import useFormStore, { FormDataType } from "@/stores/FormStore"
 interface DateTimePickerProps {
   selectedDate: string
   selectedTime: string
+  placeholder: string
   setFormData: (
     key: keyof FormDataType,
     value: string | number | boolean,
@@ -28,10 +29,12 @@ export default function NewDateTimePicker({
   dateFieldName,
   timeFieldName,
   minSelectableDate,
+  placeholder
 }: DateTimePickerProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [open, setOpen] = useState(false)
   const { formData } = useFormStore()
+  const timeInputRef = useRef<HTMLInputElement | null>(null)
 
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
@@ -55,6 +58,9 @@ export default function NewDateTimePicker({
   const handleDateSelect = (date: Date) => {
     const formatted = format(date, "yyyy-MM-dd")
     setFormData(dateFieldName, formatted)
+    setTimeout(() => {
+      timeInputRef.current?.focus()
+    }, 100)
   }
 
   const handleTimeSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +69,7 @@ export default function NewDateTimePicker({
   const isError = !Array.isArray(formData[dateFieldName]) && formData[dateFieldName].error || !Array.isArray(formData[timeFieldName]) && formData[timeFieldName].error ;
   return (
     <div className="relative w-full ">
-        <div className={`p-2 rounded-md w-full border text-sm flex items-center gap-2 md:gap-5 bg-white ${isError ? 'border-red-300' : 'border-gray-300'}`}>
+        <div className={`p-2 rounded-md w-full border text-sm flex items-center gap-2 md:gap-5 bg-white ${isError ? 'border-red-500' : 'border-gray-300'}`}>
 
         <TimerIcon color="gray" />
       <input
@@ -78,7 +84,7 @@ export default function NewDateTimePicker({
         }
         onClick={() => setOpen((prev) => !prev)}
         className="w-full focus:outline-none bg-transparent border-transparent"
-        placeholder="Select Date & Time"
+        placeholder={placeholder}
         />
 
         </div>
@@ -145,17 +151,18 @@ export default function NewDateTimePicker({
   })}
 </div>
 
-          <div className="mt-2 md:mt-4">
+          { !Array.isArray(formData[dateFieldName]) && formData[dateFieldName].value &&  <div className="mt-2 md:mt-4 flex items-center justify-between gap-10">
+            <div className="font-semibold">Time</div>
             <input
               type="time"
-              className="w-full text-black rounded-md p-2"
+              ref={timeInputRef} 
+              className="w-full text-black rounded-lg px-2 py-1 bg-gray-100 max-w-32"
               value={selectedTime || ""}
               onChange={handleTimeSelect}
             />
-          </div>
-
+          </div>}
          
-          <div className="mt-2 md:mt-4">
+          {!Array.isArray(formData[timeFieldName]) && !Array.isArray(formData[dateFieldName]) && formData[timeFieldName].value && formData[dateFieldName].value && <div className="mt-2 md:mt-4">
             <button
               type="button"
               onClick={() => setOpen(false)}
@@ -163,7 +170,7 @@ export default function NewDateTimePicker({
             >
               ✓ Done
             </button>
-          </div>
+          </div>}
         </div>
       )}
     </div>

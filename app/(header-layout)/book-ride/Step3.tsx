@@ -1,4 +1,4 @@
-import { ArrowRightLeft, LuggageIcon, MessageSquare, Phone, User, User2, Users } from 'lucide-react'
+import {  LuggageIcon, MessageSquare, Phone, User, Users, Mail, Plane } from 'lucide-react'
 import React from 'react'
 import DetailsInput from './UserDetailInput'
 import NewDateTimePicker from './NewDateTimePicker'
@@ -36,15 +36,17 @@ const bagsArray = Array.from(
     <div className='flex flex-col gap-5 w-full'>
         <div className='text-2xl'>Details</div>
         <div className='flex flex-col gap-3 w-full max-lg:bg-gray-200 max-lg:px-2 max-lg:py-3 max-lg:rounded-md '>
-            <DetailsInput field='name' placeholder='Passenger full name' Icon={User} />
-            <DetailsInput field='phone' placeholder='Phone Number' Icon={Phone} />
-            <DetailsInput field='email' placeholder='Your email' Icon={MessageSquare} />
+            <DetailsInput field='name' placeholder='Passenger full name' Icon={User} type='text' />
+            <DetailsInput field='phone' placeholder='Phone Number' Icon={Phone} type='number' />
+            <DetailsInput field='email' placeholder='Your email' Icon={Mail} type='email' />
             <NewDateTimePicker 
         selectedDate={formData.date.value}
         selectedTime={formData.time.value}
         setFormData={setFormData}
         dateFieldName="date"
-        timeFieldName="time"/>
+        timeFieldName="time" 
+         placeholder='Select Date & Time'
+        />
         <div className='grid grid-cols-2 gap-3' >
             <NewDropdownInput Icon={Users} fieldName='passengers' placeholder='No. of Passengers' options={passengersArray} />
             <NewDropdownInput Icon={LuggageIcon} fieldName='bags' placeholder='No. of Bags' options={bagsArray} />
@@ -55,10 +57,10 @@ const bagsArray = Array.from(
         selectedTime={formData.returnTime.value}
         setFormData={setFormData}
         dateFieldName="returnDate"
-        timeFieldName="returnTime"/>}
+        timeFieldName="returnTime" placeholder='Select Return Date & Time'/>}
         <SelectableCheckbox fieldName='isAirportPickup' label='Ariport Pickup Details'  />
-           {formData.isAirportPickup.value && <DetailsInput field='flightName' placeholder='Ariline Name' Icon={MessageSquare} />}
-           {formData.isAirportPickup.value && <DetailsInput field='flightNumber' placeholder='Ariline Number' Icon={MessageSquare} />}
+           {formData.isAirportPickup.value && <DetailsInput field='flightName' placeholder='Ariline Name' Icon={Plane} type='text' />}
+           {formData.isAirportPickup.value && <DetailsInput field='flightNumber' placeholder='Ariline Number' Icon={Plane} type='text' />}
            <div className='font-bold'>Equipment and Extras</div>
         <SelectableCheckbox fieldName='isFlightTrack' label='Flight Track' subLabel='£ 7'  />
         <SelectableCheckbox fieldName='isMeetGreet' label='Meet & Greet' subLabel='£ 15'  />

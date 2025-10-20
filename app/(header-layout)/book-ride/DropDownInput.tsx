@@ -73,7 +73,7 @@ export default function NewDropdownInput({
           type="button"
           className={cn(
             "w-full justify-between text-left p-2 rounded-md border text-sm flex items-center gap-2 bg-white text-black",
-            error ? "border-red-300" : "border-gray-300"
+            error ? "border-red-500" : "border-gray-300"
           )}
         >
           <Icon color="gray" className="shrink-0" />

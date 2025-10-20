@@ -41,9 +41,6 @@ export default function Home() {
             <>
               <p>At OK Taxis, we deliver the finest luxury chauffeur service Manchester, combining top-tier luxury with unmatched reliability. Our team, rooted in the luxury automotive world, takes a personal approach to ensure every detail shines with quality. Since 2007, we've earned trust from business leaders, global travelers, and locals by prioritizing safety, discretion, and elegance in every ride—whether for work trips, events, or VIP needs.
               </p>
-
-
-
             </>
           }
           bgColor="bg-white"

@@ -10,11 +10,13 @@ import FeatureList from './FeatureList'
 import SelectedCar from './SelectedCar'
 import { useRouter } from 'next/navigation'
 import Step4 from './Step4'
+import PersonalDetails from './PersonalDetails'
+import { ArrowDown, ArrowUp } from 'lucide-react'
 
 
-function page() {
+function Page() {
   
-  const {step} = useFormStore()
+  const {step, isMobileDropdownOpen, toggleMobileDropdown} = useFormStore()
   const router = useRouter()
   
   console.log("step :: ",step)
@@ -27,9 +29,24 @@ function page() {
   },[step])
 
   return (
-    <div className=' w-full bg-slate-100 flex flex-col min-h-[50vh]'>
+    <div className=' w-full bg-slate-50 flex flex-col min-h-[50vh]'>
         <div className='h-24 w-full bg-black'></div>
-        <div className='max-w-screen-lg mx-auto flex flex-col gap-10 w-full py-16 px-2 '>
+        <div className='max-w-screen-lg mx-auto flex flex-col gap-5 lg:gap-10 w-full py-5 lg:py-16 px-2 '>
+          <div className={`w-full border-2 border-brand rounded-md flex flex-col lg:hidden ${isMobileDropdownOpen ? 'gap-5' : 'gap-0'}`}>
+             <div className={`overflow-hidden transition-all duration-300 flex flex-col gap-3  ease-out
+             ${isMobileDropdownOpen ? 'max-h-[2000px] opacity-100  p-1' : 'max-h-0 opacity-0 p-0' }
+              `}>
+              {step>=2 && <GoogleMapsRoute/>}
+                {step>=2 &&  <PickupTripDetails/>}
+                {step>=3 && <SelectedCar/>}
+                {step>=4 && <PersonalDetails/>}
+                {step>=3 && <FeatureList/>}
+             </div>
+             <div onClick={()=>toggleMobileDropdown()} className='bg-brand p-2 rounded-sm font-bold flex items-center justify-between' >
+              <div>Ride Details</div>
+              {isMobileDropdownOpen ?   <ArrowUp/> : <ArrowDown/>}
+             </div>
+          </div>
             <Steps/>
 
          <div className='grid lg:grid-cols-3 gap-5 w-full'>
@@ -39,10 +56,11 @@ function page() {
                  {step===4 &&  <Step4/> }
                 </div>
                 <div className='hidden lg:flex flex-col gap-5 w-full'>
-                {step===2 && <GoogleMapsRoute/>}
-                <PickupTripDetails/>
-                {step>2 && <SelectedCar/>}
-                {step===3 && <FeatureList/>}
+                {step==2 && <GoogleMapsRoute/>}
+                {step>=2 &&  <PickupTripDetails/>}
+                {step>=3 && <SelectedCar/>}
+                {step>=4 && <PersonalDetails/>}
+                {step==3 && <FeatureList/>}
                 </div>
             </div>
         
@@ -52,4 +70,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

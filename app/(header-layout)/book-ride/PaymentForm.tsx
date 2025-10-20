@@ -98,7 +98,7 @@ function StripePaymentForm({price}:{price:string}) {
             If you get any error please take screen shot and send on our whatsapp.
           </div>
 
-        </div> :  <div className="p-2 bg-white rounded-lg shadow-sm ">
+        </div> :  <div className="p-2 bg-gray-200 lg:bg-white rounded-lg shadow-sm ">
           <PaymentElement  />
         </div>}
         
@@ -141,7 +141,7 @@ function MyPaymentForm({price}:{price:string}) {
 
   if (!clientSecret) {
     return (
-      <div className="text-center py-10 text-gray-600">
+      <div className="px-8 py-20 text-center bg-white rounded-lg shadow-sm animate-pulse text-xl font-semibold text-gray-500 ">
         Loading payment form...
       </div>
     )
