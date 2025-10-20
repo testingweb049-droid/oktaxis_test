@@ -59,8 +59,8 @@ const bagsArray = Array.from(
         dateFieldName="returnDate"
         timeFieldName="returnTime" placeholder='Select Return Date & Time'/>}
         <SelectableCheckbox fieldName='isAirportPickup' label='Ariport Pickup Details'  />
-           {formData.isAirportPickup.value && <DetailsInput field='flightName' placeholder='Ariline Name' Icon={Plane} type='text' />}
-           {formData.isAirportPickup.value && <DetailsInput field='flightNumber' placeholder='Ariline Number' Icon={Plane} type='text' />}
+           {formData.isAirportPickup.value && <DetailsInput field='flightName' placeholder='Flight Name' Icon={Plane} type='text' />}
+           {formData.isAirportPickup.value && <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />}
            <div className='font-bold'>Equipment and Extras</div>
         <SelectableCheckbox fieldName='isFlightTrack' label='Flight Track' subLabel='£ 7'  />
         <SelectableCheckbox fieldName='isMeetGreet' label='Meet & Greet' subLabel='£ 15'  />

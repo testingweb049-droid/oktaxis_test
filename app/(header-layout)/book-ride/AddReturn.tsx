@@ -19,10 +19,10 @@ export default function AddReturn() {
   const subText = isReturn
     ? `Return transfer from ${to || "your destination"} to ${
         from || "your departure point"
-      } has been added for ${formattedPrice} EUR.`
+      } has been added for ${formattedPrice} Pound.`
     : `Add your return transfer${to ? ` from ${to}` : ""} to ${
         from || "your departure point"
-      } for an additional ${formattedPrice} EUR.`
+      } for an additional ${formattedPrice} Pound.`
 
   return (
     <div

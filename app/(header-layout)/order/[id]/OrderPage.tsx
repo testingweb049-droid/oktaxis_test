@@ -4,10 +4,12 @@ import React, { useEffect, useState } from 'react';
 import { getOrderById } from '@/actions/get-order';
 import { OrderProps } from '@/types/OrderProps';
 import { TbCopy } from 'react-icons/tb';
+import useFormStore from '@/stores/FormStore';
 
 function OrderPage({ id }: { id: string }) {
   const [order, setOrder] = useState<OrderProps | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const { resetForm, isOrderDone } = useFormStore()
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -39,6 +41,12 @@ function OrderPage({ id }: { id: string }) {
   if (!order) {
     return <div className="text-center py-40 text-2xl animate-pulse">Loading...</div>;
   }
+
+  useEffect(()=>{
+    if(isOrderDone){
+      resetForm()
+    }
+  },[])
 
   return (
     <div className=''>
