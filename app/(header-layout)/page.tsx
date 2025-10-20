@@ -1,4 +1,3 @@
-import HeroSection from "@/components/home/hero-section";
 import Services from "@/components/home/services";
 import FleetClasses from "@/components/home/fleet";
 import ReadyToBook from "@/components/home/read-to-book";
@@ -7,11 +6,8 @@ import AboutSection from "@/components/home/about";
 import LuxuryExperience from "@/components/home/luxury-experience";
 import ImageTextSection from "@/components/ui/ImageTextSection";
 import Seo from "../../components/Seo";
-import { Check, ChevronRight } from "lucide-react";
-import Link from "next/link";
+import { Check } from "lucide-react";
 import NewHeroSection from "./book-ride/NewHeroSection";
-import yearsImage from "@/assets/new-form/10years.png"
-import Image from "next/image";
 import InfiniteSlide from "./book-ride/InfiniteSlide";
 
 
@@ -30,7 +26,6 @@ export default function Home() {
         <InfiniteSlide/>
         {/* <HeroSection /> */}
         <Services />
-
         <ImageTextSection
           imageSrc="/OKTaxis In Manchester.png"
           imageAlt="Executive Airport Transfer"
