@@ -10,7 +10,12 @@ import Seo from "../../components/Seo";
 import { Check, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import NewHeroSection from "./book-ride/NewHeroSection";
-// home
+import yearsImage from "@/assets/new-form/10years.png"
+import Image from "next/image";
+import InfiniteSlide from "./book-ride/InfiniteSlide";
+
+
+
 export default function Home() {
   return (
     <>
@@ -22,6 +27,7 @@ export default function Home() {
       />
       <main className="min-h-screen">
         <NewHeroSection/>
+        <InfiniteSlide/>
         {/* <HeroSection /> */}
         <Services />
 

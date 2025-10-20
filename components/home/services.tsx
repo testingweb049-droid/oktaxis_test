@@ -108,7 +108,7 @@ export default function Services() {
   }
 
   return (
-    <section id="services" className="pt-32 mt-32">
+    <section id="services" className="pt-20 lg:pt-28 ">
       <div className="container mx-auto px-4 md:px-6">
         <div className="mb-8">
           <h2 className="text-3xl font-bold tracking-tight text-black md:text-4xl lg:text-5xl">
