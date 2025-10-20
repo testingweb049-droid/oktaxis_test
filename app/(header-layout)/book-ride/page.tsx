@@ -1,6 +1,6 @@
 'use client'
 import useFormStore from '@/stores/FormStore'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Steps from './steps'
 import CarList from './CarList'
 import GoogleMapsRoute from './GoogleMap'
@@ -18,25 +18,29 @@ function Page() {
   
   const {step, isMobileDropdownOpen, toggleMobileDropdown} = useFormStore()
   const router = useRouter()
-  
-  console.log("step :: ",step)
+  const headerRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(()=>{
     if(step===1){
       router.replace('/');
       router.refresh();
     }
+
+    if (headerRef.current) {
+      headerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+    
   },[step])
 
   return (
     <div className=' w-full bg-slate-50 flex flex-col min-h-[50vh]'>
-        <div className='h-24 w-full bg-black'></div>
+        <div ref={headerRef} className='h-24 w-full bg-black header'></div>
         <div className='max-w-screen-lg mx-auto flex flex-col gap-5 lg:gap-10 w-full py-5 lg:py-16 px-2 '>
           <div className={`w-full border-2 border-brand rounded-md flex flex-col lg:hidden ${isMobileDropdownOpen ? 'gap-5' : 'gap-0'}`}>
              <div className={`overflow-hidden transition-all duration-300 flex flex-col gap-3  ease-out
              ${isMobileDropdownOpen ? 'max-h-[2000px] opacity-100  p-1' : 'max-h-0 opacity-0 p-0' }
               `}>
-               {step==2 && <GoogleMapsRoute/>}
+                {step==2 && <GoogleMapsRoute/>}
                 {step>=2 &&  <PickupTripDetails/>}
                 {step>=3 && <SelectedCar/>}
                 {step>=4 && <PersonalDetails/>}

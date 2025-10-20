@@ -201,7 +201,7 @@ const useFormStore = create<FormStoreType>((set, get) => ({
     if (_step === 4) {
       const orderData = Object.entries(formData).reduce<Record<string, any>>((acc, [key, item]) => {
         if (key === "stops") {
-          acc.stops = formData.stops.map((s) => ({ value: s.value, coardinates: s.coardinates }));
+          acc.stops = formData.stops.map((s) => (s.value));
         } else {
           acc[key] = (item as FieldType<any>).value;
         }

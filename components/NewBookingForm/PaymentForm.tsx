@@ -173,7 +173,7 @@ function MyPaymentForm() {
     const fetchClientSecret = async () => {
       try {
         // This would be your server endpoint to create a PaymentIntent
-        const response = await fetch("https://oktaxis.co.uk/api/create-payment-intent", {
+        const response = await fetch("http://localhost:3000/api/create-payment-intent", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

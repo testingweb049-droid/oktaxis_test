@@ -31,6 +31,12 @@ function OrderPage({ id }: { id: string }) {
       fetchOrder();
     }
   }, [id]);
+  
+  useEffect(()=>{
+    if(isOrderDone){
+      resetForm()
+    }
+  },[])
 
   const toMiles = (km: number) => (km * 0.621371).toFixed(2);
 
@@ -42,11 +48,7 @@ function OrderPage({ id }: { id: string }) {
     return <div className="text-center py-40 text-2xl animate-pulse">Loading...</div>;
   }
 
-  useEffect(()=>{
-    if(isOrderDone){
-      resetForm()
-    }
-  },[])
+  console.log("order : ",order)
 
   return (
     <div className=''>

@@ -104,11 +104,11 @@ function CarList() {
                 <span>{item.suitcases} <span className="max-md:hidden">Suitcases</span></span>
               </div>
             </div>
-            <div className="flex  items-center gap-1 md:gap-3 w-full">
+            <div className="flex items-start gap-1 md:gap-3 w-full">
               <div className="text-xl md:text-3xl font-bold text-gray-900">
                 £{price.toFixed(2)}
               </div>
-              <div className="text-sm text-red-500 line-through">
+              <div className="text-[10px] lg:text-sm text-red-500 line-through">
                 £{(price+(price/10)).toFixed(2)}
               </div>
             </div>
@@ -119,7 +119,7 @@ function CarList() {
             
             <button
               onClick={() => handleSelect(item,price)}
-              className={`bg-brand hover:bg-[#ffb300] text-black rounded-md p-1 md:px-4 md:py-2 transition-all max-md:text-sm w-full`}
+              className={`bg-brand hover:bg-[#ffb300] text-black rounded-md p-1 md:px-4 md:py-2 transition-all max-md:text-base w-full`}
             >
               Select <span className="max-md:hidden">Vehicle</span>
             </button>
