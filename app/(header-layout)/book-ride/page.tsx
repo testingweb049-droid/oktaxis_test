@@ -36,11 +36,11 @@ function Page() {
              <div className={`overflow-hidden transition-all duration-300 flex flex-col gap-3  ease-out
              ${isMobileDropdownOpen ? 'max-h-[2000px] opacity-100  p-1' : 'max-h-0 opacity-0 p-0' }
               `}>
-              {step>=2 && <GoogleMapsRoute/>}
+               {step==2 && <GoogleMapsRoute/>}
                 {step>=2 &&  <PickupTripDetails/>}
                 {step>=3 && <SelectedCar/>}
                 {step>=4 && <PersonalDetails/>}
-                {step>=3 && <FeatureList/>}
+                {step==3 && <FeatureList/>}
              </div>
              <div onClick={()=>toggleMobileDropdown()} className='bg-brand p-2 rounded-sm font-bold flex items-center justify-between' >
               <div>Ride Details</div>
