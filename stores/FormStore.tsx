@@ -5,16 +5,16 @@ import { calculateDistance } from "@/actions/get-distance";
 import { hourlyInitialFormData, tripInitialFormData } from "@/constants/storeInitailObjects";
 import { create } from "zustand";
 
-interface FieldType<T> {
+  interface FieldType<T> {
   value: T;
   error: string;
   coardinates: string;
   coardinatesRequired: boolean;
   required: boolean;
   step: number;
-}
+  }
 
-export interface FormDataType {
+  export interface FormDataType {
   fromLocation: FieldType<string>;
   toLocation: FieldType<string>;
   stops: FieldType<string>[];        
@@ -38,9 +38,9 @@ export interface FormDataType {
   isFlightTrack: FieldType<boolean>;
   isMeetGreet: FieldType<boolean>;
   isReturn: FieldType<boolean>;
-}
+  }
 
-interface FormStoreType {
+  interface FormStoreType {
   step: number;
   isMobileDropdownOpen: boolean;
   category: "trip" | "hourly";
@@ -66,20 +66,20 @@ interface FormStoreType {
   manageStops: (action: "add" | "remove", index?: number) => void;
   toggleMobileDropdown: () => void;
   resetForm: () => void;
-}
+  }
 
-const makeStop = (required = false): FieldType<string> => ({
+  const makeStop = (required = false): FieldType<string> => ({
   value: "",
   coardinates: "",
   error: "",
   required,
   coardinatesRequired: required,
   step: 1,
-});
+  });
 
 
 
-const useFormStore = create<FormStoreType>((set, get) => ({
+  const useFormStore = create<FormStoreType>((set, get) => ({
   step: 1,
   isMobileDropdownOpen: false,
   category: "trip",
@@ -257,6 +257,6 @@ const useFormStore = create<FormStoreType>((set, get) => ({
   },
   
   resetForm: () => set({ formData: tripInitialFormData, step: 1, category: "trip", formError: "", formLoading: false, isMobileDropdownOpen:false, isOrderDone:false, orderId:'' }),
-}));
+  }));
 
 export default useFormStore;

@@ -266,7 +266,7 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
           return;
         }
 
-        // ✅ THIS is now only called on step 4
+       
         if (form.watch('payment_method') === 'cod') {
           onSubmit();
           return;
