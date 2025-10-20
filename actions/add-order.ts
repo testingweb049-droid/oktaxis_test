@@ -1,139 +1,101 @@
-'use server'
+'use server';
+
 import { db } from '@/db/drizzle';
 import { orders } from '@/db/schema';
 import nodemailer from 'nodemailer';
 import { emailConfig } from '@/lib/emailConfig';
 
-export async function createOrder({
-  category, price, car, pickup_date, pickup_time, payment_id, pickup_location, dropoff_location,
-  passengers, kids, bags, name, email, phone, flight, duration = null, distance = null, stop_1 = null,
-  stop_2 = null,
-  stop_3 = null, payment_method, flight_track,
-  meet_greet,
-  is_return,
-  return_date,
-  return_time
-}: {
-  category: string;
-  price: number;
-  car: string;
-  distance?: number | null;
-  pickup_date: Date;
-  pickup_time: string;
-  return_date: Date | undefined;
-  return_time: string | null;
-  is_return: boolean,
-  pickup_location: string;
-  dropoff_location: string | null | undefined;
-  passengers: number;
-  kids: number;
-  bags: number;
-  name: string;
-  email: string;
-  payment_method: string;
-  phone: string;
-  flight: string | null;
-  payment_id: string | null;
-  duration?: number | null;
-  minutes?: number | null;
-  stop_1?: string | null,
-  stop_2?: string | null,
-  stop_3?: string | null,
-  flight_track: boolean,
-  meet_greet: boolean,
-}) {
+interface FrontendOrderData {
+  [key: string]: any;
+}
+
+export async function createOrder(data: FrontendOrderData) {
   try {
+   
     const orderData = {
-      category,
-      price: price.toString(),
-      car,
-      distance: distance !== null ? distance.toString() : null,
-      pickup_time,
-      pickup_date,
-      pickup_location,
-      dropoff_location,
-      passengers,
-      kids,
-      bags,
-      name,
-      email,
-      phone,
-      flight,
-      payment_id,
-      duration,
-      stop_1,
-      stop_2,
-      stop_3, payment_method,
-      flight_track,
-      meet_greet,
-      is_return,
-      return_date,
-      return_time
+      category: String(data.category || 'trip'),
+      price: String(data.price || '0'),
+      car: String(data.car || ''),
+      distance: data.distance ? String(data.distance) : null,
+      stops: data.stops,
+      pickup_date: data.date ? new Date(data.date) : null,
+      pickup_time: String(data.time || ''),
+      return_date: data.returnDate ? new Date(data.returnDate) : null,
+      return_time: String(data.returnTime || ''),
+      is_return: Boolean(data.returnDate || data.returnTime),
+
+      pickup_location: String(data.fromLocation || ''),
+      dropoff_location: String(data.toLocation || null),
+
+      passengers: Number(data.passengers || 1),
+      kids: 0, // can be updated later if added to frontend
+      bags: Number(data.bags || 0),
+
+      name: String(data.name || ''),
+      email: String(data.email || ''),
+      phone: String(data.phone || ''),
+
+      flight: data.flightName || data.flightNumber || null,
+      payment_id: data.paymentId || null,
+      payment_method: 'card', // default or from frontend if applicable
+      duration: data.duration ? parseInt(data.duration, 10) : null,
+
+      flight_track: Boolean(data.isFlightTrack),
+      meet_greet: Boolean(data.isMeetGreet),
     };
 
-    const order = await db.insert(orders).values({ ...orderData }).returning();
-    if (!order[0] || !order[0].id) {
-      console.log('order : ', order)
-      return { error: 'order not placed due to backend issue', status: 500 };
-    }
-    const orderId = order[0].id;
-    const orderLink = `https://oktaxis.co.uk/order/${orderId}`;
+    
+    const inserted = await db.insert(orders).values(orderData).returning();
+    const order = inserted[0];
 
+    if (!order?.id) {
+      return { error: 'Order not placed due to backend issue.', status: 500 };
+    }
+
+    // ✅ Email setup
+    const orderLink = `https://oktaxis.co.uk/order/${order.id}`;
     const transporter = nodemailer.createTransport(emailConfig);
 
-    const mailOptions = {
+    await transporter.sendMail({
       from: 'reservation@oktaxis.co.uk',
-      to: [email, 'reservation@oktaxis.co.uk'],
-      subject: 'Order Placed Successfully!',
+      to: [order.email, 'reservation@oktaxis.co.uk'],
+      subject: 'Your OKTaxis Booking Confirmation 🚕',
       html: `
-       <html lang="en">
-  <body style="margin: 0; padding: 0; background-color: #f9fafb; font-family: 'Segoe UI', Tahoma, sans-serif;">
-    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border: 1px solid #e2e8f0;">
-      
-      <!-- Header -->
-      <div style="background-color: #000000; padding: 30px 20px; text-align: center;">
-        <h1 style="color: #F7931E; font-size: 24px; margin: 0;">Order Successfully Placed</h1>
-        <p style="color: #ffffff; font-size: 15px; margin-top: 8px;">Thank you for choosing OKTaxis</p>
-      </div>
-
-      <!-- Content -->
-      <div style="padding: 30px 25px;">
-        <p style="font-size: 16px; color: #111827;">Hi <strong>${name}</strong>,</p>
-        <p style="font-size: 16px; color: #111827; line-height: 1.6;">
-          Your booking has been successfully received and your ride is confirmed. Our driver will arrive approximately 15 minutes before your scheduled pickup time.
-        </p>
-
-        <div style="margin: 30px 0; text-align: center;">
-          <p style="color: #000000; font-weight: 500; margin-bottom: 15px;">
-            Click the button below to view your order details:
-          </p>
-          <a href="${orderLink}" style="background-color: #F7931E; color: #ffffff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-size: 16px; font-weight: bold;">
-            View Order
-          </a>
-        </div>
-
-        <p style="font-size: 14px; color: #4b5563; line-height: 1.5;">
-          Need help or have any questions? Contact us anytime at
-          <a href="mailto:reservation@oktaxis.co.uk" style="color: #F7931E; font-weight: 500;">reservation@oktaxis.co.uk</a>
-        </p>
-      </div>
-
-      <!-- Footer -->
-      <div style="background-color: #f3f4f6; padding: 20px; text-align: center; color: #6b7280; font-size: 13px;">
-        &copy; ${new Date().getFullYear()} OKTaxis. All rights reserved.
-      </div>
-    </div>
-  </body>
-</html>
+        <html lang="en">
+          <body style="font-family: 'Segoe UI', sans-serif; background: #f9fafb; padding: 0; margin: 0;">
+            <div style="max-width: 600px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); overflow: hidden;">
+              <div style="background: #000; color: #fff; padding: 25px; text-align: center;">
+                <h2 style="color: #F7931E;">Booking Confirmed!</h2>
+                <p>Thank you for choosing OKTaxis</p>
+              </div>
+              <div style="padding: 25px;">
+                <p>Dear <strong>${order.name}</strong>,</p>
+                <p>Your booking has been successfully placed. Below are your details:</p>
+                <ul style="line-height: 1.7; color: #333;">
+                  <li><strong>Pickup:</strong> ${order.pickup_location}</li>
+                  <li><strong>Dropoff:</strong> ${order.dropoff_location ?? '-'}</li>
+                  <li><strong>Date:</strong> ${order.pickup_date?.toLocaleDateString() || '-'}</li>
+                  <li><strong>Time:</strong> ${order.pickup_time}</li>
+                  <li><strong>Car:</strong> ${order.car}</li>
+                  <li><strong>Price:</strong> £${order.price}</li>
+                </ul>
+                <div style="text-align: center; margin-top: 25px;">
+                  <a href="${orderLink}" style="background: #F7931E; color: #fff; padding: 12px 20px; border-radius: 6px; text-decoration: none;">View Your Booking</a>
+                </div>
+                <p style="margin-top: 30px; color: #555; font-size: 14px;">
+                  For assistance, contact us at 
+                  <a href="mailto:reservation@oktaxis.co.uk" style="color: #F7931E;">reservation@oktaxis.co.uk</a>.
+                </p>
+              </div>
+              <div style="background: #f3f4f6; padding: 15px; text-align: center; font-size: 13px; color: #777;">
+                © ${new Date().getFullYear()} OKTaxis. All rights reserved.
+              </div>
+            </div>
+          </body>
+        </html>
       `,
-    };
+    });
 
-    const { rejected, response } = await transporter.sendMail(mailOptions);
-    console.log("response ", response)
-    console.log("rejected ", rejected)
-    if (rejected.length > 0) {
-      return { order, status: 500, error: 'email not send' };
-    }
     return { order, status: 201, error: '' };
   } catch (error) {
     console.error('Error creating order:', error);

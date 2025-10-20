@@ -4,9 +4,7 @@ export interface OrderProps {
   price: string;
   car: string;
   distance: string | null;
-  stop_1: string | null;
-  stop_2: string | null;
-  stop_3: string | null;
+  stops: string[] | null;
   pickup_date: Date | null;
   pickup_time: string | null;
   dropoff_location: string | null;

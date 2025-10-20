@@ -9,7 +9,13 @@ import ImageTextSection from "@/components/ui/ImageTextSection";
 import Seo from "../../components/Seo";
 import { Check, ChevronRight } from "lucide-react";
 import Link from "next/link";
-// home
+import NewHeroSection from "./book-ride/NewHeroSection";
+import yearsImage from "@/assets/new-form/10years.png"
+import Image from "next/image";
+import InfiniteSlide from "./book-ride/InfiniteSlide";
+
+
+
 export default function Home() {
   return (
     <>
@@ -20,7 +26,9 @@ export default function Home() {
         image="https://oktaxis.com/og-image.jpg"
       />
       <main className="min-h-screen">
-        <HeroSection />
+        <NewHeroSection/>
+        <InfiniteSlide/>
+        {/* <HeroSection /> */}
         <Services />
 
         <ImageTextSection
@@ -39,9 +47,6 @@ export default function Home() {
             <>
               <p>At OK Taxis, we deliver the finest luxury chauffeur service Manchester, combining top-tier luxury with unmatched reliability. Our team, rooted in the luxury automotive world, takes a personal approach to ensure every detail shines with quality. Since 2007, we've earned trust from business leaders, global travelers, and locals by prioritizing safety, discretion, and elegance in every ride—whether for work trips, events, or VIP needs.
               </p>
-
-
-
             </>
           }
           bgColor="bg-white"
