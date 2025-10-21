@@ -27,16 +27,16 @@ useEffect(()=>{
 
 
   return (
-    <div className='flex flex-col gap-5 w-full max-w-screen-sm'>
+    <div className='flex flex-col gap-3 sm:gap-5 w-full max-w-screen-sm'>
       <div className='grid grid-cols-3 lg:grid-cols-2 gap-5 max-lg:px-3 '>
-        <div onClick={() => changeCategory('trip')} className={`p-2 w-full text-center font-semibold rounded-lg cursor-pointer ${category==='trip' ? 'bg-brand' : 'bg-white'}`}>Trip</div>
-        <div onClick={() => changeCategory('hourly')} className={`p-2 w-full text-center font-semibold rounded-lg cursor-pointer ${category==='hourly' ? 'bg-brand' : 'bg-white'}`}>Hourly</div>
+        <div onClick={() => changeCategory('trip')} className={`p-2 w-full text-center font-semibold rounded-3xl cursor-pointer ${category==='trip' ? 'bg-brand' : 'bg-white'}`}>Trip</div>
+        <div onClick={() => changeCategory('hourly')} className={`p-2 w-full text-center font-semibold rounded-3xl cursor-pointer ${category==='hourly' ? 'bg-brand' : 'bg-white'}`}>Hourly</div>
       </div>
 
-      <div className='p-3 rounded-lg bg-white flex flex-col gap-3 border border-b'>
+      <div className='p-3 sm:p-5 rounded-3xl bg-white flex flex-col gap-3 border border-gray-200'>
         <div className='flex gap-3 items-start lg:max-h-[250px] lg:overflow-y-auto lg:p-1'>
           {/* Left: Inputs */}
-          <div className='flex flex-col gap-3 w-full'>
+          <div className='flex flex-col gap-4 lg:gap-5 w-full'>
            <LocationInput field="fromLocation" placeholder="Pickup Location" />
 
       {category !== 'hourly' && formData.stops.map((_, i) => (
@@ -71,14 +71,14 @@ useEffect(()=>{
       nodes.push(
         <div key={`marker-${i}`} className="relative flex items-center justify-center">
           <div
-            className={`rounded-full bg-white z-10 flex items-center justify-center
-              ${isStart || isEnd ? 'border-[4px] border-black w-4 h-4' : 'border-[3px] border-gray-600 w-4 h-4'}`}
+            className={`relative rounded-full bg-white z-10 flex items-center justify-center
+              ${isStart || isEnd ? 'border-[4px] border-gray-700 w-4 h-4' : 'border-[2px] border-gray-600 w-4 h-4'}`}
           >
        
             {!isStart && !isEnd && (
               <button
                 onClick={() => manageStops('remove', stopIndex)}
-                className="text-xs leading-none text-gray-600 hover:text-red-500"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs leading-none text-gray-600 hover:text-red-500"
                 title="Remove stop"
                 aria-label={`Remove stop ${stopIndex + 1}`}
               >
@@ -94,20 +94,20 @@ useEffect(()=>{
         nodes.push(
           <div key={`between-${i}`} className="flex flex-col items-center">
            
-            <div className="w-px h-[4.5px] sm:h-[9px] border-l-2 border-dotted border-gray-300" />
+            <div className="w-px h-[6.5px] sm:h-[13px] border-l-[3px] border-dotted border-gray-300" />
 
            
             <button
               onClick={() => manageStops('add', i)}
-              className="mt-1 mb-1 rounded-full border border-gray-400 w-4 h-4 flex items-center justify-center text-[12px] hover:bg-gray-100"
+              className="relative mt-1 mb-1 rounded-full border border-gray-400 w-4 h-4 flex items-center justify-center text-[12px] hover:bg-gray-100"
               title="Add stop"
               aria-label={`Add stop between ${i} and ${i + 1}`}
             >
-              +
+              <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' >+</div>
             </button>
 
             
-            <div className="w-px h-[4.5px] sm:h-[9px] border-l-2 border-dotted border-gray-300" />
+            <div className="w-px h-[6.5px] sm:h-[13px] border-l-[3px] border-dotted border-gray-300" />
           </div>
         );
       }
