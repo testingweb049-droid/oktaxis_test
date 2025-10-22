@@ -8,6 +8,7 @@ import useFormStore, { FormDataType } from "@/stores/FormStore";
 
 interface LocationInputProps {
   field: keyof FormDataType;
+  label: string;
   placeholder: string;
   index?: number; 
   isStop?: boolean;
@@ -18,6 +19,7 @@ interface LocationInputProps {
 
 export default function LocationInput({
   field,
+  label,
   placeholder,
   index,
 }: LocationInputProps) {
@@ -56,14 +58,19 @@ export default function LocationInput({
 
       {/* Input */}
       {!isLoaded ? (
+        <div className="flex flex-col gap-1 w-full">
+          <div className="text-sm font-semibold text-gray-700">{label}</div>
         <div className="relative flex-1">
           <SlLocationPin className="absolute left-2 md:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           <input
             placeholder="Loading..."
             className="w-full pl-8 md:pl-10 pr-2 md:pr-3 py-2 md:py-2.5 border border-gray-300 rounded-lg text-gray-500 bg-gray-50 cursor-not-allowed"
-          />
+            />
         </div>
+            </div>
       ) : (
+        <div className="flex flex-col gap-1 w-full">
+          <div className="text-sm font-semibold text-gray-700">{label}</div>
         <Autocomplete
           onLoad={(auto) => (autocompleteRef.current = auto)}
           onPlaceChanged={handlePlaceChanged}
@@ -80,6 +87,7 @@ export default function LocationInput({
             />
           </div>
         </Autocomplete>
+        </div>
       )}
 
     </div>

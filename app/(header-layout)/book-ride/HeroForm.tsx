@@ -33,16 +33,17 @@ useEffect(()=>{
         <div onClick={() => changeCategory('hourly')} className={`p-2 w-full text-center font-semibold rounded-3xl cursor-pointer ${category==='hourly' ? 'bg-brand' : 'bg-white'}`}>Hourly</div>
       </div>
 
-      <div className='p-3 sm:p-5 rounded-3xl bg-white flex flex-col gap-3 border border-gray-200'>
+      <div className='p-3 sm:p-5 rounded-2xl bg-white flex flex-col gap-3 border border-gray-300'>
         <div className='flex gap-3 items-start lg:max-h-[250px] lg:overflow-y-auto lg:p-1'>
           {/* Left: Inputs */}
           <div className='flex flex-col gap-4 lg:gap-5 w-full'>
-           <LocationInput field="fromLocation" placeholder="Pickup Location" />
+           <LocationInput field="fromLocation" placeholder="Pickup Location" label='Start' />
 
       {category !== 'hourly' && formData.stops.map((_, i) => (
         <LocationInput
           key={i}
           field={`stops`}
+          label={`Stop ${i+1}`}
           index={i}
           isStop
           placeholder={`Stop ${i + 1}`}
@@ -52,12 +53,12 @@ useEffect(()=>{
         />
       ))}
 
-     {category !== 'hourly' && <LocationInput field="toLocation" placeholder="Drop Off Location" />}
+     {category !== 'hourly' && <LocationInput field="toLocation" placeholder="Drop Off Location" label='End' />}
      {category === 'hourly' && <NewDropdownInput Icon={TimerIcon} fieldName='duration' placeholder='Duration in Hours' options={durationArray} />}
           </div>
 
         
-<div className={`w-6 flex flex-col items-center py-[14px] ${category === 'trip' ? 'flex' : 'hidden'}`}>
+<div className={`w-6 flex flex-col items-center pt-[38px] ${category === 'trip' ? 'flex' : 'hidden'}`}>
   
   {(() => {
     const locationsCount = 2 + (formData.stops?.length ?? 0); 
@@ -94,7 +95,7 @@ useEffect(()=>{
         nodes.push(
           <div key={`between-${i}`} className="flex flex-col items-center">
            
-            <div className="w-px h-[6.5px] sm:h-[13px] border-l-[3px] border-dotted border-gray-300" />
+            <div className="w-px h-[18.5px] sm:h-[25px] border-l-[3px] border-dotted border-gray-300" />
 
            
             <button
@@ -107,7 +108,7 @@ useEffect(()=>{
             </button>
 
             
-            <div className="w-px h-[6.5px] sm:h-[13px] border-l-[3px] border-dotted border-gray-300" />
+            <div className="w-px h-[18.5px] sm:h-[25px] border-l-[3px] border-dotted border-gray-300" />
           </div>
         );
       }
