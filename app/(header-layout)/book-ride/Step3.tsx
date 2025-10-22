@@ -1,6 +1,6 @@
 import {  LuggageIcon, MessageSquare, Phone, User, Users, Mail, Plane } from 'lucide-react'
 import React from 'react'
-import DetailsInput from './UserDetailInput'
+import {DetailsInput, PhoneInput} from './UserDetailInput'
 import NewDateTimePicker from './NewDateTimePicker'
 import useFormStore from '@/stores/FormStore'
 import NewDropdownInput from './DropDownInput'
@@ -39,7 +39,7 @@ const bagsArray = Array.from(
         {/* max-lg:bg-gray-200 max-lg:px-2 max-lg:py-3 max-lg:rounded-md  */}
         <div className='flex flex-col gap-3 w-full  '>
             <DetailsInput field='name' placeholder='Passenger full name' Icon={User} type='text' />
-            <DetailsInput field='phone' placeholder='Phone Number' Icon={Phone} type='number' />
+            <PhoneInput/>
             <DetailsInput field='email' placeholder='Your email' Icon={Mail} type='email' />
             <NewDateTimePicker 
         selectedDate={formData.date.value}
@@ -64,16 +64,16 @@ const bagsArray = Array.from(
        <div className="w-full">
        <SelectableCheckbox fieldName='isAirportPickup' label='Airport Pickup Details' />
 
-  <div className="w-full overflow-hidden transition-all duration-500"
+      <div className="w-full overflow-hidden transition-all duration-500"
        style={{ maxHeight: formData.isAirportPickup.value ? '200px' : '0' }}>
-    <div className={`flex flex-col gap-3 pt-3 opacity-${formData.isAirportPickup.value ? '100' : '0'} transition-opacity duration-500`}>
-      <DetailsInput field='flightName' placeholder='Flight Name' Icon={Plane} type='text' />
+      <div className={`flex flex-col gap-3 pt-3 opacity-${formData.isAirportPickup.value ? '100' : '0'} transition-opacity duration-500`}>
+      <DetailsInput field='flightName' placeholder='Airline Name' Icon={Plane} type='text' />
       <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
+      </div>
+     </div>
     </div>
-  </div>
-   </div>
 
-           <div className='font-bold'>Equipment and Extras</div>
+          <div className='font-bold'>Equipment and Extras</div>
         <SelectableCheckbox fieldName='isFlightTrack' label='Flight Track' subLabel='£ 7'  />
         <SelectableCheckbox fieldName='isMeetGreet' label='Meet & Greet' subLabel='£ 15'  />
         </div>

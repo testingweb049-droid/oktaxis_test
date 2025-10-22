@@ -19,35 +19,40 @@ export const fleets = [
   {
     name: "Economy",
     cars: "Skoda Octavia | Toyota Prius",
-    price: 58.51,
-    hourly: 60.51,
+    price10Miles: 58,
+    price: 2.2,
+    hourly: 80,
     passengers: 4,
     suitcases: 3,
     image: Economy,
   },
   {
-    name: "Premium",
-    cars: "BMW 5 Series | Mercedes E-Class",
-    price: 62.98,
-    hourly: 60.51,
-    passengers: 4,
-    suitcases: 3,
-    image: Executive,
-  },
-  {
     name: "Executive Premium",
     cars: "Tesla Model S",
-    price: 87.0,
-    hourly: 60.51,
+    price10Miles: 70,
+    price: 2.5,
+    hourly: 100,
     passengers: 4,
     suitcases: 3,
     image: ExecutivePremium,
   },
   {
+    name: "Premium",
+    cars: "BMW 5 Series | Mercedes E-Class",
+    price10Miles: 80,
+    price: 2.9,
+    hourly: 120,
+    passengers: 4,
+    suitcases: 3,
+    image: Executive,
+  },
+  
+  {
     name: "Luxury Van",
     cars: "XL Passenger Van",
-    price: 95.0,
-    hourly: 60.51,
+    price10Miles: 100,
+    price: 3,
+    hourly: 160,
     passengers: 6,
     suitcases: 6,
     image: LuxuryVan,
@@ -70,17 +75,18 @@ function CarList() {
         if(category==='hourly'){
            price = (Number(formData.duration.value) * item.hourly).toFixed()
         } else{
-          price = (Number(formData.distance.value) * item.price).toFixed()
+          const distance = formData.distance.value - 10;
+          price = ((Number(distance) * item.price) + item.price10Miles).toFixed()
         }
         return <div
           key={item.name}
           className={cn(
-            "grid max-md:grid-cols-8 grid-cols-4 gap-1 lg:gap-5 bg-white border  rounded-xl shadow-sm overflow-hidden p-2 md:p-3",
+            "grid max-md:grid-cols-8 grid-cols-8 gap-1 lg:gap-5 bg-white border  rounded-xl shadow-sm overflow-hidden p-2 md:p-3",
             "hover:shadow-md transition-shadow duration-200" , item.name===formData.car.value ? 'border-brand' : 'border-gray-200'
           )}
         >
           {/* Image Section */}
-          <div className=" bg-white flex justify-center items-center w-full max-md:col-span-2">
+          <div className=" bg-white flex justify-center items-center w-full col-span-2">
             <Image
               src={item.image}
               alt={item.name}
@@ -89,7 +95,7 @@ function CarList() {
           </div>
 
           {/* Details Section */}
-          <div className="flex flex-col justify-center gap-1 col-span-2 max-md:col-span-4 w-full">
+          <div className="flex flex-col justify-center gap-1 col-span-4 w-full">
             <h2 className="text-base max-md:leading-4 md:text-xl font-semibold text-gray-900 uppercase">
               {item.name}
             </h2>
@@ -116,14 +122,15 @@ function CarList() {
           </div>
 
           {/* Price and Action Section */}
-          <div className="flex justify-center items-end w-full max-md:col-span-2">
+          <div className="flex justify-center items-end w-full col-span-2">
             {formLoading && formData.car.value===item.name ? <LoadingButton/>  :
             <button
               onClick={() => handleSelect(item,Number(price))}
-              className={`bg-brand hover:bg-[#ffb300] text-black rounded-md p-1 md:px-4 md:py-2 transition-all max-md:text-base w-full flex justify-center items-center gap-1`}
+              className={`bg-brand hover:bg-[#ffb300] text-black rounded-md p-1 md:px-4 md:py-2 transition-all max-md:text-base w-fit flex justify-center items-center gap-1 `}
             >
               <span>Select</span> <span className="max-md:hidden">Vehicle</span>
-              <ArrowRight className="" size={15}/>
+              <ArrowRight className="max-lg:hidden text-2xl" size={20}/>
+              <ArrowRight className="lg:hidden" size={15}/>
             </button>}
           </div>
         </div>

@@ -33,7 +33,7 @@ useEffect(()=>{
         <div onClick={() => changeCategory('hourly')} className={`p-2 w-full text-center font-semibold rounded-3xl cursor-pointer ${category==='hourly' ? 'bg-brand' : 'bg-white'}`}>Hourly</div>
       </div>
 
-      <div className='p-3 sm:p-5 rounded-2xl bg-white flex flex-col gap-3 border border-gray-300'>
+      <div className='max-lg:px-3 max-lg:py-5 sm:p-5 rounded-2xl bg-white flex flex-col gap-5 border border-gray-300'>
         <div className='flex gap-3 items-start lg:max-h-[250px] lg:overflow-y-auto lg:p-1'>
           {/* Left: Inputs */}
           <div className='flex flex-col gap-4 lg:gap-5 w-full'>

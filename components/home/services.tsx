@@ -108,11 +108,11 @@ export default function Services() {
   }
 
   return (
-    <section id="services" className="pt-20 lg:pt-28 ">
+    <section id="services" className="pt-8 ">
       <div className="container mx-auto px-4 md:px-6">
         <div className="mb-8">
           <h2 className="text-3xl font-bold tracking-tight text-black md:text-4xl lg:text-5xl">
-            <span className="text-brand">Our Premium</span> Chauffeur{" "}
+            <span className="text-brand">Our </span> Chauffeur{" "}
             <span className="text-brand">Services</span> in Manchester
           </h2>
           <p className="mt-4 text-lg text-gray-700 max-w-3xl">

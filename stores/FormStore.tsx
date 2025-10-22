@@ -186,7 +186,7 @@ import { create } from "zustand";
         }
         set((state) => ({
           ...state,
-          formData: { ...state.formData, distance: { ...state.formData.distance, value: distanceResponse?.kmDistance ?? 0 } },
+          formData: { ...state.formData, distance: { ...state.formData.distance, value: distanceResponse?.mileDistance ?? 0 } },
         }));
       } catch (error) {
         set((state) => ({
