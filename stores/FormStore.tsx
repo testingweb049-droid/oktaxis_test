@@ -225,6 +225,8 @@ import { create } from "zustand";
       return true;
     }
     console.log("working fine : ",_step)
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    console.log("working fine 2 : ",_step)
     set((state) => ({ ...state, formError: "", formLoading: false, step: isNext ? _step + 1 : Math.max(1, _step - 1) }));
     return true; 
   },

@@ -98,8 +98,9 @@ function StripePaymentForm({price}:{price:string}) {
             If you get any error please take screen shot and send on our whatsapp.
           </div>
 
-        </div> :  <div className="p-2 bg-gray-200 lg:bg-white rounded-lg shadow-sm ">
+        </div> :  <div className="p-2 bg-gray-200 lg:bg-white rounded-lg shadow-sm flex flex-col gap-3 ">
           <PaymentElement  />
+          <div className="text-xs lg:hidden">Please note after you have confirmed your reservation you will be sent a full booking confirmation. You can amend your journey at any time. Free cancellation within 24 hours. All bookings are subject to our Terms and Conditions. </div>
         </div>}
         
 
@@ -121,7 +122,7 @@ function MyPaymentForm({price}:{price:string}) {
   useEffect(() => {
     const fetchClientSecret = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/create-payment-intent", {
+        const response = await fetch("https://oktaxis.co.uk/api/create-payment-intent", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
