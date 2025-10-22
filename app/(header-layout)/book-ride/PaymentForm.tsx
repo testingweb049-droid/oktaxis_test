@@ -4,7 +4,9 @@ import React, { useState, useEffect } from "react"
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
 import Image from "next/image"
-import useCustomForm from "@/hooks/useFormContext"
+import ChipImage from "@/assets/new-form/cardchip.png"
+import Secure1 from "@/assets/new-form/secure.png"
+import Secure2 from "@/assets/new-form/securepay.png"
 import { processStripePayment } from "@/actions/new-pyament-accept"
 import useFormStore from "@/stores/FormStore"
 import ContinueButton from "./ContinueButton"
@@ -89,7 +91,9 @@ function StripePaymentForm({price}:{price:string}) {
       </div> */}
 
       {/* Payment Form */}
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+        <div className="grid lg:grid-cols-2 gap-5 w-full">
+
         {formData.paymentId.value ? <div className="px-8 py-20 text-center bg-white rounded-lg shadow-sm  ">
           <div className="text-green-600 text-xl font-semibold ">
             Payment Done
@@ -98,11 +102,36 @@ function StripePaymentForm({price}:{price:string}) {
             If you get any error please take screen shot and send on our whatsapp.
           </div>
 
-        </div> :  <div className="p-2 bg-gray-200 lg:bg-white rounded-lg shadow-sm ">
+        </div> :  <div className="p-2 bg-gray-200 lg:bg-white rounded-lg shadow-sm flex flex-col gap-3 ">
           <PaymentElement  />
+         
         </div>}
+        <div className='flex flex-col gap-5 w-full max-lg:hidden'>
+                <div className='w-full rounded-xl bg-black flex flex-col gap-8 p-5'>
+                  <Image src={ChipImage} alt='card chip' className='w-12' />
+                  <div className='flex items-center gap-5 text-gray-500 text-xl'>
+                    {Array.from({length:4},(_,i)=><div key={i} className=''>****</div>)}
+                  </div>
+                  <div className='flex items-center justify-between text-gray-500 '>
+                     <div className='text-xl'>{formData.name.value}</div>
+                     <div className='flex flex-col text-sm text-center'>
+                        <div className=''>
+                           valid thru
+                        </div>
+                        <div className=''>
+                           **/**
+                        </div>
+                     </div>
+                  </div>
+                </div>
+                <div className='flex items-center justify-between gap-5'>
+                <Image src={Secure1} alt='secure 1' className='' />
+                <Image src={Secure2} alt='secure 2' className='' />
+                </div>
+            </div>
         
-
+</div>
+        <div className="text-[12px] lg:text-xs text-justify">Please note after you have confirmed your reservation you will be sent a full booking confirmation. You can amend your journey at any time. Free cancellation within 24 hours. All bookings are subject to our Terms and Conditions. </div>
         {formError && <div className="text-red-500 text-center">{formError}</div>}
         {error && <div className="text-red-500 text-center">{error}</div>}
         {/* Pay Button */}
@@ -121,7 +150,7 @@ function MyPaymentForm({price}:{price:string}) {
   useEffect(() => {
     const fetchClientSecret = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/create-payment-intent", {
+        const response = await fetch("https://oktaxis.co.uk/api/create-payment-intent", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

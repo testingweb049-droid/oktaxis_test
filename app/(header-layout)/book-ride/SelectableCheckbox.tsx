@@ -32,7 +32,7 @@ export default function SelectableCheckbox({
   return (
     <div
       className={cn(
-        "flex items-start gap-2 py-2 px-1 rounded-md cursor-pointer transition-all",
+        "flex items-start gap-2  px-1 rounded-md cursor-pointer transition-all",
         isError && "border border-red-500 bg-red-50"
       )}
       onClick={() => handleChange(!value)}

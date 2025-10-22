@@ -80,7 +80,7 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
         "fadeIn": "fadeIn 0.5s ease-out forwards",
         "slide": "slide 20s linear infinite",
-        "infinite-slide": "infinite-slide 30s linear infinite",
+        "infinite-slide": "infinite-slide 35s linear infinite",
       },
 
     },

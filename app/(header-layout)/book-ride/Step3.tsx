@@ -1,15 +1,16 @@
 import {  LuggageIcon, MessageSquare, Phone, User, Users, Mail, Plane } from 'lucide-react'
 import React from 'react'
-import DetailsInput from './UserDetailInput'
+import {DetailsInput, PhoneInput} from './UserDetailInput'
 import NewDateTimePicker from './NewDateTimePicker'
 import useFormStore from '@/stores/FormStore'
 import NewDropdownInput from './DropDownInput'
 import { fleets } from './CarList'
 import SelectableCheckbox from './SelectableCheckbox'
 import AddReturn from './AddReturn'
+import LoadingButton from './LoadingButton'
 
 function Step3() {
-    const {formData, setFormData, changeStep} = useFormStore();
+    const {formData, setFormData, changeStep, formLoading} = useFormStore();
     const selectedFleet = fleets.find((item)=>item.name===formData.car.value)
     const passengersArray = Array.from(
   { length: selectedFleet?.passengers ?? 0 },
@@ -35,9 +36,10 @@ const bagsArray = Array.from(
   return (
     <div className='flex flex-col gap-5 w-full'>
         <div className='text-2xl'>Details</div>
-        <div className='flex flex-col gap-3 w-full max-lg:bg-gray-200 max-lg:px-2 max-lg:py-3 max-lg:rounded-md '>
+        {/* max-lg:bg-gray-200 max-lg:px-2 max-lg:py-3 max-lg:rounded-md  */}
+        <div className='flex flex-col gap-3 w-full  '>
             <DetailsInput field='name' placeholder='Passenger full name' Icon={User} type='text' />
-            <DetailsInput field='phone' placeholder='Phone Number' Icon={Phone} type='number' />
+            <PhoneInput/>
             <DetailsInput field='email' placeholder='Your email' Icon={Mail} type='email' />
             <NewDateTimePicker 
         selectedDate={formData.date.value}
@@ -58,16 +60,28 @@ const bagsArray = Array.from(
         setFormData={setFormData}
         dateFieldName="returnDate"
         timeFieldName="returnTime" placeholder='Select Return Date & Time'/>}
-        <SelectableCheckbox fieldName='isAirportPickup' label='Ariport Pickup Details'  />
-           {formData.isAirportPickup.value && <DetailsInput field='flightName' placeholder='Flight Name' Icon={Plane} type='text' />}
-           {formData.isAirportPickup.value && <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />}
-           <div className='font-bold'>Equipment and Extras</div>
+
+       <div className="w-full">
+       <SelectableCheckbox fieldName='isAirportPickup' label='Airport Pickup Details' />
+
+      <div className="w-full overflow-hidden transition-all duration-500"
+       style={{ maxHeight: formData.isAirportPickup.value ? '200px' : '0' }}>
+      <div className={`flex flex-col gap-3 pt-3 opacity-${formData.isAirportPickup.value ? '100' : '0'} transition-opacity duration-500`}>
+      <DetailsInput field='flightName' placeholder='Airline Name' Icon={Plane} type='text' />
+      <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
+      </div>
+     </div>
+    </div>
+
+          <div className='font-bold'>Equipment and Extras</div>
         <SelectableCheckbox fieldName='isFlightTrack' label='Flight Track' subLabel='£ 7'  />
         <SelectableCheckbox fieldName='isMeetGreet' label='Meet & Greet' subLabel='£ 15'  />
         </div>
+        {
+          formLoading ? <LoadingButton/> :
          <div onClick={()=>{changeStep(true,3);}} className='p-2 rounded-lg border border-gray-200 w-full text-center text-black font-bold cursor-pointer bg-brand'>
                     Continue 
-         </div>
+         </div>}
          <div onClick={()=>{changeStep(false,3);}} className='p-2 rounded-lg border border-gray-500 w-full text-center text-gray-700 font-semibold cursor-pointer'>
                     Back 
          </div>
