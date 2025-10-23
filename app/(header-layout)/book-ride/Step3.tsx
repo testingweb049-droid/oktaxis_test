@@ -1,4 +1,4 @@
-import {  LuggageIcon, MessageSquare, Phone, User, Users, Mail, Plane } from 'lucide-react'
+import {  LuggageIcon, User, Users, Mail, Plane } from 'lucide-react'
 import React from 'react'
 import {DetailsInput, PhoneInput} from './UserDetailInput'
 import NewDateTimePicker from './NewDateTimePicker'
