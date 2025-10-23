@@ -4,10 +4,12 @@ import MyPaymentForm from './PaymentForm'
 import BackButton from './BackButton'
 
 function Step4() {
+    
     const { formData } = useFormStore()
     const basePrice = Number(formData.price.value ?? 0)
     const returnPrice = formData.isReturn ?  basePrice - (basePrice / 10) : 0
     const totalPrice = (Number(formData.price.value) + (formData.isMeetGreet.value ? 15 : 0) + (formData.isFlightTrack.value ? 7 : 0) + returnPrice).toFixed(2)
+
   return (
     <div className='flex flex-col gap-5 w-full'>
         <div className='flex flex-col gap-6 w-full'>

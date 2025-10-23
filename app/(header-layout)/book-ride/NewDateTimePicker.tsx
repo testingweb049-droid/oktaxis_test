@@ -19,6 +19,7 @@ interface DateTimePickerProps {
   dateFieldName: keyof FormDataType
   timeFieldName: keyof FormDataType
   minSelectableDate?: Date | null
+  isDisable?: boolean
 }
 
 
@@ -29,7 +30,8 @@ export default function NewDateTimePicker({
   dateFieldName,
   timeFieldName,
   minSelectableDate,
-  placeholder
+  placeholder,
+  isDisable
 }: DateTimePickerProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [open, setOpen] = useState(false)
@@ -82,7 +84,7 @@ export default function NewDateTimePicker({
             }`
             : ""
         }
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={() => { if(isDisable){ return;} setOpen((prev) => !prev)}}
         className="w-full focus:outline-none bg-transparent border-transparent"
         placeholder={placeholder}
         />

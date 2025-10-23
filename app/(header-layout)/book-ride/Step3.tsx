@@ -1,4 +1,4 @@
-import {  LuggageIcon, MessageSquare, Phone, User, Users, Mail, Plane } from 'lucide-react'
+import {  LuggageIcon, User, Users, Mail, Plane } from 'lucide-react'
 import React from 'react'
 import {DetailsInput, PhoneInput} from './UserDetailInput'
 import NewDateTimePicker from './NewDateTimePicker'
@@ -48,6 +48,7 @@ const bagsArray = Array.from(
         dateFieldName="date"
         timeFieldName="time" 
          placeholder='Select Date & Time'
+         isDisable={false}
         />
         <div className='grid grid-cols-2 gap-3' >
             <NewDropdownInput Icon={Users} fieldName='passengers' placeholder='No. of Passengers' options={passengersArray} />
@@ -59,7 +60,10 @@ const bagsArray = Array.from(
         selectedTime={formData.returnTime.value}
         setFormData={setFormData}
         dateFieldName="returnDate"
-        timeFieldName="returnTime" placeholder='Select Return Date & Time'/>}
+        minSelectableDate={new Date(formData.date.value)}
+        isDisable={formData.date.value === '' ? true : false}
+        timeFieldName="returnTime" placeholder='Select Return Date & Time'/>
+        }
 
        <div className="w-full">
        <SelectableCheckbox fieldName='isAirportPickup' label='Airport Pickup Details' />
