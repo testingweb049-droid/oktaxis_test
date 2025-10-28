@@ -1,8 +1,8 @@
 
 import FAQSection from '@/components/FAQSection';
 import FeatureCard from '@/components/FeatureCard';
-import FleetShowcase from '@/components/FleetShowcase';
 import HeroBanner from '@/components/HeroBanner';
+import FleetClasses from '@/components/home/fleet';
 import WhyChooseUs from '@/components/WhyChoose';
 import { Clock, DollarSign, Headphones, UserCheck } from 'lucide-react';
 import React from 'react'
@@ -14,10 +14,10 @@ const page = () => {
                 title="Your Premier Taxi Service In London"
                 description="Reliable airport transfers, executive travel, and city journeys with professional drivers and fixed fares. Experience the best of London with OK Taxis."
                 buttonText="Get a Quote & Book Online"
-                buttonLink="/book"
+                buttonLink="/"
                 backgroundImage="/images/banner.jpg"
             />
-            <div className="container mx-auto px-6 py-20">
+            <div className="container mx-auto px-6 py-20 gap-y-8">
                 <WhyChooseUs
                     badge="Why Partner With Us"
                     title="Your Trusted Partner for Travel in London"
@@ -78,7 +78,7 @@ const page = () => {
                     overlayOpacity={0.35}
                 />
 
-                <FleetShowcase
+                {/* <FleetShowcase
                     mainTitle="Our Fleet:"
                     highlightText="The Right Car"
                     subtitle="for Every Occasion"
@@ -103,7 +103,8 @@ const page = () => {
                             description: "Top-of-the-range models from brands like Mercedes-Benz and BMW for the ultimate travel experience."
                         }
                     ]}
-                />
+                /> */}
+                <FleetClasses />
                 <FAQSection
                     title="FAQS ("
                     highlightText="FREQUENTLY ASKED QUESTIONS"
