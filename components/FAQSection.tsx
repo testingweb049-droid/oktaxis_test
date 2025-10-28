@@ -50,7 +50,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
 
     return (
         <div className="container py-12 md:py-16 lg:py-20">
-            <div className="px-4 sm:px-6 lg:px-8">
+            <div className="px-4 sm:px-6 lg:px-8 py-20">
 
                 {/* Header Section */}
                 <div className="text-center mb-8 md:mb-12">

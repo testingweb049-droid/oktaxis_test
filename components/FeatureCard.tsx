@@ -26,9 +26,9 @@ const FeatureCard: React.FC<ContentBlockProps> = ({
             <div className={`flex flex-col ${isImageRight ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-6 lg:gap-12 items-center`}>
 
                 {/* Text Content */}
-                <div className="flex-1 w-full">
-                    <div className="space-y-4">
-                        <span className="inline-block text-yellow-500 text-sm font-medium uppercase tracking-wide">
+                <div className="flex-1 w-full pt-10">
+                    <div className="space-y-1 md:space-y-4">
+                        <span className="inline-block text-yellow-500 text-sm font-semibold uppercase tracking-wide">
                             {badge}
                         </span>
 

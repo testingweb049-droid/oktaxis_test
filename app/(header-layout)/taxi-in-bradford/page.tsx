@@ -1,7 +1,7 @@
 import FAQSection from '@/components/FAQSection';
 import FeatureCard from '@/components/FeatureCard';
-import FleetShowcase from '@/components/FleetShowcase';
 import HeroBanner from '@/components/HeroBanner';
+import FleetClasses from '@/components/home/fleet';
 import WhyChooseUs from '@/components/WhyChoose';
 import { DollarSign, Headphones, Plane, UserCheck } from 'lucide-react';
 import React from 'react'
@@ -13,7 +13,7 @@ const page = () => {
                 title="Leeds Taxi Service | Leeds Bradford Airport Transfers | OK Taxis"
                 description="Your reliable Leeds taxi service for airport transfers & city journeys. We offer fixed fares to Leeds Bradford Airport, professional drivers & 24/7 service."
                 buttonText="Get a Quote & Book Online"
-                buttonLink="/book"
+                buttonLink="/"
                 backgroundImage="/images/banner.jpg"
             />
             <div className="container mx-auto px-6 py-20">
@@ -69,7 +69,7 @@ const page = () => {
                     overlayOpacity={0.35}
                 />
 
-                <FleetShowcase
+                {/* <FleetShowcase
                     mainTitle="Our Fleet:"
                     highlightText="The Right Car"
                     subtitle="for Every Occasion"
@@ -94,7 +94,8 @@ const page = () => {
                             description: "Top-of-the-range models from brands like Mercedes-Benz and BMW for the ultimate travel experience."
                         }
                     ]}
-                />
+                /> */}
+                <FleetClasses />
                 <FAQSection
                     title="FAQS ("
                     highlightText="FREQUENTLY ASKED QUESTIONS"
