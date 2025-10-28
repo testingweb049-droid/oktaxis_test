@@ -24,13 +24,22 @@ const footerData = {
     { title: "Stadium Transfer", href: "/services/stadium-transfer" },
     { title: "Manchester City Center", href: "/services/city-center" },
   ],
+  popularRoutes: [
+    { title: "Taxi in Birmingham", href: "/taxi-in-birmingham" },
+    { title: "Taxi in Bradford", href: "/taxi-in-bradford" },
+    { title: "Taxi in London", href: "/taxi-in-london" },
+  ],
   socialLinks: [
     {
       icon: Facebook,
       href: "https://www.facebook.com/profile.php?id=61572964094684",
       label: "Facebook",
     },
-    { icon: Instagram, href: "https://www.instagram.com/oktax_is/", label: "Instagram" },
+    {
+      icon: Instagram,
+      href: "https://www.instagram.com/oktax_is/",
+      label: "Instagram",
+    },
   ],
   legalLinks: [
     { title: "FAQs", href: "/faqs" },
@@ -43,19 +52,8 @@ const footerData = {
 export default function Footer() {
   return (
     <footer className="bg-black text-white pt-5">
-      {/* Home link */}
-      <div className="container mx-auto flex justify-center pb-6">
-        <Link
-          href="/"
-          className="text-sm text-gray-400 transition-colors hover:text-white underline"
-          aria-label="Home"
-        >
-          Home
-        </Link>
-      </div>
-
       {/* Main footer content */}
-      <div className="container mx-auto grid grid-cols-1 gap-8 px-4 py-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="container mx-auto grid grid-cols-1 gap-8 px-4 py-8 sm:grid-cols-2 lg:grid-cols-5">
         {/* Company Links */}
         <div>
           <h3 className="mb-4 text-base font-bold uppercase">Company</h3>
@@ -74,7 +72,6 @@ export default function Footer() {
         </div>
 
         {/* Top Cities */}
-
         <div>
           <h3 className="mb-4 text-base font-bold uppercase">Top Cities</h3>
           <ul className="space-y-2">
@@ -94,7 +91,6 @@ export default function Footer() {
           </ul>
         </div>
 
-
         {/* Our Services */}
         <div>
           <h3 className="mb-4 text-base font-bold uppercase">Our Services</h3>
@@ -112,22 +108,34 @@ export default function Footer() {
           </ul>
         </div>
 
+        {/* Popular Routes (NEW COLUMN) */}
+        <div>
+          <h3 className="mb-4 text-base font-bold uppercase">Popular Routes</h3>
+          <ul className="space-y-2">
+            {footerData.popularRoutes.map((item) => (
+              <li key={item.title}>
+                <Link
+                  href={item.href}
+                  className="text-sm text-gray-300 transition-colors hover:text-white"
+                >
+                  {item.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
         {/* Contact Info */}
         <div>
           <h3 className="mb-4 text-base font-bold uppercase">Contact Us</h3>
 
-          {/* 1. Phone Number */}
           <p className="text-sm mb-4">
             <strong>Telephone:</strong>{" "}
-            <a
-              href="tel:+447788710290"
-              className="underline hover:text-brand"
-            >
+            <a href="tel:+447788710290" className="underline hover:text-brand">
               +44&nbsp;7788&nbsp;710290
             </a>
           </p>
 
-          {/* 2. Email Address */}
           <p className="text-sm mb-4">
             <strong>Email:</strong>{" "}
             <a
@@ -138,7 +146,6 @@ export default function Footer() {
             </a>
           </p>
 
-          {/* 3. Office Address */}
           <p className="text-sm mb-4">
             <strong>Office Address:</strong> 0B&nbsp;Portway, Wythenshaw,
             Manchester
@@ -146,10 +153,11 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Logo and social/payment icons */}
+      {/* Logo, Payment, and Socials */}
       <div className="border-t border-gray-800 py-8 mt-4">
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+            {/* Logo */}
             <div className="mb-6 md:mb-0">
               <Image
                 src={Logo}
@@ -160,6 +168,7 @@ export default function Footer() {
               />
             </div>
 
+            {/* Payment Methods */}
             <div className="flex flex-wrap justify-center gap-4 md:gap-6">
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png"
@@ -188,6 +197,7 @@ export default function Footer() {
               />
             </div>
 
+            {/* Social Links */}
             <div className="flex flex-wrap justify-center gap-4">
               {footerData.socialLinks.map((item) => {
                 const Icon = item.icon;
@@ -209,7 +219,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Legal links */}
+      {/* Legal Links */}
       <div className="border-t border-gray-800 bg-black py-4">
         <div className="container mx-auto flex flex-col items-center justify-center gap-2 px-4 text-xs text-gray-400 sm:flex-row sm:justify-between">
           <p>© All rights Reserved to OKTaxis Mobility Solutions</p>
