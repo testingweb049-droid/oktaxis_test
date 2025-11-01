@@ -5,10 +5,6 @@ import Image from "next/image";
 import { GoPeople } from "react-icons/go";
 import { PiSuitcase } from "react-icons/pi";
 import { cn } from "@/lib/utils";
-import Economy from "@/assets/vehicles/Econamy.png";
-import Executive from "@/assets/vehicles/Mercedes-S-Class-cutout.png";
-import ExecutivePremium from "@/assets/vehicles/Tesla Model S.png";
-import LuxuryVan from "@/assets/vehicles/Mercedes-V-Class-cutout.png";
 import useFormStore from "@/stores/FormStore";
 import { brandColor } from "@/lib/colors";
 import { ArrowRight } from "lucide-react";
@@ -24,7 +20,7 @@ export const fleets = [
     hourly: 80,
     passengers: 4,
     suitcases: 3,
-    image: Economy,
+    image: '/vehicles/Econamy.png',
   },
   {
     name: "Executive Premium",
@@ -34,7 +30,7 @@ export const fleets = [
     hourly: 100,
     passengers: 4,
     suitcases: 3,
-    image: ExecutivePremium,
+    image: '/vehicles/Tesla Model S.png',
   },
   {
     name: "Premium",
@@ -44,7 +40,7 @@ export const fleets = [
     hourly: 120,
     passengers: 4,
     suitcases: 3,
-    image: Executive,
+    image: '/vehicles/Mercedes-S-Class-cutout.png',
   },
   
   {
@@ -55,7 +51,7 @@ export const fleets = [
     hourly: 160,
     passengers: 6,
     suitcases: 6,
-    image: LuxuryVan,
+    image: '/vehicles/Mercedes-V-Class-cutout.png',
   },
 ];
 
@@ -89,6 +85,8 @@ function CarList() {
           <div className=" bg-white flex justify-center items-center w-full col-span-2">
             <Image
               src={item.image}
+              width={300}
+              height={300}
               alt={item.name}
               className="object-contain w-full"
             />

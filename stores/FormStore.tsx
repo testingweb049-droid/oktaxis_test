@@ -2,6 +2,7 @@
 
 import { createOrder } from "@/actions/add-order";
 import { calculateDistance } from "@/actions/get-distance";
+import { fleets } from "@/app/(header-layout)/book-ride/CarList";
 import { hourlyInitialFormData, tripInitialFormData } from "@/constants/storeInitailObjects";
 import { create } from "zustand";
 
@@ -199,7 +200,7 @@ import { create } from "zustand";
     }
 
     if (_step === 4) {
-      const orderData = Object.entries(formData).reduce<Record<string, any>>((acc, [key, item]) => {
+      let orderData = Object.entries(formData).reduce<Record<string, any>>((acc, [key, item]) => {
         if (key === "stops") {
           acc.stops = formData.stops.map((s) => (s.value));
         } else {
@@ -207,7 +208,8 @@ import { create } from "zustand";
         }
         return acc;
       }, {});
-
+      const selectedCar = fleets.find((item)=>item.name===formData.car.value)
+      orderData = {orderData , carImage: selectedCar?.image }
       try {
         const response = await createOrder(orderData);
         if (response.status !== 201) {

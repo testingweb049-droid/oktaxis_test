@@ -90,7 +90,7 @@ const bagsArray = Array.from(
                     Back 
          </div>
     </div>
-  )
+   )
 }
 
 export default Step3
