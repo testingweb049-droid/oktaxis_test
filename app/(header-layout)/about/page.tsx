@@ -16,6 +16,10 @@ export default function About() {
         description="Learn about OkTaxis, Manchester’s trusted chauffeur and private taxi service. Discover our values of punctuality, safety, and customer care."
         url="https://oktaxis.co.uk/about"
         image="https://oktaxis.com/og-image.jpg"
+         breadcrumbs={[
+          { position: 1, name: "About", item: "https://oktaxis.co.uk/about" },
+          { position: 2, name: "About" }
+        ]}
       />
       <HeroSection2
         bgImage={HeroImge.src}

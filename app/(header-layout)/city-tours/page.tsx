@@ -11,16 +11,20 @@ import {
 import ImageTextSection from "@/components/ui/ImageTextSection";
 import FleetClasses from "@/components/home/fleet";
 import Image from "next/image";
-import Seo from "../../../../../components/Seo";
 import { Check } from "lucide-react";
+import Seo from "@/components/Seo";
 export default function CityTour() {
   return (
     <>
       <Seo
         title="Manchester & Liverpool City Tours | Luxury Chauffeur Sightseeing"
         description="Explore Manchester, Liverpool, and nearby UK cities with OKTaxis’ premium city tour service. Enjoy bespoke itineraries, executive cars, and expert local chauffeurs."
-        url="https://oktaxis.co.uk/services/city-tour"
+        url="https://oktaxis.co.uk/city-tour"
         image="https://oktaxis.co.uk/city.jpg"
+         breadcrumbs={[
+          { position: 1, name: "City Tours", item: "https://oktaxis.co.uk/city-tour" },
+          { position: 2, name: "City Tours" }
+        ]}
       />
       <HeroSection2
         bgImage="/city.jpg"

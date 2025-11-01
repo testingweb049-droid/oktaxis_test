@@ -8,16 +8,20 @@ import {
   FaBirthdayCake,
   FaUsers,
 } from "react-icons/fa";
-import Seo from "../../../../../components/Seo";
 import { Check } from "lucide-react";
+import Seo from "@/components/Seo";
 export default function EventWedding() {
   return (
     <>
       <Seo
         title="Luxury Wedding & Event Transfers | OKTaxis Manchester"
         description="Arrive in style with OKTaxis' luxury wedding and event transfer service in Manchester. Elegant vehicles, professional chauffeurs, and seamless group travel."
-        url="https://oktaxis.co.uk/services/event-wedding"
+        url="https://oktaxis.co.uk/event-wedding"
         image="https://oktaxis.co.uk/Luxury%20Wedding%20&%20Event%20Transfers.jpg"
+         breadcrumbs={[
+          { position: 1, name: "Event Weddings", item: "https://oktaxis.co.uk/event-wedding" },
+          { position: 2, name: "Event Weddings" }
+        ]}
       />
       <HeroSection2
         bgImage="/wedding.png"

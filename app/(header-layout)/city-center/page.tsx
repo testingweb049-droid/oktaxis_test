@@ -8,16 +8,20 @@ import {
   FaMoneyBillWave,
   FaBriefcase,
 } from "react-icons/fa";
-import Seo from "../../../../../components/Seo";
 import { Check } from "lucide-react";
+import Seo from "@/components/Seo";
 export default function CityCenter() {
   return (
     <>
       <Seo
         title="Taxi Manchester City Centre | 24/7 Executive City Transfers"
         description="Book premium taxis in Manchester city centre with OKTaxis. Enjoy fixed rates, executive cars, and fast pickups for shopping, business or night outs."
-        url="https://oktaxis.co.uk/services/city-centre"
+        url="https://oktaxis.co.uk/city-centre"
         image="https://oktaxis.co.uk/Luxury%20Chauffeur%20Service%20(2).webp"
+         breadcrumbs={[
+          { position: 1, name: "City Center", item: "https://oktaxis.co.uk/city-centre" },
+          { position: 2, name: "City Center" }
+        ]}
       />
       <HeroSection2
         bgImage="/Luxury Chauffeur Service (2).webp"
