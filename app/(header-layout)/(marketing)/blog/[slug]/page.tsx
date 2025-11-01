@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getBlogBySlug, getBlogBySite } from "../BlogService";
-import DOMPurify from "isomorphic-dompurify";
+// import DOMPurify from "isomorphic-dompurify";
 
 const slugify = (text: string) =>
   text
@@ -248,12 +248,12 @@ export default async function BlogDetailPage({
               />
             </div>
 
-            <div
+            {/* <div
               className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-li:text-gray-700 prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-ul:list-disc prose-ol:list-decimal mt-10 leading-relaxed space-y-6"
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(blog.content),
               }}
-            />
+            /> */}
           </main>
 
           <aside className="lg:w-1/3 lg:pl-8">
