@@ -9,6 +9,8 @@ import Seo from "../../components/Seo";
 import { Check } from "lucide-react";
 import NewHeroSection from "./book-ride/NewHeroSection";
 import InfiniteSlide from "./book-ride/InfiniteSlide";
+import WhyChoose from "@/components/Sections/WhyChoose";
+import LeftRightSection from "@/components/Sections/LeftRightSection";
 
 
 
@@ -20,13 +22,16 @@ export default function Home() {
         description="Book premium chauffeur services in Manchester with OKTaxis. Luxury airport transfers, hourly hire, city tours, wedding chauffeurs, and stadium transfers. 24/7 reliable service."
         url="https://oktaxis.com"
         image="https://oktaxis.com/og-image.jpg"
+        breadcrumbs={[
+          { position: 1, name: "Home" }
+        ]}
       />
       <main className="min-h-screen">
         <NewHeroSection/>
         <InfiniteSlide/>
         {/* <HeroSection /> */}
         <Services />
-        <ImageTextSection
+        {/* <ImageTextSection
           imageSrc="/OKTaxis In Manchester.png"
           imageAlt="Executive Airport Transfer"
           title={
@@ -46,9 +51,9 @@ export default function Home() {
           }
           bgColor="bg-white"
           imagePosition="right"
-        />
+        /> */}
 
-        <div className="container mx-auto px-4 max-w-7xl">
+        {/* <div className="container mx-auto px-4 max-w-7xl">
           <p className=" text-lg md:text-xl text-gray-700 leading-relaxed">
             As leading experts in chauffeur service UK, we focus on what matters: seamless journeys,
             tailored care, and total satisfaction that turns travel into something special.
@@ -72,11 +77,11 @@ export default function Home() {
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
 
 
 
-        <ImageTextSection
+        {/* <ImageTextSection
           imageSrc="/Taxi To Manchester Airport.png"
           imageAlt="Executive Airport Transfer"
           title={
@@ -98,8 +103,8 @@ export default function Home() {
           }
           bgColor="bg-white"
           imagePosition="left"
-        />
-        <div className="container mx-auto px-4 max-w-7xl">
+        /> */}
+        {/* <div className="container mx-auto px-4 max-w-7xl">
           <p className=" text-lg md:text-xl text-gray-700 leading-relaxed">
             Privacy and confidentiality are our priority for VIP guests at spots like Etihad Stadium or Ascot races, turning potential hassles into pure delight. Clients love our affordable rates and spotless presentation, solving travel worries so you can focus on what matters most.
           </p>
@@ -120,12 +125,12 @@ export default function Home() {
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
 
 
 
 
-        <ImageTextSection
+        {/* <ImageTextSection
           imageSrc="/Manchester Taxi Service.png"
           imageAlt="Executive Airport Transfer"
           title={
@@ -205,8 +210,8 @@ export default function Home() {
 
           </p>
 
-        </div>
-        <ImageTextSection
+        </div> */}
+        {/* <ImageTextSection
           imageSrc="/manchestor.jpg"
           imageAlt="Executive Airport Transfer"
           title={
@@ -255,8 +260,8 @@ export default function Home() {
               </li>
             ))}
           </ul>
-        </div>
-        <ImageTextSection
+        </div> */}
+        {/* <ImageTextSection
           imageSrc="/premium image.jpg"
           imageAlt="Executive Airport Transfer"
           title={
@@ -308,12 +313,14 @@ export default function Home() {
               </li>
             ))}
           </ul>
-        </div>
-        <AboutSection />
-        <LuxuryExperience />
+        </div> */}
+        {/* <AboutSection /> */}
+        {/* <LuxuryExperience /> */}
+        <WhyChoose/>
         <FleetClasses />
-        <ReadyToBook />
-        <Testimonials />
+        {/* <ReadyToBook /> */}
+        {/* <Testimonials /> */}
+        <LeftRightSection/>
       </main>
     </>
   );

@@ -55,26 +55,26 @@ const services = [
     image: "/city.jpg",
     size: "small",
   },
-  {
-    id: 6,
-    slug: "stadium-transfers",
-    title: "Stadium Transfers and Special Events",
-    category: "Stadium Transfer",
-    description:
-      "Get to stadium transfer for games like Etihad or Old Trafford. Enjoy luxury A-to-B transfers with punctual service. Reserve for your next match day.",
-    image: "/Manchester Stadium Transfers.jpg",
-    size: "small",
-  },
-  {
-    id: 7,
-    slug: "city-center",
-    title: "Manchester City Center Transfers",
-    category: "Manchester City Center",
-    image: "/Luxury Chauffeur Service (2).webp",
-    description:
-      "Travel to Manchester City Center with our premium service. Avoid traffic stress with door-to-door convenience. Book for a hassle-free trip.",
-    size: "small",
-  },
+  // {
+  //   id: 6,
+  //   slug: "stadium-transfers",
+  //   title: "Stadium Transfers and Special Events",
+  //   category: "Stadium Transfer",
+  //   description:
+  //     "Get to stadium transfer for games like Etihad or Old Trafford. Enjoy luxury A-to-B transfers with punctual service. Reserve for your next match day.",
+  //   image: "/Manchester Stadium Transfers.jpg",
+  //   size: "small",
+  // },
+  // {
+  //   id: 7,
+  //   slug: "city-center",
+  //   title: "Manchester City Center Transfers",
+  //   category: "Manchester City Center",
+  //   image: "/Luxury Chauffeur Service (2).webp",
+  //   description:
+  //     "Travel to Manchester City Center with our premium service. Avoid traffic stress with door-to-door convenience. Book for a hassle-free trip.",
+  //   size: "small",
+  // },
 ]
 
 
@@ -175,7 +175,7 @@ export default function Services() {
         </div>
 
         {/* Row 2: 4 equal small cards */}
-        <div className="grid gap-6 md:grid-cols-4">
+        <div className="grid gap-6 md:grid-cols-2">
           {services.slice(3).map((service) => (
             <Link href={`/services/${service.slug}`} key={service.id}>
               <div className="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-full">

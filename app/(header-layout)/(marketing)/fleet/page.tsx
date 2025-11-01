@@ -16,6 +16,10 @@ export default function Fleet() {
         description="Explore OKTaxis’ premium fleet including executive sedans, spacious vans, and luxury vehicles. Impeccably maintained for every journey in Manchester and beyond."
         url="https://oktaxis.co.uk/fleet"
         image="https://oktaxis.com/og-fleet.jpg" // Replace with actual hosted image
+        breadcrumbs={[
+          { position: 1, name: "Fleet", item: "https://oktaxis.co.uk/fleet" },
+          { position: 2, name: "Fleet" }
+        ]}
       />
 
       <HeroSection2

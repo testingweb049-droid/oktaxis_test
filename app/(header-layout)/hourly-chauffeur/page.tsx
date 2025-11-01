@@ -11,8 +11,8 @@ import {
   FaUserTie,
   FaCarSide,
 } from "react-icons/fa";
-import Seo from "../../../../../components/Seo";
 import { Check } from "lucide-react";
+import Seo from "@/components/Seo";
 export default function HourlyChauffeur() {
   return (
     <>
@@ -20,8 +20,12 @@ export default function HourlyChauffeur() {
         title="Hourly Chauffeur Manchester | Luxury Hire by the Hour or Day
 "
         description="Book flexible hourly chauffeur in Manchester with OKTaxis. Enjoy luxury vehicles, professional drivers, and transparent pricing for business, leisure, or events. Free cancellation up to 48 hours."
-        url="https://oktaxis.co.uk/services/hourly-chauffeur"
+        url="https://oktaxis.co.uk/hourly-chauffeur"
         image="https://oktaxis.co.uk/images/hourly-service.png"
+         breadcrumbs={[
+          { position: 1, name: "Hourly Chauffeur", item: "https://oktaxis.co.uk/hourly-chauffeur" },
+          { position: 2, name: "Hourly Chauffeur" }
+        ]}
       />
       <HeroSection2
         bgImage="/images/hourly-service.png"

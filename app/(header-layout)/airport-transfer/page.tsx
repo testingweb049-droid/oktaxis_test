@@ -14,8 +14,8 @@ import {
   FaHeadset,
   FaStar,
 } from "react-icons/fa";
-import Seo from "../../../../../components/Seo";
 import { Check } from "lucide-react";
+import Seo from "@/components/Seo";
 export default function AirportTransfer() {
   return (
     <>
