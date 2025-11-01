@@ -80,8 +80,8 @@ export async function createOrder(data: OrderDataType) {
     }
     
     // ✅ Email setup
-    const carImage = `http://localhost:3000/${data.carImage}`;
-    const orderLink = `http://localhost:3000/order/${order.id}`;
+    const carImage = `https://oktaxis.co.uk/${data.carImage}`;
+    const orderLink = `https://oktaxis.co.uk/order/${order.id}`;
     const transporter = nodemailer.createTransport(emailConfig);
     const stops = data.stops.map((item,index)=>({label:index===0? 'Pickup Location' : data.stops.length-1 === index ? data.category==='hourly' ? 'Duration' : 'Stop ' + index  : 'Dropoff Location' , value:data.stops.length-1 === index && data.category==='hourly' ? item + ' hours' : item}))
     const htmEmail = await render(TripOrderEmailTemplate({carImage, stops, viewOrderLink:orderLink}))

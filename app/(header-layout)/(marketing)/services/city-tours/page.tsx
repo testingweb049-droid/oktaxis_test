@@ -19,8 +19,8 @@ export default function CityTour() {
       <Seo
         title="Manchester & Liverpool City Tours | Luxury Chauffeur Sightseeing"
         description="Explore Manchester, Liverpool, and nearby UK cities with OKTaxis’ premium city tour service. Enjoy bespoke itineraries, executive cars, and expert local chauffeurs."
-        url="http://localhost:3000/services/city-tour"
-        image="http://localhost:3000/city.jpg"
+        url="https://oktaxis.co.uk/services/city-tour"
+        image="https://oktaxis.co.uk/city.jpg"
       />
       <HeroSection2
         bgImage="/city.jpg"
@@ -269,7 +269,7 @@ export default function CityTour() {
         text={
           <>
             <p>
-              Eager to book a bespoke chauffeur for your Manchester day tour or long-distance escapade? OK Taxis crafts your dream route, spanning day tours from Manchester UK to key spots or simple car chauffeur city jaunts. Drop us a line for info and a no-cost tour quote—pop over to <strong className="text-brand underline">http://localhost:3000/</strong> , dial <strong className="text-brand">+44 7788 710290</strong>, or ping <strong className="text-brand">info@oktaxis.co.uk</strong>. Nestled at 0B Portway, Wythenshawe, Manchester, we're primed for stellar adventures.
+              Eager to book a bespoke chauffeur for your Manchester day tour or long-distance escapade? OK Taxis crafts your dream route, spanning day tours from Manchester UK to key spots or simple car chauffeur city jaunts. Drop us a line for info and a no-cost tour quote—pop over to <strong className="text-brand underline">https://oktaxis.co.uk/</strong> , dial <strong className="text-brand">+44 7788 710290</strong>, or ping <strong className="text-brand">info@oktaxis.co.uk</strong>. Nestled at 0B Portway, Wythenshawe, Manchester, we're primed for stellar adventures.
 
 
             </p>

@@ -29,7 +29,7 @@ export async function generateMetadata({
       .toLowerCase()
       .replace(/ /g, "-")
       .replace(/[^\w-]+/g, "");
-  const baseUrl = "http://localhost:3000/"; // Replace with your production domain
+  const baseUrl = "https://oktaxis.co.uk/"; // Replace with your production domain
   const canonicalUrl = `${baseUrl}/blog/${slug}`;
 
   return {
@@ -120,14 +120,14 @@ export default async function BlogDetailPage({
               name: "OK Taxis",
               logo: {
                 "@type": "ImageObject",
-                url: "http://localhost:3000/logo.png", // Replace with real logo
+                url: "https://oktaxis.co.uk/logo.png", // Replace with real logo
               },
             },
             datePublished: blog.publishDate || blog.createdAt,
             dateModified: blog.updatedAt || blog.publishDate || blog.createdAt,
             mainEntityOfPage: {
               "@type": "WebPage",
-              "@id": `http://localhost:3000/blog/${slugify(
+              "@id": `https://oktaxis.co.uk/blog/${slugify(
                 blog.slug || blog.title
               )}`,
             },

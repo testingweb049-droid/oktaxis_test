@@ -95,9 +95,9 @@ export async function POST(req: NextRequest) {
           ${renderField('Booking Price £', bookingDetails.price)}
 
           <div style="margin-top: 20px;">
-            <a href="http://localhost:3000/api/booking/action?status=accept&email=${passengerInfo.email}" 
+            <a href="https://oktaxis.co.uk/api/booking/action?status=accept&email=${passengerInfo.email}" 
               style="${buttonStyle} background-color: #2ecc71;">Accept</a>
-            <a href="http://localhost:3000/api/booking/action?status=decline&email=${passengerInfo.email}" 
+            <a href="https://oktaxis.co.uk/api/booking/action?status=decline&email=${passengerInfo.email}" 
               style="${buttonStyle} background-color: #e74c3c;">Decline</a>
           </div>
         </div>

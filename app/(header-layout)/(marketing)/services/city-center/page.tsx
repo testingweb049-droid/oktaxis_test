@@ -16,8 +16,8 @@ export default function CityCenter() {
       <Seo
         title="Taxi Manchester City Centre | 24/7 Executive City Transfers"
         description="Book premium taxis in Manchester city centre with OKTaxis. Enjoy fixed rates, executive cars, and fast pickups for shopping, business or night outs."
-        url="http://localhost:3000/services/city-centre"
-        image="http://localhost:3000/Luxury%20Chauffeur%20Service%20(2).webp"
+        url="https://oktaxis.co.uk/services/city-centre"
+        image="https://oktaxis.co.uk/Luxury%20Chauffeur%20Service%20(2).webp"
       />
       <HeroSection2
         bgImage="/Luxury Chauffeur Service (2).webp"
@@ -216,7 +216,7 @@ export default function CityCenter() {
         text={
           <>
             <p className="mb-4">
-              Concerned about escalating costs for a city taxi Manchester? OK Taxis delivers affordable, transparent pricing from the outset, avoiding the surprises of hidden fees that I've observed unsettling many passengers. Obtain instant quotes effortlessly via our website at <strong>http://localhost:3000/</strong>  or by calling  <strong> +44 7788 710290</strong>, with no obligations and competitive rates that economise on Manchester city taxi service journeys.
+              Concerned about escalating costs for a city taxi Manchester? OK Taxis delivers affordable, transparent pricing from the outset, avoiding the surprises of hidden fees that I've observed unsettling many passengers. Obtain instant quotes effortlessly via our website at <strong>https://oktaxis.co.uk/</strong>  or by calling  <strong> +44 7788 710290</strong>, with no obligations and competitive rates that economise on Manchester city taxi service journeys.
 
             </p>
 

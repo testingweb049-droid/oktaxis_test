@@ -105,8 +105,12 @@ function OrderPage({ id }: { id: string }) {
   const stops = order.stops || [];
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-32 text-wrap break-all px-3">
+    <div className="min-h-screen bg-gray-50  text-wrap break-all ">
+      <div className='h-20 w-full bg-black mb-10' ></div>
       {/* Header */}
+      <div className='px-3'>
+
+      
       <header className="bg-[#181818] text-white flex justify-between items-center px-6 sm:px-10 py-5 max-w-screen-lg mx-auto rounded-2xl">
          <Image src={WhiteLogo} alt='logo' className='max-w-16 sm:max-w-32 object-contain' /> 
         
@@ -170,11 +174,18 @@ function OrderPage({ id }: { id: string }) {
             ))}
 
             {/* Drop-off */}
-            <TimelineItem
+            { order.category === 'hourly' ? 
+             <TimelineItem
+              color="red"
+              label="Duration"
+              value={order.duration?.toString() || 'N/A'}
+            />
+            :
+              <TimelineItem
               color="red"
               label="Drop-Off"
               value={order.dropoff_location || 'N/A'}
-            />
+            />}
           </div>
         </div>
 
@@ -238,6 +249,7 @@ function OrderPage({ id }: { id: string }) {
           </div>
         </InfoCard>
       </main>
+      </div>
     </div>
   );
 }

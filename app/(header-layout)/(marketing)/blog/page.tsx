@@ -49,8 +49,8 @@ export default async function Blog() {
       <Seo
         title="OKTaxis Blog – Expert Travel Tips & Updates"
         description="Explore the OKTaxis blog for expert travel advice, company news, and local tips from Manchester’s premier taxi and chauffeur service."
-        url="http://localhost:3000/blog"
-        image="http://localhost:3000/stadium%20transfers%20to%20manchester%20united.webp"
+        url="https://oktaxis.co.uk/blog"
+        image="https://oktaxis.co.uk/stadium%20transfers%20to%20manchester%20united.webp"
       />
 
       <BlogHeroSection

@@ -16,8 +16,8 @@ export default function EventWedding() {
       <Seo
         title="Luxury Wedding & Event Transfers | OKTaxis Manchester"
         description="Arrive in style with OKTaxis' luxury wedding and event transfer service in Manchester. Elegant vehicles, professional chauffeurs, and seamless group travel."
-        url="http://localhost:3000/services/event-wedding"
-        image="http://localhost:3000/Luxury%20Wedding%20&%20Event%20Transfers.jpg"
+        url="https://oktaxis.co.uk/services/event-wedding"
+        image="https://oktaxis.co.uk/Luxury%20Wedding%20&%20Event%20Transfers.jpg"
       />
       <HeroSection2
         bgImage="/wedding.png"

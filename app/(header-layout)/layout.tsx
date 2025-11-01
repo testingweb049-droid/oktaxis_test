@@ -23,20 +23,20 @@ export default function RootLayout({
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebPage",
-            "@id": "http://localhost:3000/#webpage",
-            url: "http://localhost:3000/",
+            "@id": "https://oktaxis.co.uk/#webpage",
+            url: "https://oktaxis.co.uk/",
             name: "OkTaxis | Trusted Taxi Service in Manchester",
-            isPartOf: { "@id": "http://localhost:3000/#website" },
+            isPartOf: { "@id": "https://oktaxis.co.uk/#website" },
             datePublished: "2024-12-04T00:00:00+00:00",
             dateModified: "2025-02-21T00:00:00+00:00",
             description:
               "Book reliable and affordable taxi and chauffeur services in Manchester. 24/7 availability. Airport transfers, city rides & more.",
-            breadcrumb: { "@id": "http://localhost:3000/#breadcrumb" },
+            breadcrumb: { "@id": "https://oktaxis.co.uk/#breadcrumb" },
             inLanguage: "en-GB",
             potentialAction: [
               {
                 "@type": "ReadAction",
-                target: ["http://localhost:3000/"],
+                target: ["https://oktaxis.co.uk/"],
               },
             ],
           }),

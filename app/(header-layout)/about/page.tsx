@@ -14,7 +14,7 @@ export default function About() {
       <Seo
         title="About OkTaxis | Premium Chauffeur Service in Manchester"
         description="Learn about OkTaxis, Manchester’s trusted chauffeur and private taxi service. Discover our values of punctuality, safety, and customer care."
-        url="http://localhost:3000/about"
+        url="https://oktaxis.co.uk/about"
         image="https://oktaxis.com/og-image.jpg"
       />
       <HeroSection2

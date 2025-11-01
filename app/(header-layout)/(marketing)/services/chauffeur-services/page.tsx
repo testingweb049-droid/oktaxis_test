@@ -11,8 +11,8 @@ export default function ChauffeurServices() {
       <Seo
         title="Chauffeur Services in Manchester | OKTaxis"
         description="Book professional chauffeur services in Manchester for airport transfers, corporate events, and luxury rides. 24/7 service with licensed drivers and premium amenities."
-        url="http://localhost:3000/services/chauffeur-services"
-        image="http://localhost:3000/blog6.webp"
+        url="https://oktaxis.co.uk/services/chauffeur-services"
+        image="https://oktaxis.co.uk/blog6.webp"
       />
       <HeroSection2
         bgImage="/blog6.webp"
