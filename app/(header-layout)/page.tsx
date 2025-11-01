@@ -285,7 +285,7 @@ export default function Home() {
         />
         <div className="container mx-auto px-4 max-w-7xl">
           <p className=" text-lg md:text-xl text-gray-700 leading-relaxed">
-            Jump on <strong className="text-brand">https://oktaxis.co.uk/</strong>  for quick quotes, clear prices with no surprises, VAT's in there too. We're here round the clock for airport runs, late nights out, one-way hauls, or custom routes, with easy pay options, free WiFi and water, plus help anytime by phone, email, or chat. Our glowing 5-star feedback and proper licenses mean you get hassle-free travel that fixes all your transport woes, day or night.
+            Jump on <strong className="text-brand">http://localhost:3000/</strong>  for quick quotes, clear prices with no surprises, VAT's in there too. We're here round the clock for airport runs, late nights out, one-way hauls, or custom routes, with easy pay options, free WiFi and water, plus help anytime by phone, email, or chat. Our glowing 5-star feedback and proper licenses mean you get hassle-free travel that fixes all your transport woes, day or night.
 
 
           </p>

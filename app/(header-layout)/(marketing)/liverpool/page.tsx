@@ -22,8 +22,8 @@ export default function Liverpool() {
             <Seo
                 title="Liverpool Airport Transfers | Reliable Taxi & Chauffeur Service"
                 description="Book seamless Liverpool airport transfers with OKTaxis. Enjoy executive chauffeur service, flight tracking, and 24/7 pickups from Liverpool, Manchester, and UK airports."
-                url="https://oktaxis.co.uk/liverpool"
-                image="https://oktaxis.co.uk/images/airport-transfer.png"
+                url="http://localhost:3000/liverpool"
+                image="http://localhost:3000/images/airport-transfer.png"
             />
 
 
@@ -107,7 +107,7 @@ export default function Liverpool() {
                 text={
                     <>
                         <p>
-                            For Liverpool professionals, our corporate travel solutions eliminate the frustration of unreliable transport amid demanding days, delivering executive chauffeur services Liverpool that guarantee timely, relaxed arrivals at meetings. Our courteous, efficient chauffeurs manage all logistics, freeing you to concentrate on work. With bespoke options like enhanced security, we accommodate high-profile requirements in television, film production, and theatre sectors. As Viktor, fuelled by passion for unparalleled service, I've crafted this to ensure everyone feels fully supported, reach us via <strong className="text-brand underline">https://oktaxis.co.uk/</strong>  for straightforward arrangements.
+                            For Liverpool professionals, our corporate travel solutions eliminate the frustration of unreliable transport amid demanding days, delivering executive chauffeur services Liverpool that guarantee timely, relaxed arrivals at meetings. Our courteous, efficient chauffeurs manage all logistics, freeing you to concentrate on work. With bespoke options like enhanced security, we accommodate high-profile requirements in television, film production, and theatre sectors. As Viktor, fuelled by passion for unparalleled service, I've crafted this to ensure everyone feels fully supported, reach us via <strong className="text-brand underline">http://localhost:3000/</strong>  for straightforward arrangements.
 
                         </p>
 
@@ -325,7 +325,7 @@ export default function Liverpool() {
                 text={
                     <>
                         <p>
-                            Battling complex bookings? Our straightforward process for chauffeur services Liverpool is swift and user-friendly—visit <strong className="text-brand underline">https://oktaxis.co.uk/</strong>  or dial  <strong className="text-brand underline">+44 7788 710290</strong> to arrange. We facilitate advance reservations for busy periods without any fuss. As the owner Viktor, I've engineered this for genuine ease, with <strong className="text-brand">info@oktaxis.co.uk</strong> available for any questions.
+                            Battling complex bookings? Our straightforward process for chauffeur services Liverpool is swift and user-friendly—visit <strong className="text-brand underline">http://localhost:3000/</strong>  or dial  <strong className="text-brand underline">+44 7788 710290</strong> to arrange. We facilitate advance reservations for busy periods without any fuss. As the owner Viktor, I've engineered this for genuine ease, with <strong className="text-brand">info@oktaxis.co.uk</strong> available for any questions.
 
                         </p>
 

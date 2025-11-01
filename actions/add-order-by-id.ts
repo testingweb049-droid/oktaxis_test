@@ -25,7 +25,7 @@ export async function createOrderById({orderId,clientSecret}:{orderId:string,cli
     }
   
    console.log("one")
-   const orderLink = `https://oktaxis.co.uk/order/${orderId}`; 
+   const orderLink = `http://localhost:3000/order/${orderId}`; 
    console.log("two")
    
    const transporter = nodemailer.createTransport(emailConfig);

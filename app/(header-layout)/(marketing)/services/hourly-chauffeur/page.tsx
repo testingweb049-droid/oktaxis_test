@@ -20,8 +20,8 @@ export default function HourlyChauffeur() {
         title="Hourly Chauffeur Manchester | Luxury Hire by the Hour or Day
 "
         description="Book flexible hourly chauffeur in Manchester with OKTaxis. Enjoy luxury vehicles, professional drivers, and transparent pricing for business, leisure, or events. Free cancellation up to 48 hours."
-        url="https://oktaxis.co.uk/services/hourly-chauffeur"
-        image="https://oktaxis.co.uk/images/hourly-service.png"
+        url="http://localhost:3000/services/hourly-chauffeur"
+        image="http://localhost:3000/images/hourly-service.png"
       />
       <HeroSection2
         bgImage="/images/hourly-service.png"

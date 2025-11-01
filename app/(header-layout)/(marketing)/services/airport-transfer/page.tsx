@@ -22,8 +22,8 @@ export default function AirportTransfer() {
       <Seo
         title="Manchester Airport Transfers | Reliable Taxi & Chauffeur Service"
         description="Book seamless Manchester airport transfers with OKTaxis. Enjoy executive chauffeur service, flight tracking, and 24/7 pickups from Manchester, Liverpool, and UK airports. Stress-free travel starts here."
-        url="https://oktaxis.co.uk/services/airport-transfer"
-        image="https://oktaxis.co.uk/images/airport-transfer.png"
+        url="http://localhost:3000/services/airport-transfer"
+        image="http://localhost:3000/images/airport-transfer.png"
       />
 
       <HeroSection2

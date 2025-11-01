@@ -1,5 +1,5 @@
 module.exports = {
-  siteUrl: 'https://oktaxis.co.uk/',
+  siteUrl: 'http://localhost:3000/',
   generateRobotsTxt: true,
   
   exclude: ['/admin', '/login'], // optional

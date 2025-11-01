@@ -9,7 +9,7 @@ export default function RegisterDriverPage() {
       <Seo
         title="Drive with OKTaxis | Register as a Chauffeur"
         description="Join OKTaxis as a professional chauffeur. Enjoy flexible hours, weekly pay, and premium passengers. Apply now to start your journey."
-        url="https://oktaxis.co.uk/register-driver"
+        url="http://localhost:3000/register-driver"
         image="https://oktaxis.com/og-driver.jpg" // Replace with a real image path
       />
       {/* <HeroSection2

@@ -11,7 +11,7 @@ const Contact = () => {
     <Seo
         title="Contact OKTaxis | 24/7 Chauffeur & Airport Transfers in Manchester"
         description="Get in touch with OKTaxis for luxury chauffeur service and airport transfers across Manchester and Liverpool. Available 24/7 via phone or email."
-        url="https://oktaxis.co.uk/contact"
+        url="http://localhost:3000/contact"
         image="https://oktaxis.com/og-image.jpg" // Make sure this exists
       />
       <div className="w-full flex flex-col gap-16 items-center pt-32 pb-20 px-4 bg-white">

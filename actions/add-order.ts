@@ -7,11 +7,36 @@ import { emailConfig } from '@/lib/emailConfig';
 import { render } from '@react-email/components';
 import { TripOrderEmailTemplate } from '@/components/emails/BookingEmailTemplate';
 
-interface FrontendOrderData {
-  [key: string]: any;
+export interface OrderDataType {
+  fromLocation: string;
+  toLocation: string;
+  stops: string[];
+  duration: string;
+  distance: number;
+  car: string;
+  price: string;
+  name: string;
+  phone: string;
+  email: string;
+  date: string;
+  time: string;
+  returnDate: string;
+  returnTime: string;
+  passengers: string;
+  bags: string;
+  flightName: string;
+  flightNumber: string;
+  paymentId: string;
+  isAirportPickup: boolean;
+  isFlightTrack: boolean;
+  isMeetGreet: boolean;
+  isReturn: boolean;
+  carImage?: string; 
+  category: 'hourly' | 'trip'
 }
 
-export async function createOrder(data: FrontendOrderData) {
+
+export async function createOrder(data: OrderDataType) {
   try {
    
     const orderData = {
@@ -55,10 +80,11 @@ export async function createOrder(data: FrontendOrderData) {
     }
     
     // ✅ Email setup
-    const carImage = `https://oktaxis.co.uk${data.carImage}`;
-    const orderLink = `https://oktaxis.co.uk/order/${order.id}`;
+    const carImage = `http://localhost:3000/${data.carImage}`;
+    const orderLink = `http://localhost:3000/order/${order.id}`;
     const transporter = nodemailer.createTransport(emailConfig);
-    const htmEmail = await render(TripOrderEmailTemplate({carImage, stops:data.stops, viewOrderLink:orderLink}))
+    const stops = data.stops.map((item,index)=>({label:index===0? 'Pickup Location' : data.stops.length-1 === index ? data.category==='hourly' ? 'Duration' : 'Stop ' + index  : 'Dropoff Location' , value:data.stops.length-1 === index && data.category==='hourly' ? item + ' hours' : item}))
+    const htmEmail = await render(TripOrderEmailTemplate({carImage, stops, viewOrderLink:orderLink}))
 
     await transporter.sendMail({
       from: 'reservation@oktaxis.co.uk',

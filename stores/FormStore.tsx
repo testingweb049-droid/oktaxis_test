@@ -1,8 +1,8 @@
 'use client';
 
-import { createOrder } from "@/actions/add-order";
+import { createOrder, OrderDataType } from "@/actions/add-order";
 import { calculateDistance } from "@/actions/get-distance";
-import { fleets } from "@/app/(header-layout)/book-ride/CarList";
+import { fleets, fleetsLocal } from "@/app/(header-layout)/book-ride/CarList";
 import { hourlyInitialFormData, tripInitialFormData } from "@/constants/storeInitailObjects";
 import { create } from "zustand";
 
@@ -200,16 +200,43 @@ import { create } from "zustand";
     }
 
     if (_step === 4) {
-      let orderData = Object.entries(formData).reduce<Record<string, any>>((acc, [key, item]) => {
-        if (key === "stops") {
-          acc.stops = formData.stops.map((s) => (s.value));
-        } else {
-          acc[key] = (item as FieldType<any>).value;
-        }
-        return acc;
-      }, {});
-      const selectedCar = fleets.find((item)=>item.name===formData.car.value)
-      orderData = {orderData , carImage: selectedCar?.image }
+
+// inside your changeStep function (step === 4)
+let orderData: OrderDataType = {
+  fromLocation: formData.fromLocation.value,
+  toLocation: formData.toLocation.value,
+  stops: formData.stops.map((s) => s.value),
+  duration: formData.duration.value,
+  distance: formData.distance.value,
+  car: formData.car.value,
+  price: formData.price.value,
+  name: formData.name.value,
+  phone: formData.phone.value,
+  email: formData.email.value,
+  date: formData.date.value,
+  time: formData.time.value,
+  returnDate: formData.returnDate.value,
+  returnTime: formData.returnTime.value,
+  passengers: formData.passengers.value,
+  bags: formData.bags.value,
+  flightName: formData.flightName.value,
+  flightNumber: formData.flightNumber.value,
+  paymentId: formData.paymentId.value,
+  isAirportPickup: formData.isAirportPickup.value,
+  isFlightTrack: formData.isFlightTrack.value,
+  isMeetGreet: formData.isMeetGreet.value,
+  isReturn: formData.isReturn.value,
+  category
+};
+
+// Add car image and category
+const selectedCar = fleetsLocal.find((item) => item.name === formData.car.value);
+orderData = {
+  ...orderData,
+  carImage: selectedCar?.image,
+  
+};
+
       try {
         const response = await createOrder(orderData);
         if (response.status !== 201) {

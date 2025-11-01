@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://oktaxis.co.uk/
+Host: http://localhost:3000/
 
 # Sitemaps
-Sitemap: https://oktaxis.co.uk/sitemap.xml
+Sitemap: http://localhost:3000/sitemap.xml

@@ -14,7 +14,7 @@ export default function Fleet() {
       <Seo
         title="Our Fleet | OKTaxis Manchester Chauffeur Services"
         description="Explore OKTaxis’ premium fleet including executive sedans, spacious vans, and luxury vehicles. Impeccably maintained for every journey in Manchester and beyond."
-        url="https://oktaxis.co.uk/fleet"
+        url="http://localhost:3000/fleet"
         image="https://oktaxis.com/og-fleet.jpg" // Replace with actual hosted image
       />
 
