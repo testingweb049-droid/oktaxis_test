@@ -23,12 +23,12 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.png",
   },
-  metadataBase: new URL("https://oktaxis.co.uk"),
+  metadataBase: new URL("https://oktaxis.co.uk/"),
   openGraph: {
     title: "OkTaxis | Trusted Taxi Service in Manchester",
     description:
       "Reliable and affordable taxi rides in Manchester and surrounding areas. 24/7 service available.",
-    url: "https://oktaxis.co.uk",
+    url: "https://oktaxis.co.uk/",
     siteName: "OkTaxis",
     images: [
       {
@@ -54,7 +54,7 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <head>
         {/* ✅ Canonical & Structured Data */}
-        <link rel="canonical" href="https://oktaxis.co.uk" />
+        <link rel="canonical" href="https://oktaxis.co.uk/" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -62,7 +62,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "TaxiService",
               name: "OkTaxis",
-              url: "https://oktaxis.co.uk",
+              url: "https://oktaxis.co.uk/",
               logo: "https://oktaxis.co.uk/logo.png",
               image: "https://oktaxis.co.uk/cover.jpg",
               description:

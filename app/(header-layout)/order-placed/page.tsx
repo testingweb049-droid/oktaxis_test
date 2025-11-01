@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useRef } from 'react'
 import { fleets } from '../book-ride/CarList'
 import { MdDone } from 'react-icons/md'
-import { LocateIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 

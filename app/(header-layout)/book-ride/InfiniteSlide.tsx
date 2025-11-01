@@ -36,7 +36,7 @@ function InfiniteSlide() {
             { list.map((item)=>{
               return <div key={item.text} className="flex items-center text-gray-700 text-xl font-medium " >
                 <div className="pl-8 pr-4 w-24" >
-                <Image src={item.image} alt={item.text} className="w-12"/>
+                <Image src={item.image}  alt={item.text} className="w-12"/>
                 </div>
                 <p className="text-nowrap">{item.text}</p>
               </div>

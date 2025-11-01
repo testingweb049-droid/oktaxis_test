@@ -11,7 +11,7 @@ export default function SelectedCar()
  
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4 flex items-center justify-between gap-2 w-full">
-      <Image src={selectedFleet.image} alt={selectedFleet.name} className="w-16" />
+      <Image src={selectedFleet.image}  alt={selectedFleet.name} className="w-16" />
        <div className="font-bold text-sm" >{selectedFleet.name}</div>
        <div className="flex items-center gap-2">
          

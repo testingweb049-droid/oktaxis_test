@@ -3,7 +3,7 @@
 import Stripe from "stripe"
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
-  apiVersion: "2025-06-30.basil", // ✅ CORRECT VERSION
+  apiVersion: "2025-06-30.basil", 
 });
 interface ProcessStripePaymentProps {
   amount: number
@@ -12,15 +12,12 @@ interface ProcessStripePaymentProps {
 
 export async function processStripePayment({ amount, paymentIntentId }: ProcessStripePaymentProps) {
   try {
-    // Verify the payment was successful
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId)
 
     if (paymentIntent.status !== "succeeded") {
       return { success: false, error: "Payment not successful" }
     }
 
-    // Here you would typically save the payment details to your database
-    // ...
 
     return {
       success: true,
