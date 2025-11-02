@@ -1,5 +1,5 @@
 {
-  "id": "4507dda6-d721-4170-a681-592d60facee2",
+  "id": "afb9c092-d8c4-48df-bdb0-2c5aa4ade30d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -39,21 +39,9 @@
           "primaryKey": false,
           "notNull": false
         },
-        "stop_1": {
-          "name": "stop_1",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "stop_2": {
-          "name": "stop_2",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "stop_3": {
-          "name": "stop_3",
-          "type": "varchar",
+        "stops": {
+          "name": "stops",
+          "type": "text[]",
           "primaryKey": false,
           "notNull": false
         },
@@ -61,13 +49,31 @@
           "name": "pickup_date",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "pickup_time": {
           "name": "pickup_time",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
+        },
+        "return_date": {
+          "name": "return_date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "return_time": {
+          "name": "return_time",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_return": {
+          "name": "is_return",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
         },
         "pickup_location": {
           "name": "pickup_location",
@@ -138,6 +144,18 @@
         "duration": {
           "name": "duration",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "flight_track": {
+          "name": "flight_track",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "meet_greet": {
+          "name": "meet_greet",
+          "type": "boolean",
           "primaryKey": false,
           "notNull": false
         },
