@@ -1,5 +1,4 @@
 import type React from "react";
-import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -9,6 +8,7 @@ import { Toaster } from "@/components/ui/toaster";
 import StripeProvider from "@/components/BookingForm/PaymentCardModal/StripeProvider";
 import { CustomFormProvider } from "@/context/FormContext";
 import { OrderProvider } from '@/context/OrderContext';
+
 const roboto = Roboto({
   weight: ["100", "300", "400", "700", "900"],
   subsets: ["latin"],
@@ -16,36 +16,7 @@ const roboto = Roboto({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "OkTaxis | Trusted Taxi Service in Manchester",
-  description:
-    "Book reliable and affordable taxi services in Manchester. 24/7 availability. Airport transfers, city rides & more.",
-  icons: {
-    icon: "/favicon.png",
-  },
-  metadataBase: new URL("https://oktaxis.co.uk/"),
-  openGraph: {
-    title: "OkTaxis | Trusted Taxi Service in Manchester",
-    description:
-      "Reliable and affordable taxi rides in Manchester and surrounding areas. 24/7 service available.",
-    url: "https://oktaxis.co.uk/",
-    siteName: "OkTaxis",
-    images: [
-      {
-        url: "/cover.jpg",
-        width: 1200,
-        height: 630,
-        alt: "OkTaxis Fleet - Reliable Manchester Taxi Service",
-      },
-    ],
-    locale: "en_GB",
-    type: "website",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+// REMOVED metadata export - Let SEO component handle it
 
 export default function RootLayout({
   children,
@@ -53,36 +24,55 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        {/* ✅ Canonical & Structured Data */}
-        <link rel="canonical" href="https://oktaxis.co.uk/" />
-        <script
+        {/* Basic meta tags that are common to all pages */}
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
+        {/* Preload critical resources */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* Favicon */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+
+        {/* Common Organization Schema */}
+        <Script
+          id="json-ld-organization"
           type="application/ld+json"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "TaxiService",
-              name: "OkTaxis",
-              url: "https://oktaxis.co.uk/",
-              logo: "https://oktaxis.co.uk/logo.png",
-              image: "https://oktaxis.co.uk/cover.jpg",
-              description:
-                "Trusted 24/7 taxi service in Manchester for airport transfers and city rides.",
-              telephone: "+44 1234 567890",
-              address: {
+              "@type": "Organization",
+              "name": "OKTaxis",
+              "url": "https://oktaxis.co.uk",
+              "logo": "https://oktaxis.co.uk/logo.png",
+              "description": "Premium taxi services in Manchester and Liverpool",
+              "address": {
                 "@type": "PostalAddress",
-                addressLocality: "Manchester",
-                addressCountry: "UK",
+                "streetAddress": "0B Portway",
+                "addressLocality": "Wythenshawe",
+                "addressRegion": "Manchester",
+                "addressCountry": "GB"
               },
-              areaServed: {
-                "@type": "City",
-                name: "Manchester",
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+44-7788-710290",
+                "contactType": "customer service",
+                "availableLanguage": ["English"]
               },
+              "sameAs": []
             }),
           }}
         />
 
         {/* ✅ Google Tag Manager (HEAD) */}
-        <script
+        <Script
+          id="gtm-script"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -105,14 +95,16 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
-        <OrderProvider><CustomFormProvider>
-          <StripeProvider>
-            {children}
-            <Toaster />
-          </StripeProvider>
-          <Footer />
-        </CustomFormProvider></OrderProvider>
-
+        
+        <OrderProvider>
+          <CustomFormProvider>
+            <StripeProvider>
+              {children}
+              <Toaster />
+            </StripeProvider>
+            <Footer />
+          </CustomFormProvider>
+        </OrderProvider>
       </body>
     </html>
   );
