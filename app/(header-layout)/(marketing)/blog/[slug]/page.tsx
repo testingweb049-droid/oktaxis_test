@@ -102,7 +102,7 @@ export default async function BlogDetailPage({
   const isValidDate = dateObj && !isNaN(dateObj.getTime());
   return (
     <>
-      <script
+      {/* <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
@@ -133,7 +133,7 @@ export default async function BlogDetailPage({
             },
           }),
         }}
-      />
+      /> */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-32">
         <nav className="flex mb-6" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-1 md:space-x-2">
