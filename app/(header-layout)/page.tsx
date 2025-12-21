@@ -13,7 +13,7 @@ import WhyChoose from "@/components/Sections/WhyChoose";
 import LeftRightSection from "@/components/Sections/LeftRightSection";
 import TopThingsSection from "@/components/Sections/TopThingsSection";
 import ReviewsSection from "@/components/Sections/reviews";
-
+import FooterTest from "@/components/Footer/FooterTest";
 
 export default function Home() {
   return (
@@ -324,7 +324,11 @@ export default function Home() {
         {/* <ReadyToBook /> */}
         {/* <Testimonials /> */}
         {/* <LeftRightSection/> */}
+
+ 
       </main>
     </>
   );
 }
+
+

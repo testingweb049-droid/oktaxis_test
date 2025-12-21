@@ -10,6 +10,7 @@ import { Toaster } from "@/components/ui/toaster";
 import StripeProvider from "@/components/BookingForm/PaymentCardModal/StripeProvider";
 import { CustomFormProvider } from "@/context/FormContext";
 import { OrderProvider } from '@/context/OrderContext';
+import FooterTest from "@/components/Footer/FooterTest";
 const roboto = Roboto({
   weight: ["100", "300", "400", "700", "900"],
   subsets: ["latin"],
@@ -123,7 +124,7 @@ export default function RootLayout({
             {children}
             <Toaster />
           </StripeProvider>
-          <Footer />
+          <FooterTest />
         </CustomFormProvider></OrderProvider>
 
       </body>

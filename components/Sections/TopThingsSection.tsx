@@ -144,7 +144,7 @@ export default function TopThingsSection() {
         {/* Overlay - appears on hover/click */}
         <div
           className={cn(
-            "absolute inset-0 bg-black transition-opacity duration-300",
+            "absolute inset-0 bg-black transition-opacity duration-500 ease-out",
             hoveredIndex === index ? "opacity-40" : "opacity-0"
           )}
         />
@@ -163,14 +163,15 @@ export default function TopThingsSection() {
           {/* Paragraph - appears on hover/click */}
           <div
             className={cn(
-              "relative z-10 transition-all duration-300 ease-in-out",
+              "relative z-10 transition-all duration-500 ease-out",
               hoveredIndex === index
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-4 pointer-events-none"
             )}
             style={{
               maxHeight: hoveredIndex === index ? "500px" : "0",
-              overflow: hoveredIndex === index ? "visible" : "hidden"
+              overflow: hoveredIndex === index ? "visible" : "hidden",
+              transitionDelay: hoveredIndex === index ? "150ms" : "0ms"
             }}
           >
             <p className="text-white text-sm md:text-base leading-relaxed">
@@ -184,13 +185,13 @@ export default function TopThingsSection() {
 
   return (
     <section className="font-montserrat bg-gray-800 py-16 lg:py-20">
-      <div className="full-width-section mx-auto px-4 md:px-6 text-center">
+      <div className="full-width-section mx-auto px-4 md:px-6">
         {/* Title and Description */}
-        <div className="mb-12 text-white text-center flex flex-col items-center justify-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+        <div className="mb-12 text-white text-center flex flex-col  gap-3 items-center justify-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-center">
             TOP 10 Things to see & do in Manchester
           </h2>
-          <p className="text-base md:text-lg max-w-4xl text-center">
+          <p className="text-base md:text-lg max-w-5xl text-center">
             Manchester is a city of contrast, history, and unbeatable energy, but navigating it on your own can be a headache. Forget hunting for expensive parking spaces or navigating one-way systems. With our Executive Chauffeur Hire, you can sit back and simply enjoy the ride. Whether you are hosting clients in Spinningfields or taking the family to the football, we provide effortless door-to-door service to the city's best spots.
           </p>
         </div>
