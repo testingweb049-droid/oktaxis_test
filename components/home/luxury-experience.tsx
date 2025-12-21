@@ -78,7 +78,7 @@ export default function LuxuryExperience() {
 
   return (
     <section className="bg-gray-50 py-20" ref={ref}>
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="full-width-section mx-auto px-4 md:px-6">
         <div className="mb-12 text-center">
           <p
             className="mb-2 text-sm font-medium uppercase tracking-wider text-brand opacity-0"

@@ -22,7 +22,7 @@ const FeatureCard: React.FC<ContentBlockProps> = ({
     const isImageRight = imagePosition === "right";
 
     return (
-        <div className="container py-8 md:py-12">
+        <div className="full-width-section py-8 md:py-12">
             <div className={`flex flex-col ${isImageRight ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-6 lg:gap-12 items-center`}>
 
                 {/* Text Content */}

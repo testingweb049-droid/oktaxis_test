@@ -11,7 +11,8 @@ import NewHeroSection from "./book-ride/NewHeroSection";
 import InfiniteSlide from "./book-ride/InfiniteSlide";
 import WhyChoose from "@/components/Sections/WhyChoose";
 import LeftRightSection from "@/components/Sections/LeftRightSection";
-
+import TopThingsSection from "@/components/Sections/TopThingsSection";
+import ReviewsSection from "@/components/Sections/reviews";
 
 
 export default function Home() {
@@ -28,7 +29,7 @@ export default function Home() {
       />
       <main className="min-h-screen">
         <NewHeroSection/>
-        <InfiniteSlide/>
+        {/* <InfiniteSlide/> */}
         {/* <HeroSection /> */}
         <Services />
         {/* <ImageTextSection
@@ -53,7 +54,7 @@ export default function Home() {
           imagePosition="right"
         /> */}
 
-        {/* <div className="container mx-auto px-4 max-w-7xl">
+        {/* <div className="full-width-section mx-auto px-4 max-w-7xl">
           <p className=" text-lg md:text-xl text-gray-700 leading-relaxed">
             As leading experts in chauffeur service UK, we focus on what matters: seamless journeys,
             tailored care, and total satisfaction that turns travel into something special.
@@ -104,7 +105,7 @@ export default function Home() {
           bgColor="bg-white"
           imagePosition="left"
         /> */}
-        {/* <div className="container mx-auto px-4 max-w-7xl">
+        {/* <div className="full-width-section mx-auto px-4 max-w-7xl">
           <p className=" text-lg md:text-xl text-gray-700 leading-relaxed">
             Privacy and confidentiality are our priority for VIP guests at spots like Etihad Stadium or Ascot races, turning potential hassles into pure delight. Clients love our affordable rates and spotless presentation, solving travel worries so you can focus on what matters most.
           </p>
@@ -155,7 +156,7 @@ export default function Home() {
           bgColor="bg-white"
           imagePosition="right"
         />
-        <div className="container mx-auto px-4 max-w-7xl">
+        <div className="full-width-section mx-auto px-4 max-w-7xl">
           <p className=" text-lg md:text-xl text-gray-700 leading-relaxed">
             Our drivers follow strict hygiene rules, sanitizing vehicles often, wearing gloves, using hand sanitisers, and complying with all local laws for your safety. With over ten years in business, we've helped thousands of private and corporate clients arrive relaxed and ready. In our Manchester airport chauffeur service, you'll ride in premium vehicles like the Mercedes E Class or BMW 5 series, with free SMS/text updates on driver and vehicle details sent well ahead.
 
@@ -204,7 +205,7 @@ export default function Home() {
           bgColor="bg-white"
           imagePosition="left"
         />
-        <div className="container mx-auto px-4 max-w-7xl">
+        <div className="full-width-section mx-auto px-4 max-w-7xl">
           <p className=" text-lg md:text-xl text-gray-700 leading-relaxed">
             For VIP private jet chauffeur hire, count on our elite VIP security services from experts with international credentials in personal protection. Discreet chauffeurs use number masking for strict confidentiality, ideal for high-profile clients such as HNWIs, sports celebrities, and authors on UK tours. Backed by ex-Armed Forces Professionals and Guild of Professional Chauffeurs standards, we deliver bespoke solutions that shield against fines, legal issues, or reputational risks, focusing on your peace of mind every mile.
 
@@ -237,7 +238,7 @@ export default function Home() {
           bgColor="bg-white"
           imagePosition="right"
         />
-        <div className="container mx-auto px-4 max-w-7xl">
+        <div className="full-width-section mx-auto px-4 max-w-7xl">
           <p className=" text-lg md:text-xl text-gray-700 leading-relaxed">
             This city's got a fascinating mix of old-school Industrial Revolution history and modern energy. Check out stunning Gothic spots like Manchester Cathedral or dive into art at The Whitworth. As the UK's third-biggest city and a hot tech scene, Manchester feels even better with our reliable chauffeur car service. Head to Etihad or Old Trafford for epic stadium tours, or zip over to Salford Quays and MediaCityUK for media gigs. No matter if you're shopping, hitting events, or soaking up the creative scene, our luxury rides keep things simple and fun from start to finish.
 
@@ -288,7 +289,7 @@ export default function Home() {
           bgColor="bg-white"
           imagePosition="left"
         />
-        <div className="container mx-auto px-4 max-w-7xl">
+        <div className="full-width-section mx-auto px-4 max-w-7xl">
           <p className=" text-lg md:text-xl text-gray-700 leading-relaxed">
             Jump on <strong className="text-brand">https://oktaxis.co.uk/</strong>  for quick quotes, clear prices with no surprises, VAT's in there too. We're here round the clock for airport runs, late nights out, one-way hauls, or custom routes, with easy pay options, free WiFi and water, plus help anytime by phone, email, or chat. Our glowing 5-star feedback and proper licenses mean you get hassle-free travel that fixes all your transport woes, day or night.
 
@@ -317,10 +318,12 @@ export default function Home() {
         {/* <AboutSection /> */}
         {/* <LuxuryExperience /> */}
         <WhyChoose/>
-        <FleetClasses />
+        <TopThingsSection/>
+        <ReviewsSection/>
+        {/* <FleetClasses /> */}
         {/* <ReadyToBook /> */}
         {/* <Testimonials /> */}
-        <LeftRightSection/>
+        {/* <LeftRightSection/> */}
       </main>
     </>
   );

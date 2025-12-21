@@ -9,14 +9,14 @@ export default function HeroSection() {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
-  const formContainerRef = useRef<HTMLDivElement>(null)
+  const formFullWidthSectionRef = useRef<HTMLDivElement>(null)
   // const animationFrameRef = useRef<number>()
 
   // useEffect(() => {
   //   const title = titleRef.current
   //   const subtitle = subtitleRef.current
   //   const overlay = overlayRef.current
-  //   const formContainer = formContainerRef.current
+  //   const formFullWidthSection = formFullWidthSectionRef.current
 
 
   //   const initAnimations = () => {
@@ -48,13 +48,13 @@ export default function HeroSection() {
   //       }, 600)
   //     }
 
-  //     if (formContainer) {
-  //       formContainer.style.opacity = "0"
-  //       formContainer.style.transform = "translateY(30px)"
+  //     if (formFullWidthSection) {
+  //       formFullWidthSection.style.opacity = "0"
+  //       formFullWidthSection.style.transform = "translateY(30px)"
   //       setTimeout(() => {
-  //         formContainer.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out"
-  //         formContainer.style.opacity = "1"
-  //         formContainer.style.transform = "translateY(0)"
+  //         formFullWidthSection.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out"
+  //         formFullWidthSection.style.opacity = "1"
+  //         formFullWidthSection.style.transform = "translateY(0)"
   //       }, 900)
   //     }
   //   }
@@ -112,7 +112,7 @@ export default function HeroSection() {
         className="absolute inset-0 bg-black/70"
       />
 
-      <div className="container relative z-10 mx-auto flex h-full flex-col gap-6 sm:gap-8 md:gap-24 items-start justify-center px-4 sm:px-6 text-white lg:px-5">
+      <div className="full-width-section relative z-10 mx-auto flex h-full flex-col gap-6 sm:gap-8 md:gap-24 items-start justify-center px-4 sm:px-6 text-white lg:px-5">
         <div className="w-full pt-5 sm:pt-0 px-2 md:mx-5  sm:px-0 max-w-6xl pb-20 sm:pb-16">
 
 
@@ -142,9 +142,9 @@ export default function HeroSection() {
 
 
 
-        {/* Form container */}
+        {/* Form full-width-section */}
         <div
-          ref={formContainerRef}
+          ref={formFullWidthSectionRef}
           className="absolute left-1/2 transform -translate-x-1/2 translate-y-[50%] w-full max-w-6xl mt-15 py-20 px-4 sm:px-6 lg:px-8 z-20"
 
         >

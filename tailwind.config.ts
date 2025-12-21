@@ -12,8 +12,17 @@ const config = {
   prefix: "",
   theme: {
     extend: {
+      fontFamily: {
+        inter: ["var(--font-inter)", "sans-serif"],
+        roboto: ["var(--font-roboto)", "sans-serif"],
+        montserrat: ["var(--font-montserrat)", "sans-serif"],
+      },
       colors: {
         brand:'#FFB400',
+        'primary-yellow': '#FFB400',
+        'heading-black': '#1A1A1A',
+        'text-gray': '#7F848B',
+        'light-background': '#F9FAFB',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -47,6 +56,12 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+      },
+      fontSize: {
+        'hero': '100px',
+      },
+      lineHeight: {
+        'hero': '100px',
       },
       borderRadius: {
         lg: "var(--radius)",

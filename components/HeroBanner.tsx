@@ -26,7 +26,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
                 className="object-cover object-center"
             />
             <div className="absolute inset-0 bg-black/50"></div>
-            <div className="relative z-10 container mx-auto px-6">
+            <div className="relative z-10 full-width-section mx-auto px-6">
                 <h1 className="text-white text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight max-w-4xl mx-auto">
                     {title}
                 </h1>

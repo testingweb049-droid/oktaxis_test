@@ -7,7 +7,7 @@ const WhyChooseOktaxis = () => {
       <div className="absolute inset-y-0 left-0 w-1/4 bg-brand/20 rounded-r-full"></div>
       <div className="absolute inset-y-0 right-0 w-1/4 bg-brand/20 rounded-l-full"></div>
 
-      <div className="relative container mx-auto px-6 md:px-12 lg:px-20 z-10">
+      <div className="relative full-width-section mx-auto px-6 md:px-12 lg:px-20 z-10">
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-brand mb-8 text-center">
           Why Choose OkTaxis Over Public Transport?
         </h1>

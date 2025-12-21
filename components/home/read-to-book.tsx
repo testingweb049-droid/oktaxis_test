@@ -31,7 +31,7 @@ export default function ReadyToBook() {
         }}
         ></div>
 
-      <div className="container relative z-10 mx-auto px-4 md:px-6">
+      <div className="full-width-section relative z-10 mx-auto px-4 md:px-6">
         <div
           className="flex flex-col items-start opacity-0"
           style={{

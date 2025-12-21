@@ -58,7 +58,7 @@ export default function HourlyChauffeur() {
         bgColor="bg-white"
         imagePosition="right"
       />
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="full-width-section mx-auto px-4 max-w-7xl">
         <p className=" text-lg md:text-xl text-gray-700 leading-relaxed">
           No time limits or rigid routes apply; you control the journey, even with mid-way changes. This includes mileage allowances and hassle-free handling of extras like parking fees. In my view, such tailored Manchester chauffeur hire delivers personal, professional reliability that stands out.
 
@@ -111,7 +111,7 @@ export default function HourlyChauffeur() {
         bgColor="bg-white"
         imagePosition="left"
       />
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="full-width-section mx-auto px-4 max-w-7xl">
         <p className=" text-lg md:text-xl text-gray-700 leading-relaxed">
           They ensure stress-free journeys, whether for meetings or relaxation, in cool, comfy spaces with soft seats. This setup caters to business professionals and visitors discovering Manchester's lively spots, making rides more than transport.
 
@@ -160,7 +160,7 @@ export default function HourlyChauffeur() {
         bgColor="bg-white"
         imagePosition="right"
       />
-      <div className="container mx-auto px-4 max-w-7xl pb-6">
+      <div className="full-width-section mx-auto px-4 max-w-7xl pb-6">
         <p className=" text-lg md:text-xl text-gray-700 leading-relaxed">
           Parking or traffic fees are covered, and plan changes incur no extra fuss. This honest approach fosters lasting relationships, especially for those seeking value in UK chauffeur hire. Choosing us guarantees top-tier service that feels worthwhile and dependable every time.
         </p>
@@ -183,7 +183,7 @@ export default function HourlyChauffeur() {
         </ul>
       </div>
 
-      <section className="flex mt-5 flex-col gap-12 md:flex-row items-start justify-between container px-4 py-40">
+      <section className="flex mt-5 flex-col gap-12 md:flex-row items-start justify-between full-width-section px-4 py-40">
         {/* Left side image */}
         <div className="md:w-1/2 relative h-64 w-full md:h-80">
           <Image
@@ -254,7 +254,7 @@ export default function HourlyChauffeur() {
           </ul> */}
         </div>
       </section>
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="full-width-section mx-auto px-4 max-w-7xl">
         <p className=" text-lg  text-gray-600 leading-relaxed">
           For airport transfers, skip queues for taxis or buses, enjoy seamless starts or ends to trips. At Heathrow or Manchester Airport, we monitor flights live to accommodate delays.
           Our UK airport chauffeur services include multiple stops or direct home rides with refreshments and Wi-Fi. From numerous transfers I've overseen, this effortless style with additions like child seats positions us as the premier choice for stressed travellers or families.
@@ -306,7 +306,7 @@ export default function HourlyChauffeur() {
         bgColor="bg-white"
         imagePosition="right"
       />
-      <div className="container mx-auto px-4 max-w-7xl pb-6">
+      <div className="full-width-section mx-auto px-4 max-w-7xl pb-6">
         <p className=" text-lg md:text-xl text-gray-700 leading-relaxed">
           This transparency aids in car rental with chauffeur scenarios, directing you to meetings or hotels in Greater Manchester. Contact <strong className="text-brand">info@oktaxis.co.uk</strong> or <strong className="text-brand">+44 7788 710290</strong>  for tailored assistance matching your itinerary. Our attentive focus ensures peace of mind throughout, setting our Manchester car service apart.
 
@@ -355,7 +355,7 @@ export default function HourlyChauffeur() {
         bgColor="bg-white"
         imagePosition="left"
       />
-      <div className="container mx-auto px-4 max-w-7xl pb-6">
+      <div className="full-width-section mx-auto px-4 max-w-7xl pb-6">
         <p className=" text-lg md:text-xl text-gray-700 leading-relaxed">
           This comprehensive coverage supports nights out or group transports from our Wythenshawe base at 0B Portway. Our commitment to widespread, consistent high-end service builds reliability, regardless of timing or location. It's this perfect mix of convenience and assurance that draws repeat clients for Manchester airport car service or local excursions.
 
@@ -382,7 +382,7 @@ export default function HourlyChauffeur() {
       <FleetClasses />
 
       <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
+        <div className="full-width-section mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             <span className="text-3xl md:text-4xl font-bold">
               Key Benefits of Our Manchester Hourly{' '}

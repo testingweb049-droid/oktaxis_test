@@ -13,7 +13,7 @@ const CustomTimeSelector = () => {
   const [dropdownDirection, setDropdownDirection] = useState("down")
 
   const dropdownRef = useRef<HTMLDivElement | null>(null)
-  const containerRef = useRef<HTMLDivElement | null>(null)
+  const fullWidthSectionRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLDivElement | null>(null)
 
   const hoursOptions = Array.from({ length: 23 }, (_, i) => (i + 1).toString().padStart(2, "0"))
@@ -43,7 +43,7 @@ const CustomTimeSelector = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      if (fullWidthSectionRef.current && !fullWidthSectionRef.current.contains(event.target as Node)) {
         setShowPicker(false)
       }
     }
@@ -78,7 +78,7 @@ const CustomTimeSelector = () => {
   const errorMessage = touched.time && typeof errors.time === "string" ? errors.time : null
 
   return (
-    <div ref={containerRef} className="flex flex-col w-full">
+    <div ref={fullWidthSectionRef} className="flex flex-col w-full">
       <div 
         ref={inputRef}
         className="relative bg-white rounded-lg flex items-center w-full h-[54px] flex-row-reverse md:flex-row"

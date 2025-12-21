@@ -41,7 +41,7 @@ export default function AboutSection() {
       <div className="absolute left-0 top-0 h-64 w-64 rounded-full bg-amber-100 opacity-20 blur-3xl"></div>
       <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full bg-amber-100 opacity-20 blur-3xl"></div>
 
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="full-width-section mx-auto px-4 md:px-6">
         <div className="grid gap-12 md:grid-cols-2">
           {/* Left column - Main content */}
           <div
@@ -113,7 +113,7 @@ export default function AboutSection() {
 
       {/* Features section */}
       <div
-        className="container mx-auto  px-4 md:px-6"
+        className="full-width-section mx-auto  px-4 md:px-6"
         style={{
           opacity: 0,
           animation: inView ? "fadeInUp 0.8s ease-out forwards 0.6s" : "none",

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import ContainerLayout from "@/components/NewBookingForm/ContainerLayout";
+import FullWidthSectionLayout from "@/components/NewBookingForm/ContainerLayout";
 import useCustomForm from "@/hooks/useFormContext";
 import CarList from "@/components/NewBookingForm/CarList";
 import { useRouter } from "next/navigation";
@@ -46,7 +46,7 @@ function Page() {
   return (
     <div className=" w-full pb-10 bg-[#EBF1F5]">
       <div className="w-full h-16 sm:h-20 mb-4 bg-black/80"></div>
-      <ContainerLayout>
+      <FullWidthSectionLayout>
         <div className="flex flex-col gap-5 w-full">
           {/* <div
             onClick={() => {
@@ -240,7 +240,7 @@ function Page() {
 
         </div>
         {category === "hourly" && <HourlyNoteDialog />}
-      </ContainerLayout>
+      </FullWidthSectionLayout>
     </div>
   );
 }

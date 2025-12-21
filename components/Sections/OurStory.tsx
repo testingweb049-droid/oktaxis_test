@@ -9,7 +9,7 @@ export default function OurStory() {
   return (
     <>
       {/* First Section */}
-      <section className="container flex flex-col-reverse lg:flex-row m-auto py-6 md:py-16 lg:py-20 px-4">
+      <section className="full-width-section flex flex-col-reverse lg:flex-row m-auto py-6 md:py-16 lg:py-20 px-4">
         <Image
           src={TeamImage}
           alt="Image"

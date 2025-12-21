@@ -16,7 +16,7 @@ const page = () => {
                 buttonLink="/"
                 backgroundImage="/images/banner.jpg"
             />
-            <div className="container mx-auto px-6 py-20">
+            <div className="full-width-section mx-auto px-6 py-20">
                 <WhyChooseUs
                     badge="Why Partner With Us"
                     title="The Smart Choice for Taxi Services in Leeds"

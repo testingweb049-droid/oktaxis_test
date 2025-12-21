@@ -4,7 +4,7 @@ import FleetBg from "@/assets/bmw-city.jpeg";
 export default function WhyChoose() {
   return (
     <section className="py-20 bg-white text-white">
-      <div className="container mx-auto px-4 max-w-6xl">
+      <div className="full-width-section mx-auto px-4 max-w-6xl">
         <div className="flex flex-col lg:flex-row items-center gap-16">
           <div className="lg:w-1/2 relative">
             <div className="relative aspect-square overflow-hidden rounded-2xl shadow-2xl">

@@ -2,7 +2,7 @@
 import React, { useState, useCallback } from 'react';
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 
-const containerStyle = {
+const fullWidthSectionStyle = {
   width: '100%',
   height: '400px',
 };
@@ -41,7 +41,7 @@ function Map() {
   return isLoaded ? (
     <div className="max-w-screen-2xl mx-auto flex justify-center rounded-xl w-full border">
       <GoogleMap
-        mapContainerStyle={containerStyle}  // Set map container dimensions
+        mapContainerStyle={fullWidthSectionStyle}  // Set map container dimensions
         center={defaultCenter}  // Set initial center
         zoom={10}  // Set initial zoom level
         onLoad={onLoad}  // Trigger onLoad when map is fully loaded

@@ -19,7 +19,7 @@ export default function BrandLogos() {
 
   return (
     <section className="bg-gray-900 py-10" ref={ref}>
-      <div className={`container mx-auto px-4 transition-opacity duration-700 ${inView ? "opacity-100" : "opacity-0"}`}>
+      <div className={`full-width-section mx-auto px-4 transition-opacity duration-700 ${inView ? "opacity-100" : "opacity-0"}`}>
         <div className="overflow-hidden">
           <div className="relative w-full overflow-hidden">
             <div className="animate-slide flex w-max">

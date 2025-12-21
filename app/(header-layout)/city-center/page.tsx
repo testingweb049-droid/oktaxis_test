@@ -57,7 +57,7 @@ export default function CityCenter() {
         bgColor="bg-white"
         imagePosition="left"
       />
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="full-width-section mx-auto px-4 max-w-7xl">
 
         <p className=" text-lg  pb-4 text-gray-700 leading-relaxed">
 
@@ -116,7 +116,7 @@ export default function CityCenter() {
         }
 
       />
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="full-width-section mx-auto px-4 max-w-7xl">
 
         <p className=" text-lg pb-4 text-gray-700 leading-relaxed">
 
@@ -175,7 +175,7 @@ export default function CityCenter() {
         }
 
       />
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="full-width-section mx-auto px-4 max-w-7xl">
 
         <p className=" text-lg  pb-4 text-gray-700 leading-relaxed">
 
@@ -232,7 +232,7 @@ export default function CityCenter() {
         }
 
       />
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="full-width-section mx-auto px-4 max-w-7xl">
 
         <p className=" text-lg text-gray-700 leading-relaxed">
           Our clear methodology encourages repeat business, and for swift assistance, email <strong>info@oktaxis.co.uk</strong> anytime, solidifying our reputation as the most trustworthy and economical option available.
@@ -288,7 +288,7 @@ export default function CityCenter() {
         }
       
       />
-        <div className="container mx-auto px-4 max-w-7xl">
+        <div className="full-width-section mx-auto px-4 max-w-7xl">
 
         <p className=" text-lg text-gray-700 leading-relaxed">
           As a limited company meeting the highest standards in cleanliness and care, we cater to families or solo travellers with expert precision that bolsters our esteemed reputation. This unwavering focus on security underscores our authority, making us the preferred choice for secure, enjoyable transportation experiences.
@@ -340,7 +340,7 @@ export default function CityCenter() {
       
 
       />
-        <div className="container mx-auto px-4 max-w-7xl">
+        <div className="full-width-section mx-auto px-4 max-w-7xl">
 
         <p className=" text-lg text-gray-700 leading-relaxed">
            Contact us at our Wythenshawe address: 0B Portway, Manchester, trusting our expertise for effortless planning that cements us as the ultimate reliable partner.
@@ -369,7 +369,7 @@ export default function CityCenter() {
 
       <FleetClasses />
       <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
+        <div className="full-width-section mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
 
             {

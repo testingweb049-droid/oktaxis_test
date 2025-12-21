@@ -35,7 +35,7 @@ export default function FloatingReviewWidget() {
           isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"
         }`}
       >
-        {/* Main Widget Container */}
+        {/* Main Widget full-width-section */}
         <div className="relative">
           {/* Animated Background Glow */}
           <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-2xl blur-xl opacity-60 animate-pulse-slow"></div>

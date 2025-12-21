@@ -14,7 +14,7 @@ import { Button } from "../ui/button"
   export default function WhyChooseUs() {
     return (
       <section className="w-full m-auto py-12 md:py-16 lg:py-20">
-        <div className="container items-center m-auto px-4 md:px-6">
+        <div className="full-width-section items-center m-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <h2 className="text-4xl font-semibold">
               {/* {okTaxisContent.heading} */}

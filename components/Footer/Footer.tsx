@@ -53,7 +53,7 @@ export default function Footer() {
   return (
     <footer className="bg-black text-white pt-5">
       {/* Main footer content */}
-      <div className="container mx-auto grid grid-cols-1 gap-8 px-4 py-8 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="full-width-section mx-auto grid grid-cols-1 gap-8 px-4 py-8 sm:grid-cols-2 lg:grid-cols-5">
         {/* Company Links */}
         <div>
           <h3 className="mb-4 text-base font-bold uppercase">Company</h3>
@@ -155,7 +155,7 @@ export default function Footer() {
 
       {/* Logo, Payment, and Socials */}
       <div className="border-t border-gray-800 py-8 mt-4">
-        <div className="container mx-auto px-4">
+        <div className="full-width-section mx-auto px-4">
           <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
             {/* Logo */}
             <div className="mb-6 md:mb-0">
@@ -221,7 +221,7 @@ export default function Footer() {
 
       {/* Legal Links */}
       <div className="border-t border-gray-800 bg-black py-4">
-        <div className="container mx-auto flex flex-col items-center justify-center gap-2 px-4 text-xs text-gray-400 sm:flex-row sm:justify-between">
+        <div className="full-width-section mx-auto flex flex-col items-center justify-center gap-2 px-4 text-xs text-gray-400 sm:flex-row sm:justify-between">
           <p>© All rights Reserved to OKTaxis Mobility Solutions</p>
           <div className="flex flex-wrap justify-center gap-4">
             {footerData.legalLinks.map((item) => (

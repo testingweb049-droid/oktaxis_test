@@ -42,7 +42,7 @@ export default function DateTimePicker({
   minSelectableDate = null,
 }: DateTimePickerProps) {
   const [open, setOpen] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const fullWidthSectionRef = useRef<HTMLDivElement>(null)
   const [currentMonth, setCurrentMonth] = useState(selectedDate || new Date())
   const timeRef = useRef<HTMLDivElement>(null)
   const scrollableContentRef = useRef<HTMLDivElement>(null)
@@ -111,7 +111,7 @@ export default function DateTimePicker({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      if (fullWidthSectionRef.current && !fullWidthSectionRef.current.contains(event.target as Node)) {
         setOpen(false)
       }
     }
@@ -161,7 +161,7 @@ export default function DateTimePicker({
   }
 
   return (
-    <div ref={containerRef} className="relative max-w-5xl">
+    <div ref={fullWidthSectionRef} className="relative max-w-5xl">
       <label className="block text-sm font-medium text-black mb-1">{label}</label>
       <input
         type="text"
