@@ -1,7 +1,7 @@
 
 import type React from "react";
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Roboto, Inter, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -10,10 +10,23 @@ import { Toaster } from "@/components/ui/toaster";
 import StripeProvider from "@/components/BookingForm/PaymentCardModal/StripeProvider";
 import { CustomFormProvider } from "@/context/FormContext";
 import { OrderProvider } from '@/context/OrderContext';
+import FooterTest from "@/components/Footer/FooterTest";
 const roboto = Roboto({
   weight: ["100", "300", "400", "700", "900"],
   subsets: ["latin"],
   variable: "--font-roboto",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
   display: "swap",
 });
 
@@ -96,7 +109,7 @@ export default function RootLayout({
         />
       </head>
 
-      <body className={`${roboto.variable} antialiased`}>
+      <body className={`${roboto.variable} ${inter.variable} ${montserrat.variable} antialiased`}>
         {/* ✅ Google Tag Manager (NOSCRIPT) */}
         <noscript>
           <iframe
@@ -111,7 +124,7 @@ export default function RootLayout({
             {children}
             <Toaster />
           </StripeProvider>
-          <Footer />
+          <FooterTest />
         </CustomFormProvider></OrderProvider>
 
       </body>

@@ -36,7 +36,7 @@ export function TripOrderEmailTemplate({
       <Preview>Your trip details are ready!</Preview>
 
       <Body style={main}>
-        <Container style={container}>
+        <Container style={containerStyle}>
           <Heading style={heading}>Your Trip Details</Heading>
 
           <Section style={imageSection}>
@@ -82,7 +82,7 @@ const main: React.CSSProperties = {
   padding: "20px",
 };
 
-const container: React.CSSProperties = {
+const containerStyle: React.CSSProperties = {
   backgroundColor: "#ffffff",
   borderRadius: "10px",
   padding: "30px",

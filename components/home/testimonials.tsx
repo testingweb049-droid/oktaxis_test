@@ -139,7 +139,7 @@ export default function Testimonials() {
 
   return (
     <section className="bg-white py-16" ref={ref}>
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="full-width-section mx-auto px-4 md:px-6">
         <div className="mb-8 flex flex-col items-start md:flex-row md:items-center md:justify-between">
           <div
             className="mb-6 md:mb-0 opacity-0"

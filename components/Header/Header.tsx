@@ -147,7 +147,7 @@ export default function Header() {
       // Handle mobile menu click outside
       if (
         isOpen &&
-        !target.closest(".mobile-menu-container") &&
+        !target.closest(".mobile-menu-full-width-section") &&
         !target.closest(".mobile-menu-button")
       ) {
         handleCloseMobileMenu();
@@ -159,7 +159,7 @@ export default function Header() {
       console.log("width : ", width);
       if (
         openDropdown &&
-        !target.closest(".services-dropdown-container") &&
+        !target.closest(".services-dropdown-full-width-section") &&
         width >= 786
       ) {
         console.log("work");
@@ -273,7 +273,7 @@ export default function Header() {
               {navLinks.map((link) => (
                 <div
                   key={link.id}
-                  className="relative services-dropdown-container"
+                  className="relative services-dropdown-full-width-section"
                 >
                   {link.submenu ? (
                     <>
@@ -383,7 +383,7 @@ export default function Header() {
 
       {/* Mobile Menu Dropdown */}
       <div
-        className={`mobile-menu-container fixed top-0 left-0 right-0 z-40 md:hidden transition-all duration-300 ease-in-out ${isOpen
+        className={`mobile-menu-full-width-section fixed top-0 left-0 right-0 z-40 md:hidden transition-all duration-300 ease-in-out ${isOpen
           ? "opacity-100 translate-y-0 pointer-events-auto"
           : "opacity-0 -translate-y-full pointer-events-none"
           }`}

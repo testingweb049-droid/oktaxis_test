@@ -18,13 +18,13 @@ export default function BlogHeroSection({
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
-  const formContainerRef = useRef<HTMLDivElement>(null)
+  const formFullWidthSectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const title = titleRef.current
     const subtitle = subtitleRef.current
     const overlay = overlayRef.current
-    const formContainer = formContainerRef.current
+    const formFullWidthSection = formFullWidthSectionRef.current
 
     if (overlay) {
       overlay.style.opacity = "0.7"
@@ -56,14 +56,14 @@ export default function BlogHeroSection({
       }, 600)
     }
 
-    if (formContainer) {
-      formContainer.style.opacity = "0"
-      formContainer.style.transform = "translateY(30px)"
+    if (formFullWidthSection) {
+      formFullWidthSection.style.opacity = "0"
+      formFullWidthSection.style.transform = "translateY(30px)"
 
       setTimeout(() => {
-        formContainer.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out"
-        formContainer.style.opacity = "1"
-        formContainer.style.transform = "translateY(0)"
+        formFullWidthSection.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out"
+        formFullWidthSection.style.opacity = "1"
+        formFullWidthSection.style.transform = "translateY(0)"
       }, 900)
     }
 
@@ -94,7 +94,7 @@ export default function BlogHeroSection({
         priority 
       />
       <div ref={overlayRef} className="absolute inset-0 bg-black" />
-      <div className="container relative z-10 mx-auto flex h-full flex-col gap-10 items-center justify-center px-3 text-white lg:px-5">
+      <div className="full-width-section relative z-10 mx-auto flex h-full flex-col gap-10 items-center justify-center px-3 text-white lg:px-5">
         <div>
           <h1 ref={titleRef} className="mb-2 sm:mb-4 text-4xl font-bold md:text-4xl lg:text-4xl lg:leading-[55px]">
             {title}

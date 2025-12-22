@@ -2,56 +2,55 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
 
 const services = [
   {
     id: 1,
     slug: "airport-transfer",
-    title: "Premium Manchester Airport Chauffeur Services",
+    title: "Reliable Manchester Airport Transfers",
     category: "Airport Transfers",
     description:
-      "Book our reliable Manchester Airport transfers for a smooth start. Enjoy flight tracking and meet-and-greet services with ease. Contact us for a stress-free ride.",
+      "Start your journey with a seamless luxury airport transfer. We Specialise in private Manchester Airport (MAN) transfer services, offering real-time flight tracking and professional Meet-and-Greet assistance inside the terminal to ensure a stress-free arrival or departure.",
     image: "/images/airport-transfer.png",
     size: "large",
   },
   {
     id: 2,
     slug: "hourly-chauffeur",
-    title: "Convenient Hourly Chauffeur Hire in Manchester",
+    title: "Hourly & Daily Executive Hire",
     category: "Hourly Chauffeur Service",
     description:
-      "Hire our hourly chauffeur service for flexible travel in Manchester. Get dedicated support and luxury vehicles at your pace. Book now for a tailored experience.",
+      "Do you have a busy schedule? Our hourly chauffeur service is perfect for executive meetings, roadshows, or day trips. We offer flexible Half Day Chauffeur packages or Full Day Chauffeur Service to keep you moving at your own pace without the hassle of parking or waiting.",
     image: "/images/hourly-service.png",
     size: "large",
   },
   {
     id: 3,
     slug: "event-weddings",
-    title: "Wedding Chauffeur Services in Manchester",
+    title: "Events & Wedding Transport",
     category: "Event & Weddings",
     description:
-      "Choose our event & weddings service for special moments. We offer wedding car hire with champagne and expert event logistics. Reach us for perfect celebrations.",
+      "Make your special moments unforgettable. We provide elegant wedding car hire in Manchester complete with champagne and expert logistics. Trust us for a polished service that adds a touch of class to any celebration.",
     image: "/wedding.png",
     size: "small",
   },
   {
     id: 4,
     slug: "chauffeur-services",
-    title: "Executive Chauffeur Services in Manchester",
+    title: "Business & Corporate Chauffeur",
     category: "Chauffeur Services",
     description:
-      "Trust our chauffeur services for all your travel needs. Experience executive chauffeur-driven vehicles with discretion and comfort. Explore our premium options.",
+      "We provide top-tier Executive Chauffeur Hire Manchester-wide. Trust our Business Chauffeur Services for all your corporate travel needs. Experience our executive vehicles that Prioritise discretion, safety, and absolute comfort for VIPs and CEOs.",
     image: "/blog6.jpg",
     size: "small",
   },
   {
     id: 5,
     slug: "city-tours",
-    title: "City Tours in Manchester",
+    title: "VIP City Tours",
     category: "City Tours",
     description:
-      "Explore Manchester with our city tours in style. Visit Northern Quarter and Spinningfields with expert guides. Book today for a memorable journey.",
+      "Explore Manchester in Style. Discover the city with our exclusive private tours. Visit the creative Northern Quarter and the financial district of Spinningfields with expert guides. Book today for a memorable journey through the heart of the city.",
     image: "/city.jpg",
     size: "small",
   },
@@ -79,28 +78,17 @@ const services = [
 
 
 export default function Services() {
-  const [expandedCard, setExpandedCard] = useState<number | null>(null)
-
   const largeServices = services.filter((s) => s.size === "large")
   const smallServices = services.filter((s) => s.size === "small")
   const cardImgHeight = "relative h-[300px] md:h-[360px] w-full overflow-hidden"
 
   const renderDescription = (service: typeof services[number]) => {
-    const isExpanded = expandedCard === service.id
-    const shortDesc = service.description.slice(0, 150)
-
     return (
       <p className="text-sm text-gray-300">
-        {isExpanded ? service.description : shortDesc + (service.description.length > 150 ? "..." : "")}
+        {service.description}
         {service.description.length > 150 && (
-          <span
-            className="ml-2 cursor-pointer text-brand underline hover:text-amber-600 transition"
-            onClick={(e) => {
-              e.preventDefault()
-              setExpandedCard(isExpanded ? null : service.id)
-            }}
-          >
-            {isExpanded ? "Read less" : "Read more"}
+          <span className="ml-2 text-brand">
+            Read more
           </span>
         )}
       </p>
@@ -108,18 +96,14 @@ export default function Services() {
   }
 
   return (
-    <section id="services" className="pt-8 ">
-      <div className="container mx-auto px-4 md:px-6">
+    <section id="services" className="pt-20 ">
+      <div className="full-width-section mx-auto px-4 md:px-6">
         <div className="mb-8">
           <h2 className="text-3xl font-bold tracking-tight text-black md:text-4xl lg:text-5xl">
             <span className="text-brand">Our </span> Chauffeur{" "}
             <span className="text-brand">Services</span> in Manchester
           </h2>
-          <p className="mt-4 text-lg text-gray-700 max-w-3xl">
-            Discover OKTaxis' range of luxury services tailored for Manchester and the North West.
-            Whether you need Manchester airport chauffeur transfers or a wedding chauffeur in Manchester,
-            our professional drivers and luxury fleet (Mercedes, BMW, Audi) guarantee comfort and reliability.
-          </p>
+          
         </div>
         {/* Row 1: 1 big + 2 stacked */}
         <div className="grid gap-6 md:grid-cols-3 mb-10">

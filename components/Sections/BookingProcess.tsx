@@ -134,7 +134,7 @@ const StepItem = ({ step, index, totalSteps }: { step: BookingStep; index: numbe
 export default function BookingProcess() {
   return (
     <section className="w-full py-16 md:py-24 bg-white overflow-hidden">
-      <div className="container px-4 mx-auto">
+      <div className="full-width-section px-4 mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             Our <span className="text-brand">Booking Process</span>

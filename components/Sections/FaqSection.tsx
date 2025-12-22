@@ -8,7 +8,7 @@ export default function FAQSection() {
         <h2 className="text-3xl font-bold tracking-tighter text-center mb-8 text-gray-900 dark:text-gray-100">
           Frequently  <span className="font-bold text-brand">Asked Questions</span>
         </h2>
-        <Accordion type="single" collapsible className="container mx-auto">
+        <Accordion type="single" collapsible className="full-width-section mx-auto">
           {faqData.map((faq, index) => (
             <AccordionItem key={index} value={`item-${index}`}>
               <AccordionTrigger className=" text-brand text-left text-lg font-semibold">

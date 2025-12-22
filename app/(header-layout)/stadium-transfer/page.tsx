@@ -54,7 +54,7 @@ export default function StadiumTransfer() {
           </>
         }
       />
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="full-width-section mx-auto px-4 max-w-7xl">
 
         <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
 
@@ -114,7 +114,7 @@ export default function StadiumTransfer() {
         bgColor="bg-white"
         imagePosition="right"
       />
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="full-width-section mx-auto px-4 max-w-7xl">
 
         <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
 
@@ -170,7 +170,7 @@ export default function StadiumTransfer() {
         bgColor="bg-white"
         imagePosition="left"
       />
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="full-width-section mx-auto px-4 max-w-7xl">
 
         <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
 
@@ -231,7 +231,7 @@ export default function StadiumTransfer() {
         bgColor="bg-white"
         imagePosition="right"
       />
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="full-width-section mx-auto px-4 max-w-7xl">
 
         <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
 
@@ -291,7 +291,7 @@ export default function StadiumTransfer() {
         bgColor="bg-white"
         imagePosition="left"
       />
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="full-width-section mx-auto px-4 max-w-7xl">
 
         <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
 
@@ -349,7 +349,7 @@ export default function StadiumTransfer() {
         bgColor="bg-white"
         imagePosition="right"
       />
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="full-width-section mx-auto px-4 max-w-7xl">
 
         <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
 
@@ -382,7 +382,7 @@ export default function StadiumTransfer() {
       <FleetClasses />
       {/* Features Section */}
       <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
+        <div className="full-width-section mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center  mb-12">
 
             {

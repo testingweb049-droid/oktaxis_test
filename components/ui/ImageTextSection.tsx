@@ -54,7 +54,7 @@ export default function ImageTextSection({
 
   return (
     <section className={`py-12 ${bgColor} ${className}`}>
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="full-width-section mx-auto px-4 max-w-7xl">
         <div className={`flex flex-col items-center gap-12 ${imagePosition === "right" ? "lg:flex-row-reverse" : "lg:flex-row"}`}>
           {/* Image */}
           <div className="lg:w-1/2 w-full">
@@ -183,7 +183,7 @@ export default function ImageTextSection({
 
 //   return (
 //     <section
-//       className={`flex flex-col md:flex-row items-start justify-between container px-4 py-20 gap-10 md:gap-20 ${bgColor} ${className}`}
+//       className={`flex flex-col md:flex-row items-start justify-between full-width-section px-4 py-20 gap-10 md:gap-20 ${bgColor} ${className}`}
 //     >
 //       {/* Image */}
 //       <div

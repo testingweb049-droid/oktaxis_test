@@ -59,7 +59,7 @@ const FleetShowcase: React.FC<FleetShowcaseProps> = ({
     const nextRef = useRef<HTMLDivElement>(null);
 
     return (
-        <div className="container py-12 md:py-16 lg:py-20 pt-20">
+        <div className="full-width-section py-12 md:py-16 lg:py-20 pt-20">
             <div className="px-4 sm:px-6 lg:px-8 pt-20">
 
                 {/* Header */}

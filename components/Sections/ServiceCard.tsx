@@ -13,7 +13,7 @@ export default function sServiceCard() {
 
   return (
     <section className="w-full bg-white py-16 md:py-24">
-      <div className="container px-4 mx-auto">
+      <div className="full-width-section px-4 mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">
             Our <span className="text-brand">Services</span>
@@ -38,9 +38,9 @@ export default function sServiceCard() {
               {/* Dark overlay that becomes more visible on hover */}
               <div className="absolute inset-0 bg-black/40 transition-opacity duration-500 group-hover:bg-black/75" />
               
-              {/* Content container */}
+              {/* Content full-width-section */}
               <div className="absolute inset-0 flex flex-col items-center justify-center p-6 transition-transform duration-500">
-                {/* Title container with skewed edge */}
+                {/* Title full-width-section with skewed edge */}
                 <div className="relative bg-primary/90 py-3 px-6 transform -translate-y-6 transition-transform duration-500 group-hover:translate-y-0 w-auto max-w-[90%]">
                   <h3 className="text-xl font-semibold text-brand text-center">
                     {service.title}

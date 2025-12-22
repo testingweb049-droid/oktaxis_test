@@ -586,7 +586,7 @@ function DesktopDateTimePicker({
 export default function EnhancedDateTimePicker(props: DateTimePickerProps) {
   const [open, setOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const fullWidthSectionRef = useRef<HTMLDivElement>(null)
   const {
     form: {
       formState: { errors },
@@ -608,7 +608,7 @@ export default function EnhancedDateTimePicker(props: DateTimePickerProps) {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      if (fullWidthSectionRef.current && !fullWidthSectionRef.current.contains(event.target as Node)) {
         setOpen(false)
       }
     }
@@ -619,7 +619,7 @@ export default function EnhancedDateTimePicker(props: DateTimePickerProps) {
   }, [])
 
   return (
-    <div ref={containerRef} className="relative max-w-5xl">
+    <div ref={fullWidthSectionRef} className="relative max-w-5xl">
       <label className="block text-sm font-medium text-black mb-1">{props.label}</label>
       <input
         type="text"
