@@ -5,7 +5,7 @@ import Testimonials from "@/components/home/testimonials";
 import AboutSection from "@/components/home/about";
 import LuxuryExperience from "@/components/home/luxury-experience";
 import ImageTextSection from "@/components/ui/ImageTextSection";
-import Seo from "../../components/Seo";
+import Seo from "../../components/seo";
 import { Check } from "lucide-react";
 import NewHeroSection from "./book-ride/NewHeroSection";
 import InfiniteSlide from "./book-ride/InfiniteSlide";
@@ -320,7 +320,10 @@ export default function Home() {
         {/* <LuxuryExperience /> */}
         <WhyChoose/>
         <TopThingsSection/>
-        <OurServicesSection
+    
+         <FleetClasses />
+
+         <OurServicesSection
           headline="Why Choose Our Service?"
           services={[
             {
@@ -343,7 +346,6 @@ export default function Home() {
             },
           ]}
         />
-         <FleetClasses />
         <ReviewsSection/>
        
         {/* <ReadyToBook /> */}

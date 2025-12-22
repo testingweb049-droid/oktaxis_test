@@ -61,7 +61,6 @@ export default function FleetClasses() {
               animation: inView ? "fadeInUp 0.6s ease-out forwards" : "none",
             }}
           >
-            <p className="text-sm uppercase tracking-wider text-gray-500">MEMORABLE JOURNEY</p>
             <h2 className="text-3xl font-bold md:text-4xl">
               Experience <span className="text-brand">Luxury with Our</span> <br className="md:hidden" />
               Chauffeur  <span className="text-brand">Services</span>

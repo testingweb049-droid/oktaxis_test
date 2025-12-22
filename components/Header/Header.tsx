@@ -215,9 +215,9 @@ export default function Header() {
       <header
         ref={headerRef}
         className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${shouldHaveBlackHeader
-          ? "bg-heading-black shadow-md py-4 text-white"
+          ? "bg-[#000000] shadow-md py-4 text-white"
           : scrolled
-            ? "bg-heading-black shadow-md py-4 text-white"
+            ? "bg-[#000000] shadow-md py-4 text-white"
             : "py-4 text-white"
           }`}
       >
@@ -235,7 +235,6 @@ export default function Header() {
                   priority
                 />
               </div>
-
             </div>
 
 
@@ -305,7 +304,7 @@ export default function Header() {
               ))}
             </nav>
 
-            {/* Social icons (same style as footer, visible on all screen sizes) */}
+            {/* Social icons (all screen sizes) */}
             <div className="flex items-center gap-3 ml-2 mr-2">
               {/* WhatsApp */}
               <a

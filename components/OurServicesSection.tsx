@@ -46,8 +46,8 @@ export function OurServicesSection({
               className="flex flex-col items-center text-center"
             >
               {/* Icon Circle */}
-              <div className="flex items-center justify-center h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 rounded-full border border-dark-border bg-dark-background">
-                <div className="text-primary-yellow text-xl sm:text-2xl transform scale-75 sm:scale-90 md:scale-100">
+              <div className="flex items-center justify-center h-16 w-16 md:h-18 md:w-18 rounded-full border border-dark-border bg-dark-background">
+                <div className="text-primary-yellow text-xl sm:text-2xl transform scale-150 md:scale-200">
                   {service.icon}
                 </div>
               </div>

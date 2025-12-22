@@ -3,7 +3,7 @@ import BlogCard from "@/components/ui/BlogCard";
 import BlogHeroSection from "@/components/ui/BlogHeroSection";
 import Link from "next/link";
 import { headers } from "next/headers";
-import Seo from "../../../../components/Seo";
+import Seo from "../../../../components/seo";
 // Correct API route: /api/posts/site/[siteName]
 type BlogPost = {
   _id: string;

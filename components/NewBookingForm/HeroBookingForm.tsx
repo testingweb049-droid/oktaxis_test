@@ -245,9 +245,9 @@ function HeroSectionBookingForm() {
   }
 
   return (
-    <div className="w-full max-w-7xl mx-auto">
+    <div className="w-full max-w-full sm:max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-6xl mx-auto overflow-x-hidden">
       {/* Tab Buttons */}
-      <div className="flex gap-4 mb-6">
+      <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
         {!isHourlyOnlyPage && (
           <button
             onClick={() => {
@@ -285,11 +285,11 @@ function HeroSectionBookingForm() {
       </div>
 
       {/* Main Form */}
-      <div className="bg-white rounded-2xl p-8 shadow-2xl border border-gray-100 ring-1 ring-black/5">
+      <div className="bg-white rounded-2xl p-4 sm:p-6 md:p-8 shadow-2xl border border-gray-100 ring-1 ring-black/5">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             {/* Location and Date/Time Fields */}
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6 min-w-0">
               <FormField
                 control={form.control}
                 name="pickup_location"

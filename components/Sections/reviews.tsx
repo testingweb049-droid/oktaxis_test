@@ -133,7 +133,7 @@ const VerifiedBadge = () => (
 
 export default function Reviews() {
   return (
-    <section className="font-inter py-12 lg:py-24 bg-white">
+    <section className="font-montserrat py-12 lg:py-24 bg-white">
       <div className="full-width-section mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="mb-8 lg:mb-14 text-center lg:text-left">

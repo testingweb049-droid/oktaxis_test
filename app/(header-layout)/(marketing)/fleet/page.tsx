@@ -4,7 +4,7 @@ import Offer from "@/components/ui/do-offer";
 import HeroSection2 from "@/components/ui/hero-section2";
 import ImageTextSection from "@/components/ui/ImageTextSection";
 import { homePageData } from "@/constants/homePageData";
-import Seo from "../../../../components/Seo";
+import Seo from "../../../../components/seo";
 import { Check } from "lucide-react";
 
 export default function Fleet() {
