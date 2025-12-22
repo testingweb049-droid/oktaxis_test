@@ -69,6 +69,7 @@ const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
 
     return (
         <div className="w-full py-12 md:py-16 lg:py-20">
+           {/* whole compoennt  */}
             <div className="full-width-section mx-auto px-6 py-20">
 
                 {/* Header */}
