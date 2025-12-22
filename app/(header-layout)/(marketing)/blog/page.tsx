@@ -20,7 +20,8 @@ type BlogPost = {
 
 async function getBlogsBySite(siteName: string) {
   const encoded = encodeURIComponent(siteName);
-  const host = headers().get("host");
+  const headersList = await headers();
+  const host = headersList.get("host");
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
   const url = `${protocol}://${host}/api/blogs/site/${encoded}`;
   const res = await fetch(url, { cache: "no-store" });

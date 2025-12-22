@@ -1,6 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server"
 import Stripe from "stripe"
 
+
+// Initialize Stripe only when API key is available (lazy initialization)
+
 // Initialize Stripe only when API key is available (lazy initialization)
 function getStripe() {
   const apiKey = process.env.STRIPE_SECRET_KEY;
@@ -25,6 +28,7 @@ export async function POST(request: NextRequest) {
     const stripe = getStripe();
     const { amount } = await request.json()
     const centsAmount = Math.round(amount * 100)
+
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: centsAmount, 

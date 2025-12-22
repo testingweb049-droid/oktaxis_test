@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
+
 // Initialize Stripe only when API key is available (lazy initialization)
 function getStripe() {
   const apiKey = process.env.STRIPE_SECRET_KEY;
@@ -9,21 +10,24 @@ function getStripe() {
     throw new Error("STRIPE_SECRET_KEY is not configured");
   }
   return new Stripe(apiKey, {
-    apiVersion: "2025-08-27.basil", // ✅ CORRECT VERSION
+    apiVersion: "2025-08-27.basil" as any, // ✅ CORRECT VERSION
   });
+  
 }
+
 
 export async function POST(request: Request) {
   try {
     // Check if Stripe is configured
-    if (!process.env.STRIPE_SECRET_KEY) {
-      return NextResponse.json(
-        { error: "Payment service is not configured" },
-        { status: 503 }
-      );
-    }
-
-    const stripe = getStripe();
+       
+       if (!process.env.STRIPE_SECRET_KEY) {
+        return NextResponse.json(
+          { error: "Payment service is not configured" },
+          { status: 503 }
+        );
+      }
+  
+      const stripe = getStripe();
     const { paymentMethodId, amount, customerDetails } = await request.json();
 
     // Step 1: Create or retrieve a Stripe Customer
