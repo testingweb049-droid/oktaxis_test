@@ -235,35 +235,6 @@ export default function Header() {
                   priority
                 />
               </div>
-
-              {/* Social buttons for mobile only */}
-              <div className="flex items-center gap-5 md:hidden mr-8">
-               
-
-                {/* Instagram */}
-                <a
-                  href="https://www.instagram.com/oktax_is/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center w-9 h-9 rounded-md bg-[#F56040] text-white shadow"
-                  onClick={() => setIsOpen(false)}
-                  aria-label="Instagram"
-                >
-                  <FaInstagram className="w-8 h-8" />
-                </a>
-                 {/* WhatsApp */}
-                <a
-                  href="https://wa.me/+447788710290"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center w-9 h-9   rounded-md bg-[#25D366] text-white shadow"
-                  onClick={() => setIsOpen(false)}
-                  aria-label="WhatsApp"
-                >
-                  <FaWhatsapp className="w-8 h-8" />
-                </a>
-              </div>
-
             </div>
 
 
@@ -333,28 +304,30 @@ export default function Header() {
               ))}
             </nav>
 
-            {/* Call Button */}
-            <div className="hidden md:flex items-center space-x-3 ml-2">
-            
+            {/* Social icons (all screen sizes) */}
+            <div className="flex items-center gap-3 ml-2 mr-2">
+              {/* WhatsApp */}
+              <a
+                href="https://wa.me/+447788710290"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-heading-black border border-white text-white transition-opacity hover:opacity-80"
+                onClick={() => setIsOpen(false)}
+                aria-label="WhatsApp"
+              >
+                <FaWhatsapp className="h-5 w-5" />
+              </a>
+
+              {/* Instagram */}
               <a
                 href="https://www.instagram.com/oktax_is/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all bg-white text-black hover:bg-gray-100"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-heading-black border border-white text-white transition-opacity hover:opacity-80"
                 onClick={() => setIsOpen(false)}
+                aria-label="Instagram"
               >
-                <FaInstagram className="mr-2 h-5 w-5" />
-                Instagram
-              </a>
-                <a
-                href="https://wa.me/+447788710290"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all bg-white text-black hover:bg-gray-100"
-                onClick={() => setIsOpen(false)}
-              >
-                <FaWhatsapp className="mr-2 h-5 w-5" />
-                WhatsApp Us
+                <FaInstagram className="h-5 w-5" />
               </a>
             </div>
 

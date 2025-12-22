@@ -19,8 +19,8 @@ body {
   font-family: var(--font-roboto), sans-serif;
 }
 
-.font-inter {
-  font-family: var(--font-inter), sans-serif;
+.font-montserrat {
+  font-family: var(--font-montserrat), sans-serif;
 }
 
 /* Always show scrollbar in ScrollArea */
@@ -73,6 +73,7 @@ body {
     margin: 0 auto;
     padding: 0 1rem;
     width: 100%;
+    box-sizing: border-box;
   }
 }
 

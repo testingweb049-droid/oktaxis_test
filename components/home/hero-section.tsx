@@ -92,7 +92,7 @@ export default function HeroSection() {
   return (
     <section
       id="herosection"
-      className="relative w-full h-[600px] bg-v0-blue border-t-4 border-b-4 border-v0-blue overflow-visible pt-7 pb-40"
+      className="relative w-full h-[600px] bg-v0-blue border-t-4 border-b-4 border-v0-blue overflow-x-hidden overflow-y-visible pt-7 pb-40"
     >
 
 
@@ -142,14 +142,13 @@ export default function HeroSection() {
 
 
 
-        {/* Form full-width-section */}
-        <div
-          ref={formFullWidthSectionRef}
-          className="absolute left-1/2 transform -translate-x-1/2 translate-y-[50%] w-full max-w-6xl mt-15 py-20 px-4 sm:px-6 lg:px-8 z-20"
-
-        >
-          <HeroSectionBookingForm />
-        </div>
+      {/* Form full-width-section */}
+      <div
+        ref={formFullWidthSectionRef}
+        className="absolute inset-x-0 translate-y-[50%] w-full max-w-full lg:max-w-6xl mt-15 py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-4 md:px-6 lg:px-8 z-20"
+      >
+        <HeroSectionBookingForm />
+      </div>
 
 
       </div>

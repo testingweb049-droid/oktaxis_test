@@ -5,7 +5,7 @@ import Testimonials from "@/components/home/testimonials";
 import AboutSection from "@/components/home/about";
 import LuxuryExperience from "@/components/home/luxury-experience";
 import ImageTextSection from "@/components/ui/ImageTextSection";
-import Seo from "../../components/Seo";
+import Seo from "../../components/seo";
 import { Check } from "lucide-react";
 import NewHeroSection from "./book-ride/NewHeroSection";
 import InfiniteSlide from "./book-ride/InfiniteSlide";
@@ -14,6 +14,7 @@ import LeftRightSection from "@/components/Sections/LeftRightSection";
 import TopThingsSection from "@/components/Sections/TopThingsSection";
 import ReviewsSection from "@/components/Sections/reviews";
 import FooterTest from "@/components/Footer/FooterTest";
+import OurServicesSection from "@/components/OurServicesSection";
 
 export default function Home() {
   return (
@@ -319,8 +320,34 @@ export default function Home() {
         {/* <LuxuryExperience /> */}
         <WhyChoose/>
         <TopThingsSection/>
+    
+         <FleetClasses />
+
+         <OurServicesSection
+          headline="Why Choose Our Service?"
+          services={[
+            {
+              icon: <span>$</span>,
+              title: "Fixed Prices",
+              description:
+                "No ticking meters. Your airport chauffeur fare is agreed in advance, even if there is heavy traffic on your route.",
+            },
+            {
+              icon: <span>✈</span>,
+              title: "Flight Tracking",
+              description:
+                "We monitor all arrivals to adjust your pickup time automatically if your flight is delayed.",
+            },
+            {
+              icon: <span>☰</span>,
+              title: "Business Ready",
+              description:
+                "Work comfortably on the move with quiet, private vehicles equipped for productivity.",
+            },
+          ]}
+        />
         <ReviewsSection/>
-        {/* <FleetClasses /> */}
+       
         {/* <ReadyToBook /> */}
         {/* <Testimonials /> */}
         {/* <LeftRightSection/> */}

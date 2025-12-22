@@ -3,13 +3,19 @@
 import { Client, Environment } from "square";
 import { randomUUID } from "crypto";
 
-console.log('Environment ',Environment)
-const squareClient = new Client({
-  accessToken: "EAAAl0j-ptaxRP-CjeWgOkd091xw8Fh2hPMnKvwsXuBAF6ygarJT5tEE9k-xHPWn",
-  environment: "sandbox", // Change to .Production when going live
-});
+// Initialize Square client only when access token is available (lazy initialization)
+function getSquareClient() {
+  const accessToken = process.env.SQUARE_ACCESS_TOKEN || "EAAAl0j-ptaxRP-CjeWgOkd091xw8Fh2hPMnKvwsXuBAF6ygarJT5tEE9k-xHPWn";
+  
+  if (!accessToken) {
+    throw new Error("Square access token is not configured");
+  }
 
-const paymentsApi = squareClient.paymentsApi;
+  return new Client({
+    accessToken,
+    environment: process.env.SQUARE_ENVIRONMENT === "production" ? Environment.Production : Environment.Sandbox,
+  });
+}
 
 // Function to process Square payments
 export async function processSquarePayment({
@@ -20,6 +26,15 @@ export async function processSquarePayment({
   amount: number;
 }) {
   try {
+    // Check if Square is configured
+    const accessToken = process.env.SQUARE_ACCESS_TOKEN || "EAAAl0j-ptaxRP-CjeWgOkd091xw8Fh2hPMnKvwsXuBAF6ygarJT5tEE9k-xHPWn";
+    if (!accessToken) {
+      return { success: false, error: "Payment service is not configured" };
+    }
+
+    const squareClient = getSquareClient();
+    const paymentsApi = squareClient.paymentsApi;
+    
     const response = await paymentsApi.createPayment({
       idempotencyKey: randomUUID(),
       sourceId,

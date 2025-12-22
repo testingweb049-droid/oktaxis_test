@@ -1,4 +1,5 @@
 import React from 'react'
+import Heading from "@/components/Heading"
 
 interface Review {
   name: string
@@ -132,13 +133,16 @@ const VerifiedBadge = () => (
 
 export default function Reviews() {
   return (
-    <section className="font-inter py-12 lg:py-24 bg-white">
+    <section className="font-montserrat py-12 lg:py-24 bg-white">
       <div className="full-width-section mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="mb-8 lg:mb-14 text-center lg:text-left">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-black mb-2">
+          <Heading
+            as="h2"
+            className="text-2xl md:text-3xl lg:text-4xl font-bold text-black mb-2"
+          >
             Latest reviews from our customers
-          </h2>
+          </Heading>
           <p className="text-base md:text-lg text-black">
             Hear what our clients say about their experience.
           </p>
