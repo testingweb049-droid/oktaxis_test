@@ -1,15 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "../../../../../lib/dbConnect"; // your helper
-console.log(connectToDatabase);
+
 export async function GET(
   req: NextRequest,
-  { params }: { params: { siteName: string } }
+  context: { params: Promise<{ siteName: string }> }
 ) {
   try {
+    const { siteName } = await context.params;
+
     const db = await connectToDatabase();
     const posts = await db
       .collection("posts")
-      .find({ "targetSites.websiteName": params.siteName })
+      .find({ "targetSites.websiteName": siteName })
       .sort({ createdAt: -1 })
       .toArray();
 

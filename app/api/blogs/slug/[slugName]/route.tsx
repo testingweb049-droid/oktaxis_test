@@ -3,11 +3,13 @@ import { connectToDatabase } from "@/lib/dbConnect";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { slugName: string } }
+  context: { params: Promise<{ slugName: string }> }
 ) {
   try {
+    const { slugName } = await context.params;
+
     const db = await connectToDatabase();
-    const post = await db.collection("posts").findOne({ slug: params.slugName });
+    const post = await db.collection("posts").findOne({ slug: slugName });
     if (!post) {
       return NextResponse.json({ message: "Post not found" }, { status: 404 });
     }

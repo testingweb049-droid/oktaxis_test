@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from 'stripe';
 
+
 // Initialize Stripe only when API key is available (lazy initialization)
 function getStripe() {
   const apiKey = process.env.STRIPE_SECRET_KEY;
@@ -10,10 +11,12 @@ function getStripe() {
   return new Stripe(apiKey);
 }
 
+ 
+
 export async function POST(request: NextRequest) {
   try {
-    // Check if Stripe is configured
-    if (!process.env.STRIPE_SECRET_KEY) {
+     // Check if Stripe is configured
+     if (!process.env.STRIPE_SECRET_KEY) {
       return NextResponse.json(
         { error: "Payment service is not configured" },
         { status: 503 }
@@ -21,6 +24,8 @@ export async function POST(request: NextRequest) {
     }
 
     const stripe = getStripe();
+
+     
     const { amount } = await request.json();
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,
