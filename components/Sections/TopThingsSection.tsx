@@ -187,13 +187,13 @@ export default function TopThingsSection() {
     <section className="font-montserrat bg-gray-800 py-16 lg:py-20">
       <div className="full-width-section mx-auto px-4 md:px-6">
         {/* Title and Description */}
-        <div className="mb-12 text-white text-center flex flex-col  gap-3 items-center justify-center">
+        <div className="mb-4 md:mb-6 text-white text-center flex flex-col  gap-3 items-center justify-center">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-center">
             TOP 10 Things to see & do in Manchester
           </h2>
-          <p className="text-base md:text-lg max-w-5xl text-center">
+          {/* <p className="text-base md:text-lg max-w-5xl text-center">
             Manchester is a city of contrast, history, and unbeatable energy, but navigating it on your own can be a headache. Forget hunting for expensive parking spaces or navigating one-way systems. With our Executive Chauffeur Hire, you can sit back and simply enjoy the ride. Whether you are hosting clients in Spinningfields or taking the family to the football, we provide effortless door-to-door service to the city's best spots.
-          </p>
+          </p> */}
         </div>
 
         {/* Cards Container with Navigation */}

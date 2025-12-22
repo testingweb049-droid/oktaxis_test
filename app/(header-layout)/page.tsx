@@ -14,6 +14,7 @@ import LeftRightSection from "@/components/Sections/LeftRightSection";
 import TopThingsSection from "@/components/Sections/TopThingsSection";
 import ReviewsSection from "@/components/Sections/reviews";
 import FooterTest from "@/components/Footer/FooterTest";
+import OurServicesSection from "@/components/OurServicesSection";
 
 export default function Home() {
   return (
@@ -319,8 +320,32 @@ export default function Home() {
         {/* <LuxuryExperience /> */}
         <WhyChoose/>
         <TopThingsSection/>
+        <OurServicesSection
+          headline="Why Choose Our Service?"
+          services={[
+            {
+              icon: <span>$</span>,
+              title: "Fixed Prices",
+              description:
+                "No ticking meters. Your airport chauffeur fare is agreed in advance, even if there is heavy traffic on your route.",
+            },
+            {
+              icon: <span>✈</span>,
+              title: "Flight Tracking",
+              description:
+                "We monitor all arrivals to adjust your pickup time automatically if your flight is delayed.",
+            },
+            {
+              icon: <span>☰</span>,
+              title: "Business Ready",
+              description:
+                "Work comfortably on the move with quiet, private vehicles equipped for productivity.",
+            },
+          ]}
+        />
+         <FleetClasses />
         <ReviewsSection/>
-        {/* <FleetClasses /> */}
+       
         {/* <ReadyToBook /> */}
         {/* <Testimonials /> */}
         {/* <LeftRightSection/> */}
