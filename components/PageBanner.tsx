@@ -9,6 +9,7 @@ interface PageBannerProps {
   image?: string;
   buttonText?: string;
   buttonLink?: string;
+  maxWidthClass?: string;
 }
 
 export default function PageBanner({
@@ -17,6 +18,7 @@ export default function PageBanner({
   image = "/assets/airport-transfer-images/airport-banner-img.png",
   buttonText = "Get an Instant Quote",
   buttonLink = "#",
+  maxWidthClass = "max-w-4xl",
 }: PageBannerProps) {
   return (
     <section className="font-montserrat relative w-full min-h-[600px] sm:min-h-[600px] md:min-h-[700px] lg:min-h-[100vh] flex items-end md:items-center justify-center overflow-hidden">
@@ -34,7 +36,7 @@ export default function PageBanner({
 
       {/* Content Container */}
       <div className="relative z-10 full-width-section mx-auto px-4 sm:px-6 lg:px-8 pb-6 pb-8 md:pb-12 lg:py-18 w-full">
-        <div className="flex flex-col items-center gap-4 text-center mx-auto max-w-4xl px-3 mb-10 md:mb-0 md:px-0">
+        <div className={`flex flex-col items-center gap-4 text-center mx-auto ${maxWidthClass} px-3 mb-10 md:mb-0 md:px-0`}>
           {/* Heading */}
           <div className="w-full mb-3 sm:mb-4 md:mb-6">
           <h1 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold !leading-snug">

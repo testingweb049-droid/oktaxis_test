@@ -17,6 +17,17 @@ interface InfoCardsProps {
 }
 
 export default function InfoCards({ title, cards }: InfoCardsProps) {
+  // Determine desktop grid columns based on number of cards:
+  // - 1 card  -> 1 column
+  // - 2 cards -> 2 columns
+  // - 3+ cards -> 3 columns
+  const gridColsClass =
+    cards.length <= 1
+      ? "md:grid-cols-1"
+      : cards.length === 2
+      ? "md:grid-cols-2"
+      : "md:grid-cols-3";
+
   return (
     <section className="font-montserrat py-8 sm:py-12 md:py-16 lg:py-18 bg-light-background mb-8 md:mb-14">
       <div className="full-width-section mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
@@ -31,7 +42,9 @@ export default function InfoCards({ title, cards }: InfoCardsProps) {
         )}
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12 xl:gap-16">
+        <div
+          className={`grid grid-cols-1 ${gridColsClass} gap-4 sm:gap-6 md:gap-8 lg:gap-12 xl:gap-16`}
+        >
           {cards.map((card, index) => (
             <div
               key={index}
@@ -59,12 +72,9 @@ export default function InfoCards({ title, cards }: InfoCardsProps) {
               <div className="p-4 sm:p-6 md:p-8 lg:p-10 space-y-3 sm:space-y-4 md:space-y-6 lg:space-y-8">
                 {/* Heading */}
                 {card.heading && (
-                  <Heading
-                    as="h3"
-                    className="text-xl sm:text-2xl md:text-3xl font-bold text-heading-black"
-                  >
-                    {card.heading}
-                  </Heading>
+                 <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-heading-black">
+                  {card.heading}
+                 </h3>
                 )}
 
                 {/* Text */}

@@ -8,7 +8,7 @@ interface PageFeatureSectionProps {
   image: string;
   imageAlt: string;
   heading: string;
-  text: string[];
+  text?: React.ReactNode | React.ReactNode[];
   bulletPoints?: string[];
   imagePosition?: "left" | "right";
 }
@@ -40,6 +40,12 @@ export default function PageFeatureSection({
   imagePosition = "left",
 }: PageFeatureSectionProps) {
   const isImageLeft = imagePosition === "left";
+  const paragraphs = React.Children.toArray(text).filter(
+    (paragraph) =>
+      !(
+        typeof paragraph === "string" && paragraph.trim().length === 0
+      )
+  );
 
   return (
     <section className="font-montserrat">
@@ -66,30 +72,25 @@ export default function PageFeatureSection({
             {/* Heading */}
             <Heading
               as="h2"
+              align="left"
               className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-5 md:mb-6 lg:mb-8 leading-tight"
             >
               {heading}
             </Heading>
 
             {/* Text Content */}
-            {text.length > 0 && (
+            {paragraphs.length > 0 && (
               <div className="mb-6 sm:mb-8 md:mb-10 lg:mb-12">
-                {text.length >= 2 ? (
-                  <div className="space-y-5 sm:space-y-6 md:space-y-7">
-                    {text.map((paragraph: string, index: number) => (
-                      <p
-                        key={index}
-                        className="text-text-gray text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed"
-                      >
-                        {paragraph}
-                      </p>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-text-gray text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed">
-                    {text[0]}
-                  </p>
-                )}
+                <div className="space-y-5 sm:space-y-6 md:space-y-7">
+                  {paragraphs.map((paragraph, index) => (
+                    <p
+                      key={index}
+                      className="text-text-gray text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed"
+                    >
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
               </div>
             )}
 

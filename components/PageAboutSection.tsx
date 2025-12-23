@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 interface PageAboutSectionProps {
   heading: string | ReactNode;
-  text: string | ReactNode;
+  text?: ReactNode | ReactNode[];
   image: string;
   imageAlt: string;
   imagePosition?: "left" | "right";
@@ -30,6 +30,13 @@ export default function PageAboutSection({
   imageClassName = "",
   imageHeight,
 }: PageAboutSectionProps) {
+  const paragraphs = React.Children.toArray(text).filter(
+    (paragraph) =>
+      !(
+        typeof paragraph === "string" && paragraph.trim().length === 0
+      )
+  );
+
   return (
     <div className="my-16 md:my-20">
     <section className={`full-width-section${className}`}>
@@ -48,19 +55,20 @@ export default function PageAboutSection({
             </h2>
 
             <div>
-            {typeof text === "string" ? (
-              <p
-                className={`font-montserrat text-base sm:text-lg md:text-xl text-text-gray leading-6 sm:leading-7 md:leading-8 lg:leading-[36px] ${textClassName}`}
-              >
-                {text}
-              </p>
-            ) : (
-              <div
-                className={`font-montserrat text-base sm:text-lg md:text-xl text-text-gray leading-6 sm:leading-7 md:leading-8 lg:leading-[36px] ${textClassName}`}
-              >
-                {text}
-              </div>
-            )}
+              {paragraphs.length > 0 && (
+                <div className="mb-6 sm:mb-8 md:mb-10 lg:mb-12">
+                  <div className="space-y-5 sm:space-y-6 md:space-y-7">
+                    {paragraphs.map((paragraph, index) => (
+                      <p
+                        key={index}
+                        className={`text-text-gray text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed ${textClassName}`}
+                      >
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
          
           </div>

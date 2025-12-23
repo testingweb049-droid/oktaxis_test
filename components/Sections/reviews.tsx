@@ -139,6 +139,7 @@ export default function Reviews() {
         <div className="mb-8 lg:mb-14 text-center lg:text-left">
           <Heading
             as="h2"
+            align="left"
             className="text-2xl md:text-3xl lg:text-4xl font-bold text-black mb-2"
           >
             Latest reviews from our customers

@@ -13,7 +13,6 @@ import WhyChoose from "@/components/Sections/WhyChoose";
 import LeftRightSection from "@/components/Sections/LeftRightSection";
 import TopThingsSection from "@/components/Sections/TopThingsSection";
 import ReviewsSection from "@/components/Sections/reviews";
-import FooterTest from "@/components/Footer/FooterTest";
 import OurServicesSection from "@/components/OurServicesSection";
 
 export default function Home() {
