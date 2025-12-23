@@ -48,8 +48,10 @@ export default function PageFeatureSection({
   );
 
   return (
+    // Section with a font-montserrat class
     <section className="font-montserrat">
       <div className="">
+
         <div
           className={`flex flex-col ${
             isImageLeft ? "md:flex-row" : "md:flex-row-reverse"
