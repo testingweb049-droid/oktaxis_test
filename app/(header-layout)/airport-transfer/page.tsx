@@ -26,6 +26,7 @@ import OurServicesSection from "@/components/OurServicesSection";
 import CTASection from "@/components/CTASection";
 import FleetClasses from "@/components/home/fleet";
 import ReviewsSection from "@/components/Sections/reviews";
+import ConnectionAreasSection from "@/components/ConnectionAreasSection";
 
 const FixedPricesIcon = () => (
   <svg
@@ -102,26 +103,26 @@ export default function AirportTransfer() {
        
       />
 
-    
-
-      <InfoCards
-        title="Our Key Airport Hubs"
+      <ConnectionAreasSection
+        heading="Connecting the North: Leeds, Liverpool & Beyond"
         cards={[
           {
-            image: "/assets/airport-transfer-images/airport-info-img-1.png",
-            imageAlt: "Manchester Airport",
-            heading: "Manchester Airport (MAN)",
-            text: "The UK's global gateway in the North. We cover Terminals 1, 2, and 3 with a full \"Meet and Greet\" service. Whether you need a transfer to the city center or a long-distance ride to Leeds or the Lake District, our Manchester airport chauffeur service is the reliable choice.",
-            linkText: "View Manchester Airport Service",
-            linkHref: "/manchester-airport"
+            title: "1. Leeds to Manchester Connections",
+            description: [
+              "The train route across the Pennines is notorious for delays. A Leeds to Manchester airport transfer with us offers a private, stress-free alternative. We use the M62 to manage the crossing, monitoring traffic reports to avoid high-altitude weather delays.",
+              "Whether you need airport transfers Leeds to Manchester for business or a family holiday, our V-Class fleet handles the luggage capacity easily."
+            ],
+            imageSrc: "/assets/airport-transfer-images/airport-info-img-1.png",
+            imageAlt: "Executive vehicle driving through countryside between Leeds and Manchester"
           },
           {
-            image: "/assets/airport-transfer-images/airport-info-img-2.png",
-            imageAlt: "Liverpool John Lennon Airport",
-            heading: "Liverpool John Lennon Airport (LPL)",
-            text: "The convenient choice for European travel and budget airlines. Public transport here can be limited. We provide direct Liverpool airport transfers to Manchester, Chester, and Merseyside, ensuring you don't have to wait for slow connecting buses.",
-            linkText: "View Liverpool Airport Service",
-            linkHref: "/liverpool-airport"
+            title: "2. Liverpool and Merseyside",
+            description: [
+              "Located just 35 miles away, the journey to Liverpool should be quick, but the M62/M60 interchange is a known bottleneck. We provide airport transfers Liverpool to Manchester that factor in rush-hour traffic.",
+              "Our drivers know local \"rat runs\" to avoid standstill traffic, ensuring your Liverpool to Manchester airport transfers are punctual. Whether you need a one-way transfer or a return journey, we offer a fixed price that includes all drop-off fees."
+            ],
+            imageSrc: "/assets/airport-transfer-images/airport-info-img-2.png",
+            imageAlt: "Liverpool John Lennon Airport terminal exterior"
           }
         ]}
       />
