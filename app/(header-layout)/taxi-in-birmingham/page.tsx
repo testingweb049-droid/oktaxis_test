@@ -79,25 +79,23 @@ const page = () => {
                 /> */}
                 <FleetClasses />
                 <FAQSection
-                    title="FAQS ("
-                    highlightText="FREQUENTLY ASKED QUESTIONS"
-                    subtitle=")"
+                    title="Frequently Asked Questions"
                     faqs={[
                         {
-                            question: "Saloon Cars?",
-                            answer: "Ideal for up to 4 passengers for city trips and airport runs."
+                            question: "Do you provide airport transfers from Birmingham?",
+                            answer: "Yes. We operate reliable transfers to and from Birmingham Airport and other major airports across the UK."
                         },
                         {
-                            question: "Estate Cars?",
-                            answer: "Offering additional luggage capacity for travelers with extra bags."
+                            question: "Can I use your service for long-distance journeys?",
+                            answer: "Absolutely. We regularly provide long-distance trips from Birmingham to cities and airports nationwide."
                         },
                         {
-                            question: "MPV / People Carriers?",
-                            answer: "Seating up to 8 passengers comfortably for group travel."
+                            question: "Are executive and luxury vehicles available?",
+                            answer: "Yes. Our executive and luxury fleet is available for corporate travel, VIP transfers, and special occasions."
                         },
                         {
-                            question: "Executive & Luxury?",
-                            answer: "Top-of-the-range models from brands like Mercedes-Benz and BMW for the ultimate travel experience."
+                            question: "What happens if my flight is delayed?",
+                            answer: "We monitor inbound flights and automatically adjust pick-up times when delays occur, so your driver is ready when you arrive."
                         }
                     ]}
                 />
