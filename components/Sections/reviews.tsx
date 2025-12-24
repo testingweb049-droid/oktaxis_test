@@ -1,44 +1,53 @@
-import React from 'react'
-import Heading from "@/components/Heading"
+ "use client"
+import React, { useRef } from "react";
+import Heading from "@/components/Heading";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import { Navigation } from "swiper/modules";
 
 interface Review {
-  name: string
-  date: string
-  platform: 'google' | 'facebook' | 'spotify'
-  review: string
-  rating: number
+  name: string;
+  date: string;
+  platform: "google" | "facebook" | "spotify";
+  review: string;
+  rating: number;
 }
 
 const reviews: Review[] = [
   {
-    name: 'Marvin McKinney',
-    date: '12/15/2024',
-    platform: 'google',
-    review: 'Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The fixed pricing gave me peace of mind, and the journey was smooth and comfortable.',
-    rating: 5
+    name: "Marvin McKinney",
+    date: "12/15/2024",
+    platform: "google",
+    review:
+      "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The fixed pricing gave me peace of mind, and the journey was smooth and comfortable.",
+    rating: 5,
   },
   {
-    name: 'Bessie Cooper',
-    date: '09/25/2025',
-    platform: 'facebook',
-    review: 'Smooth experience, great car, fair price. A top-notch experience.',
-    rating: 5
+    name: "Bessie Cooper",
+    date: "09/25/2025",
+    platform: "facebook",
+    review: "Smooth experience, great car, fair price. A top-notch experience.",
+    rating: 5,
   },
   {
-    name: 'Dianne Russell',
-    date: '11/18/2024',
-    platform: 'google',
-    review: 'Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The fixed pricing gave me peace of mind, and the journey was smooth and comfortable.',
-    rating: 5
+    name: "Dianne Russell",
+    date: "11/18/2024",
+    platform: "google",
+    review:
+      "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The fixed pricing gave me peace of mind, and the journey was smooth and comfortable.",
+    rating: 5,
   },
   {
-    name: 'John Doe',
-    date: '01/15/2025',
-    platform: 'spotify',
-    review: 'Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The fixed pricing gave me peace of mind, and the journey was smooth and comfortable.',
-    rating: 5
-  }
-]
+    name: "John Doe",
+    date: "01/15/2025",
+    platform: "spotify",
+    review:
+      "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The fixed pricing gave me peace of mind, and the journey was smooth and comfortable.",
+    rating: 5,
+  },
+];
 
 // Star SVG Component
 const StarIcon = ({ className }: { className?: string }) => (
@@ -55,13 +64,17 @@ const StarIcon = ({ className }: { className?: string }) => (
       fill="#FFB400"
     />
   </svg>
-)
+);
 
 // Platform Logo Component
-const PlatformLogo = ({ platform }: { platform: 'google' | 'facebook' | 'spotify' }) => {
+const PlatformLogo = ({
+  platform,
+}: {
+  platform: "google" | "facebook" | "spotify";
+}) => {
   const getPlatformIcon = () => {
     switch (platform) {
-      case 'google':
+      case "google":
         return (
           <div className="w-5 h-5 bg-white rounded-full flex items-center justify-center shadow-sm">
             <svg width="12" height="12" viewBox="0 0 24 24" className="flex-shrink-0">
@@ -83,32 +96,32 @@ const PlatformLogo = ({ platform }: { platform: 'google' | 'facebook' | 'spotify
               />
             </svg>
           </div>
-        )
-      case 'facebook':
+        );
+      case "facebook":
         return (
           <div className="w-5 h-5 bg-[#1877F2] rounded-full flex items-center justify-center shadow-sm">
             <span className="text-[10px] font-bold text-white">f</span>
           </div>
-        )
-      case 'spotify':
+        );
+      case "spotify":
         return (
           <div className="w-5 h-5 bg-[#1DB954] rounded-full flex items-center justify-center shadow-sm">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="white" className="flex-shrink-0">
               <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z" />
             </svg>
           </div>
-        )
+        );
       default:
-        return null
+        return null;
     }
-  }
+  };
 
   return (
     <div className="absolute -bottom-0.5 -right-0.5 border-2 border-white rounded-full">
       {getPlatformIcon()}
     </div>
-  )
-}
+  );
+};
 
 // Verification Checkmark Component
 const VerifiedBadge = () => (
@@ -129,73 +142,114 @@ const VerifiedBadge = () => (
       strokeLinejoin="round"
     />
   </svg>
-)
+);
 
 export default function Reviews() {
+  const prevRef = useRef<HTMLDivElement | null>(null);
+  const nextRef = useRef<HTMLDivElement | null>(null);
+
   return (
     <section className="font-montserrat py-12 lg:py-24 bg-white">
       <div className="full-width-section mx-auto px-4 md:px-6">
-        {/* Header */}
-        <div className="mb-8 lg:mb-14 text-center lg:text-left">
-          <Heading
-            as="h2"
-            align="left"
-            className="text-2xl md:text-3xl lg:text-4xl font-bold text-black mb-2"
-          >
-            Latest reviews from our customers
-          </Heading>
-          <p className="text-base md:text-lg text-black">
-            Hear what our clients say about their experience.
-          </p>
-        </div>
-
-        {/* Reviews Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {reviews.map((review, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 flex flex-col"
+        {/* Header with navigation arrows */}
+        <div className="mb-8 lg:mb-14 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="text-center lg:text-left">
+            <Heading
+              as="h2"
+              align="left"
+              className="text-2xl md:text-3xl lg:text-4xl font-bold text-black mb-2"
             >
-              {/* User Info */}
-              <div className="flex items-start gap-3 mb-4">
-                {/* Avatar with Platform Logo */}
-                <div className="relative flex-shrink-0">
-                  <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
-                    <span className="text-lg font-semibold text-gray-600">
-                      {review.name.charAt(0)}
-                    </span>
-                  </div>
-                  <PlatformLogo platform={review.platform} />
-                </div>
+              Latest reviews from our customers
+            </Heading>
+            <p className="text-base md:text-lg text-black text-left">
+              Hear what our clients say about their experience.
+            </p>
+          </div>
 
-                {/* Name and Date */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="text-base font-semibold text-black truncate">
-                      {review.name}
-                    </h3>
-                    <VerifiedBadge />
-                  </div>
-                  <p className="text-sm text-gray-600">{review.date}</p>
-                </div>
-              </div>
-
-              {/* Review Text */}
-              <p className="text-sm md:text-base text-black mb-4 flex-1 leading-relaxed">
-                {review.review}
-              </p>
-
-              {/* Star Rating */}
-              <div className="flex items-center gap-1">
-                {Array.from({ length: review.rating }).map((_, i) => (
-                  <StarIcon key={i} />
-                ))}
-              </div>
+          {/* Navigation arrows */}
+          <div className="flex items-center justify-end gap-3">
+            <div
+              ref={prevRef}
+              className="reviews-prev inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm cursor-pointer transition hover:bg-gray-100"
+              aria-label="Previous reviews"
+            >
+              <ArrowLeft className="h-5 w-5" />
             </div>
-          ))}
+            <div
+              ref={nextRef}
+              className="reviews-next inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm cursor-pointer transition hover:bg-gray-100"
+              aria-label="Next reviews"
+            >
+              <ArrowRight className="h-5 w-5" />
+            </div>
+          </div>
         </div>
+
+        {/* Reviews Slider */}
+        <Swiper
+          modules={[Navigation]}
+          spaceBetween={24}
+          slidesPerView={1}
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+            },
+            1024: {
+              slidesPerView: 4,
+            },
+          }}
+          onInit={(swiper) => {
+            // @ts-ignore
+            swiper.params.navigation.prevEl = prevRef.current;
+            // @ts-ignore
+            swiper.params.navigation.nextEl = nextRef.current;
+            swiper.navigation.init();
+            swiper.navigation.update();
+          }}
+        >
+          {reviews.map((review, index) => (
+            <SwiperSlide key={index}>
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 flex flex-col h-full">
+                {/* User Info */}
+                <div className="flex items-start gap-3 mb-4">
+                  {/* Avatar with Platform Logo */}
+                  <div className="relative flex-shrink-0">
+                    <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                      <span className="text-lg font-semibold text-gray-600">
+                        {review.name.charAt(0)}
+                      </span>
+                    </div>
+                    <PlatformLogo platform={review.platform} />
+                  </div>
+
+                  {/* Name and Date */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="text-base font-semibold text-black truncate">
+                        {review.name}
+                      </h3>
+                      <VerifiedBadge />
+                    </div>
+                    <p className="text-sm text-gray-600">{review.date}</p>
+                  </div>
+                </div>
+
+                {/* Review Text */}
+                <p className="text-sm md:text-base text-black mb-4 flex-1 leading-relaxed">
+                  {review.review}
+                </p>
+
+                {/* Star Rating */}
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: review.rating }).map((_, i) => (
+                    <StarIcon key={i} />
+                  ))}
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
     </section>
-  )
+  );
 }
-

@@ -48,7 +48,7 @@ export default function InfoCards({ title, cards }: InfoCardsProps) {
           {cards.map((card, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg overflow-hidden"
+              className="bg-white rounded-lg overflow-hidden py-3"
               style={{
                 boxShadow: `
                   0px 2.67px 5.33px -2.67px #0000001A,

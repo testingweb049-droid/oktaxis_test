@@ -65,6 +65,10 @@ const config = {
       },
       lineHeight: {
         'hero': '100px',
+        'large-relaxed': '42px',
+      },
+      height: {
+        'serving-card': '530px',
       },
       borderRadius: {
         lg: "var(--radius)",

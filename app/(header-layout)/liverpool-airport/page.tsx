@@ -2,14 +2,18 @@ import PageBanner from "@/components/PageBanner";
 import PageAboutSection from "@/components/PageAboutSection";
 import TransfersSection from "@/components/TransfersSection";
 import AboutServiceSection from "@/components/AboutServiceSection";
-
+import ServingCardsSection from "@/components/ServingCardsSection";
+import FleetClasses from "@/components/home/fleet";
+import FAQSection from "@/components/FAQSection";
+import Reviews from "@/components/Sections/reviews";
+   
 const LiverpoolAirportPage = () => {
   return (
     <>
       <PageBanner
         heading="Liverpool Airport Chauffeur Service"
-        text="Liverpool John Lennon Airport (LPL) is known for its speed and convenience, often labelled the “Faster, Easier, Friendlier” airport. Your transport to and from the terminal should be exactly the same. OkTaxis provides a Liverpool Airport chauffeur service that ensures a smooth start or end to your trip."
-        maxWidthClass="max-w-5xl"
+        text=" Reliable Liverpool Airport chauffeur service. Executive transfers from Liverpool John Lennon (LPL) to Manchester, Cheshire, and the city center. Meet & greet included."
+        maxWidthClass="max-w-4xl"
       />
 
       <PageAboutSection
@@ -57,6 +61,31 @@ const LiverpoolAirportPage = () => {
           },
         ]}
       />
+
+      <ServingCardsSection />
+    <FleetClasses />
+
+      <FAQSection
+        title="Frequently Asked Questions"
+        faqs={[
+          {
+            question: "How much is a taxi from Liverpool Airport to Manchester?",
+            answer:
+              "Our executive chauffeur prices are fixed and competitive. While a standard taxi runs on a meter (which can get expensive in traffic), our quote is final.",
+          },
+          {
+            question: "Do you track flights at Liverpool?",
+            answer:
+              "Yes. We monitor all inbound flights. Whether you are flying EasyJet, Ryanair, or Wizz Air, we know when you land.",
+          },
+          {
+            question: "Can you do a transfer from Manchester Airport to Liverpool Airport?",
+            answer:
+              "Absolutely. We frequently transfer crews and passengers between the two airports for connecting flights.",
+          },
+        ]}
+      />
+      <Reviews/>
     </>
   );
 };

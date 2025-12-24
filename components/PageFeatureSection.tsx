@@ -9,7 +9,7 @@ interface PageFeatureSectionProps {
   imageAlt: string;
   heading: string;
   text?: React.ReactNode | React.ReactNode[];
-  bulletPoints?: string[];
+  bulletPoints?: React.ReactNode[];
   imagePosition?: "left" | "right";
 }
 
@@ -70,12 +70,12 @@ export default function PageFeatureSection({
           </div>
 
           {/* Text Panel Section */}
-          <div className="w-full md:w-1/2 bg-heading-black flex flex-col justify-center px-6 sm:px-8 md:px-12 lg:px-20 py-8 sm:py-10 md:py-12 lg:py-16">
+          <div className="w-full md:w-1/2 bg-heading-black flex flex-col justify-center px-6 sm:px-8 md:px-12 lg:px-20 py-10 sm:py-10 md:py-12 lg:py-16">
             {/* Heading */}
             <Heading
               as="h2"
               align="left"
-              className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-5 md:mb-6 lg:mb-8 leading-tight"
+              className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-5 md:mb-6 lg:mb-8 leading-tight"
             >
               {heading}
             </Heading>

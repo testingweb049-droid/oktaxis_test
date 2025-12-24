@@ -23,12 +23,12 @@ import InfoCards from "@/components/Sections/InfoCards";
   import AreaServeSection from "@/components/AreaServeSection";
   import LocationPinIcon from "@/components/LocationPinIcon";
   import OurServicesSection from "@/components/OurServicesSection";
-  import FleetClasses from "@/components/home/fleet";
-  import ReviewsSection from "@/components/Sections/reviews";
+   import ReviewsSection from "@/components/Sections/reviews";
 import ConnectionAreasSection from "@/components/ConnectionAreasSection";
 import FAQSection from "@/components/FAQSection";
 import FleetShowcase from "@/components/FleetShowcase";
 import TransfersSection from "@/components/TransfersSection";
+import FleetClasses from "@/components/home/fleet";
 
 export default function Manchester() {
     return (
@@ -125,7 +125,7 @@ export default function Manchester() {
             {
               icon: (
                 <svg
-                  className="h-7 w-7 sm:h-8 sm:w-8 md:h-9 md:w-9"
+                  className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-9 lg:w-9"
                   viewBox="0 0 43 43"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -143,7 +143,7 @@ export default function Manchester() {
             {
               icon: (
                 <svg
-                  className="h-7 w-7 sm:h-8 sm:w-8 md:h-9 md:w-9"
+                  className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-9 lg:w-9"
                   viewBox="0 0 43 43"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -161,7 +161,7 @@ export default function Manchester() {
             {
               icon: (
                 <svg
-                  className="h-7 w-7 sm:h-8 sm:w-8 md:h-9 md:w-9"
+                  className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-9 lg:w-9"
                   viewBox="0 0 43 43"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -179,7 +179,7 @@ export default function Manchester() {
           ]}
         />
 
-        <FleetShowcase />
+        <FleetClasses />
 
         <FAQSection
           title="Frequently Asked Questions"

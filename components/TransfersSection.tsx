@@ -4,7 +4,9 @@ import Heading from "@/components/Heading"
 
 export function TransfersSection() {
   return (
-    <section className="full-width-section bg-light-background py-16 sm:py-20 lg:py-24 font-montserrat">
+    <section className=" bg-light-background py-16 sm:py-20 lg:py-24 font-montserrat">
+      <div className="full-width-section">
+      
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-10 xl:gap-16 items-center">
           {/* Left column - text content */}
           <div className="max-w-2xl">
@@ -159,6 +161,8 @@ export function TransfersSection() {
             </div>
           </div>
         </div>
+      </div>
+
     </section>
   )
 }

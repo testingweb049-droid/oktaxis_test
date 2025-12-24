@@ -85,6 +85,7 @@ export default function AirportTransfer() {
       <PageBanner
         heading="Airport Chauffeur Service | Manchester & Liverpool Transfers"
         text="Premier airport chauffeur service for the North West. Luxury transfers for Manchester (MAN) and Liverpool (LPL) airports. Serving Chester, Preston, and Leeds. Fixed pricing."
+        
       />
 
       <PageAboutSection
