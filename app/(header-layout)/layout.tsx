@@ -1,5 +1,5 @@
 import type React from "react";
-import Header from "@/components/Header/header";
+import Header from "@/components/Header/Header";
 
 export default function RootLayout({
   children,

@@ -1,6 +1,6 @@
 "use client";
 import RegisterDriverForm from "@/components/DriverForm/RegisterDriverForm";
-import Seo from "../../../../components/seo";
+import Seo from "@/components/seo";
 // import HeroSection2 from "@/components/ui/hero-section2";
 // import Img1 from "@/assets/homeImages/img1.jpeg";
 export default function RegisterDriverPage() {

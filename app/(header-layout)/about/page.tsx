@@ -2,9 +2,9 @@ import HeroSection2 from "@/components/ui/hero-section2";
 import HeroImg from "@/assets/bmw.png";
 import HeroImge from "@/assets/bmw1.png";
 import Offer from "@/components/ui/do-offer";
-import Image from "next/image";
+import Image from "next/image";       
 import FleetClasses from "@/components/home/fleet";
-import Seo from "../../../components/seo";
+import Seo from "@/components/seo";
 import { Check } from "lucide-react";
 // about
 // about
@@ -12,7 +12,7 @@ export default function About() {
   return (
     <>
       <Seo
-        title="About OkTaxis | Premium Chauffeur Service in Manchester"
+        title="About Ok Taxis | Premium Chauffeur Service in Manchester"
         description="Learn about OkTaxis, Manchester’s trusted chauffeur and private taxi service. Discover our values of punctuality, safety, and customer care."
         url="https://oktaxis.co.uk/about"
         image="https://oktaxis.com/og-image.jpg"

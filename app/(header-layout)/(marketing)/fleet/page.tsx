@@ -4,13 +4,13 @@ import Offer from "@/components/ui/do-offer";
 import HeroSection2 from "@/components/ui/hero-section2";
 import ImageTextSection from "@/components/ui/ImageTextSection";
 import { homePageData } from "@/constants/homePageData";
-import Seo from "../../../../components/seo";
+import Seo from "@/components/seo";
 import { Check } from "lucide-react";
 
 export default function Fleet() {
   const { bgImg } = homePageData.ourFleets || [];
   return (
-    <>
+    <>  
       <Seo
         title="Our Fleet | OKTaxis Manchester Chauffeur Services"
         description="Explore OKTaxis’ premium fleet including executive sedans, spacious vans, and luxury vehicles. Impeccably maintained for every journey in Manchester and beyond."
