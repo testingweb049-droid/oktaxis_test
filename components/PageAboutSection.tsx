@@ -42,12 +42,12 @@ export default function PageAboutSection({
     <section className={`full-width-section${className}`}>
       <div className="full-width-section mx-auto px-4 sm:px-6 lg:px-8">
         <div
-          className={`flex flex-col gap-6 sm:gap-8 md:gap-12 lg:gap-24 items-center ${
+          className={`flex flex-col gap-6 sm:gap-8 md:gap-12 lg:gap-24 !items-center ${
             imagePosition === "right" ? "lg:flex-row" : "lg:flex-row-reverse"
           }`}
         >
           {/* Text Content */}
-          <div className="flex-1 w-full min-w-0 lg:max-w-3xl flex flex-col gap-3 sm:gap-4 md:gap-5">
+          <div className="w-full min-w-0 lg:max-w-4xl lg:basis-9/12 flex flex-col gap-3 sm:gap-4 md:gap-5 order-2 lg:order-1">
             <h2
               className={`font-montserrat text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-heading-black mb-2 sm:mb-3 md:mb-4 lg:mb-6 leading-tight ${headingClassName}`}
             >
@@ -61,7 +61,7 @@ export default function PageAboutSection({
                     {paragraphs.map((paragraph, index) => (
                       <p
                         key={index}
-                        className={`text-text-gray text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed ${textClassName}`}
+                        className={`text-text-gray text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed  lg:leading-large-relaxed ${textClassName}`}
                       >
                         {paragraph}
                       </p>
@@ -74,21 +74,17 @@ export default function PageAboutSection({
           </div>
 
           {/* Image */}
-          <div className="flex-1 w-full lg:w-auto lg:flex-shrink-0">
-            <div
-              className={`relative w-full rounded-lg overflow-hidden ${
-                imageHeight || "h-[250px] sm:h-[300px] md:h-[350px] lg:h-[400px] xl:h-[496px]"
+          <div className="w-full lg:basis-5/12 lg:flex-shrink-0 order-1 lg:order-2">
+            <Image
+              src={image}
+              alt={imageAlt}
+              width={1200}
+              height={750}
+              className={`w-full h-auto rounded-[10px] object-contain md:object-contain ${
+                imageHeight || ""
               } ${imageClassName || ""}`}
-            >
-              <Image
-                src={image}
-                alt={imageAlt}
-                fill
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
-                priority={imagePriority}
-              />
-            </div>
+              priority={imagePriority}
+            />
           </div>
         </div>
       </div>

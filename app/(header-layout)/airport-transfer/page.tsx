@@ -23,7 +23,6 @@ import InfoCards from "@/components/Sections/InfoCards";
 import AreaServeSection from "@/components/AreaServeSection";
 import LocationPinIcon from "@/components/LocationPinIcon";
 import OurServicesSection from "@/components/OurServicesSection";
-import CTASection from "@/components/CTASection";
 import FleetClasses from "@/components/home/fleet";
 import ReviewsSection from "@/components/Sections/reviews";
 import ConnectionAreasSection from "@/components/ConnectionAreasSection";
@@ -86,6 +85,7 @@ export default function AirportTransfer() {
       <PageBanner
         heading="Airport Chauffeur Service | Manchester & Liverpool Transfers"
         text="Premier airport chauffeur service for the North West. Luxury transfers for Manchester (MAN) and Liverpool (LPL) airports. Serving Chester, Preston, and Leeds. Fixed pricing."
+        
       />
 
       <PageAboutSection
@@ -93,36 +93,34 @@ export default function AirportTransfer() {
         text={
           <>
             <p>
-            Starting your holiday or business trip should be relaxing, not stressful. At OkTaxis, we specialize in luxury airport transfers across the North West of England. We are not a faceless nationwide agency that farms out jobs; we are local experts. Our drivers know the M56, the M62, and the East Lancs Road inside out. We guarantee that when you book an airport chauffeur service with us, you are getting a driver who knows the route, avoids the traffic, and arrives in a pristine Mercedes-Benz vehicle.            </p>
-        
+              Starting your holiday or business trip should be relaxing, not stressful. At OkTaxis, we specialize in luxury airport transfers across the North West of England. We are not a faceless nationwide agency that farms out jobs; we are local experts. Our drivers know the M56, the M62, and the East Lancs Road inside out. We guarantee that when you book an airport chauffeur service with us, you are getting a driver who knows the route, avoids the traffic, and arrives in a pristine Mercedes-Benz vehicle.            </p>
+
           </>
         }
         image="/assets/airport-transfer-images/airport-about-img.png"
         imageAlt="Start Your Journey in Comfort"
         imagePosition="right"
-       
+
       />
 
-      <ConnectionAreasSection
-        heading="Connecting the North: Leeds, Liverpool & Beyond"
+      <InfoCards
+        title="Our Key Airport Hubs"
         cards={[
           {
-            title: "1. Leeds to Manchester Connections",
-            description: [
-              "The train route across the Pennines is notorious for delays. A Leeds to Manchester airport transfer with us offers a private, stress-free alternative. We use the M62 to manage the crossing, monitoring traffic reports to avoid high-altitude weather delays.",
-              "Whether you need airport transfers Leeds to Manchester for business or a family holiday, our V-Class fleet handles the luggage capacity easily."
-            ],
-            imageSrc: "/assets/airport-transfer-images/airport-info-img-1.png",
-            imageAlt: "Executive vehicle driving through countryside between Leeds and Manchester"
+            image: "/assets/airport-transfer-images/airport-info-img-1.png",
+            imageAlt: "Manchester Airport",
+            heading: "Manchester Airport (MAN)",
+            text: "The UK's global gateway in the North. We cover Terminals 1, 2, and 3 with a full \"Meet and Greet\" service. Whether you need a transfer to the city center or a long-distance ride to Leeds or the Lake District, our Manchester airport chauffeur service is the reliable choice.",
+            linkText: "View Manchester Airport Service",
+            linkHref: "/manchester-airport"
           },
           {
-            title: "2. Liverpool and Merseyside",
-            description: [
-              "Located just 35 miles away, the journey to Liverpool should be quick, but the M62/M60 interchange is a known bottleneck. We provide airport transfers Liverpool to Manchester that factor in rush-hour traffic.",
-              "Our drivers know local \"rat runs\" to avoid standstill traffic, ensuring your Liverpool to Manchester airport transfers are punctual. Whether you need a one-way transfer or a return journey, we offer a fixed price that includes all drop-off fees."
-            ],
-            imageSrc: "/assets/airport-transfer-images/airport-info-img-2.png",
-            imageAlt: "Liverpool John Lennon Airport terminal exterior"
+            image: "/assets/airport-transfer-images/airport-info-img-2.png",
+            imageAlt: "Liverpool John Lennon Airport",
+            heading: "Liverpool John Lennon Airport (LPL)",
+            text: "The convenient choice for European travel and budget airlines. Public transport here can be limited. We provide direct Liverpool airport transfers to Manchester, Chester, and Merseyside, ensuring you don't have to wait for slow connecting buses.",
+            linkText: "View Liverpool Airport Service",
+            linkHref: "/liverpool-airport"
           }
         ]}
       />
@@ -184,14 +182,10 @@ export default function AirportTransfer() {
         ]}
       />
 
-<FleetClasses />
-      <CTASection
-        heading="Book Your Transfer"
-        text="Don't leave your airport journey to chance. Secure your North West airport transfer today for a fixed price and peace of mind."
-        buttonText="Get an Instant Quote"
-      />
+      <FleetClasses />
 
-<ReviewsSection/>
+
+      <ReviewsSection />
 
       {/* All commented content below */}
       {/* 

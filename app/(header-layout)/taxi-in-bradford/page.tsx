@@ -97,25 +97,23 @@ const page = () => {
                 /> */}
                 <FleetClasses />
                 <FAQSection
-                    title="FAQS ("
-                    highlightText="FREQUENTLY ASKED QUESTIONS"
-                    subtitle=")"
+                    title="Frequently Asked Questions"
                     faqs={[
                         {
-                            question: "How do I book my taxi service in London?",
-                            answer: "Ideal for up to 4 passengers for city trips and airport runs."
+                            question: "Do you cover cities other than Leeds?",
+                            answer: "Yes. We provide transfers between Leeds, Leeds Bradford Airport, and many surrounding towns and cities."
                         },
                         {
-                            question: "Do you offer fixed pricing for airport journeys?",
-                            answer: "Offering additional luggage capacity for travelers with extra bags."
+                            question: "Can I book a Leeds Bradford Airport transfer in advance?",
+                            answer: "Yes, we recommend pre-booking to secure availability and fixed pricing for your journey."
                         },
                         {
-                            question: "What makes you the best taxi service in London UK?",
-                            answer: "Seating up to 8 passengers comfortably for group travel."
+                            question: "Will my driver track my flight?",
+                            answer: "Our team tracks inbound flights so we can adjust your collection time if your flight is delayed."
                         },
                         {
-                            question: "What time details do I need to provide when booking?",
-                            answer: "Top-of-the-range models from brands like Mercedes-Benz and BMW for the ultimate travel experience."
+                            question: "Do you offer child seats on request?",
+                            answer: "Child seats can be provided on request at the time of booking, subject to availability."
                         }
                     ]}
                 />

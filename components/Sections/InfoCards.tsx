@@ -48,7 +48,7 @@ export default function InfoCards({ title, cards }: InfoCardsProps) {
           {cards.map((card, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg overflow-hidden"
+              className="bg-white rounded-lg overflow-hidden py-3"
               style={{
                 boxShadow: `
                   0px 2.67px 5.33px -2.67px #0000001A,
@@ -89,7 +89,7 @@ export default function InfoCards({ title, cards }: InfoCardsProps) {
                   <div className="pt-1 sm:pt-2">
                     <Link
                       href={card.linkHref}
-                      className="text-base sm:text-lg text-primary-yellow hover:opacity-80 transition-opacity inline-flex items-center gap-2"
+                      className="text-base sm:text-lg text-primary-yellow hover:opacity-80 transition-opacity inline-flex items-center gap-2 font-semibold"
                     >
                       {card.linkText}
                       <span className="text-primary-yellow">›</span>

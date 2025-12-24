@@ -36,7 +36,7 @@ export default function PageBanner({
 
       {/* Content Container */}
       <div className="relative z-10 full-width-section mx-auto px-4 sm:px-6 lg:px-8 pb-6 pb-8 md:pb-12 lg:py-18 w-full">
-        <div className={`flex flex-col items-center gap-4 text-center mx-auto ${maxWidthClass} px-3 mb-10 md:mb-0 md:px-0`}>
+        <div className={`flex flex-col items-center gap-4 text-center mx-auto ${maxWidthClass}  mb-10 md:mb-0 md:px-0`}>
           {/* Heading */}
           <div className="w-full mb-3 sm:mb-4 md:mb-6">
           <h1 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold !leading-snug">

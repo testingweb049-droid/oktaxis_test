@@ -47,7 +47,7 @@ export function OurServicesSection({
             >
               {/* Icon Circle */}
               <div className="flex items-center justify-center h-16 w-16 md:h-18 md:w-18 rounded-full border border-dark-border bg-dark-background">
-                <div className="text-primary-yellow text-xl sm:text-2xl transform scale-150 md:scale-200">
+                <div className="text-primary-yellow !text-xl sm:text-2xl">
                   {service.icon}
                 </div>
               </div>

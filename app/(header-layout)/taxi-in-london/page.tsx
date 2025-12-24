@@ -106,25 +106,23 @@ const page = () => {
                 /> */}
                 <FleetClasses />
                 <FAQSection
-                    title="FAQS ("
-                    highlightText="FREQUENTLY ASKED QUESTIONS"
-                    subtitle=")"
+                    title="Frequently Asked Questions"
                     faqs={[
                         {
-                            question: "How do I book my taxi service in London?",
-                            answer: "Ideal for up to 4 passengers for city trips and airport runs."
+                            question: "Do you cover cities other than London?",
+                            answer: "Yes. We provide transfers to and from London from many surrounding cities and airports. Contact us if you have a specific route in mind."
                         },
                         {
-                            question: "Do you offer fixed pricing for airport journeys?",
-                            answer: "Offering additional luggage capacity for travelers with extra bags."
+                            question: "Can I book a taxi to or from the airport?",
+                            answer: "Absolutely. We specialise in airport transfers and track your flight to adjust pick-up times in case of delays."
                         },
                         {
-                            question: "What makes you the best taxi service in London UK?",
-                            answer: "Seating up to 8 passengers comfortably for group travel."
+                            question: "Is pricing fixed or based on the meter?",
+                            answer: "Our fares are fixed for pre-booked journeys. The price you see at the time of booking is the price you pay."
                         },
                         {
-                            question: "What time details do I need to provide when booking?",
-                            answer: "Top-of-the-range models from brands like Mercedes-Benz and BMW for the ultimate travel experience."
+                            question: "Can I book a taxi for a large group?",
+                            answer: "Yes. We have vehicles suitable for groups and additional luggage. Let us know your group size when booking."
                         }
                     ]}
                 />
