@@ -14,7 +14,7 @@ import {
     FaHeadset,
     FaStar,
 } from "react-icons/fa";
-import Seo from "@/components/seo";
+import Seo from "@/components/Seo";
 import { Check } from "lucide-react";
 export default function Liverpool() {
     return (

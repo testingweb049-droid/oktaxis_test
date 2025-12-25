@@ -4,7 +4,7 @@ import HeroSection2 from "@/components/ui/hero-section2";
 import ImageTextSection from "@/components/ui/ImageTextSection";
 import { FaCar, FaShieldAlt, FaWifi, FaCalendarAlt } from "react-icons/fa";
 import { Check } from "lucide-react";
-import Seo from "@/components/seo";
+import Seo from "@/components/Seo";
 export default function ChauffeurServices() {
   return (
     <>

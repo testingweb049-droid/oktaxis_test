@@ -5,7 +5,7 @@ import ImageTextSection from "@/components/ui/ImageTextSection";
 import Image from "next/image";
 import { FaFutbol, FaMusic, FaUsers, FaCarSide } from "react-icons/fa";
 import { Check } from "lucide-react";
-import Seo from "@/components/seo";
+import Seo from "@/components/Seo";
 export default function StadiumTransfer() {
   return (
     <>

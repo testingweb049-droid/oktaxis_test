@@ -2,7 +2,7 @@
 
 import ContactForm from "@/components/ContactForm/ContactForm";
 import { homePageData } from "@/constants/homePageData";
-import Seo from "@/components/seo";
+import Seo from "@/components/Seo";
 const Contact = () => {
   const { subtitle } = homePageData.contactFormSection;
 
