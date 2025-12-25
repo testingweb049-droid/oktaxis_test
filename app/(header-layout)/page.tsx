@@ -5,7 +5,7 @@ import Testimonials from "@/components/home/testimonials";
 import AboutSection from "@/components/home/about";
 import LuxuryExperience from "@/components/home/luxury-experience";
 import ImageTextSection from "@/components/ui/ImageTextSection";
-import Seo from "../../components/seo";
+import Seo from "@/components/Seo";
 import { Check } from "lucide-react";
 import NewHeroSection from "./book-ride/NewHeroSection";
 import InfiniteSlide from "./book-ride/InfiniteSlide";

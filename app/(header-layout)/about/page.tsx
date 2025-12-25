@@ -4,7 +4,7 @@ import HeroImge from "@/assets/bmw1.png";
 import Offer from "@/components/ui/do-offer";
 import Image from "next/image";       
 import FleetClasses from "@/components/home/fleet";
-import Seo from "@/components/seo";
+import Seo from "@/components/Seo";
 import { Check } from "lucide-react";
 // about
 // about

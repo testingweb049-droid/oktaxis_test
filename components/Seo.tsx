@@ -1,5 +1,8 @@
 // components/Seo.tsx
-import Head from "next/head";
+"use client";
+
+import { useEffect } from "react";
+import Script from "next/script";
 
 export type BreadcrumbItem = {
   position: number;
@@ -17,6 +20,7 @@ interface SeoProps {
 
 /**
  * Seo component — injects meta tags + TaxiService schema + optional BreadcrumbList JSON-LD
+ * Compatible with Next.js App Router
  */
 export default function Seo({ title, description, url, image, breadcrumbs }: SeoProps) {
   const taxiServiceSchema = {
@@ -54,26 +58,60 @@ export default function Seo({ title, description, url, image, breadcrumbs }: Seo
         }
       : null;
 
+  useEffect(() => {
+    // Update document title
+    document.title = title;
+
+    // Update or create meta tags
+    const updateMetaTag = (name: string, content: string, isProperty = false) => {
+      const attribute = isProperty ? "property" : "name";
+      let element = document.querySelector(`meta[${attribute}="${name}"]`) as HTMLMetaElement;
+      
+      if (!element) {
+        element = document.createElement("meta");
+        element.setAttribute(attribute, name);
+        document.head.appendChild(element);
+      }
+      element.setAttribute("content", content);
+    };
+
+    // Update standard meta tags
+    updateMetaTag("description", description);
+    
+    // Update Open Graph tags
+    updateMetaTag("og:title", title, true);
+    updateMetaTag("og:description", description, true);
+    updateMetaTag("og:url", url, true);
+    updateMetaTag("og:type", "website", true);
+    updateMetaTag("og:image", image, true);
+
+    // Update canonical link
+    let canonicalLink = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+    if (!canonicalLink) {
+      canonicalLink = document.createElement("link");
+      canonicalLink.setAttribute("rel", "canonical");
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.setAttribute("href", url);
+  }, [title, description, url, image]);
+
   return (
-    <Head>
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <link rel="canonical" href={url} />
-
-      {/* Open Graph */}
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:url" content={url} />
-      <meta property="og:type" content="website" />
-      <meta property="og:image" content={image} />
-
+    <>
       {/* TaxiService JSON-LD */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(taxiServiceSchema) }} />
+      <Script
+        id="taxi-service-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(taxiServiceSchema) }}
+      />
 
       {/* Breadcrumb JSON-LD (if provided) */}
       {breadcrumbSchema && (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+        <Script
+          id="breadcrumb-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
       )}
-    </Head>
+    </>
   );
 }

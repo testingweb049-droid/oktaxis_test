@@ -15,7 +15,7 @@ import {
   FaStar,
 } from "react-icons/fa";
 import { Check } from "lucide-react";
-import Seo from "@/components/seo";
+import Seo from "@/components/Seo";
 import PageBanner from "@/components/PageBanner";
 import PageAboutSection from "@/components/PageAboutSection";
 import PageFeatureSection from "@/components/PageFeatureSection";

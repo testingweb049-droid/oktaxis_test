@@ -9,7 +9,7 @@ import {
   FaBriefcase,
 } from "react-icons/fa";
 import { Check } from "lucide-react";
-import Seo from "@/components/seo";
+import Seo from "@/components/Seo";
 export default function CityCenter() {
   return (
     <>

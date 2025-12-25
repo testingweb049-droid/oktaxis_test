@@ -12,7 +12,7 @@ import ImageTextSection from "@/components/ui/ImageTextSection";
 import FleetClasses from "@/components/home/fleet";
 import Image from "next/image";
 import { Check } from "lucide-react";
-import Seo from "@/components/seo";
+import Seo from "@/components/Seo";
 export default function CityTour() {
   return (
     <>
