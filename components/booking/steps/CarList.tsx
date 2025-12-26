@@ -5,63 +5,10 @@ import Image from "next/image";
 import { GoPeople } from "react-icons/go";
 import { PiSuitcase } from "react-icons/pi";
 import { cn } from "@/lib/utils";
-import Economy from "@/assets/vehicles/Econamy.png";
-import Executive from "@/assets/vehicles/Mercedes-S-Class-cutout.png";
-import ExecutivePremium from "@/assets/vehicles/Tesla Model S.png";
-import LuxuryVan from "@/assets/vehicles/Mercedes-V-Class-cutout.png";
 import useFormStore from "@/stores/FormStore";
 import { ArrowRight, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { fleetsLocal } from "@/lib/fleet-data";
-
-// Fleet data with image imports (for client components)
-export const fleets = [
-  {
-    name: "Economy",
-    cars: "Skoda Octavia | Toyota Prius",
-    price10Miles: 58,
-    price: 2.2,
-    hourly: 80,
-    passengers: 4,
-    suitcases: 3,
-    image: Economy,
-  },
-  {
-    name: "Premium",
-    cars: "BMW 5 Series | Mercedes E-Class",
-    price10Miles: 80,
-    price: 2.9,
-    hourly: 120,
-    passengers: 4,
-    suitcases: 3,
-    image: Executive,
-  },
-  {
-    name: "Executive Premium",
-    cars: "Tesla Model S",
-    price10Miles: 70,
-    price: 2.5,
-    hourly: 100,
-    passengers: 4,
-    suitcases: 3,
-    image: ExecutivePremium,
-  },
-
-
-  {
-    name: "Luxury Van",
-    cars: "XL Passenger Van",
-    price10Miles: 100,
-    price: 3,
-    hourly: 160,
-    passengers: 6,
-    suitcases: 6,
-    image: LuxuryVan,
-  },
-];
-
-// Re-export fleetsLocal for backward compatibility
-export { fleetsLocal };
+import { fleets } from "./fleets-data";
 
 function CarList() {
   const { formData, category, setFormData, changeStep, formLoading } = useFormStore();
@@ -137,8 +84,6 @@ function CarList() {
               </div>
             </div>
           </div>
-
-          {/* Bottom Section: Select Button */}
           <div className="w-full border-t border-gray-200">
             {formLoading && formData.car.value === item.name ? (
               <div className="w-full bg-brand text-black font-semibold rounded-b-xl px-2 sm:px-2.5 md:px-3 py-1.5 sm:py-2 md:py-2 flex justify-center items-center gap-1.5">

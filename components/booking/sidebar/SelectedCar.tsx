@@ -1,5 +1,5 @@
 import useFormStore from "@/stores/FormStore";
-import { fleets } from "@/components/booking/steps/CarList";
+import { fleets } from "@/components/booking/steps/fleets-data";
 import Image from "next/image";
 import { LuggageIcon, Users } from "lucide-react";
  
