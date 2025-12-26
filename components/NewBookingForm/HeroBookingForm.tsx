@@ -10,7 +10,7 @@ import { toast } from "@/hooks/use-toast"
 import { usePathname } from "next/navigation"
 import { Autocomplete, type Libraries, useLoadScript } from "@react-google-maps/api"
 import useCustomForm from "@/hooks/useFormContext"
-import DateTimePicker from "@/components/ui/date-time-picker"
+import DateTimePicker from "@/components/ui/DateTimePicker"
 
 const libraries: Libraries = ["places"]
 

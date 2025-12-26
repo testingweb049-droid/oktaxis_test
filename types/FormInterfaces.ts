@@ -32,7 +32,6 @@ export const hourlyFormValidation = z.object({
   stop_3_lag_alt: z.string().optional(),
 
   passengers: z.number({ required_error: "Please Enter Passengers" }).min(1).max(6),
-  kids: z.number({ required_error: "Please Enter Kids" }).min(0).max(6),
   bags: z.number({ required_error: "Please Enter Bags" }).min(0).max(6),
   car: z.string({ required_error: "Please select fleet" }),
   price: z.number({ required_error: "Please select fleet" }),
@@ -98,7 +97,6 @@ export const simpleFormValidation = z.object({
   stop_3_lag_alt: z.string().optional(),
 
   passengers: z.number({ required_error: "Please Enter Passengers" }).min(1).max(6),
-  kids: z.number({ required_error: "Please Enter Kids" }).min(0).max(6),
   bags: z.number({ required_error: "Please Enter Bags" }).min(0).max(6),
 
   car: z.string({ required_error: "Please select fleet" }),
@@ -107,7 +105,6 @@ export const simpleFormValidation = z.object({
   email: z.string({ required_error: "Please Enter Email" }).email(),
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
   flight: z.string().optional(),
-  name_board: z.string().optional(),
   payment_method: z.string({ required_error: "Please Select Payment Method" }),
   payment_id: z.string().optional(),
   distance: z.string({ required_error: "distance not calculated" }).min(0),

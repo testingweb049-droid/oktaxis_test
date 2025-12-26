@@ -34,8 +34,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "components/NewBookingForm/booking-stepper.tsx",
-    "components/NewBookingForm/bookin",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [

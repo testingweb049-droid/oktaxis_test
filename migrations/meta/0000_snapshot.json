@@ -1,5 +1,5 @@
 {
-  "id": "afb9c092-d8c4-48df-bdb0-2c5aa4ade30d",
+  "id": "56e456a2-f47a-44e8-a403-152a8ce9c280",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -93,12 +93,6 @@
           "primaryKey": false,
           "notNull": true
         },
-        "kids": {
-          "name": "kids",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
         "bags": {
           "name": "bags",
           "type": "integer",
@@ -123,9 +117,21 @@
           "primaryKey": false,
           "notNull": true
         },
-        "flight": {
-          "name": "flight",
+        "flight_name": {
+          "name": "flight_name",
           "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "flight_number": {
+          "name": "flight_number",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_airport_pickup": {
+          "name": "is_airport_pickup",
+          "type": "boolean",
           "primaryKey": false,
           "notNull": false
         },
@@ -156,6 +162,36 @@
         "meet_greet": {
           "name": "meet_greet",
           "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "extra_stops_count": {
+          "name": "extra_stops_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "return_flight_track": {
+          "name": "return_flight_track",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "return_meet_greet": {
+          "name": "return_meet_greet",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "return_extra_stops_count": {
+          "name": "return_extra_stops_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "instructions": {
+          "name": "instructions",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },

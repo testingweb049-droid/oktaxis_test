@@ -34,11 +34,44 @@ export default function GoogleMapsRoute({
   useEffect(() => {
     // Check if Google Maps is already loaded
     if (window.google && window.google.maps) {
+      setIsLoaded(true)
       initializeMap()
       return
     }
 
-    // Load Google Maps script
+    // Check if script is already being loaded or exists
+    const existingScript = document.querySelector(`script[src*="maps.googleapis.com"]`)
+    if (existingScript) {
+      // Script exists, wait for it to load or check if already loaded
+      const checkAndInit = () => {
+        if (window.google && window.google.maps) {
+          setIsLoaded(true)
+          initializeMap()
+        }
+      }
+      
+      // Check immediately in case it's already loaded
+      checkAndInit()
+      
+      // Also listen for load event
+      existingScript.addEventListener('load', checkAndInit)
+      
+      // Poll to check if it loads (in case event doesn't fire)
+      const intervalId = setInterval(() => {
+        if (window.google && window.google.maps) {
+          clearInterval(intervalId)
+          setIsLoaded(true)
+          initializeMap()
+        }
+      }, 100)
+      
+      return () => {
+        existingScript.removeEventListener('load', checkAndInit)
+        clearInterval(intervalId)
+      }
+    }
+
+    // Load Google Maps script only if it doesn't exist
     const script = document.createElement("script")
     script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=geometry`
     script.async = true
@@ -55,13 +88,7 @@ export default function GoogleMapsRoute({
 
     document.head.appendChild(script)
 
-    return () => {
-      // Cleanup script if component unmounts
-      const existingScript = document.querySelector(`script[src*="maps.googleapis.com"]`)
-      if (existingScript) {
-        document.head.removeChild(existingScript)
-      }
-    }
+    // Don't remove script on cleanup - other components might be using it
   }, [API_KEY])
 
   const initializeMap = () => {

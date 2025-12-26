@@ -1,12 +1,13 @@
 'use client';
 
-import { createOrder, OrderDataType } from "@/actions/add-order";
+import { OrderDataType } from "@/actions/add-order";
 import { calculateDistance } from "@/actions/get-distance";
-import { fleets, fleetsLocal } from "@/app/(header-layout)/book-ride/CarList";
+import { fleets } from "@/components/booking/steps/CarList";
+import { fleetsLocal } from "@/lib/fleet-data";
 import { hourlyInitialFormData, tripInitialFormData } from "@/constants/storeInitailObjects";
 import { create } from "zustand";
 
-  interface FieldType<T> {
+  export interface FieldType<T> {
   value: T;
   error: string;
   coardinates: string;
@@ -39,6 +40,14 @@ import { create } from "zustand";
   isFlightTrack: FieldType<boolean>;
   isMeetGreet: FieldType<boolean>;
   isReturn: FieldType<boolean>;
+  isReturnFlightTrack: FieldType<boolean>;
+  isReturnMeetGreet: FieldType<boolean>;
+  isExtraStops: FieldType<boolean>;
+  extraStopsCount: FieldType<string>;
+  isReturnExtraStops: FieldType<boolean>;
+  returnExtraStopsCount: FieldType<string>;
+  isAddInstructions: FieldType<boolean>;
+  instructions: FieldType<string>;
   }
 
   interface FormStoreType {
@@ -93,7 +102,9 @@ import { create } from "zustand";
     if (key === "stops" && typeof index === "number") {
       set((state) => {
         const stops = [...state.formData.stops];
-        stops[index] = { ...stops[index], value: value as string, coardinates, error:'' };
+        if (index >= 0 && index < stops.length && stops[index]) {
+          stops[index] = { ...stops[index], value: value as string, coardinates, error:'' };
+        }
         return { formData: { ...state.formData, stops } };
       });
       return;
@@ -199,60 +210,8 @@ import { create } from "zustand";
       }
     }
 
-    if (_step === 4) {
-
-// inside your changeStep function (step === 4)
-let orderData: OrderDataType = {
-  fromLocation: formData.fromLocation.value,
-  toLocation: formData.toLocation.value,
-  stops: formData.stops.map((s) => s.value),
-  duration: formData.duration.value,
-  distance: formData.distance.value,
-  car: formData.car.value,
-  price: formData.price.value,
-  name: formData.name.value,
-  phone: formData.phone.value,
-  email: formData.email.value,
-  date: formData.date.value,
-  time: formData.time.value,
-  returnDate: formData.returnDate.value,
-  returnTime: formData.returnTime.value,
-  passengers: formData.passengers.value,
-  bags: formData.bags.value,
-  flightName: formData.flightName.value,
-  flightNumber: formData.flightNumber.value,
-  paymentId: formData.paymentId.value,
-  isAirportPickup: formData.isAirportPickup.value,
-  isFlightTrack: formData.isFlightTrack.value,
-  isMeetGreet: formData.isMeetGreet.value,
-  isReturn: formData.isReturn.value,
-  category
-};
-
-// Add car image and category
-const selectedCar = fleetsLocal.find((item) => item.name === formData.car.value);
-orderData = {
-  ...orderData,
-  carImage: selectedCar?.image,
-  
-};
-
-      try {
-        const response = await createOrder(orderData);
-        if (response.status !== 201) {
-          set({ formError: response.error, formLoading: false });
-          return false;
-        }
-        set({ formError: "", formLoading: false, orderId:response?.order?.id ?? ''  });
-      } catch (error) {
-        set({ formError: error instanceof Error ? error.message : "Failed to place order", formLoading: false });
-        return false;
-      }
-    }
-    if(_step===4 && isNext){
-      set((state) => ({ ...state, formError: "", formLoading: false, step: 1, isOrderDone:true }));
-      return true;
-    }
+    // Order creation is now handled in checkout-success route after payment confirmation
+    // No order should be created here before payment
     console.log("working fine : ",_step)
     await new Promise((resolve) => setTimeout(resolve, 1500));
     console.log("working fine 2 : ",_step)
@@ -278,8 +237,11 @@ orderData = {
     }
     if (action === "remove" && typeof index === "number") {
       const stops = [...formData.stops];
-      stops.splice(index, 1);
-      set((state) => ({ ...state, formData: { ...state.formData, stops } }));
+      // Check if index is valid before removing
+      if (index >= 0 && index < stops.length) {
+        stops.splice(index, 1);
+        set((state) => ({ ...state, formData: { ...state.formData, stops } }));
+      }
     }
   },
 

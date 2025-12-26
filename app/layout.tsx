@@ -2,14 +2,12 @@
 import type React from "react";
 import type { Metadata } from "next";
 import { Roboto, Inter, Montserrat } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 
 import { Toaster } from "@/components/ui/toaster";
-import StripeProvider from "@/components/BookingForm/PaymentCardModal/StripeProvider";
 import { CustomFormProvider } from "@/context/FormContext";
 import { OrderProvider } from '@/context/OrderContext';
-import FooterTest from "@/components/Footer/FooterTest";
+import Footer from "@/components/Footer/Footer";
 const roboto = Roboto({
   weight: ["100", "300", "400", "700", "900"],
   subsets: ["latin"],
@@ -119,11 +117,9 @@ export default function RootLayout({
           ></iframe>
         </noscript>
         <OrderProvider><CustomFormProvider>
-          <StripeProvider>
-            {children}
-            <Toaster />
-          </StripeProvider>
-          <FooterTest />
+          {children}
+          <Toaster />
+          <Footer />
         </CustomFormProvider></OrderProvider>
 
       </body>

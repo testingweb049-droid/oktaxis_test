@@ -33,7 +33,6 @@ interface CreateFormType {
   NextStep: () => void,
   Step1: () => void,
   Step2: () => void,
-  Step3: () => void,
   step: number,
   error: string,
   startLoading: (fn: () => void) => void;
@@ -60,7 +59,6 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
     ),
     defaultValues: {
       passengers: 1,
-      kids: 0,
       bags: 0,
       payment_method: 'online',
       duration: 0,
@@ -80,7 +78,7 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
   function onSubmit() {
     console.log('submitt')
     const {
-      bags, dropoff_location, payment_id, email, payment_method, flight, duration, kids,
+      bags, dropoff_location, payment_id, email, payment_method, flight, duration,
       name, passengers, phone, pickup_time, pickup_date, pickup_location, price, car, distance,
       flight_track, meet_greet, is_return, return_date, return_time,
     } = form.getValues();
@@ -139,7 +137,6 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
         payment_id: payment_id ?? 'N/A',
         flight: flight ?? 'N/A',
         duration,
-        kids,
         name,
         passengers,
         phone,
@@ -240,49 +237,10 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
       }
 
       else if (step === 3) {
-        const output = await trigger([
-          'name', 'email', 'phone', 'pickup_date', 'pickup_time', 'passengers', 'bags'
-        ]);
-        if (!output) {
-          toast({
-            variant: "destructive",
-            title: "Validation Error",
-            description: "Please complete all required fields.",
-          });
-          return;
-        }
-        setStep(4);
-        router.push('/booking#back-button');
-      }
-
-      else if (step === 4) {
-        const output = await trigger();
-        if (!output) {
-          toast({
-            variant: "destructive",
-            title: "Validation Error",
-            description: "Please complete all required fields.",
-          });
-          return;
-        }
-
-       
-        if (form.watch('payment_method') === 'cod') {
-          onSubmit();
-          return;
-        }
-
-        if (!form.watch('payment_id')) {
-          toast({
-            variant: "destructive",
-            title: "Payment not done",
-            description: "Please pay your amount.",
-          });
-          return;
-        }
-
-        console.log("submit work");
-        onSubmit();
+        // Step 3 validation is handled in Step3Form component
+        // It will redirect to Stripe Checkout directly
+        // This function should not proceed to step 4 anymore
+        return;
       }
     });
   }
@@ -299,11 +257,6 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
     router.push('/booking#back-button');
 
   }
-  function Step3() {
-    if (step !== 4) return;
-    setStep(3);
-    router.push('/booking#back-button');
-  }
  
   function resetOrder(link:string){
     setOrder(null)
@@ -311,7 +264,7 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <FormContext.Provider value={{ form, category, setCategory, resetForm, loading, NextStep,startLoading, error, step, Step1, Step2, Step3, order, resetOrder }}>
+    <FormContext.Provider value={{ form, category, setCategory, resetForm, loading, NextStep,startLoading, error, step, Step1, Step2, order, resetOrder }}>
       {children}
     </FormContext.Provider>
   );
