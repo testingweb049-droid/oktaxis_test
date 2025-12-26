@@ -104,12 +104,22 @@ export async function POST(req: NextRequest) {
       </div>
     `;
 
-    // Send email to User...
-    await sendEmail({
-      to: "info@oktaxis.co.uk",
-      subject: 'New Booking Confirmation',
-      html: adminEmailContent,
-    });
+    // Send emails asynchronously - don't block the response if email fails
+    const emailPromises = [];
+
+    // Send email to admin
+    emailPromises.push(
+      sendEmail({
+        to: "info@oktaxis.co.uk",
+        subject: 'New Booking Confirmation',
+        html: adminEmailContent,
+      }).then((result) => {
+        if (!result.success) {
+          console.error(`Failed to send admin email: ${result.error}`);
+        }
+        return result;
+      })
+    );
 
     const userEmailContent = `
       <div style="${commonStyles}">
@@ -144,13 +154,27 @@ export async function POST(req: NextRequest) {
     `;
 
     // Send email to user
-    await sendEmail({
-      to: passengerInfo.email,
-      subject: 'Booking Confirmation',
-      html: userEmailContent,
-    });
+    emailPromises.push(
+      sendEmail({
+        to: passengerInfo.email,
+        subject: 'Booking Confirmation',
+        html: userEmailContent,
+      }).then((result) => {
+        if (!result.success) {
+          console.error(`Failed to send user email: ${result.error}`);
+        }
+        return result;
+      })
+    );
 
-    return NextResponse.json({ message: 'Emails sent successfully' });
+    // Wait for emails but don't fail the request if they fail
+    await Promise.allSettled(emailPromises);
+
+    // Return success - booking is successful even if emails fail
+    return NextResponse.json({ 
+      message: 'Booking submitted successfully',
+      success: true 
+    });
   } catch (error) {
     console.error('Failed to send emails:', error);
     return NextResponse.json({ message: 'Failed to send emails' }, { status: 500 });

@@ -56,25 +56,31 @@ export const registerDriverEmail = async (values: any) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name: values.name,
-        email: values.email,
-        phone: values.phone,
-        vehicleType: values.vehicleType,
-        preferredContact: values.preferredContact,
-        carMake: values.carMake,
-        carModel: values.carModel,
-        licenseNumber: values.licenseNumber,
+        email: values.email || "",
+        phone: values.phone || "",
+        vehicleType: values.vehicleType || values.carType || "",
+        preferredContact: values.preferredContact || "WhatsApp",
+        carMake: values.carMake || "",
+        carModel: values.carModel || "",
+        licenseNumber: values.licenseNumber || "",
+        address: values.address || "",
+        carImageUrl: values.carImageUrl || "",
+        licenseFrontUrl: values.licenseFrontUrl || "",
+        licenseBackUrl: values.licenseBackUrl || "",
       }),
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      const errorMessage = await response.json();
-      console.error("Failed to send emails. Server response:", errorMessage);
-      throw new Error(errorMessage.message || "Unknown server error");
+      // For 409 (Conflict) status, throw with the specific message
+      const error = new Error(data.message || "Unknown server error");
+      (error as any).status = response.status;
+      throw error;
     }
 
-    console.log("Emails sent successfully");
+    return data;
   } catch (error: any) {
-    console.error("Error sending emails:", error.message);
     throw error;
   }
 };

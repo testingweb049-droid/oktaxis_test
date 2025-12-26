@@ -1,6 +1,12 @@
 import sendEmail from "@/lib/sendEmail";
-import { isValidEmail, safeLog, sanitizeHtml } from "@/lib/utils";
+import { isValidEmail, sanitizeHtml } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
+import { db } from "@/db/drizzle";
+import { drivers } from "@/db/schema";
+import { render } from "@react-email/render";
+import { DriverRegistrationAdminEmail } from "@/components/emails/DriverRegistrationAdminEmail";
+import { DriverRegistrationConfirmationEmail } from "@/components/emails/DriverRegistrationConfirmationEmail";
+import { eq, or } from "drizzle-orm";
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,135 +20,226 @@ export async function POST(req: NextRequest) {
       carMake,
       carModel,
       licenseNumber,
+      address,
+      carImageUrl,
+      licenseFrontUrl,
+      licenseBackUrl,
     } = body;
 
-    // Input validation
-    if (
-      !name ||
-      !email ||
-      !phone ||
-      !vehicleType ||
-      !preferredContact ||
-      !carMake ||
-      !carModel ||
-      !licenseNumber
-    ) {
+    // Input validation - only name and vehicleType are required
+    if (!name || !vehicleType) {
       return NextResponse.json(
-        { message: "Missing required fields" },
+        { message: "Missing required fields: name and vehicleType are required" },
         { status: 400 }
       );
     }
 
-    // Validate email format
-    if (!isValidEmail(email)) {
+    // Validate email format if provided
+    if (email && !isValidEmail(email)) {
       return NextResponse.json(
         { message: "Invalid email format" },
         { status: 400 }
       );
     }
 
+    // Check if driver with same email or phone already exists
+    if (email || phone) {
+      try {
+        // Build conditions array for the OR query
+        const conditions = [];
+        if (email) {
+          conditions.push(eq(drivers.email, email));
+        }
+        if (phone) {
+          conditions.push(eq(drivers.phone, phone));
+        }
+
+        // Only query if we have at least one condition
+        if (conditions.length > 0) {
+          const existingDriver = await db
+            .select()
+            .from(drivers)
+            .where(or(...conditions))
+            .limit(1);
+
+          if (existingDriver.length > 0) {
+            const existing = existingDriver[0];
+            if (email && existing.email === email && phone && existing.phone === phone) {
+              return NextResponse.json(
+                { message: "A driver with this email and phone number already exists. Please use different credentials or contact support." },
+                { status: 409 }
+              );
+            } else if (email && existing.email === email) {
+              return NextResponse.json(
+                { message: "A driver with this email address already exists. Please use a different email or contact support." },
+                { status: 409 }
+              );
+            } else if (phone && existing.phone === phone) {
+              return NextResponse.json(
+                { message: "A driver with this phone number already exists. Please use a different phone number or contact support." },
+                { status: 409 }
+              );
+            }
+          }
+        }
+      } catch (dbError: any) {
+        // If database check fails, log but continue (don't block registration)
+        if (process.env.NODE_ENV !== "production") {
+          console.error("Error checking for existing driver:", dbError);
+        }
+      }
+    }
+
     // Sanitize inputs for security
     const sanitizedName = sanitizeHtml(name);
     const sanitizedVehicleType = sanitizeHtml(vehicleType);
-    const sanitizedPreferredContact = sanitizeHtml(preferredContact);
-    const sanitizedCarMake = sanitizeHtml(carMake);
-    const sanitizedCarModel = sanitizeHtml(carModel);
-    const sanitizedLicenseNumber = sanitizeHtml(licenseNumber);
+    const sanitizedPreferredContact = preferredContact ? sanitizeHtml(preferredContact) : undefined;
+    const sanitizedCarMake = carMake ? sanitizeHtml(carMake) : undefined;
+    const sanitizedCarModel = carModel ? sanitizeHtml(carModel) : undefined;
+    const sanitizedLicenseNumber = licenseNumber ? sanitizeHtml(licenseNumber) : undefined;
+    const sanitizedAddress = address ? sanitizeHtml(address) : undefined;
 
-    // Log sanitized input data in development only
-    safeLog(
-      "Driver registration submission:",
-      {
+    // Generate admin email HTML using React Email template
+    const adminEmailHtml = await render(
+      DriverRegistrationAdminEmail({
         name: sanitizedName,
-        email,
-        phone,
+        email: email || undefined,
+        phone: phone || undefined,
+        address: sanitizedAddress,
         vehicleType: sanitizedVehicleType,
         preferredContact: sanitizedPreferredContact,
         carMake: sanitizedCarMake,
         carModel: sanitizedCarModel,
         licenseNumber: sanitizedLicenseNumber,
-      },
-      false
+        carImageUrl: carImageUrl || undefined,
+        licenseFrontUrl: licenseFrontUrl || undefined,
+        licenseBackUrl: licenseBackUrl || undefined,
+      })
     );
 
-    const commonStyles = `
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      color: #333;
-    `;
+    // Generate user confirmation email HTML using React Email template
+    // Always generate user email HTML if email is provided and valid
+    let userEmailHtml: string | null = null;
+    if (email && isValidEmail(email)) {
+      try {
+        userEmailHtml = await render(
+          DriverRegistrationConfirmationEmail({
+            name: sanitizedName,
+            vehicleType: sanitizedVehicleType,
+            preferredContact: sanitizedPreferredContact,
+            carMake: sanitizedCarMake,
+            carModel: sanitizedCarModel,
+            licenseNumber: sanitizedLicenseNumber,
+          })
+        );
+      } catch (renderError) {
+        // If rendering fails, use admin email HTML as fallback
+        userEmailHtml = adminEmailHtml;
+      }
+    }
 
-    const headerStyle = `
-      background-color: #1f2937; 
-      color: white;
-      padding: 20px;
-      text-align: center;
-    `;
+    // Send emails - both admin and driver must receive emails
+    const emailPromises = [];
 
-    const contentStyle = `
-      background-color: #f9f9f9;
-      padding: 20px;
-    `;
-
-    // Admin Email Content
-    const adminEmailContent = `
-      <div style="${commonStyles}">
-        <div style="${headerStyle}">
-          <h2>New Driver Registration</h2>
-        </div>
-        <div style="${contentStyle}">
-          <p><b>Name:</b> ${sanitizedName}</p>
-          <p><b>Email:</b> ${email}</p>
-          <p><b>Phone:</b> ${phone}</p>
-          <p><b>Vehicle Type:</b> ${sanitizedVehicleType}</p>
-          <p><b>Preferred Contact:</b> ${sanitizedPreferredContact}</p>
-          <p><b>Car Make:</b> ${sanitizedCarMake}</p>
-          <p><b>Car Model:</b> ${sanitizedCarModel}</p>
-          <p><b>License Number:</b> ${sanitizedLicenseNumber}</p>
-        </div>
-      </div>
-    `;
-
-    // Send email to admin
-    await sendEmail({
-      to: process.env.EMAIL_USER || "info@oktaxis.co.uk",
+    // Send email to admin (reservation@oktaxis.co.uk)
+    const adminEmailPromise = sendEmail({
+      to: "reservation@oktaxis.co.uk",
       subject: "New Driver Registration",
-      html: adminEmailContent,
+      html: adminEmailHtml,
     });
+    emailPromises.push(adminEmailPromise);
 
-    // User Email Content
-    const userEmailContent = `
-      <div style="${commonStyles}">
-        <div style="${headerStyle}">
-          <h2>Welcome to OkTaxis</h2>
-        </div>
-        <div style="${contentStyle}">
-          <p>Dear ${sanitizedName},</p>
-          <p>Thank you for registering as a driver with OkTaxis. Your application has been successfully received.</p>
-          <p><b>Submitted Details:</b></p>
-          <ul>
-            <li><b>Preferred Contact:</b> ${sanitizedPreferredContact}</li>
-            <li><b>Car Make:</b> ${sanitizedCarMake}</li>
-            <li><b>Car Model:</b> ${sanitizedCarModel}</li>
-            <li><b>License Number:</b> ${sanitizedLicenseNumber}</li>
-          </ul>
-          <p>We will review your details and get back to you shortly.</p>
-          <p>Best regards,<br>The OkTaxis Team</p>
-        </div>
-      </div>
-    `;
+    // Send email to driver - always attempt if email is provided and valid
+    if (email && isValidEmail(email)) {
+      // Use userEmailHtml if available, otherwise fallback to adminEmailHtml
+      const driverEmailHtml = userEmailHtml || adminEmailHtml;
+      const driverEmailPromise = sendEmail({
+        to: email,
+        subject: "Driver Registration Confirmation - OkTaxis",
+        html: driverEmailHtml,
+      });
+      emailPromises.push(driverEmailPromise);
+    } else {
+      // If no email provided or invalid, track it as a "skipped" result
+      emailPromises.push(Promise.resolve({ 
+        success: false, 
+        error: email ? "Invalid email format" : "No email provided for driver" 
+      }));
+    }
 
-    // Send email to user
-    await sendEmail({
-      to: email,
-      subject: "Driver Registration Confirmation",
-      html: userEmailContent,
+    // Save to database
+    try {
+      await db.insert(drivers).values({
+        name: sanitizedName,
+        email: email || null,
+        phone: phone || null,
+        address: sanitizedAddress || null,
+        car_type: sanitizedVehicleType,
+        car_image_url: carImageUrl || null,
+        license_front_url: licenseFrontUrl || null,
+        license_back_url: licenseBackUrl || null,
+        status: "pending",
+      });
+    } catch (dbError: any) {
+      // Error logged silently - don't fail the request if database save fails
+      // Database errors are handled gracefully to ensure form submission succeeds
+    }
+
+    // Wait for emails and track results - use allSettled to wait for all emails
+    const emailResults = await Promise.allSettled(emailPromises);
+    
+    // Extract results from promises
+    const emailResultsData = emailResults.map((result, index) => {
+      if (result.status === "fulfilled") {
+        return result.value;
+      } else {
+        return { 
+          success: false, 
+          error: result.reason?.message || "Email promise rejected",
+          index 
+        };
+      }
     });
+    
+    const adminEmailResult = emailResultsData[0];
+    const driverEmailResult = emailResultsData[1];
+    
+    const adminEmailSent = adminEmailResult?.success || false;
+    const userEmailSent = driverEmailResult?.success || false;
+    const anyEmailSent = adminEmailSent || userEmailSent;
 
-    return NextResponse.json({ message: "Emails sent successfully" });
+    // Log email results for debugging (only in development)
+    if (process.env.NODE_ENV !== "production") {
+      console.log("Email sending results:", {
+        admin: { sent: adminEmailSent, error: adminEmailResult?.error, email: "reservation@oktaxis.co.uk" },
+        driver: { sent: userEmailSent, error: driverEmailResult?.error, email: email || "not provided" }
+      });
+    }
+
+    // Return success with detailed email status
+    return NextResponse.json({ 
+      message: "Driver registration submitted successfully",
+      success: true,
+      emailSent: anyEmailSent,
+      adminEmailSent,
+      userEmailSent,
+      emailDetails: {
+        admin: {
+          sent: adminEmailSent,
+          error: adminEmailResult?.error || null,
+          recipient: "reservation@oktaxis.co.uk"
+        },
+        driver: {
+          sent: userEmailSent,
+          error: driverEmailResult?.error || null,
+          recipient: email || "not provided"
+        }
+      }
+    });
   } catch (error) {
-    console.error("Failed to send emails:", error);
+    // Return error response
     return NextResponse.json(
-      { message: "Failed to send emails" },
+      { message: "An error occurred while processing your registration" },
       { status: 500 }
     );
   }
