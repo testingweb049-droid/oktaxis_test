@@ -102,7 +102,7 @@ export default function Header() {
   const shouldHaveBlackHeader =
     ["/contact", "/terms", "/cookies", "/faqs", "/privacy", "/driver"].includes(
       pathname
-    ) || pathname.startsWith("/blog/");
+    ) || pathname.startsWith("/blog/") || pathname.startsWith("/order/");
 
   // Handle scroll detection
   useEffect(() => {

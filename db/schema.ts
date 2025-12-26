@@ -1,15 +1,15 @@
 import {
   timestamp,
-  uuid,
   varchar,
   pgTable,
   integer,
   boolean,
-  text
+  text,
+  serial
 } from "drizzle-orm/pg-core";
 
 export const orders = pgTable("okataxis_orders", {
-  id: uuid("id").defaultRandom().notNull().primaryKey(),
+  id: serial("id").notNull().primaryKey(),
   category: varchar("category").notNull(),
   price: varchar("price").notNull(),
   car: varchar("car").notNull(),
@@ -23,17 +23,23 @@ export const orders = pgTable("okataxis_orders", {
   pickup_location: varchar("pickup_location").notNull(),
   dropoff_location: varchar("dropoff_location"),
   passengers: integer("passengers").notNull(),
-  kids: integer("kids").notNull(),
   bags: integer("bags").notNull(),
   name: varchar("name").notNull(),
   email: varchar("email").notNull(),
   phone: varchar("phone").notNull(),
-  flight: varchar("flight"),
+  flight_name: varchar("flight_name"),
+  flight_number: varchar("flight_number"),
+  is_airport_pickup: boolean("is_airport_pickup"),
   payment_id: varchar("payment_id"),
   payment_method: varchar("payment_method"),
   duration: integer("duration"),
   flight_track: boolean("flight_track"),
   meet_greet: boolean("meet_greet"),
+  extra_stops_count: integer("extra_stops_count"),
+  return_flight_track: boolean("return_flight_track"),
+  return_meet_greet: boolean("return_meet_greet"),
+  return_extra_stops_count: integer("return_extra_stops_count"),
+  instructions: text("instructions"),
   updated_at: timestamp("updated_at").defaultNow().notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
 });

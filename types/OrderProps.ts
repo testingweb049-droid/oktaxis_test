@@ -13,13 +13,22 @@ export interface OrderProps {
   is_return?: boolean | null;
   return_date?: Date | null;
   return_time?: string | null;
+  passengers: number;
+  bags: number;
   name: string;
   email: string;
   phone: string;
-  flight?: string | null;
+  flight_name?: string | null;
+  flight_number?: string | null;
+  payment_id?: string | null;
+  payment_method: string | null;
   flight_track?: boolean | null;
   meet_greet?: boolean | null;
-  payment_method: string | null;
-
+  extra_stops_count?: number | null;
+  return_flight_track?: boolean | null;
+  return_meet_greet?: boolean | null;
+  return_extra_stops_count?: number | null;
+  instructions?: string | null;
   created_at: Date;
+  updated_at: Date;
 }

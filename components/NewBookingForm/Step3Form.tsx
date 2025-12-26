@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { cn } from '@/lib/utils';
-import MyPaymentForm from './PaymentForm'; 
+import { cn } from '@/lib/utils'; 
 import { BiSolidShoppingBags } from "react-icons/bi"; 
 import { MdPeopleAlt } from "react-icons/md"; 
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -10,12 +9,12 @@ import { format, isSameDay, isBefore, addMonths, subMonths } from "date-fns";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { toast } from '@/hooks/use-toast';
-import DateTimePicker from '../../components/ui/date-time-picker'; 
+import DateTimePicker from '../../components/ui/DateTimePicker'; 
 import useCustomForm from '@/hooks/useFormContext';
 import { startOfDay } from 'date-fns';
 
 function Step3Form() {
-  const { form, step, Step1, Step2, NextStep, loading } = useCustomForm();
+  const { form, step, Step1, Step2, NextStep, loading, category } = useCustomForm();
   const { formState: { errors }, setValue, watch, clearErrors, trigger } = form;
   const [returnDateOpen, setReturnDateOpen] = useState(false);
   const [mobileReturnDateOpen, setMobileReturnDateOpen] = useState(false);
@@ -299,10 +298,31 @@ function Step3Form() {
         {/* Payment Action Buttons */}
         <div className="flex flex-col gap-4 mt-8 w-full">
           <button
-            className="w-full bg-black text-white py-3 px-6 rounded-full font-bold text-center"
+            className="w-full bg-black text-white py-3 px-6 rounded-full font-bold text-center disabled:opacity-50 disabled:cursor-not-allowed"
             type="button"
+            disabled={loading}
             onClick={async () => {
               const valid = await trigger(requiredFields);
+              
+              // Check if date and time are selected
+              if (!pickupDate || !pickupTime) {
+                toast({
+                  variant: "destructive",
+                  title: "Missing Date or Time",
+                  description: "Please select both pickup date and time.",
+                });
+                return;
+              }
+
+              if (isReturn && (!returnDate || !returnTime)) {
+                toast({
+                  variant: "destructive",
+                  title: "Missing Return Date or Time",
+                  description: "Please select both return date and time.",
+                });
+                return;
+              }
+
               if (!valid) {
                 setTimeout(() => {
                   const firstErrorKey = Object.keys(form.formState.errors)[0];
@@ -319,12 +339,57 @@ function Step3Form() {
                 }, 0);
                 return;
               }
+
+              // Get form values and calculate total amount
               const values = form.getValues();
-              console.log("Form values:", values);
-              NextStep();
+              const basePrice = Number(values.price) || 0;
+              const flightTrackFee = values.flight_track ? 7 : 0;
+              const meetGreetFee = values.meet_greet ? 15 : 0;
+              const totalAmount = basePrice + flightTrackFee + meetGreetFee;
+
+              // Prepare order data for Stripe Checkout
+              const orderData = {
+                ...values,
+                totalAmount,
+                category: category || 'trips',
+              };
+
+              try {
+                // Create Stripe Checkout Session
+                const response = await fetch('/api/create-checkout-session', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    amount: totalAmount,
+                    orderData,
+                  }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                  throw new Error(data.error || 'Failed to create checkout session');
+                }
+
+                // Redirect to Stripe Checkout
+                if (data.url) {
+                  window.location.href = data.url;
+                } else {
+                  throw new Error('No checkout URL received');
+                }
+              } catch (error: any) {
+                console.error('Error creating checkout session:', error);
+                toast({
+                  variant: "destructive",
+                  title: "Payment Error",
+                  description: error.message || "Failed to redirect to payment. Please try again.",
+                });
+              }
             }}
           >
-            GO TO PAYMENT →
+            {loading ? "Processing..." : "PROCEED TO PAYMENT →"}
           </button>
           <button
             type="button"

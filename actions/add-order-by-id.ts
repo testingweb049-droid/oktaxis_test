@@ -5,27 +5,33 @@ import nodemailer from 'nodemailer';
 import { emailConfig } from '@/lib/emailConfig';
 import { eq } from 'drizzle-orm';
 
-export async function createOrderById({orderId,clientSecret}:{orderId:string,clientSecret:string}) {
+export async function createOrderById({orderId,clientSecret}:{orderId:string | number,clientSecret:string}) {
   try {
    if(!clientSecret){
     return { error: 'payment id not found', status: 500 };
    }
 
-   const alreadyDoneOrder = await db.select().from(orders).where(eq(orders.id, orderId))
+   // Convert string to number for database query
+   const orderIdNum = typeof orderId === 'string' ? parseInt(orderId, 10) : orderId;
+   if (isNaN(orderIdNum)) {
+     return { error: 'Invalid order ID', status: 400 };
+   }
+
+   const alreadyDoneOrder = await db.select().from(orders).where(eq(orders.id, orderIdNum))
    console.log("already : ",alreadyDoneOrder)
    if(alreadyDoneOrder[0]?.payment_id ){
     console.log("already done ", alreadyDoneOrder)
       return { data:alreadyDoneOrder[0] , status: 201, error: '' };
    }
 
-    const order = await db.update(orders).set({payment_id:clientSecret}).where(eq(orders.id, orderId)).returning(); 
+    const order = await db.update(orders).set({payment_id:clientSecret}).where(eq(orders.id, orderIdNum)).returning(); 
     if(!order[0] || !order[0].id){
       console.log('order : ',order)
         return { error: 'order not found', status: 500 };
     }
   
    console.log("one")
-   const orderLink = `https://oktaxis.co.uk/order/${orderId}`; 
+   const orderLink = `https://oktaxis.co.uk/order/${orderIdNum}`; 
    console.log("two")
    
    const transporter = nodemailer.createTransport(emailConfig);

@@ -10,7 +10,7 @@ import { toast } from "@/hooks/use-toast"
 import { usePathname } from "next/navigation"
 import { Autocomplete, type Libraries, useLoadScript } from "@react-google-maps/api"
 import useCustomForm from "@/hooks/useFormContext"
-import DateTimePicker from "@/components/ui/date-time-picker"
+import DateTimePicker from "@/components/ui/DateTimePicker"
 
 const libraries: Libraries = ["places"]
 
@@ -48,7 +48,7 @@ function HeroSectionBookingForm() {
   const [toLocation, setToLocation] = useState("")
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "AIzaSyDaQ998z9_uXU7HJE5dolsDqeO8ubGZvDU",
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || "AIzaSyDaQ998z9_uXU7HJE5dolsDqeO8ubGZvDU",
     libraries,
   })
 

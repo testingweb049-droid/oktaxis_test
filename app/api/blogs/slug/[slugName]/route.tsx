@@ -1,21 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDatabase } from "@/lib/dbConnect";
 
 export async function GET(
   req: NextRequest,
   context: { params: Promise<{ slugName: string }> }
 ) {
-  try {
-    const { slugName } = await context.params;
-
-    const db = await connectToDatabase();
-    const post = await db.collection("posts").findOne({ slug: slugName });
-    if (!post) {
-      return NextResponse.json({ message: "Post not found" }, { status: 404 });
-    }
-    return NextResponse.json(post, { status: 200 });
-  } catch (err) {
-    console.error("Fetch by slug error:", err);
-    return NextResponse.json({ message: "Server error" }, { status: 500 });
-  }
+  // MongoDB removed - returning empty response
+  return NextResponse.json({ message: "Blog functionality disabled - MongoDB removed" }, { status: 404 });
 }
