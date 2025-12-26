@@ -43,3 +43,18 @@ export const orders = pgTable("okataxis_orders", {
   updated_at: timestamp("updated_at").defaultNow().notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const drivers = pgTable("okataxis_drivers", {
+  id: serial("id").notNull().primaryKey(),
+  name: varchar("name").notNull(),
+  email: varchar("email"),
+  phone: varchar("phone"),
+  address: text("address"),
+  car_type: varchar("car_type").notNull(),
+  car_image_url: text("car_image_url"),
+  license_front_url: text("license_front_url"),
+  license_back_url: text("license_back_url"),
+  status: varchar("status").default("pending"), // pending, approved, rejected
+  created_at: timestamp("created_at").defaultNow().notNull(),
+  updated_at: timestamp("updated_at").defaultNow().notNull(),
+});

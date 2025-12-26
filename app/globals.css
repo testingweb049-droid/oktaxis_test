@@ -295,6 +295,19 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
+  /* Override autofill background color */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+    -webkit-text-fill-color: inherit !important;
+    box-shadow: 0 0 0 30px transparent inset !important;
+    background-color: transparent !important;
+    background-clip: padding-box !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
