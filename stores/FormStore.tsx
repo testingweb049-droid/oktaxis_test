@@ -2,7 +2,7 @@
 
 import { OrderDataType } from "@/actions/add-order";
 import { calculateDistance } from "@/actions/get-distance";
-import { fleets } from "@/components/booking/steps/CarList";
+import { fleets } from "@/components/booking/steps/fleets-data";
 import { fleetsLocal } from "@/lib/fleet-data";
 import { hourlyInitialFormData, tripInitialFormData } from "@/constants/storeInitailObjects";
 import { create } from "zustand";
