@@ -29,7 +29,7 @@ export async function calculateDistance({
         origin
       )}&destinations=${encodeURIComponent(
         destination
-      )}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+      )}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`;
 
       const response = await fetch(url);
 
