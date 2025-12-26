@@ -39,8 +39,8 @@ export default function PageAboutSection({
 
   return (
     <div className="my-16 md:my-20">
-    <section className={`full-width-section${className}`}>
-      <div className="full-width-section mx-auto px-4 sm:px-6 lg:px-8">
+    <section className={`container mx-auto px-4${className}`}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div
           className={`flex flex-col gap-6 sm:gap-8 md:gap-12 lg:gap-24 !items-center ${
             imagePosition === "right" ? "lg:flex-row" : "lg:flex-row-reverse"
@@ -61,7 +61,7 @@ export default function PageAboutSection({
                     {paragraphs.map((paragraph, index) => (
                       <p
                         key={index}
-                        className={`text-text-gray text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed  lg:leading-large-relaxed ${textClassName}`}
+                        className={`text-text-gray text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed  lg:leading-loose ${textClassName}`}
                       >
                         {paragraph}
                       </p>

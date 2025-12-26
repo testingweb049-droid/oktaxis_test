@@ -116,7 +116,7 @@ export default function QuantityCheckbox({
       <div className="flex items-center gap-2 flex-1">
         <label
           className={cn(
-            "text-[13px] font-medium leading-none cursor-pointer",
+            "text-sm font-medium leading-none cursor-pointer",
             value ? "text-gray-900" : "text-gray-700"
           )}
         >
@@ -142,7 +142,7 @@ export default function QuantityCheckbox({
         >
           -
         </button>
-        <div className="px-4 py-1.5 text-[13px] font-medium text-gray-800 min-w-[2rem] text-center">
+        <div className="px-4 py-1.5 text-sm font-medium text-gray-800 min-w-[2rem] text-center">
           {quantity}
         </div>
         <button

@@ -61,7 +61,7 @@ const StarIcon = ({ className }: { className?: string }) => (
   >
     <path
       d="M7.06342 1.3563L5.28467 4.96282L1.30497 5.54303C0.591294 5.64654 0.305279 6.52638 0.822831 7.03031L3.70205 9.83599L3.02107 13.7993C2.89849 14.5157 3.65302 15.0524 4.28498 14.7173L7.8452 12.846L11.4054 14.7173C12.0374 15.0496 12.7919 14.5157 12.6693 13.7993L11.9883 9.83599L14.8676 7.03031C15.3851 6.52638 15.0991 5.64654 14.3854 5.54303L10.4057 4.96282L8.62697 1.3563C8.30827 0.713449 7.38485 0.705278 7.06342 1.3563Z"
-      fill="#FFB400"
+      className="fill-primary-yellow"
     />
   </svg>
 );
@@ -99,13 +99,13 @@ const PlatformLogo = ({
         );
       case "facebook":
         return (
-          <div className="w-5 h-5 bg-[#1877F2] rounded-full flex items-center justify-center shadow-sm">
-            <span className="text-[10px] font-bold text-white">f</span>
+          <div className="w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center shadow-sm">
+            <span className="text-xs font-bold text-white">f</span>
           </div>
         );
       case "spotify":
         return (
-          <div className="w-5 h-5 bg-[#1DB954] rounded-full flex items-center justify-center shadow-sm">
+          <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center shadow-sm">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="white" className="flex-shrink-0">
               <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z" />
             </svg>
@@ -133,7 +133,7 @@ const VerifiedBadge = () => (
     xmlns="http://www.w3.org/2000/svg"
     className="flex-shrink-0"
   >
-    <circle cx="8" cy="8" r="8" fill="#10B981" />
+    <circle cx="8" cy="8" r="8" className="fill-green-500" />
     <path
       d="M5.5 8L7 9.5L10.5 6"
       stroke="white"
@@ -150,7 +150,7 @@ export default function Reviews() {
 
   return (
     <section className="font-montserrat py-12 lg:py-24 bg-white">
-      <div className="full-width-section mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6">
         {/* Header with navigation arrows */}
         <div className="mb-8 lg:mb-14 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="text-center lg:text-left">

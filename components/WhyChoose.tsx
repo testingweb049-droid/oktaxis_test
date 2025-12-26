@@ -70,7 +70,7 @@ const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
     return (
         <div className="w-full py-12 md:py-16 lg:py-20">
            {/* whole compoennt  */}
-            <div className="full-width-section mx-auto px-6 py-20">
+            <div className="container mx-auto px-6 py-20">
 
                 {/* Header */}
                 <div className="text-center mb-10 md:mb-14">
@@ -148,13 +148,13 @@ const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
             .custom-pagination .swiper-pagination-bullet {
               width: 10px;
               height: 10px;
-              background-color: #d1d5db; /* gray-300 */
+              background-color: theme('colors.light-gray');
               opacity: 1;
               border-radius: 50%;
               transition: all 0.3s ease;
             }
             .custom-pagination .swiper-pagination-bullet-active {
-              background-color: #facc15; /* yellow-400 */
+              background-color: theme('colors.primary-yellow');
               transform: scale(1.2);
             }
           `}</style>

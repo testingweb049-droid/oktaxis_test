@@ -93,7 +93,7 @@ export default function NewDropdownInput({
   return (
     <div className="w-full rounded-lg bg-gray-200 px-4 py-2 border border-gray-200">
       {/* Label inside box like LocationInput */}
-      <label className="block text-[13px] font-medium text-gray-600 mb-1">
+      <label className="block text-sm font-medium text-gray-600 mb-1">
         {placeholder}
       </label>
     <Popover open={open} onOpenChange={setOpen}>
@@ -101,7 +101,7 @@ export default function NewDropdownInput({
         <button
           type="button"
           className={cn(
-              "w-full flex items-center gap-2 text-[15px] font-medium bg-transparent text-gray-800 rounded-lg py-1.5 focus:outline-none",
+              "w-full flex items-center gap-2 text-base font-medium bg-transparent text-gray-800 rounded-lg py-1.5 focus:outline-none",
               error ? "text-red-600" : ""
           )}
         >

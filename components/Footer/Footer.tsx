@@ -43,7 +43,7 @@ export default function Footer() {
   return (
     <footer className="font-montserrat bg-heading-black text-white">
       {/* Main Footer Content */}
-      <div className="full-width-section">
+      <div className="container mx-auto px-4">
         <div className="px-4 py-12 sm:px-4 lg:px-6">
           {/* Main Flex Container */}
           <div className="flex flex-col gap-14 lg:flex-row lg:justify-between lg:items-start">

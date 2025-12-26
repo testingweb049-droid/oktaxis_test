@@ -19,7 +19,7 @@ export default function AreaServeSection({
 }: AreaServeSectionProps) {
   return (
     <section className="font-montserrat py-10 sm:py-12 md:py-16 lg:py-20">
-      <div className="full-width-section mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
         <div className="flex flex-col items-center justify-center gap-3 sm:gap-6 md:gap-8">
           {/* Section Heading */}
           <Heading

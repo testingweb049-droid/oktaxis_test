@@ -48,7 +48,7 @@ export default function SelectableCheckbox({
       <div className="flex items-center gap-2 flex-1">
         <label
           className={cn(
-            "text-[13px] font-medium leading-none cursor-pointer",
+            "text-sm font-medium leading-none cursor-pointer",
             value ? "text-gray-900" : "text-gray-700"
           )}
         >

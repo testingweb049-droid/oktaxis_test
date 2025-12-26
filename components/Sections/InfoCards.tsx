@@ -30,7 +30,7 @@ export default function InfoCards({ title, cards }: InfoCardsProps) {
 
   return (
     <section className="font-montserrat py-8 sm:py-12 md:py-16 lg:py-18 bg-light-background mb-8 md:mb-14">
-      <div className="full-width-section mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
         {/* Section Title */}
         {title && (
           <Heading

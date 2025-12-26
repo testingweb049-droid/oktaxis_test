@@ -52,7 +52,7 @@ export function ServingCardsSection({
         className,
       )}
     >
-      <div className="full-width-section px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <Heading as="h2" align="center" className="text-white">
             {heading}

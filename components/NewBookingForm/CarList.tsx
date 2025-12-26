@@ -134,9 +134,9 @@ function CarList() {
 
             <div className="flex flex-col gap-3 w-full">
               <div className="px-5 mt-3 hidden md:block py-1 text-black font-medium">
-                <p className="text-[#121212] font-bold text-xl">{item.cars}</p>
+                <p className="text-heading-black font-bold text-xl">{item.cars}</p>
 
-                <div className="flex mt-2 w-full gap-8 items-center text-[#121212] text-sm font-medium ">
+                <div className="flex mt-2 w-full gap-8 items-center text-heading-black text-sm font-medium ">
                   <div className="flex items-center gap-1 whitespace-nowrap">
                     <Image
                       src="/icon-1.png"
@@ -198,11 +198,11 @@ function CarList() {
 
                 {/* RIGHT: Title + Features */}
                 <div className=" block md:hidden">
-                  <p className="text-[#121212] font-bold text-lg md:text-xl mb-2">
+                  <p className="text-heading-black font-bold text-lg md:text-xl mb-2">
                     {item.cars}
                   </p>
 
-                  <div className="flex flex-wrap gap-x-2 gap-y-1 text-[#121212] text-sm font-medium">
+                  <div className="flex flex-wrap gap-x-2 gap-y-1 text-heading-black text-sm font-medium">
                     <div className="flex items-center gap-1">
                       <Image src="/icon-1.png" alt="adults" width={16} height={16} />
                       <span>{item.persons} adults</span>
@@ -297,7 +297,7 @@ function CarList() {
                         >
                           £ {returnPrice}
                           {discountPercent > 0 && (
-                            <span className="absolute -top-1 -right-1 px-1.5 text-[10px] sm:text-xs sm:px-2 sm:py-1 bg-brand rounded-lg text-white font-semibold z-10">
+                            <span className="absolute -top-1 -right-1 px-1.5 text-xs sm:px-2 sm:py-1 bg-brand rounded-lg text-white font-semibold z-10">
                               {discountPercent}% off
                             </span>
                           )}

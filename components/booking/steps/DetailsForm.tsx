@@ -152,7 +152,7 @@ function Step3() {
                         style={{ maxHeight: formData.isAddInstructions?.value ? '200px' : '0' }}>
                         <div className={`flex flex-col gap-3 pt-3 opacity-${formData.isAddInstructions?.value ? '100' : '0'} transition-opacity duration-500`}>
                             <div className={`w-full rounded-lg bg-gray-200 px-4 py-3 border ${formData.instructions?.error ? 'border-red-500' : 'border-gray-300'}`}>
-                                <label className="block text-[13px] font-medium text-gray-600 mb-1">
+                                <label className="block text-sm font-medium text-gray-600 mb-1">
                                     Instructions
                                 </label>
                                 <textarea
@@ -160,7 +160,7 @@ function Step3() {
                                     onChange={(e) => setFormData('instructions', e.target.value)}
                                     placeholder="Enter your instructions here..."
                                     rows={4}
-                                    className={`w-full text-[15px] bg-transparent text-gray-800 placeholder:text-gray-400 outline-none focus:text-gray-900 resize-none ${formData.instructions?.error ? 'text-red-600' : ''}`}
+                                    className={`w-full text-base bg-transparent text-gray-800 placeholder:text-gray-400 outline-none focus:text-gray-900 resize-none ${formData.instructions?.error ? 'text-red-600' : ''}`}
                                 />
                             </div>
                         </div>
@@ -294,7 +294,7 @@ function Step3() {
                                 }
                             }
                         }} 
-                        className='p-2 rounded-lg border border-gray-200 w-full text-center text-black font-bold cursor-pointer bg-brand hover:bg-[#e6a200] transition-colors'
+                        className='p-2 rounded-lg border border-gray-200 w-full text-center text-black font-bold cursor-pointer bg-brand hover:bg-primary-yellow/90 transition-colors'
                     >
                         Continue to Payment
                     </div>

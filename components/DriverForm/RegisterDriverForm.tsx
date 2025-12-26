@@ -357,7 +357,7 @@ export default function RegisterDriverForm() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {/* Upload Car Image */}
             <div className={`w-full rounded-lg bg-gray-200 px-4 py-3 border ${errors.carImage && touched.carImage ? 'border-red-500' : 'border-gray-300'}`}>
-              <label className="block text-[13px] font-medium text-gray-600 mb-1">
+              <label className="block text-sm font-medium text-gray-600 mb-1">
                 Upload Car Image <span className="text-red-500">*</span>
               </label>
               <input
@@ -389,7 +389,7 @@ export default function RegisterDriverForm() {
                     </button>
                   </div>
                   {values.carImage && 'name' in values.carImage && (
-                    <p className="text-[11px] text-gray-600 mt-2 truncate">{(values.carImage as File).name}</p>
+                    <p className="text-xs text-gray-600 mt-2 truncate">{(values.carImage as File).name}</p>
                   )}
                 </div>
               ) : (
@@ -402,10 +402,10 @@ export default function RegisterDriverForm() {
                       <FileText className="h-8 w-8 text-gray-400 mb-2" />
                       <Car className="absolute -bottom-1 -right-1 h-4 w-4 text-gray-500" />
                     </div>
-                    <p className="mb-1 text-[13px] text-gray-500 text-center">
+                    <p className="mb-1 text-sm text-gray-500 text-center">
                       <span className="font-semibold">Click to upload</span>
                     </p>
-                    <p className="text-[11px] text-gray-400">PNG, JPG up to 10MB</p>
+                    <p className="text-xs text-gray-400">PNG, JPG up to 10MB</p>
                   </div>
                 </label>
               )}
@@ -413,7 +413,7 @@ export default function RegisterDriverForm() {
 
             {/* Upload Driver License Front Side */}
             <div className={`w-full rounded-lg bg-gray-200 px-4 py-3 border ${errors.licenseFront && touched.licenseFront ? 'border-red-500' : 'border-gray-300'}`}>
-              <label className="block text-[13px] font-medium text-gray-600 mb-1">
+              <label className="block text-sm font-medium text-gray-600 mb-1">
                 Upload License Front <span className="text-red-500">*</span>
               </label>
               <input
@@ -445,7 +445,7 @@ export default function RegisterDriverForm() {
                     </button>
                   </div>
                   {values.licenseFront && 'name' in values.licenseFront && (
-                    <p className="text-[11px] text-gray-600 mt-2 truncate">{(values.licenseFront as File).name}</p>
+                    <p className="text-xs text-gray-600 mt-2 truncate">{(values.licenseFront as File).name}</p>
                   )}
                 </div>
               ) : (
@@ -455,10 +455,10 @@ export default function RegisterDriverForm() {
                 >
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
                     <FileText className="h-8 w-8 text-gray-400 mb-2" />
-                    <p className="mb-1 text-[13px] text-gray-500 text-center">
+                    <p className="mb-1 text-sm text-gray-500 text-center">
                       <span className="font-semibold">Click to upload</span>
                     </p>
-                    <p className="text-[11px] text-gray-400">PNG, JPG up to 10MB</p>
+                    <p className="text-xs text-gray-400">PNG, JPG up to 10MB</p>
                   </div>
                 </label>
               )}
@@ -466,7 +466,7 @@ export default function RegisterDriverForm() {
 
             {/* Upload Driver License Back Side */}
             <div className={`w-full rounded-lg bg-gray-200 px-4 py-3 border ${errors.licenseBack && touched.licenseBack ? 'border-red-500' : 'border-gray-300'}`}>
-              <label className="block text-[13px] font-medium text-gray-600 mb-1">
+              <label className="block text-sm font-medium text-gray-600 mb-1">
                 Upload License Back <span className="text-red-500">*</span>
               </label>
               <input
@@ -498,7 +498,7 @@ export default function RegisterDriverForm() {
                     </button>
                   </div>
                   {values.licenseBack && 'name' in values.licenseBack && (
-                    <p className="text-[11px] text-gray-600 mt-2 truncate">{(values.licenseBack as File).name}</p>
+                    <p className="text-xs text-gray-600 mt-2 truncate">{(values.licenseBack as File).name}</p>
                   )}
                 </div>
               ) : (
@@ -508,10 +508,10 @@ export default function RegisterDriverForm() {
                 >
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
                     <FileText className="h-8 w-8 text-gray-400 mb-2" />
-                    <p className="mb-1 text-[13px] text-gray-500 text-center">
+                    <p className="mb-1 text-sm text-gray-500 text-center">
                       <span className="font-semibold">Click to upload</span>
                     </p>
-                    <p className="text-[11px] text-gray-400">PNG, JPG up to 10MB</p>
+                    <p className="text-xs text-gray-400">PNG, JPG up to 10MB</p>
                   </div>
                 </label>
               )}

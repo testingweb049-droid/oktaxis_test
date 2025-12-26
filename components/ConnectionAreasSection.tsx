@@ -28,7 +28,7 @@ export function ConnectionAreasSection({
         className ? className : ""
       }`}
     >
-      <div className="full-width-section mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
         <Heading
           as="h2"
           align="center"

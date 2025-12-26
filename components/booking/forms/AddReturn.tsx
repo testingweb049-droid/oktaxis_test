@@ -43,7 +43,7 @@ export default function AddReturn() {
       </div>
 
       <div className="flex flex-col gap-1 flex-1 min-w-0">
-        <div className="text-[13px] font-semibold text-gray-900">{headingText}</div>
+        <div className="text-sm font-semibold text-gray-900">{headingText}</div>
         <div className={`text-xs text-gray-600 ${isReturn ? '' : 'line-clamp-2'}`}>
           {subText}
           {!isReturn && (
@@ -58,8 +58,8 @@ export default function AddReturn() {
           onClick={() => {setFormData("isReturn", !isReturn); setFieldOptions('returnDate',isReturn? false : true); setFieldOptions('returnTime',isReturn? false : true) }}
           className={`px-4 py-2 rounded-lg text-sm font-medium text-nowrap cursor-pointer transition-all ${
             isReturn
-              ? "bg-brand text-black hover:bg-[#e6a200]"
-              : "bg-brand text-black hover:bg-[#e6a200]"
+              ? "bg-brand text-black hover:bg-primary-yellow/90"
+              : "bg-brand text-black hover:bg-primary-yellow/90"
           }`}
         >
           {isReturn ? "Cancel Return" : "Add Return"}

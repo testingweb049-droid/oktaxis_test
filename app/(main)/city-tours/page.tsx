@@ -61,7 +61,7 @@ export default function CityTour() {
         bgColor="bg-white"
         imagePosition="left"
       />
-      <div className="full-width-section mx-auto px-4 max-w-7xl">
+      <div className="w-full max-w-7xl mx-auto px-4 ">
 
         <p className=" text-lg pb-4 text-gray-700 leading-relaxed">
 
@@ -116,7 +116,7 @@ export default function CityTour() {
         bgColor="bg-white"
         imagePosition="right"
       />
-      <div className="full-width-section mx-auto px-4 max-w-7xl">
+      <div className="w-full max-w-7xl mx-auto px-4 ">
 
         <p className=" text-lg pb-4 text-gray-700 leading-relaxed">
 
@@ -172,7 +172,7 @@ export default function CityTour() {
         bgColor="bg-white"
         imagePosition="left"
       />
-      <div className="full-width-section mx-auto px-4 max-w-7xl">
+      <div className="w-full max-w-7xl mx-auto px-4 ">
 
         <p className=" text-lg pb-4 text-gray-700 leading-relaxed">
 
@@ -228,7 +228,7 @@ export default function CityTour() {
         bgColor="bg-white"
         imagePosition="right"
       />
-      <div className="full-width-section mx-auto px-4 max-w-7xl">
+      <div className="w-full max-w-7xl mx-auto px-4 ">
 
         <p className=" text-lg pb-4 text-gray-700 leading-relaxed">
 
@@ -286,7 +286,7 @@ export default function CityTour() {
         bgColor="bg-white"
         imagePosition="left"
       />
-      <div className="full-width-section mx-auto px-4 max-w-7xl">
+      <div className="w-full max-w-7xl mx-auto px-4 ">
 
         <p className=" text-lg  text-gray-700 leading-relaxed">
 
@@ -341,7 +341,7 @@ export default function CityTour() {
         bgColor="bg-white"
         imagePosition="right"
       />
-      <div className="full-width-section mx-auto px-4 max-w-7xl">
+      <div className="w-full max-w-7xl mx-auto px-4 ">
 
         <p className=" text-lg  text-gray-700 leading-relaxed">
 
@@ -372,7 +372,7 @@ export default function CityTour() {
       </div>
       <FleetClasses />
       <section className="py-16 bg-white">
-        <div className="full-width-section mx-auto px-4">
+        <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center  mb-12">
             {
               <span className="text-3xl md:text-4xl font-bold">

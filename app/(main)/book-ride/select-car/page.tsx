@@ -21,7 +21,7 @@ function Page() {
   return (
     <div className=' w-full bg-slate-50 flex flex-col min-h-[50vh]'>
       <div ref={headerRef} className='h-24 w-full bg-black header'></div>
-      <div className='max-w-screen-lg mx-auto flex flex-col gap-5 lg:gap-10 w-full py-5 lg:py-16 px-2 '>
+      <div className='max-w-screen-lg mx-auto flex flex-col gap-4 sm:gap-5 lg:gap-10 w-full py-4 sm:py-5 lg:py-16 px-3 sm:px-4 lg:px-6'>
         {/* Back Button - Mobile Full Width */}
         <div className="lg:hidden flex justify-start w-full">
           <button
@@ -59,8 +59,8 @@ function Page() {
           </div>
         </div>
 
-        <div className='grid lg:grid-cols-3 gap-5 w-full'>
-          <div className='lg:col-span-2 w-full flex flex-col gap-5'>
+        <div className='grid lg:grid-cols-3 gap-4 sm:gap-5 w-full'>
+          <div className='lg:col-span-2 w-full flex flex-col gap-4 sm:gap-5'>
             <CarList/>
           </div>
           <div className='hidden lg:flex flex-col gap-5 w-full'>

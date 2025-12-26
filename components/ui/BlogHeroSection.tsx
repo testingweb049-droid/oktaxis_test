@@ -94,7 +94,7 @@ export default function BlogHeroSection({
         priority 
       />
       <div ref={overlayRef} className="absolute inset-0 bg-black" />
-      <div className="full-width-section relative z-10 mx-auto flex h-full flex-col gap-10 items-center justify-center px-3 text-white lg:px-5">
+      <div className="container mx-auto relative z-10 flex h-full flex-col gap-10 items-center justify-center px-3 text-white lg:px-5">
         <div>
           <h1 ref={titleRef} className="mb-2 sm:mb-4 text-4xl font-bold md:text-4xl lg:text-4xl lg:leading-[55px]">
             {title}

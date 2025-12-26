@@ -27,7 +27,7 @@ export function OurServicesSection({
         className,
       )}
     >
-        <div className="full-width-section">
+        <div className="container mx-auto px-4">
         <div className="  px-4 md:px-6">
         {/* Main Heading */}
         <Heading

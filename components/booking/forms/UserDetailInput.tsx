@@ -19,7 +19,7 @@ export function DetailsInput({field, placeholder, Icon, type}:DetailInputType) {
   return (
           <div className={`w-full rounded-lg bg-gray-200 px-4 py-3 border ${fieldData?.error ? 'border-red-500' : 'border-gray-300'}`}>
             {/* Label inside box */}
-            <label className="block text-[13px] font-medium text-gray-600 mb-1">
+            <label className="block text-sm font-medium text-gray-600 mb-1">
               {placeholder}
             </label>
             {/* Input Field */}
@@ -28,7 +28,7 @@ export function DetailsInput({field, placeholder, Icon, type}:DetailInputType) {
               <input 
                 type={type}  
                 value={fieldData?.value?.toString() || ''} 
-                className={`w-full pl-6 text-[15px] bg-transparent text-gray-800 placeholder:text-gray-400 outline-none focus:text-gray-900 ${fieldData?.error ? 'text-red-600' : ''}`} 
+                className={`w-full pl-6 text-base bg-transparent text-gray-800 placeholder:text-gray-400 outline-none focus:text-gray-900 ${fieldData?.error ? 'text-red-600' : ''}`} 
                 placeholder={placeholder} 
                 onChange={(e)=>setFormData(field, e.target.value)}  
               />
@@ -41,7 +41,7 @@ export function PhoneInput() {
   return (
           <div className={`w-full rounded-lg bg-gray-200 px-4 py-3 border ${formData.phone.error ? 'border-red-500' : 'border-gray-300'}`}>
             {/* Label inside box */}
-            <label className="block text-[13px] font-medium text-gray-600 mb-1">
+            <label className="block text-sm font-medium text-gray-600 mb-1">
               Phone Number
             </label>
             {/* Phone Input Field */}
@@ -60,7 +60,7 @@ export function PhoneInput() {
                   backgroundColor: 'transparent',              
                   border: 'none',
                   borderRadius: '6px',
-                  color: formData.phone.error ? '#dc2626' : '#1f2937'
+                  color: formData.phone.error ? 'rgb(220, 38, 38)' : 'rgb(31, 41, 55)'
     }}
 buttonStyle={{
                   border: 'none',

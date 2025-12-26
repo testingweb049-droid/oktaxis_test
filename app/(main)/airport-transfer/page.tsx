@@ -31,7 +31,7 @@ const FixedPricesIcon = () => (
   >
     <path
       d="M20.7721 19.1885C16.7759 18.1499 15.4908 17.076 15.4908 15.4036C15.4908 13.4848 17.2689 12.1469 20.244 12.1469C23.3775 12.1469 24.5394 13.6432 24.645 15.8438H28.5355C28.4123 12.8158 26.5639 10.0344 22.8846 9.13656V5.28125H17.6033V9.08375C14.1881 9.82312 11.4419 12.0413 11.4419 15.4389C11.4419 19.5054 14.8043 21.5299 19.7158 22.7094C24.1169 23.7656 24.9971 25.3148 24.9971 26.952C24.9971 28.1667 24.1345 30.1031 20.244 30.1031C16.6175 30.1031 15.1916 28.4835 14.9979 26.4062H11.125C11.3362 30.2616 14.2233 32.4269 17.6033 33.1486V36.9688H22.8846V33.1839C26.3174 32.5325 29.046 30.5432 29.046 26.9344C29.046 21.9348 24.7682 20.2272 20.7721 19.1885Z"
-      fill="#FFB400"
+      className="fill-primary-yellow"
     />
   </svg>
 );
@@ -46,7 +46,7 @@ const FlightTrackingIcon = () => (
   >
     <path
       d="M30.7998 14.3727H23.4662L16.7223 2.56992C16.6324 2.41278 16.5025 2.28219 16.3459 2.19137C16.1893 2.10055 16.0114 2.05272 15.8304 2.05273L11.6275 2.05273C10.9454 2.05273 10.4532 2.70531 10.6406 3.36109L13.7867 14.3727H7.1865L4.4145 10.6767C4.22071 10.4181 3.91592 10.2661 3.59316 10.2661H1.02714C0.359163 10.2661 -0.13107 10.8936 0.0312715 11.5417L2.05316 18.4794L0.0312715 25.4171C-0.13107 26.0652 0.359163 26.6927 1.02714 26.6927H3.59316C3.91656 26.6927 4.22071 26.5407 4.4145 26.2821L7.1865 22.5861H13.7867L10.6406 33.5971C10.4532 34.2528 10.9454 34.9061 11.6275 34.9061H15.8304C16.1987 34.9061 16.5388 34.7084 16.7217 34.3889L23.4662 22.5861H30.7998C33.0681 22.5861 36.9598 20.7477 36.9598 18.4794C36.9598 16.2111 33.0681 14.3727 30.7998 14.3727Z"
-      fill="#FFB400"
+      className="fill-primary-yellow"
     />
   </svg>
 );
@@ -61,7 +61,7 @@ const BusinessReadyIcon = () => (
   >
     <path
       d="M36.6759 12.6432C26.4416 3.17711 10.5243 3.18057 0.293978 12.6432C-0.0907412 12.999 -0.0982507 13.6015 0.27376 13.9706L2.25165 15.9329C2.60634 16.2853 3.17706 16.2928 3.5456 15.9549C11.9748 8.23276 24.994 8.23102 33.4249 15.9549C33.7934 16.2928 34.3641 16.2847 34.7188 15.9329L36.6967 13.9706C37.0682 13.6015 37.0606 12.999 36.6759 12.6432ZM18.485 24.0299C16.4429 24.0299 14.788 25.6849 14.788 27.7269C14.788 29.7689 16.4429 31.4239 18.485 31.4239C20.527 31.4239 22.182 29.7689 22.182 27.7269C22.182 25.6849 20.527 24.0299 18.485 24.0299ZM30.1923 19.2013C23.5342 13.3132 13.4281 13.3196 6.77759 19.2013C6.37901 19.5537 6.3663 20.1654 6.74467 20.5386L8.73411 22.502C9.08071 22.844 9.63872 22.8671 10.0078 22.5482C14.8573 18.3562 22.1236 18.3654 26.9615 22.5482C27.3306 22.8671 27.8886 22.8446 28.2352 22.502L30.2247 20.5386C30.6036 20.1654 30.5903 19.5531 30.1923 19.2013Z"
-      fill="#FFB400"
+      className="fill-primary-yellow"
     />
   </svg>
 );
@@ -205,7 +205,7 @@ export default function AirportTransfer() {
           </>
         }
       />
-      <div className="full-width-section mx-auto px-4 max-w-7xl">
+      <div className="w-full max-w-7xl mx-auto px-4">
         <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
           Our licensed chauffeurs, trained with advanced driving credentials, deliver elite standards with security and discretion — perfect for overseas delegations or high-profile clients. Unlike non-compliant providers risking fines or reputational damage, we're fully compliant with regulations, insurance, and GDPR-assured data protection.
         </p>
@@ -253,7 +253,7 @@ export default function AirportTransfer() {
           </>
         }
       />
-      <div className="full-width-section mx-auto px-4 max-w-7xl">
+      <div className="w-full max-w-7xl mx-auto px-4">
         <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
           Dial +44 7788 710290 or drop a line to <strong className="text-brand underline">info@oktaxis.co.uk </strong> for bespoke setups like varied routes or special offers across Greater Manchester.
         </p>
@@ -300,7 +300,7 @@ export default function AirportTransfer() {
           </>
         }
       />
-      <div className="full-width-section mx-auto px-4 max-w-7xl">
+      <div className="w-full max-w-7xl mx-auto px-4">
         <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
           That's why top finance entities count on our subtle handling. We excel in tense scenarios, from private aircraft links to nocturnal drives, with quiet modes preserving confidentiality.
         </p>
@@ -348,7 +348,7 @@ export default function AirportTransfer() {
           </>
         }
       />
-      <div className="full-width-section mx-auto px-4 max-w-7xl">
+      <div className="w-full max-w-7xl mx-auto px-4">
         <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
           Accolades from Ravi celebrate our route savvy in BMWs for corporate events, making trips truly pleasant. With mapping aids and online tools, we manage exact timings for all flights. As specialists in airport transfers Leeds to Manchester, we offer outstanding worth.
         </p>
@@ -396,7 +396,7 @@ export default function AirportTransfer() {
           </>
         }
       />
-      <div className="full-width-section mx-auto px-4 max-w-7xl">
+      <div className="w-full max-w-7xl mx-auto px-4">
         <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
           My know-how in flight ops syncs perfectly via supports like Signature, flexing for changes. Cleaned cabins with kid seats and papers bring extra warmth. This fine-tuned care sets us apart in executive car service.
         </p>
@@ -439,7 +439,7 @@ export default function AirportTransfer() {
           </>
         }
       />
-      <div className="full-width-section mx-auto px-4 max-w-7xl">
+      <div className="w-full max-w-7xl mx-auto px-4">
         <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
           Booking eases via <strong className="text-brand underline">OK Taxis </strong> GET PRICES for straightforward distance or hourly fees. My routing skills dodge spots like Junction 21 for traffic-free paths, adding live updates for accuracy. Slip in stops for basics like groceries, with our sharp crew handling last details. This leads to happy faces and unforgettable ventures.
         </p>
@@ -464,7 +464,7 @@ export default function AirportTransfer() {
       </div>
       <FleetClasses />
       <section className="py-16 bg-white">
-        <div className="full-width-section mx-auto px-4">
+        <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Key Features of Our <span className="text-brand">Manchester Airport Chauffeur Services</span>
           </h2>
@@ -512,7 +512,7 @@ export default function AirportTransfer() {
         </div>
       </section>
       <section className="py-16 bg-gray-50">
-        <div className="full-width-section mx-auto px-4">
+        <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Benefits of Booking <span className="text-brand">Airport Transfers with OKTaxis</span>
           </h2>

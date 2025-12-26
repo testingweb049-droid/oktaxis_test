@@ -59,7 +59,7 @@ const FleetShowcase: React.FC<FleetShowcaseProps> = ({
     const nextRef = useRef<HTMLDivElement>(null);
 
     return (
-        <div className="full-width-section py-12 md:py-16 lg:py-20 pt-20">
+        <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20 pt-20">
             <div className="px-4 sm:px-6 lg:px-8 pt-20">
 
                 {/* Header */}
@@ -152,13 +152,13 @@ const FleetShowcase: React.FC<FleetShowcaseProps> = ({
             .fleet-pagination .swiper-pagination-bullet {
               width: 10px;
               height: 10px;
-              background-color: #d1d5db; /* gray-300 */
+              background-color: theme('colors.light-gray');
               opacity: 1;
               border-radius: 50%;
               transition: all 0.3s ease;
             }
             .fleet-pagination .swiper-pagination-bullet-active {
-              background-color: #facc15; /* yellow-400 */
+              background-color: theme('colors.primary-yellow');
               transform: scale(1.2);
             }
           `}</style>

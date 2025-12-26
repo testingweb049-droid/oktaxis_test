@@ -2,12 +2,11 @@
 
 import { brandColor } from "@/lib/colors";
 import useFormStore from "@/stores/FormStore";
-import { ArrowRight, Calendar, Clock, Users, ShoppingBag, MapPin } from "lucide-react";
-import { format } from "date-fns";
+import { ArrowRight, Users, ShoppingBag } from "lucide-react";
 
 export default function PickupTripDetails() {
   const { formData, category } = useFormStore();
-  const { fromLocation, toLocation, stops, duration, date, time, passengers, bags, distance } = formData
+  const { fromLocation, toLocation, stops, duration, passengers, bags } = formData
   
   const locations = [
     fromLocation,
@@ -19,20 +18,6 @@ export default function PickupTripDetails() {
   } else {
     locations.push(toLocation)
   }
-
-  // Format date
-  const formattedDate = date?.value ? format(new Date(date.value), "dd MMM yyyy") : null;
-  
-  // Format time (HH:mm to 12h format)
-  const formatTime = (timeStr: string) => {
-    if (!timeStr) return null;
-    const [hours, minutes] = timeStr.split(":");
-    const hour = parseInt(hours);
-    const ampm = hour >= 12 ? "PM" : "AM";
-    const hour12 = hour % 12 || 12;
-    return `${hour12}:${minutes} ${ampm}`;
-  };
-  const formattedTime = time?.value ? formatTime(time.value) : null;
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-100 max-w-md">
@@ -87,7 +72,7 @@ export default function PickupTripDetails() {
 
       {/* Passengers and Bags - After distance */}
       {(passengers?.value || bags?.value) && (
-        <div className="space-y-2 mt-4">
+        <div className="flex items-center justify-between border-t border-gray-300 pt-4 mt-4">
           {passengers?.value && (
             <div className="flex items-center gap-2 text-sm">
               <Users className="w-4 h-4 text-gray-500" />

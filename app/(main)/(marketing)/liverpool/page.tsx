@@ -58,7 +58,7 @@ export default function Liverpool() {
                 }
 
             />
-            <div className="full-width-section mx-auto px-4 max-w-7xl">
+            <div className="w-full max-w-7xl mx-auto px-4 ">
 
                 <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
 
@@ -115,7 +115,7 @@ export default function Liverpool() {
                 }
 
             />
-            <div className="full-width-section mx-auto px-4 max-w-7xl">
+            <div className="w-full max-w-7xl mx-auto px-4 ">
 
                 <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
 
@@ -173,7 +173,7 @@ export default function Liverpool() {
                 }
 
             />
-            <div className="full-width-section mx-auto px-4 max-w-7xl">
+            <div className="w-full max-w-7xl mx-auto px-4 ">
 
                 <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
 
@@ -225,7 +225,7 @@ export default function Liverpool() {
                 }
 
             />
-            <div className="full-width-section mx-auto px-4 max-w-7xl">
+            <div className="w-full max-w-7xl mx-auto px-4 ">
 
                 <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
                     For prominent gatherings like music or artist performances, we deliver expert chauffeuring suited to theatre or film demands. Our adaptable fleet supports comprehensive services with planned stops, resolving issues like traffic or parking woes. Upholding impeccable standards and stellar ratings, we're the superior option for Liverpool wedding car hire.
@@ -282,7 +282,7 @@ export default function Liverpool() {
                     </>
                 }
             />
-            <div className="full-width-section mx-auto px-4 max-w-7xl">
+            <div className="w-full max-w-7xl mx-auto px-4 ">
 
                 <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
 
@@ -333,7 +333,7 @@ export default function Liverpool() {
                 }
 
             />
-            <div className="full-width-section mx-auto px-4 max-w-7xl">
+            <div className="w-full max-w-7xl mx-auto px-4 ">
 
                 <p className=" text-lg  pb-2 text-gray-700 leading-relaxed">
 
@@ -364,7 +364,7 @@ export default function Liverpool() {
             </div>
             <FleetClasses />
             <section className="py-16 bg-white">
-                <div className="full-width-section mx-auto px-4">
+                <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
                         Key Features of Our <span className="text-brand">Manchester Airport Chauffeur Services</span>
                     </h2>
@@ -421,7 +421,7 @@ export default function Liverpool() {
                 </div>
             </section>
             <section className="py-16 bg-gray-50">
-                <div className="full-width-section mx-auto px-4">
+                <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
                         Benefits of Booking <span className="text-brand">Airport Transfers with OKTaxis</span>
                     </h2>

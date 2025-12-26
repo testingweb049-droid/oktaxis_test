@@ -83,7 +83,7 @@ export default function Fleet() {
         imagePosition="right"
       />
 
-      <div className="full-width-section mx-auto px-4 max-w-7xl">
+      <div className="w-full max-w-7xl mx-auto px-4">
 
 
 

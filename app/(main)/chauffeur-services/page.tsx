@@ -42,7 +42,7 @@ export default function ChauffeurServices() {
             }
     
           />
-          <div className="full-width-section mx-auto px-4 max-w-7xl">
+          <div className="w-full max-w-7xl mx-auto px-4">
     
            
     
@@ -100,7 +100,7 @@ export default function ChauffeurServices() {
       <FleetClasses />
 
       <section className="py-16 bg-white">
-        <div className="full-width-section mx-auto px-4">
+        <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
 
             {

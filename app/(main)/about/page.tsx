@@ -30,7 +30,7 @@ export default function About() {
       <OfferSection />
 
       <section className="py-20 bg-gradient-to-b from-white to-gray-50">
-        <div className="full-width-section mx-auto px-4 max-w-6xl">
+        <div className="w-full max-w-6xl mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2 relative">
               <div className="relative aspect-video overflow-hidden rounded-2xl shadow-2xl">
@@ -69,7 +69,7 @@ export default function About() {
             </div>
 
           </div>
-          <div className="full-width-section  mx-auto px-4 max-w-7xl">
+          <div className="w-full max-w-7xl mx-auto px-4">
             <p className=" text-lg mt-4 pb-2 text-gray-700 leading-relaxed">
               As your trusted travel partner, we even assist with dinner bookings or show tickets, making every trip fresh, enjoyable, and perfectly suited to VIPs or first-time visitors.
             </p>
@@ -100,7 +100,7 @@ export default function About() {
 
 
       <section className="py-20">
-        <div className="full-width-section mx-auto px-4 max-w-6xl">
+        <div className="w-full max-w-6xl mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2">
               {/* <div className="inline-block bg-black text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
@@ -141,7 +141,7 @@ export default function About() {
 
       <FleetClasses />
       <section className="py-20 bg-white">
-        <div className="full-width-section mx-auto px-4 max-w-6xl">
+        <div className="w-full max-w-6xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               {

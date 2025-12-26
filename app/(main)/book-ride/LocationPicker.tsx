@@ -96,7 +96,7 @@ export default function LocationInput({ field, label, placeholder, index }: Loca
   return (
     <div className={`w-full rounded-lg bg-gray-200 px-4 py-3 border ${fieldData?.error ? 'border-red-500' : 'border-gray-200'} `}>
       {/* Label inside box */}
-      <label className="block text-[13px] font-medium text-gray-600 mb-1">
+      <label className="block text-sm font-medium text-gray-600 mb-1">
         {label}
       </label>
       {/* Input Field */}
@@ -106,7 +106,7 @@ export default function LocationInput({ field, label, placeholder, index }: Loca
           <input
             placeholder="Loading..."
             disabled
-            className="w-full pl-6 text-[15px] bg-transparent text-gray-500 placeholder:text-gray-400 outline-none cursor-not-allowed"
+            className="w-full pl-6 text-base bg-transparent text-gray-500 placeholder:text-gray-400 outline-none cursor-not-allowed"
             />
       ) : (
         <Autocomplete
@@ -121,7 +121,7 @@ export default function LocationInput({ field, label, placeholder, index }: Loca
               value={fieldData?.value || ''}
               onChange={(e) => handleInputChange(e.target.value)}
               placeholder={placeholder}
-              className={`w-full pl-6 text-[15px] bg-transparent text-gray-800 placeholder:text-gray-400 outline-none focus:text-gray-900 ${fieldData?.error ? 'text-red-600' : ''
+              className={`w-full pl-6 text-base bg-transparent text-gray-800 placeholder:text-gray-400 outline-none focus:text-gray-900 ${fieldData?.error ? 'text-red-600' : ''
                 }`}
             />
         </Autocomplete>

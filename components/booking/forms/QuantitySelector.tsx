@@ -37,13 +37,13 @@ export default function QuantitySelector({ fieldName, label, min = 0, max = 10, 
   return (
     <div className="flex flex-col w-full bg-gray-200 rounded-xl px-4 py-3">
       {/* Label inside field */}
-      <label className="text-[13px] font-medium text-gray-600 mb-1">
+      <label className="text-sm font-medium text-gray-600 mb-1">
         {label}
       </label>
       {/* Counter field */}
       <div className="flex items-center justify-between">
         {/* Value */}
-        <span className="text-[15px] font-semibold text-gray-800">{displayValue}</span>
+        <span className="text-base font-semibold text-gray-800">{displayValue}</span>
         {/* Buttons */}
         <div className="flex items-center gap-2">
           <button

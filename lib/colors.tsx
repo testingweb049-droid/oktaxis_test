@@ -1,1 +1,1 @@
-export const brandColor = '#FFB400' 
+export const brandColor = 'primary-yellow' // Use Tailwind class: text-primary-yellow or bg-primary-yellow 

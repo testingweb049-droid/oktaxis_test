@@ -17,7 +17,7 @@ const page = () => {
                 buttonLink="/"
                 backgroundImage="/images/banner.jpg"
             />
-            <div className="full-width-section mx-auto px-6 py-20 gap-y-8">
+            <div className="container mx-auto px-6 py-20 gap-y-8">
                 <WhyChooseUs
                     badge="Why Partner With Us"
                     title="Your Trusted Partner for Travel in London"

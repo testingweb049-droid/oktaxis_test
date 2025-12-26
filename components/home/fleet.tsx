@@ -53,7 +53,7 @@ export default function FleetClasses() {
 
   return (
     <section className="bg-white py-16" ref={ref}>
-      <div className="full-width-section mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6">
         <div className="mb-8 flex flex-col items-start justify-between md:flex-row md:items-center">
           <div
             className="mb-6 md:mb-0 opacity-0"

@@ -25,7 +25,7 @@ export const FormField = React.forwardRef<HTMLInputElement, FormFieldProps>(
         hasError ? "border-red-500" : "border-gray-300"
       )}>
         {/* Label inside box */}
-        <label className="block text-[13px] font-medium text-gray-600 mb-1">
+        <label className="block text-sm font-medium text-gray-600 mb-1">
           {label} {required && <span className="text-red-500">*</span>}
         </label>
         {/* Input Field */}
@@ -40,7 +40,7 @@ export const FormField = React.forwardRef<HTMLInputElement, FormFieldProps>(
                 type={type}
                 placeholder={placeholder || label}
                 className={cn(
-                  "w-full pl-6 text-[15px] bg-transparent text-gray-800 placeholder:text-gray-400 outline-none focus:text-gray-900 focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus:ring-0 border-0",
+                  "w-full pl-6 text-base bg-transparent text-gray-800 placeholder:text-gray-400 outline-none focus:text-gray-900 focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus:ring-0 border-0",
                   hasError && "text-red-600"
                 )}
                 ref={ref}

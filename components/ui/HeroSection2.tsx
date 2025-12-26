@@ -100,7 +100,7 @@ export default function HeroSection2({
         priority
       />
       <div ref={overlayRef} className="absolute inset-0 bg-black" />
-      <div className="full-width-section relative z-10 mx-auto flex h-full flex-col gap-6 sm:gap-8 md:gap-24 items-center justify-center px-4 sm:px-6 text-white lg:px-5">
+      <div className="container mx-auto relative z-10 flex h-full flex-col gap-6 sm:gap-8 md:gap-24 items-center justify-center px-4 sm:px-6 text-white lg:px-5">
         <div className="w-full pt-5 sm:pt-0 px-2 md:mx-5 md:text-center  sm:px-0 max-w-6xl pb-20 sm:pb-16">
           <h1 ref={titleRef} className="mb-2  sm:mb-4 text-3xl font-bold md:text-4xl lg:text-4xl lg:leading-[55px]">
             {title}
