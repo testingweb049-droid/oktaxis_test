@@ -11,7 +11,8 @@ import {
 } from "react-icons/fa";
 import { Check } from "lucide-react";
 import PageBanner from "@/components/PageBanner";
-import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateServiceSchema } from "@/lib/seo";
+import StructuredData from "@/components/StructuredData";
 import PageAboutSection from "@/components/PageAboutSection";
 import PageFeatureSection from "@/components/PageFeatureSection";
 import InfoCards from "@/components/Sections/InfoCards";
@@ -82,8 +83,31 @@ export const metadata: Metadata = generateSEOMetadata({
 });
 
 export default function AirportTransfer() {
+  const breadcrumbs = [
+    { name: "Home", url: "https://oktaxis.co.uk/" },
+    { name: "Airport Transfer", url: "https://oktaxis.co.uk/airport-transfer" },
+  ];
+
   return (
     <>
+      <StructuredData
+        data={[
+          generateWebPageSchema({
+            title: "Manchester Airport Transfers | Reliable Taxi & Chauffeur Service | OKTaxis",
+            description:
+              "Book seamless Manchester airport transfers with OKTaxis. Enjoy executive chauffeur service, flight tracking, and 24/7 pickups from Manchester, Liverpool, and UK airports. Stress-free travel starts here.",
+            url: "https://oktaxis.co.uk/airport-transfer",
+            breadcrumbs,
+          }),
+          generateServiceSchema({
+            name: "Airport Transfer Service",
+            description: "Professional airport transfer service to Manchester Airport, Liverpool John Lennon Airport, and other UK airports. Executive chauffeur service with flight tracking and 24/7 availability.",
+            areaServed: "Manchester, Liverpool, Greater Manchester, Merseyside, UK",
+            serviceType: "Airport Transportation Service",
+          }),
+        ]}
+        id="airport-transfer-schema"
+      />
       <PageBanner
         heading="Airport Chauffeur Service | Manchester & Liverpool Transfers"
         text="Premier airport chauffeur service for the North West. Luxury transfers for Manchester (MAN) and Liverpool (LPL) airports. Serving Chester, Preston, and Leeds. Fixed pricing."

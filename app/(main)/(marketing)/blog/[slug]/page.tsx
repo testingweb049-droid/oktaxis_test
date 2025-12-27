@@ -1,6 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Metadata } from "next";
 import { getBlogBySlug, getBlogBySite } from "../BlogService";
+import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+import { generateBlogPostingSchema } from "@/lib/seo";
+import StructuredData from "@/components/StructuredData";
 // import DOMPurify from "isomorphic-dompurify";
 
 const slugify = (text: string) =>
@@ -13,15 +17,17 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
-}) {
+}): Promise<Metadata> {
   const { slug: slugParam } = await params;
   const blog = await getBlogBySlug(slugParam);
 
   if (!blog) {
-    return {
+    return generateSEOMetadata({
       title: "Blog Post Not Found",
       description: "The requested blog post could not be found.",
-    };
+      pageUrl: "/blog/not-found",
+      noindex: true,
+    });
   }
 
   const slug =
@@ -30,36 +36,19 @@ export async function generateMetadata({
       .toLowerCase()
       .replace(/ /g, "-")
       .replace(/[^\w-]+/g, "");
-  const baseUrl = "https://oktaxis.co.uk/"; // Replace with your production domain
-  const canonicalUrl = `${baseUrl}/blog/${slug}`;
+  const canonicalUrl = `/blog/${slug}`;
+  const imageUrl = blog.featuredImage || blog.image || "/premium-vehicles.jpg";
 
-  return {
-    title: `${blog.title}`,
-    description: blog.description,
-    openGraph: {
-      title: blog.title,
-      description: blog.description,
-      images: [
-        {
-          url: blog.image || "/default.jpg",
-          width: 1200,
-          height: 630,
-          alt: blog.title,
-        },
-      ],
-      type: "article",
-      publishedTime: blog.date,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: blog.title,
-      description: blog.description,
-      images: [blog.image || "/default.jpg"],
-    },
-    alternates: {
-      canonical: canonicalUrl,
-    },
-  };
+  return generateSEOMetadata({
+    title: blog.title,
+    description: blog.description || "",
+    pageUrl: canonicalUrl,
+    type: "article",
+    ogImage: imageUrl,
+    publishedTime: blog.publishDate || blog.date || blog.createdAt,
+    modifiedTime: blog.updatedAt || blog.publishDate || blog.createdAt,
+    author: blog.author,
+  });
 }
 type Category = {
   id: number;
@@ -102,40 +91,29 @@ export default async function BlogDetailPage({
   const dateString = blog.date || blog.createdAt;
   const dateObj = dateString ? new Date(dateString) : null;
   const isValidDate = dateObj && !isNaN(dateObj.getTime());
+  const blogSlug =
+    blog.slug ||
+    blog.title
+      .toLowerCase()
+      .replace(/ /g, "-")
+      .replace(/[^\w-]+/g, "");
+  const blogUrl = `https://oktaxis.co.uk/blog/${blogSlug}`;
+  const imageUrl = blog.featuredImage || blog.image || "/premium-vehicles.jpg";
+
   return (
     <>
-      {/* <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BlogPosting",
-            headline: blog.title,
-            description: blog.description,
-            image: blog.featuredImage || "/default.jpg",
-            author: {
-              "@type": "Person",
-              name: blog.author || "OK Taxis",
-            },
-            publisher: {
-              "@type": "Organization",
-              name: "OK Taxis",
-              logo: {
-                "@type": "ImageObject",
-                url: "https://oktaxis.co.uk/logo.png", // Replace with real logo
-              },
-            },
-            datePublished: blog.publishDate || blog.createdAt,
-            dateModified: blog.updatedAt || blog.publishDate || blog.createdAt,
-            mainEntityOfPage: {
-              "@type": "WebPage",
-              "@id": `https://oktaxis.co.uk/blog/${slugify(
-                blog.slug || blog.title
-              )}`,
-            },
-          }),
-        }}
-      /> */}
+      <StructuredData
+        data={generateBlogPostingSchema({
+          headline: blog.title,
+          description: blog.description,
+          image: imageUrl,
+          author: blog.author,
+          datePublished: blog.publishDate || blog.date || blog.createdAt,
+          dateModified: blog.updatedAt || blog.publishDate || blog.createdAt,
+          url: blogUrl,
+        })}
+        id="blog-posting-schema"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-32">
         <nav className="flex mb-6" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-1 md:space-x-2">

@@ -10,7 +10,8 @@ import {
   FaBriefcase,
 } from "react-icons/fa";
 import { Check } from "lucide-react";
-import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateServiceSchema } from "@/lib/seo";
+import StructuredData from "@/components/StructuredData";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Taxi Manchester City Centre | 24/7 Executive City Transfers",
@@ -27,8 +28,31 @@ export const metadata: Metadata = generateSEOMetadata({
 });
 
 export default function CityCenter() {
+  const breadcrumbs = [
+    { name: "Home", url: "https://oktaxis.co.uk/" },
+    { name: "City Centre", url: "https://oktaxis.co.uk/city-center" },
+  ];
+
   return (
     <>
+      <StructuredData
+        data={[
+          generateWebPageSchema({
+            title: "Taxi Manchester City Centre | 24/7 Executive City Transfers | OKTaxis",
+            description:
+              "Book premium taxis in Manchester city centre with OKTaxis. Enjoy fixed rates, executive cars, and fast pickups for shopping, business or night outs.",
+            url: "https://oktaxis.co.uk/city-center",
+            breadcrumbs,
+          }),
+          generateServiceSchema({
+            name: "City Centre Taxi Service",
+            description: "Reliable taxi service for city centre travel in Manchester and Liverpool. Fixed rates, executive cars, and fast pickups for shopping, business or night outs.",
+            areaServed: "Manchester, Liverpool, Greater Manchester, Merseyside",
+            serviceType: "City Transportation Service",
+          }),
+        ]}
+        id="city-center-schema"
+      />
       <HeroSection2
         bgImage="/Luxury Chauffeur Service (2).webp"
         title="Premier Taxi Services in Manchester City Centre by OK Taxis"

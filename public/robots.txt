@@ -1,6 +1,11 @@
 # *
 User-agent: *
 Allow: /
+Disallow: /book-ride/select-car
+Disallow: /book-ride/passenger-details
+Disallow: /booking
+Disallow: /order
+Disallow: /order-placed
 
 # Host
 Host: https://oktaxis.co.uk/

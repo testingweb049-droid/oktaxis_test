@@ -4,7 +4,8 @@ import PageAboutSection from "@/components/PageAboutSection";
 import AboutServiceSection from "@/components/AboutServiceSection";
 import PageFeatureSection from "@/components/PageFeatureSection";
 import Link from "next/link";
-import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateServiceSchema } from "@/lib/seo";
+import StructuredData from "@/components/StructuredData";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Luxury Wedding & Event Transfers | OKTaxis Manchester",
@@ -21,8 +22,31 @@ export const metadata: Metadata = generateSEOMetadata({
 });
 
 export default function EventWedding() {
+  const breadcrumbs = [
+    { name: "Home", url: "https://oktaxis.co.uk/" },
+    { name: "Wedding & Event Transfers", url: "https://oktaxis.co.uk/event-weddings" },
+  ];
+
   return (
     <>
+      <StructuredData
+        data={[
+          generateWebPageSchema({
+            title: "Luxury Wedding & Event Transfers | OKTaxis Manchester",
+            description:
+              "Arrive in style with OKTaxis' luxury wedding and event transfer service in Manchester. Elegant vehicles, professional chauffeurs, and seamless group travel.",
+            url: "https://oktaxis.co.uk/event-weddings",
+            breadcrumbs,
+          }),
+          generateServiceSchema({
+            name: "Wedding Car Hire",
+            description: "Luxury wedding car hire service with professional chauffeurs. Elegant vehicles, professional drivers, and seamless group travel for weddings and events.",
+            areaServed: "Manchester, Liverpool, Greater Manchester, Merseyside",
+            serviceType: "Wedding Transportation Service",
+          }),
+        ]}
+        id="event-weddings-schema"
+      />
       <PageBanner
         heading="Wedding Chauffeur Service | Luxury Event Cars in Manchester & Liverpool"
         text="Professional wedding chauffeur service and event transport. Luxury Mercedes wedding car hire in Manchester and Liverpool. Drivers in full suit with ribbons included."
