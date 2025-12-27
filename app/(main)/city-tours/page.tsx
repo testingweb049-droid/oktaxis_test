@@ -13,7 +13,8 @@ import ImageTextSection from "@/components/ui/ImageTextSection";
 import FleetClasses from "@/components/home/fleet";
 import Image from "next/image";
 import { Check } from "lucide-react";
-import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateServiceSchema } from "@/lib/seo";
+import StructuredData from "@/components/StructuredData";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Manchester & Liverpool City Tours | Luxury Chauffeur Sightseeing",
@@ -30,8 +31,31 @@ export const metadata: Metadata = generateSEOMetadata({
 });
 
 export default function CityTour() {
+  const breadcrumbs = [
+    { name: "Home", url: "https://oktaxis.co.uk/" },
+    { name: "City Tours", url: "https://oktaxis.co.uk/city-tours" },
+  ];
+
   return (
     <>
+      <StructuredData
+        data={[
+          generateWebPageSchema({
+            title: "Manchester & Liverpool City Tours | Luxury Chauffeur Sightseeing | OKTaxis",
+            description:
+              "Explore Manchester, Liverpool, and nearby UK cities with OKTaxis' premium city tour service. Enjoy bespoke itineraries, executive cars, and expert local chauffeurs.",
+            url: "https://oktaxis.co.uk/city-tours",
+            breadcrumbs,
+          }),
+          generateServiceSchema({
+            name: "City Tours",
+            description: "Guided city tours of Manchester, Liverpool, and surrounding areas. Bespoke itineraries, executive cars, and expert local chauffeurs.",
+            areaServed: "Manchester, Liverpool, Greater Manchester, Merseyside",
+            serviceType: "City Tour Service",
+          }),
+        ]}
+        id="city-tours-schema"
+      />
       <HeroSection2
         bgImage="/city.jpg"
         title="Exclusive Manchester City Tours with Chauffeur"

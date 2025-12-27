@@ -7,8 +7,9 @@ export const SITE_CONFIG = {
   description:
     "OKTaxis provides luxury chauffeur services, airport transfers, city rides, wedding cars, and premium transportation in Manchester, Liverpool, and across the UK. 24/7 reliable service.",
   url: process.env.NEXT_PUBLIC_BASE_URL || "https://oktaxis.co.uk",
-  ogImage: "/cover.jpg",
+  ogImage: "/premium-vehicles.jpg",
   logo: "/favicon.png",
+  twitterHandle: process.env.NEXT_PUBLIC_TWITTER_HANDLE || undefined,
   author: "OKTaxis",
   phone: "+44 7788 710290",
   email: "info@oktaxis.co.uk",
@@ -142,15 +143,21 @@ export function generateMetadata({
       title: fullTitle,
       description: fullDescription,
       images: [imageUrl],
-      // Add Twitter handle if available
-      // creator: "@oktaxis",
-      // site: "@oktaxis",
+      ...(SITE_CONFIG.twitterHandle && {
+        creator: SITE_CONFIG.twitterHandle,
+        site: SITE_CONFIG.twitterHandle,
+      }),
     },
     verification: {
-      // Add your verification codes here when available
-      // google: "your-google-verification-code",
-      // yandex: "your-yandex-verification-code",
-      // yahoo: "your-yahoo-verification-code",
+      ...(process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION && {
+        google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
+      }),
+      ...(process.env.NEXT_PUBLIC_YANDEX_VERIFICATION && {
+        yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
+      }),
+      ...(process.env.NEXT_PUBLIC_YAHOO_VERIFICATION && {
+        yahoo: process.env.NEXT_PUBLIC_YAHOO_VERIFICATION,
+      }),
     },
     category: "Transportation",
   };
@@ -395,6 +402,60 @@ export function generateBreadcrumbSchema(breadcrumbs: Array<{ name: string; url:
       name: crumb.name,
       item: crumb.url,
     })),
+  };
+}
+
+/**
+ * Generate BlogPosting structured data
+ */
+export function generateBlogPostingSchema({
+  headline,
+  description,
+  image,
+  author,
+  datePublished,
+  dateModified,
+  url,
+}: {
+  headline: string;
+  description?: string;
+  image?: string;
+  author?: string;
+  datePublished?: string;
+  dateModified?: string;
+  url: string;
+}) {
+  const baseUrl = SITE_CONFIG.url;
+  const imageUrl = image
+    ? image.startsWith("http")
+      ? image
+      : `${baseUrl}${image}`
+    : `${baseUrl}${SITE_CONFIG.ogImage}`;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: headline,
+    description: description || "",
+    image: imageUrl,
+    author: {
+      "@type": "Person",
+      name: author || SITE_CONFIG.author,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_CONFIG.name,
+      logo: {
+        "@type": "ImageObject",
+        url: `${baseUrl}${SITE_CONFIG.logo}`,
+      },
+    },
+    ...(datePublished && { datePublished }),
+    ...(dateModified && { dateModified }),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+    },
   };
 }
 
