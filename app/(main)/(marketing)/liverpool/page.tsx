@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import FleetClasses from "@/components/home/fleet";
 import OfferSection from "@/components/ui/OfferSection";
 import HeroSection2 from "@/components/ui/HeroSection2";
@@ -14,19 +15,26 @@ import {
     FaHeadset,
     FaStar,
 } from "react-icons/fa";
-import SEO from "@/components/SEO";
 import { Check } from "lucide-react";
+import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = generateSEOMetadata({
+  title: "Liverpool Airport Transfers | Reliable Taxi & Chauffeur Service",
+  description:
+    "Book seamless Liverpool airport transfers with OKTaxis. Enjoy executive chauffeur service, flight tracking, and 24/7 pickups from Liverpool, Manchester, and UK airports.",
+  pageUrl: "/liverpool",
+  keywords: [
+    "liverpool airport transfer",
+    "liverpool taxi",
+    "liverpool chauffeur",
+    "liverpool airport taxi",
+    "liverpool transfer service",
+  ],
+});
+
 export default function Liverpool() {
     return (
         <>
-            <SEO
-                title="Liverpool Airport Transfers | Reliable Taxi & Chauffeur Service"
-                description="Book seamless Liverpool airport transfers with OKTaxis. Enjoy executive chauffeur service, flight tracking, and 24/7 pickups from Liverpool, Manchester, and UK airports."
-                url="https://oktaxis.co.uk/liverpool"
-                image="https://oktaxis.co.uk/images/airport-transfer.png"
-            />
-
-
             <HeroSection2
                 bgImage="/city-center4.jpg"
                 title="Luxury Chauffeur Service in Liverpool by OK Taxis | Executive Excellence"

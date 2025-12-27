@@ -1,9 +1,10 @@
 export const dynamic = "force-dynamic";
+import { Metadata } from "next";
 import BlogCard from "@/components/ui/BlogCard";
 import BlogHeroSection from "@/components/ui/BlogHeroSection";
 import Link from "next/link";
 import { headers } from "next/headers";
-import SEO from "@/components/SEO";
+import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
 // Correct API route: /api/posts/site/[siteName]
 type BlogPost = {
   _id: string;
@@ -36,6 +37,20 @@ const slugify = (t: string) =>
     .replace(/ /g, "-")
     .replace(/[^\w-]+/g, "");
 
+export const metadata: Metadata = generateSEOMetadata({
+  title: "OKTaxis Blog – Expert Travel Tips & Updates",
+  description:
+    "Explore the OKTaxis blog for expert travel advice, company news, and local tips from Manchester's premier taxi and chauffeur service.",
+  pageUrl: "/blog",
+  keywords: [
+    "oktaxis blog",
+    "travel tips",
+    "manchester travel",
+    "taxi service news",
+    "travel advice",
+  ],
+});
+
 export default async function Blog() {
   let posts: BlogPost[] = [];
 
@@ -47,13 +62,6 @@ export default async function Blog() {
 
   return (
     <div className="bg-gray-50">
-      <SEO
-        title="OKTaxis Blog – Expert Travel Tips & Updates"
-        description="Explore the OKTaxis blog for expert travel advice, company news, and local tips from Manchester’s premier taxi and chauffeur service."
-        url="https://oktaxis.co.uk/blog"
-        image="https://oktaxis.co.uk/stadium%20transfers%20to%20manchester%20united.webp"
-      />
-
       <BlogHeroSection
         bgImage="/stadium transfers to manchester united.webp"
         title="OKTaxis Blog – Insights & Travel Tips"

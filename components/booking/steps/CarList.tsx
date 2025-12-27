@@ -57,15 +57,15 @@ function CarList() {
               
               {/* Title and Description */}
               <div className="flex flex-col items-start justify-center gap-0.5 flex-1 min-w-0 flex-wrap">
-                <h2 className="text-sm sm:text-lg md:text-xl font-bold text-gray-900 uppercase leading-tight">
+                <h2 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 uppercase leading-tight">
                   {item.name}
                 </h2>
-                <p className="text-xs sm:text-sm md:text-base text-gray-600">{item.cars}</p>
+                <p className="text-sm sm:text-sm md:text-base text-gray-600">{item.cars}</p>
               </div>
             </div>
 
             {/* Row 2: Capacity Icons and Price */}
-            <div className="flex items-center gap-2 sm:gap-3 md:gap-4 text-gray-700 text-xs sm:text-sm md:text-base">
+            <div className="flex items-center gap-2 sm:gap-3 md:gap-4 text-gray-700 text-sm sm:text-sm md:text-base">
               <div className="flex items-center gap-1">
                 <GoPeople size={14} className="sm:w-3.5 sm:h-3.5" style={{ color: '#FFB400' }} />
                 <span>{item.passengers}</span>
@@ -75,7 +75,7 @@ function CarList() {
                 <span>{item.suitcases}</span>
               </div>
               <div className="flex items-center gap-1.5 sm:gap-2 ml-auto">
-                <div className="text-sm sm:text-base md:text-lg font-bold text-gray-900">
+                <div className="text-base sm:text-lg md:text-xl font-bold text-gray-900">
                   £{price}
                 </div>
                 <div className="text-xs text-red-500 line-through">
@@ -86,16 +86,16 @@ function CarList() {
           </div>
           <div className="w-full border-t border-gray-200">
             {formLoading && formData.car.value === item.name ? (
-              <div className="w-full bg-brand text-black font-semibold rounded-b-xl px-2 sm:px-2.5 md:px-3 py-1.5 sm:py-2 md:py-2 flex justify-center items-center gap-1.5">
+              <div className="w-full bg-brand text-black font-semibold rounded-b-xl px-2 sm:px-2.5 md:px-3 py-1 sm:py-1.5 md:py-2 flex justify-center items-center gap-1.5">
                 <Loader className="animate-spin w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                <span className="text-xs sm:text-sm md:text-base">Loading</span>
+                <span className="text-sm sm:text-sm md:text-base">Loading</span>
               </div>
             ) : (
               <button
                 onClick={() => handleSelect(item, Number(price))}
-                className="w-full bg-brand hover:bg-primary-yellow/90 text-black font-semibold rounded-b-xl px-2 sm:px-2.5 md:px-3 py-1.5 sm:py-2 md:py-2 transition-all duration-200 flex justify-center items-center gap-1.5 active:scale-[0.98]"
+                className="w-full bg-brand hover:bg-primary-yellow/90 text-black font-semibold rounded-b-xl px-2 sm:px-2.5 md:px-3 py-3 sm:py-2 md:py-2 transition-all duration-200 flex justify-center items-center"
               >
-                <span className="text-xs sm:text-sm md:text-base">Select Vehicle</span>
+                <span className="text-sm sm:text-sm md:text-base">Select Vehicle</span>
                 <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </button>
             )}

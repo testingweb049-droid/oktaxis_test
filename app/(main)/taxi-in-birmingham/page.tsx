@@ -1,10 +1,25 @@
-
+import { Metadata } from "next";
 import FAQSection from '@/components/FAQSection'
 import FeatureCard from '@/components/FeatureCard'
 import HeroBanner from '@/components/HeroBanner'
 import FleetClasses from '@/components/home/fleet'
 import WhyChooseUs from '@/components/WhyChoose'
-import React from 'react'
+import React from 'react';
+import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = generateSEOMetadata({
+  title: "Taxi Service in Birmingham | Long-Distance Taxi from Birmingham",
+  description:
+    "Reliable airport transfers, executive travel, and city journeys with professional drivers and fixed fares. Experience these in Birmingham with OK Taxis.",
+  pageUrl: "/taxi-in-birmingham",
+  keywords: [
+    "taxi birmingham",
+    "birmingham taxi service",
+    "birmingham airport transfer",
+    "birmingham chauffeur",
+    "birmingham taxi",
+  ],
+});
 
 const page = () => {
     return (

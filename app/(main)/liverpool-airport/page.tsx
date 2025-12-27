@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import PageBanner from "@/components/PageBanner";
 import PageAboutSection from "@/components/PageAboutSection";
 import TransfersSection from "@/components/TransfersSection";
@@ -6,6 +7,21 @@ import ServingCardsSection from "@/components/ServingCardsSection";
 import FleetClasses from "@/components/home/fleet";
 import FAQSection from "@/components/FAQSection";
 import Reviews from "@/components/Sections/reviews";
+import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = generateSEOMetadata({
+  title: "Liverpool Airport Transfers | Liverpool John Lennon Airport Taxi",
+  description:
+    "Reliable Liverpool Airport chauffeur service. Executive transfers from Liverpool John Lennon (LPL) to Manchester, Cheshire, and the city center. Meet & greet included.",
+  pageUrl: "/liverpool-airport",
+  keywords: [
+    "liverpool airport transfer",
+    "liverpool john lennon airport",
+    "liverpool airport taxi",
+    "LPL airport transfer",
+    "liverpool airport chauffeur",
+  ],
+});
    
 const LiverpoolAirportPage = () => {
   return (

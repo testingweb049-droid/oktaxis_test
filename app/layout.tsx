@@ -8,6 +8,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { CustomFormProvider } from "@/context/FormContext";
 import { OrderProvider } from '@/context/OrderContext';
 import Footer from "@/components/Footer/Footer";
+import { generateMetadata as generateSEOMetadata, generateLocalBusinessSchema } from "@/lib/seo";
+import StructuredData from "@/components/StructuredData";
+
 const roboto = Roboto({
   weight: ["100", "300", "400", "700", "900"],
   subsets: ["latin"],
@@ -27,36 +30,13 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "OkTaxis | Trusted Taxi Service in Manchester",
+// Generate metadata using the SEO utility
+export const metadata: Metadata = generateSEOMetadata({
+  title: "Trusted Taxi Service in Manchester",
   description:
     "Book reliable and affordable taxi services in Manchester. 24/7 availability. Airport transfers, city rides & more.",
-  icons: {
-    icon: "/favicon.png",
-  },
-  metadataBase: new URL("https://oktaxis.co.uk/"),
-  openGraph: {
-    title: "OkTaxis | Trusted Taxi Service in Manchester",
-    description:
-      "Reliable and affordable taxi rides in Manchester and surrounding areas. 24/7 service available.",
-    url: "https://oktaxis.co.uk/",
-    siteName: "OkTaxis",
-    images: [
-      {
-        url: "/cover.jpg",
-        width: 1200,
-        height: 630,
-        alt: "OkTaxis Fleet - Reliable Manchester Taxi Service",
-      },
-    ],
-    locale: "en_GB",
-    type: "website",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+  pageUrl: "/",
+});
 
 export default function RootLayout({
   children,
@@ -64,34 +44,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        {/* ✅ Canonical & Structured Data */}
-        <link rel="canonical" href="https://oktaxis.co.uk/" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "TaxiService",
-              name: "OkTaxis",
-              url: "https://oktaxis.co.uk/",
-              logo: "https://oktaxis.co.uk/logo.png",
-              image: "https://oktaxis.co.uk/cover.jpg",
-              description:
-                "Trusted 24/7 taxi service in Manchester for airport transfers and city rides.",
-              telephone: "+44 1234 567890",
-              address: {
-                "@type": "PostalAddress",
-                addressLocality: "Manchester",
-                addressCountry: "UK",
-              },
-              areaServed: {
-                "@type": "City",
-                name: "Manchester",
-              },
-            }),
-          }}
-        />
-
         {/* ✅ Google Tag Manager (HEAD) */}
         <script
           dangerouslySetInnerHTML={{
@@ -107,6 +59,8 @@ export default function RootLayout({
       </head>
 
       <body className={`${roboto.variable} ${inter.variable} ${montserrat.variable} antialiased`}>
+        {/* ✅ Structured Data - Local Business Schema */}
+        <StructuredData data={generateLocalBusinessSchema()} id="local-business-schema" />
         {/* ✅ Google Tag Manager (NOSCRIPT) */}
         <noscript>
           <iframe

@@ -1,27 +1,31 @@
+import { Metadata } from "next";
 import FleetClasses from "@/components/home/fleet";
 import WhyChoose from "@/components/ui/ChooseWhy";
 import OfferSection from "@/components/ui/OfferSection";
 import HeroSection2 from "@/components/ui/HeroSection2";
 import ImageTextSection from "@/components/ui/ImageTextSection";
 import { homePageData } from "@/constants/homePageData";
-import SEO from "@/components/SEO";
 import { Check } from "lucide-react";
+import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = generateSEOMetadata({
+  title: "Our Fleet | OKTaxis Manchester Chauffeur Services",
+  description:
+    "Explore OKTaxis' premium fleet including executive sedans, spacious vans, and luxury vehicles. Impeccably maintained for every journey in Manchester and beyond.",
+  pageUrl: "/fleet",
+  keywords: [
+    "fleet manchester",
+    "luxury car fleet",
+    "executive car fleet",
+    "chauffeur fleet",
+    "vehicle fleet",
+  ],
+});
 
 export default function Fleet() {
   const { bgImg } = homePageData.ourFleets || [];
   return (
     <>  
-      <SEO
-        title="Our Fleet | OKTaxis Manchester Chauffeur Services"
-        description="Explore OKTaxis’ premium fleet including executive sedans, spacious vans, and luxury vehicles. Impeccably maintained for every journey in Manchester and beyond."
-        url="https://oktaxis.co.uk/fleet"
-        image="https://oktaxis.com/og-fleet.jpg" // Replace with actual hosted image
-        breadcrumbs={[
-          { position: 1, name: "Fleet", item: "https://oktaxis.co.uk/fleet" },
-          { position: 2, name: "Fleet" }
-        ]}
-      />
-
       <HeroSection2
         bgImage={bgImg.src}
         title="Our Fleet"

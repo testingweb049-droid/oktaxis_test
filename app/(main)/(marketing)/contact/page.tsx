@@ -2,22 +2,11 @@
 
 import ContactForm from "@/components/ContactForm/ContactForm";
 import { homePageData } from "@/constants/homePageData";
-import SEO from "@/components/SEO";
 const Contact = () => {
   const { subtitle } = homePageData.contactFormSection;
 
   return (
     <>
-    <SEO
-        title="Contact OKTaxis | 24/7 Chauffeur & Airport Transfers in Manchester"
-        description="Get in touch with OKTaxis for luxury chauffeur service and airport transfers across Manchester and Liverpool. Available 24/7 via phone or email."
-        url="https://oktaxis.co.uk/contact"
-        image="https://oktaxis.com/og-image.jpg" // Make sure this exists
-        breadcrumbs={[
-          { position: 1, name: "Contact", item: "https://oktaxis.co.uk/contact" },
-          { position: 2, name: "Contact" }
-        ]}
-      />
       <div className="w-full flex flex-col gap-16 items-center pt-32 pb-20 px-4 bg-white">
         {/* ───────────────────────── 1. Header ───────────────────────── */}
         <div className="text-center max-w-4xl mx-auto">

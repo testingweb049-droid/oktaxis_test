@@ -1,4 +1,5 @@
 import Image from "next/image"
+import { Star } from "lucide-react"
 
 export default function WhyChoose() {
   const features = [
@@ -30,72 +31,75 @@ export default function WhyChoose() {
   ]
 
   return (
-    <section className="font-montserrat py-16 lg:py-20 bg-light-background mt-20">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        
-        {/* Left Column - Image with Badge */}
-        <div className="relative">
-          <div className="relative w-full h-[400px] lg:h-[600px] rounded-lg overflow-hidden">
+    <div className="container mx-auto px-4 sm:px-6 md:px-6 py-10 md:pt-52">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-start">
+
+        {/* Left Column - Image with Rating Below */}
+        <div className="space-y-3 sm:space-y-4 order-2 lg:order-1">
+          <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] rounded-lg overflow-hidden">
             <Image
               src="/assets/home-images/choose-img.png"
               alt="Luxury Chauffeur Service"
               fill
-              className=""
+              className="object-cover"
             />
-            
-            {/* Badge Overlay - Bottom Left */}
-            <div className="absolute bottom-9 left-20 bg-white rounded-lg px-5 py-4 shadow-lg">
-              <div className="flex items-center gap-3 mb-3">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M7.06342 1.3563L5.28467 4.96282L1.30497 5.54303C0.591294 5.64654 0.305279 6.52638 0.822831 7.03031L3.70205 9.83599L3.02107 13.7993C2.89849 14.5157 3.65302 15.0524 4.28498 14.7173L7.8452 12.846L11.4054 14.7173C12.0374 15.0496 12.7919 14.5157 12.6693 13.7993L11.9883 9.83599L14.8676 7.03031C15.3851 6.52638 15.0991 5.64654 14.3854 5.54303L10.4057 4.96282L8.62697 1.3563C8.30827 0.713449 7.38485 0.705278 7.06342 1.3563Z" className="fill-primary-yellow" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-lg font-regular text-text-gray leading-tight">
-                500+ Trusted Clients |<br />
-                Operating Since 2015
-              </p>
+          </div>
+
+          {/* Rating and Trust Badge - Below Image */}
+          <div className="flex flex-col items-center sm:items-start space-y-2 sm:space-y-3">
+            {/* Stars Rating */}
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              {[...Array(4)].map((_, i) => (
+                <Star
+                  key={i}
+                  className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 fill-primary-yellow text-primary-yellow"
+                />
+              ))}
+              <Star className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 fill-gray-300 text-gray-300" />
             </div>
+
+            {/* Trust Text */}
+            <p className="text-sm sm:text-base md:text-lg font-regular text-text-gray leading-tight text-center sm:text-left">
+              500+ Trusted Clients | Operating Since 2015
+            </p>
           </div>
         </div>
 
         {/* Right Column - Content */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-5 lg:space-y-6 order-1 lg:order-2">
           {/* HOW IT WORKS Heading */}
-          <p className="text-brand text-lg font-semibold uppercase tracking-wide">
+          <p className="text-brand text-sm sm:text-base md:text-lg font-semibold uppercase tracking-wide">
             HOW IT WORKS
           </p>
-          
+
           {/* Main Title */}
-          <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-heading-black leading-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold text-heading-black leading-tight">
             Why Choose Our Luxury Chauffeur Service?
           </h2>
-          
+
           {/* Features List */}
-          <div className="space-y-6 mt-8">
+          <div className="space-y-4 sm:space-y-5 lg:space-y-6 mt-6 sm:mt-7 lg:mt-8">
             {features.map((feature, index) => (
-              <div key={index} className="flex items-start gap-4">
+              <div key={index} className="flex items-start gap-3 sm:gap-4">
                 {/* Icon Circle */}
                 <div className="flex-shrink-0">
-                  <div className="w-12 h-12 rounded-full bg-heading-black flex items-center justify-center">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-heading-black flex items-center justify-center">
                     <Image
                       src={feature.icon}
                       alt={feature.title}
                       width={24}
                       height={24}
-                      className="object-contain"
+                      className="object-contain w-5 h-5 sm:w-6 sm:h-6"
                     />
                   </div>
                 </div>
-                
+
                 {/* Text Content */}
                 <div className="flex-1">
-                  <h3 className="text-lg font-bold text-heading-black mb-1">
+                  <h3 className="text-base sm:text-lg font-bold text-heading-black mb-1 sm:mb-1.5">
                     {feature.title}
                   </h3>
-                  <p className="text-base text-text-gray">
+                  <p className="text-sm sm:text-base text-text-gray leading-relaxed">
                     {feature.description}
                   </p>
                 </div>
@@ -104,7 +108,6 @@ export default function WhyChoose() {
           </div>
         </div>
       </div>
-      </div>
-    </section>
+    </div>
   );
 }

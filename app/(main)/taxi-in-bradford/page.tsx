@@ -1,10 +1,26 @@
+import { Metadata } from "next";
 import FAQSection from '@/components/FAQSection';
 import FeatureCard from '@/components/FeatureCard';
 import HeroBanner from '@/components/HeroBanner';
 import FleetClasses from '@/components/home/fleet';
 import WhyChooseUs from '@/components/WhyChoose';
 import { DollarSign, Headphones, Plane, UserCheck } from 'lucide-react';
-import React from 'react'
+import React from 'react';
+import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = generateSEOMetadata({
+  title: "Leeds Taxi Service | Leeds Bradford Airport Transfers | OK Taxis",
+  description:
+    "Your reliable Leeds taxi service for airport transfers & city journeys. We offer fixed fares to Leeds Bradford Airport, professional drivers & 24/7 service.",
+  pageUrl: "/taxi-in-bradford",
+  keywords: [
+    "leeds taxi",
+    "leeds bradford airport transfer",
+    "leeds taxi service",
+    "bradford taxi",
+    "leeds chauffeur",
+  ],
+});
 
 const page = () => {
     return (

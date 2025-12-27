@@ -1,22 +1,28 @@
-import SEO from "@/components/SEO";
+import { Metadata } from "next";
 import PageBanner from "@/components/PageBanner";
 import PageAboutSection from "@/components/PageAboutSection";
 import AboutServiceSection from "@/components/AboutServiceSection";
 import PageFeatureSection from "@/components/PageFeatureSection";
 import Link from "next/link";
+import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = generateSEOMetadata({
+  title: "Luxury Wedding & Event Transfers | OKTaxis Manchester",
+  description:
+    "Arrive in style with OKTaxis' luxury wedding and event transfer service in Manchester. Elegant vehicles, professional chauffeurs, and seamless group travel.",
+  pageUrl: "/event-weddings",
+  keywords: [
+    "wedding car hire manchester",
+    "wedding chauffeur",
+    "event transportation",
+    "wedding car service",
+    "luxury wedding cars",
+  ],
+});
+
 export default function EventWedding() {
   return (
     <>
-      <SEO
-        title="Luxury Wedding & Event Transfers | OKTaxis Manchester"
-        description="Arrive in style with OKTaxis' luxury wedding and event transfer service in Manchester. Elegant vehicles, professional chauffeurs, and seamless group travel."
-        url="https://oktaxis.co.uk/event-wedding"
-        image="https://oktaxis.co.uk/Luxury%20Wedding%20&%20Event%20Transfers.jpg"
-         breadcrumbs={[
-          { position: 1, name: "Event Weddings", item: "https://oktaxis.co.uk/event-wedding" },
-          { position: 2, name: "Event Weddings" }
-        ]}
-      />
       <PageBanner
         heading="Wedding Chauffeur Service | Luxury Event Cars in Manchester & Liverpool"
         text="Professional wedding chauffeur service and event transport. Luxury Mercedes wedding car hire in Manchester and Liverpool. Drivers in full suit with ribbons included."

@@ -1,23 +1,29 @@
+import { Metadata } from "next";
 import FleetClasses from "@/components/home/fleet";
 import OfferSection from "@/components/ui/OfferSection";
 import HeroSection2 from "@/components/ui/HeroSection2";
 import ImageTextSection from "@/components/ui/ImageTextSection";
 import { FaCar, FaShieldAlt, FaWifi, FaCalendarAlt } from "react-icons/fa";
 import { Check } from "lucide-react";
-import SEO from "@/components/SEO";
+import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = generateSEOMetadata({
+  title: "Chauffeur Services in Manchester | OKTaxis",
+  description:
+    "Book professional chauffeur services in Manchester for airport transfers, corporate events, and luxury rides. 24/7 service with licensed drivers and premium amenities.",
+  pageUrl: "/chauffeur-services",
+  keywords: [
+    "chauffeur service manchester",
+    "professional chauffeur",
+    "executive chauffeur",
+    "luxury chauffeur service",
+    "chauffeur manchester",
+  ],
+});
+
 export default function ChauffeurServices() {
   return (
     <>
-      <SEO
-        title="Chauffeur Services in Manchester | OKTaxis"
-        description="Book professional chauffeur services in Manchester for airport transfers, corporate events, and luxury rides. 24/7 service with licensed drivers and premium amenities."
-        url="https://oktaxis.co.uk/chauffeur-services"
-        image="https://oktaxis.co.uk/blog6.webp"
-         breadcrumbs={[
-          { position: 1, name: "Chauffeur Services", item: "https://oktaxis.co.uk/chauffeur-services" },
-          { position: 2, name: "Chauffeur Services" }
-        ]}
-      />
       <HeroSection2
         bgImage="/blog6.webp"
         title="Professional Chauffeur Services in Manchester Cooperate, Business & More"

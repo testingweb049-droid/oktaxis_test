@@ -1,29 +1,50 @@
+import { Metadata } from "next";
 import Services from "@/components/home/services";
 import FleetClasses from "@/components/home/fleet";
-import SEO from "@/components/SEO";
 import NewHeroSection from "./book-ride/NewHeroSection";
 import WhyChoose from "@/components/Sections/WhyChoose";
 import TopThingsSection from "@/components/Sections/TopThingsSection";
 import ReviewsSection from "@/components/Sections/reviews";
+import { generateMetadata as generateSEOMetadata, generateWebPageSchema } from "@/lib/seo";
+import StructuredData from "@/components/StructuredData";
+
+export const metadata: Metadata = generateSEOMetadata({
+  title: "Premium Chauffeur Services Manchester | Airport Transfers & Wedding Hire",
+  description:
+    "Book premium chauffeur services in Manchester with OKTaxis. Luxury airport transfers, hourly hire, city tours, wedding chauffeurs, and stadium transfers. 24/7 reliable service.",
+  pageUrl: "/",
+  keywords: [
+    "premium chauffeur manchester",
+    "airport transfer manchester",
+    "wedding car hire",
+    "luxury taxi service",
+    "executive car service manchester",
+  ],
+});
 
 export default function Home() {
+  const breadcrumbs = [
+    { name: "Home", url: "https://oktaxis.co.uk/" },
+  ];
+
   return (
     <>
-      <SEO
-        title="Premium Chauffeur Services Manchester | Airport Transfers & Wedding Hire | OKTaxis"
-        description="Book premium chauffeur services in Manchester with OKTaxis. Luxury airport transfers, hourly hire, city tours, wedding chauffeurs, and stadium transfers. 24/7 reliable service."
-        url="https://oktaxis.com"
-        image="https://oktaxis.com/og-image.jpg"
-        breadcrumbs={[
-          { position: 1, name: "Home" }
-        ]}
+      <StructuredData
+        data={generateWebPageSchema({
+          title: "Premium Chauffeur Services Manchester | Airport Transfers & Wedding Hire | OKTaxis",
+          description:
+            "Book premium chauffeur services in Manchester with OKTaxis. Luxury airport transfers, hourly hire, city tours, wedding chauffeurs, and stadium transfers. 24/7 reliable service.",
+          url: "https://oktaxis.co.uk/",
+          breadcrumbs,
+        })}
+        id="homepage-schema"
       />
       <main className="min-h-screen">
         <NewHeroSection/>
         <Services />
         <WhyChoose/>
-        <TopThingsSection/>
         <FleetClasses />
+        <TopThingsSection/>
         <ReviewsSection/>
       </main>
     </>

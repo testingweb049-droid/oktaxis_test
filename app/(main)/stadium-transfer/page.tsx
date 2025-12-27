@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import FleetClasses from "@/components/home/fleet";
 import OfferSection from "@/components/ui/OfferSection";
 import HeroSection2 from "@/components/ui/HeroSection2";
@@ -5,20 +6,25 @@ import ImageTextSection from "@/components/ui/ImageTextSection";
 import Image from "next/image";
 import { FaFutbol, FaMusic, FaUsers, FaCarSide } from "react-icons/fa";
 import { Check } from "lucide-react";
-import SEO from "@/components/SEO";
+import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = generateSEOMetadata({
+  title: "Stadium Transfers in Manchester | OKTaxis",
+  description:
+    "Book luxury stadium transfers to Old Trafford, Etihad, AO Arena and more with OKTaxis. Reliable chauffeur services for match days, concerts & events.",
+  pageUrl: "/stadium-transfer",
+  keywords: [
+    "stadium transfer manchester",
+    "old trafford transfer",
+    "etihad stadium transfer",
+    "match day taxi",
+    "stadium chauffeur service",
+  ],
+});
+
 export default function StadiumTransfer() {
   return (
     <>
-      <SEO
-        title="Stadium Transfers in Manchester | OKTaxis"
-        description="Book luxury stadium transfers to Old Trafford, Etihad, AO Arena and more with OKTaxis. Reliable chauffeur services for match days, concerts & events."
-        url="https://oktaxis.co.uk/stadium-transfers"
-        image="https://oktaxis.co.uk/Manchester%20Stadium%20Transfers.jpg"
-         breadcrumbs={[
-          { position: 1, name: "Stadium Transfer", item: "https://oktaxis.co.uk/stadium-transfers" },
-          { position: 2, name: "Stadium Transfer" }
-        ]}
-      />
       <HeroSection2
         bgImage="/Manchester Stadium Transfers.jpg" // Updated image
         // title="Premier Stadium and Event Transfers in Manchester"

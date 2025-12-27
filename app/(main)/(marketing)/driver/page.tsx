@@ -1,6 +1,5 @@
 "use client";
 import RegisterDriverForm from "@/components/DriverForm/RegisterDriverForm";
-import SEO from "@/components/SEO";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 
@@ -45,17 +44,6 @@ export default function RegisterDriverPage() {
 
   return (
     <>
-      <SEO
-        title="Drive with OKTaxis | Register as a Chauffeur"
-        description="Join OKTaxis as a professional chauffeur. Enjoy flexible hours, weekly pay, and premium passengers. Apply now to start your journey."
-        url="https://oktaxis.co.uk/driver"
-        image="https://oktaxis.com/og-driver.jpg"
-        breadcrumbs={[
-          { position: 1, name: "Driver", item: "https://oktaxis.co.uk/driver" },
-          { position: 2, name: "Driver" }
-        ]}
-      />
-      
       {/* Hero Section */}
       <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden">
         <Image

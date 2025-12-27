@@ -2,186 +2,185 @@
 
 import Image from "next/image"
 import Link from "next/link"
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Autoplay, Pagination } from "swiper/modules"
+import "swiper/css"
+import "swiper/css/autoplay"
+import "swiper/css/pagination"
 
 const services = [
   {
     id: 1,
     slug: "airport-transfer",
-    title: "Reliable Manchester Airport Transfers",
-    category: "Airport Transfers",
+    path: "/airport-transfer",
+    title: "Premium Manchester Airport Chauffeur Services",
+    category: "AIRPORT TRANSFERS",
     description:
-      "Start your journey with a seamless luxury airport transfer. We Specialise in private Manchester Airport (MAN) transfer services, offering real-time flight tracking and professional Meet-and-Greet assistance inside the terminal to ensure a stress-free arrival or departure.",
+      "Book our reliable Manchester Airport transfers for a smooth start. Enjoy flight tracking and meet and greet services with ease. Contact us for a...",
     image: "/images/airport-transfer.png",
     size: "large",
   },
   {
     id: 2,
     slug: "hourly-chauffeur",
-    title: "Hourly & Daily Executive Hire",
-    category: "Hourly Chauffeur Service",
+    path: "/hourly-chauffeur",
+    title: "Convenient Hourly Chauffeur Hire in Manchester",
+    category: "HOURLY CHAUFFEUR SERVICE",
     description:
-      "Do you have a busy schedule? Our hourly chauffeur service is perfect for executive meetings, roadshows, or day trips. We offer flexible Half Day Chauffeur packages or Full Day Chauffeur Service to keep you moving at your own pace without the hassle of parking or waiting.",
+      "Hire our hourly chauffeur service for flexible travel in Manchester. Get dedicated support and luxury vehicles at your pace. Book now for a tailored s...",
     image: "/images/hourly-service.png",
     size: "large",
   },
   {
     id: 3,
     slug: "event-weddings",
-    title: "Events & Wedding Transport",
-    category: "Event & Weddings",
+    path: "/event-weddings",
+    title: "Wedding Chauffeur Services in Manchester",
+    category: "EVENT & WEDDINGS",
     description:
-      "Make your special moments unforgettable. We provide elegant wedding car hire in Manchester complete with champagne and expert logistics. Trust us for a polished service that adds a touch of class to any celebration.",
+      "Choose our event & weddings service for special moments. We offer wedding car hire with champagne and expert event logistics. Reach us for perfect car...",
     image: "/wedding.png",
     size: "small",
   },
   {
     id: 4,
     slug: "chauffeur-services",
-    title: "Business & Corporate Chauffeur",
-    category: "Chauffeur Services",
+    path: "/chauffeur-services",
+    title: "Executive Chauffeur Services in Manchester",
+    category: "CHAUFFEUR SERVICES",
     description:
-      "We provide top-tier Executive Chauffeur Hire Manchester-wide. Trust our Business Chauffeur Services for all your corporate travel needs. Experience our executive vehicles that Prioritise discretion, safety, and absolute comfort for VIPs and CEOs.",
+      "Trust our chauffeur services for all your travel needs. Experience executive chauffeur-driven vehicles with discretion and comfort. Explore our premiu...",
     image: "/blog6.jpg",
     size: "small",
   },
   {
     id: 5,
     slug: "city-tours",
-    title: "VIP City Tours",
-    category: "City Tours",
+    path: "/city-tours",
+    title: "City Tours in Manchester",
+    category: "CITY TOURS",
     description:
-      "Explore Manchester in Style. Discover the city with our exclusive private tours. Visit the creative Northern Quarter and the financial district of Spinningfields with expert guides. Book today for a memorable journey through the heart of the city.",
+      "Explore Manchester with our city tours in style. Visit Northern Quarter and Spinningfields with expert guides. Book today for a memorable journey.",
     image: "/city.jpg",
     size: "small",
   },
-  // {
-  //   id: 6,
-  //   slug: "stadium-transfers",
-  //   title: "Stadium Transfers and Special Events",
-  //   category: "Stadium Transfer",
-  //   description:
-  //     "Get to stadium transfer for games like Etihad or Old Trafford. Enjoy luxury A-to-B transfers with punctual service. Reserve for your next match day.",
-  //   image: "/Manchester Stadium Transfers.jpg",
-  //   size: "small",
-  // },
-  // {
-  //   id: 7,
-  //   slug: "city-center",
-  //   title: "Manchester City Center Transfers",
-  //   category: "Manchester City Center",
-  //   image: "/Luxury Chauffeur Service (2).webp",
-  //   description:
-  //     "Travel to Manchester City Center with our premium service. Avoid traffic stress with door-to-door convenience. Book for a hassle-free trip.",
-  //   size: "small",
-  // },
 ]
 
 
 export default function Services() {
-  const largeServices = services.filter((s) => s.size === "large")
-  const smallServices = services.filter((s) => s.size === "small")
-  const cardImgHeight = "relative h-[300px] md:h-[360px] w-full overflow-hidden"
-
   const renderDescription = (service: typeof services[number]) => {
     return (
-      <p className="text-sm text-gray-300">
-        {service.description}
-        {service.description.length > 150 && (
-          <span className="ml-2 text-brand">
-            Read more
-          </span>
-        )}
-      </p>
+      <div className="overflow-hidden transition-all duration-500 ease-out max-h-0 group-hover:max-h-64 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 mt-0 group-hover:mt-4 pointer-events-none group-hover:pointer-events-auto">
+        <p className="text-xs sm:text-sm text-gray-300 mb-2">
+          {service.description}
+        </p>
+        <span className="text-xs sm:text-sm text-brand font-medium inline-block">
+          Read more →
+        </span>
+      </div>
+    )
+  }
+
+  const renderServiceCard = (service: typeof services[number], isLarge?: boolean) => {
+    return (
+      <Link href={service.path} key={service.id}>
+        {/* <div className="group relative bg-red-500 cursor-pointer"> */}
+          <div className={`group relative relative w-full overflow-hidden overflow-hidden rounded-lg flex flex-col ${isLarge ? 'h-[600px]' : 'h-[280px] sm:h-[300px] md:h-[320px] lg:h-[290px]'}`}>
+            <Image
+              src={service.image}
+              alt={service.title}
+              fill
+              className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500 ease-out" />
+
+            {/* Category badge and Title at bottom */}
+            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6 text-white z-10">
+              <div className="transition-transform duration-500 ease-out will-change-transform">
+                <p className="mb-1 sm:mb-2 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-brand transition-transform duration-500 ease-out transform translate-y-0 group-hover:-translate-y-1">
+                  {service.category}
+                </p>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold transition-transform duration-500 ease-out transform translate-y-0 group-hover:-translate-y-2">
+                  {service.title}
+                </h3>
+                {renderDescription(service)}
+              </div>
+            </div>
+          </div>
+        {/* </div> */}
+      </Link>
     )
   }
 
   return (
-    <section id="services" className="pt-10 md:pt-20 ">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold tracking-tight text-black md:text-4xl lg:text-5xl">
-            <span className="text-brand">Our </span> Chauffeur{" "}
-            <span className="text-brand">Services</span> in Manchester
-          </h2>
-          
-        </div>
-        {/* Row 1: 1 big + 2 stacked */}
-        <div className="grid gap-6 md:grid-cols-3 mb-10">
-          {/* Big left card */}
-          <div className="md:col-span-2">
-            <Link href={`/services/${services[0].slug}`} key={services[0].id}>
-              <div className="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-full">
-                <div className="relative h-[500px] w-full overflow-hidden">
-                  <Image
-                    src={services[0].image}
-                    alt={services[0].title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent opacity-80" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <p className="mb-2 text-sm font-medium uppercase tracking-wider text-brand">
-                      {services[0].category}
-                    </p>
-                    <h3 className="mb-3 text-3xl font-bold">{services[0].title}</h3>
-                    {renderDescription(services[0])}
-                  </div>
-                </div>
-              </div>
-            </Link>
+    <section id="services" className="font-montserrat">
+        <div className="container mx-auto px-4 sm:px-6 md:px-6 py-20 pb-0">
+        {/* Header with navigation arrows */}
+        <div className="mb-6 sm:mb-8 md:mb-10 lg:mb-14 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="text-center lg:text-left">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-black mb-2">
+              <span className="text-brand">Our </span> Chauffeur{" "}
+              <span className="text-brand">Services</span> in Manchester
+            </h2>
+            <p className="text-sm sm:text-base md:text-lg text-gray-600 mt-4 max-w-4xl">
+              Discover OKTaxis' range of luxury services tailored for Manchester and the North West. Whether you need Manchester airport chauffeur transfers or a wedding chauffeur in Manchester, our professional drivers and luxury fleet (Mercedes, BMW, Audi) guarantee comfort and reliability.
+            </p>
           </div>
 
-          {/* Right side: 2 stacked smaller cards */}
-          <div className="flex flex-col gap-6">
-            {[services[1], services[2]].map((service) => (
-              <Link href={`/services/${service.slug}`} key={service.id}>
-                <div className="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-full">
-                  <div className="relative h-[240px] w-full overflow-hidden">
-                    <Image
-                      src={service.image}
-                      alt={service.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent opacity-80" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                      <p className="mb-1 text-xs font-medium uppercase tracking-wider text-brand">
-                        {service.category}
-                      </p>
-                      <h3 className="mb-2 text-lg font-bold">{service.title}</h3>
-                      {renderDescription(service)}
-                    </div>
-                  </div>
-                </div>
-              </Link>
+        </div>
+
+        {/* Services Grid - Desktop only */}
+        <div className="hidden lg:grid lg:grid-cols-12 lg:grid-rows-3 gap-6 items-start">
+          {/* First row: Large card on left (spans 7 columns, 2 rows), two smaller cards stacked vertically on right */}
+          <div className="col-span-7 row-span-2 row-start-1">
+            {renderServiceCard(services[0], true)}
+          </div>
+          <div className="col-start-8 col-span-5 row-start-1">
+            {renderServiceCard(services[1])}
+          </div>
+          <div className="col-start-8 col-span-5 row-start-2">
+            {renderServiceCard(services[2])}
+          </div>
+          {/* Third row: Two cards side by side, each taking 6 columns (half width) */}
+          <div className="col-start-1 col-span-6 row-start-3">
+            {renderServiceCard(services[3])}
+          </div>
+          <div className="col-start-7 col-span-6 row-start-3">
+            {renderServiceCard(services[4])}
+          </div>
+        </div>
+
+        {/* Services Slider - Mobile and Tablet only */}
+        <div className="relative lg:hidden">
+          <Swiper
+            modules={[Autoplay, Pagination]}
+            spaceBetween={24}
+            slidesPerView={1}
+            loop={true}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            pagination={{
+              clickable: true,
+              dynamicBullets: true,
+            }}
+            touchEventsTarget="container"
+            allowTouchMove={true}
+            breakpoints={{
+              640: {
+                slidesPerView: 2,
+              },
+            }}
+            className="services-swiper !pb-12"
+          >
+            {services.map((service) => (
+              <SwiperSlide key={service.id}>
+                {renderServiceCard(service)}
+              </SwiperSlide>
             ))}
-          </div>
-        </div>
-
-        {/* Row 2: 4 equal small cards */}
-        <div className="grid gap-6 md:grid-cols-2">
-          {services.slice(3).map((service) => (
-            <Link href={`/services/${service.slug}`} key={service.id}>
-              <div className="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-full">
-                <div className="relative h-[260px] w-full overflow-hidden">
-                  <Image
-                    src={service.image}
-                    alt={service.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent opacity-80" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                    <p className="mb-1 text-xs font-medium uppercase tracking-wider text-brand">
-                      {service.category}
-                    </p>
-                    <h3 className="mb-2 text-lg font-bold">{service.title}</h3>
-                    {renderDescription(service)}
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
+          </Swiper>
         </div>
       </div>
     </section>

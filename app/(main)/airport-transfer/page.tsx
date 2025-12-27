@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import {
   FaWifi,
   FaCoffee,
@@ -9,8 +10,8 @@ import {
   FaStar,
 } from "react-icons/fa";
 import { Check } from "lucide-react";
-import SEO from "@/components/SEO";
 import PageBanner from "@/components/PageBanner";
+import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
 import PageAboutSection from "@/components/PageAboutSection";
 import PageFeatureSection from "@/components/PageFeatureSection";
 import InfoCards from "@/components/Sections/InfoCards";
@@ -66,16 +67,23 @@ const BusinessReadyIcon = () => (
   </svg>
 );
 
+export const metadata: Metadata = generateSEOMetadata({
+  title: "Manchester Airport Transfers | Reliable Taxi & Chauffeur Service",
+  description:
+    "Book seamless Manchester airport transfers with OKTaxis. Enjoy executive chauffeur service, flight tracking, and 24/7 pickups from Manchester, Liverpool, and UK airports. Stress-free travel starts here.",
+  pageUrl: "/airport-transfer",
+  keywords: [
+    "airport transfer manchester",
+    "manchester airport taxi",
+    "airport chauffeur service",
+    "airport transfer service",
+    "manchester airport transfer",
+  ],
+});
+
 export default function AirportTransfer() {
   return (
     <>
-      <SEO
-        title="Manchester Airport Transfers | Reliable Taxi & Chauffeur Service"
-        description="Book seamless Manchester airport transfers with OKTaxis. Enjoy executive chauffeur service, flight tracking, and 24/7 pickups from Manchester, Liverpool, and UK airports. Stress-free travel starts here."
-        url="https://oktaxis.co.uk/services/airport-transfer"
-        image="https://oktaxis.co.uk/images/airport-transfer.png"
-      />
-
       <PageBanner
         heading="Airport Chauffeur Service | Manchester & Liverpool Transfers"
         text="Premier airport chauffeur service for the North West. Luxury transfers for Manchester (MAN) and Liverpool (LPL) airports. Serving Chester, Preston, and Leeds. Fixed pricing."

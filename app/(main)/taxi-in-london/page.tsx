@@ -1,11 +1,26 @@
-
+import { Metadata } from "next";
 import FAQSection from '@/components/FAQSection';
 import FeatureCard from '@/components/FeatureCard';
 import HeroBanner from '@/components/HeroBanner';
 import FleetClasses from '@/components/home/fleet';
 import WhyChooseUs from '@/components/WhyChoose';
 import { Clock, DollarSign, Headphones, UserCheck } from 'lucide-react';
-import React from 'react'
+import React from 'react';
+import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = generateSEOMetadata({
+  title: "Your Premier Taxi Service In London",
+  description:
+    "Reliable airport transfers, executive travel, and city journeys with professional drivers and fixed fares. Experience the best of London with OK Taxis.",
+  pageUrl: "/taxi-in-london",
+  keywords: [
+    "taxi london",
+    "london taxi service",
+    "london airport transfer",
+    "london chauffeur",
+    "london taxi",
+  ],
+});
 
 const page = () => {
     return (

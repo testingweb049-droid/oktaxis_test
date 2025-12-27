@@ -6,8 +6,7 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import WhiteLogo from "@/assets/logo-white.png";
-import { FaWhatsapp } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
+import { FaWhatsapp, FaInstagram } from "react-icons/fa";
 
 interface NavLink {
   id: string;
@@ -215,10 +214,10 @@ export default function Header() {
       <header
         ref={headerRef}
         className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${shouldHaveBlackHeader
-          ? "bg-[#000000] shadow-md py-4 text-white"
+          ? "bg-[#000000] shadow-md py-3 sm:py-4 text-white"
           : scrolled
-            ? "bg-[#000000] shadow-md py-4 text-white"
-            : "py-4 text-white"
+            ? "bg-[#000000] shadow-md py-3 sm:py-4 text-white"
+            : "py-3 sm:py-4 text-white"
           }`}
       >
         <div className="max-w-screen-2xl mx-auto px-3 md:px-6 relative">
@@ -226,7 +225,7 @@ export default function Header() {
             {/* Logo */}
             <div className="flex items-center justify-between w-full md:w-auto">
               {/* Logo */}
-              <div className="relative w-32 h-10 md:w-40 md:h-14 cursor-default">
+              <div className="relative w-28 h-8 sm:w-32 sm:h-10 md:w-40 md:h-14 cursor-default">
                 <Image
                   src={shouldHaveBlackHeader || scrolled ? WhiteLogo : WhiteLogo}
                   alt="OKTaxis"
@@ -240,7 +239,7 @@ export default function Header() {
 
 
             {/* Desktop Navigation */}
-            <nav className="hidden items-center space-x-1 md:flex">
+            <nav className="hidden items-center space-x-0.5 sm:space-x-1 md:flex">
               {navLinks.map((link) => (
                 <div
                   key={link.id}
@@ -250,7 +249,7 @@ export default function Header() {
                     <>
                       <button
                         onClick={() => toggleDropdown(link.id)}
-                        className={`flex items-center px-4 py-2 text-sm font-medium transition-colors ${pathname.startsWith("/services") &&
+                        className={`flex items-center px-3 py-2 sm:px-4 text-xs sm:text-sm md:text-base font-medium transition-colors ${pathname.startsWith("/services") &&
                           openDropdown === link.id
                           ? shouldHaveBlackHeader || scrolled
                             ? "font-normal"
@@ -264,18 +263,18 @@ export default function Header() {
                       >
                         {link.title}
                         <ChevronDown
-                          className={`ml-1 h-4 w-4 transition-transform duration-200 ${openDropdown === link.id ? "rotate-180" : ""
+                          className={`ml-1 h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-200 ${openDropdown === link.id ? "rotate-180" : ""
                             }`}
                         />
                       </button>
                       {openDropdown === link.id && (
-                        <div className="absolute left-0 top-full mt-2 w-56 rounded-md bg-white shadow-lg border animate-in slide-in-from-top-2 duration-200">
+                        <div className="absolute left-0 top-full mt-2 w-48 sm:w-56 rounded-md bg-white shadow-lg border animate-in slide-in-from-top-2 duration-200">
                           <div className="p-2">
                             {link.sublinks?.map((sublink) => (
                               <Link
                                 key={sublink.id}
                                 href={sublink.path}
-                                className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 rounded transition-colors"
+                                className="block px-3 py-2 sm:px-4 text-xs sm:text-sm text-gray-800 hover:bg-gray-100 rounded transition-colors"
                               // onClick={() => {setTimeout(()=>{setOpenDropdown(null)},500)}}
                               >
                                 {sublink.title}
@@ -288,7 +287,7 @@ export default function Header() {
                   ) : (
                     <Link
                       href={link.path || "#"}
-                      className={`px-4 py-2 text-sm font-medium transition-colors ${pathname === link.path
+                      className={`px-3 py-2 sm:px-4 text-xs sm:text-sm md:text-base font-medium transition-colors ${pathname === link.path
                         ? shouldHaveBlackHeader || scrolled
                           ? "font-normal"
                           : "font-bold"
@@ -305,17 +304,17 @@ export default function Header() {
             </nav>
 
             {/* Social icons (all screen sizes) */}
-            <div className="flex items-center gap-3 ml-2 mr-2">
+            <div className="flex items-center gap-4 sm:gap-5 ml-2 mr-2">
               {/* WhatsApp */}
               <a
                 href="https://wa.me/+447788710290"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-heading-black border border-white text-white transition-opacity hover:opacity-80"
+                className="group text-white/70 transition-all duration-300 hover:text-[#25D366] hover:scale-110"
                 onClick={() => setIsOpen(false)}
                 aria-label="WhatsApp"
               >
-                <FaWhatsapp className="h-5 w-5" />
+                <FaWhatsapp className="h-5 w-5 sm:h-6 sm:w-6 transition-transform duration-300" />
               </a>
 
               {/* Instagram */}
@@ -323,11 +322,11 @@ export default function Header() {
                 href="https://www.instagram.com/oktax_is/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-heading-black border border-white text-white transition-opacity hover:opacity-80"
+                className="group text-white/70 transition-all duration-300 hover:text-pink-500 hover:scale-110"
                 onClick={() => setIsOpen(false)}
                 aria-label="Instagram"
               >
-                <FaInstagram className="h-5 w-5" />
+                <FaInstagram className="h-5 w-5 sm:h-6 sm:w-6 transition-transform duration-300" />
               </a>
             </div>
 
@@ -383,7 +382,7 @@ export default function Header() {
                           setOpenDropdown(link.id);
                         }
                       }}
-                      className={`flex items-center justify-between w-full text-left py-2 text-lg font-medium transition-colors ${pathname.startsWith("/services")
+                      className={`flex items-center justify-between w-full text-left py-2 text-base sm:text-lg font-medium transition-colors ${pathname.startsWith("/services")
                         ? "text-amber-500"
                         : "text-white hover:text-amber-500"
                         }`}
@@ -392,7 +391,7 @@ export default function Header() {
                     >
                       {link.title}
                       <ChevronDown
-                        className={`h-5 w-5 transition-transform duration-300 ${openDropdown === link.id ? "rotate-180" : ""
+                        className={`h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 ${openDropdown === link.id ? "rotate-180" : ""
                           }`}
                       />
                     </button>
@@ -407,7 +406,7 @@ export default function Header() {
                           <Link
                             key={sublink.id}
                             href={sublink.path}
-                            className={`block py-2 text-base transition-all duration-200 ${pathname === sublink.path
+                            className={`block py-2 text-sm sm:text-base transition-all duration-200 ${pathname === sublink.path
                               ? "text-amber-500"
                               : "text-gray-300 hover:text-amber-500"
                               }`}
@@ -428,7 +427,7 @@ export default function Header() {
                 ) : (
                   <Link
                     href={link.path || "#"}
-                    className={`block py-2 text-lg font-medium transition-colors ${pathname === link.path
+                    className={`block py-2 text-base sm:text-lg font-medium transition-colors ${pathname === link.path
                       ? "text-amber-500"
                       : "text-white hover:text-amber-500"
                       }`}
