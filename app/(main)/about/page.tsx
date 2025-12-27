@@ -46,8 +46,6 @@ export default function About() {
         bgImage={HeroImge.src}
         title="Premium Chauffeur Services Manchester | OKTaxis"
       />
-
-      {/* ✅ Offer section moved to top for consistency */}
       <OfferSection />
 
       <section className="py-20 bg-gradient-to-b from-white to-gray-50">
