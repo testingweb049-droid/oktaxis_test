@@ -1,27 +1,47 @@
+import { Metadata } from "next";
 import HeroSection2 from "@/components/ui/HeroSection2";
 import HeroImg from "@/assets/bmw.png";
 import HeroImge from "@/assets/bmw1.png";
 import OfferSection from "@/components/ui/OfferSection";
 import Image from "next/image";       
 import FleetClasses from "@/components/home/fleet";
-import SEO from "@/components/SEO";
 import { Check } from "lucide-react";
+import { generateMetadata as generateSEOMetadata, generateWebPageSchema } from "@/lib/seo";
+import StructuredData from "@/components/StructuredData";
+
+export const metadata: Metadata = generateSEOMetadata({
+  title: "About Ok Taxis | Premium Chauffeur Service in Manchester",
+  description:
+    "Learn about OkTaxis, Manchester's trusted chauffeur and private taxi service. Discover our values of punctuality, safety, and customer care.",
+  pageUrl: "/about",
+  keywords: [
+    "about oktaxis",
+    "manchester taxi company",
+    "chauffeur service history",
+    "reliable taxi manchester",
+  ],
+});
+
 // about
 // about
 export default function About() {
+  const breadcrumbs = [
+    { name: "Home", url: "https://oktaxis.co.uk/" },
+    { name: "About", url: "https://oktaxis.co.uk/about" },
+  ];
+
   return (
     <>
-      <SEO
-        title="About Ok Taxis | Premium Chauffeur Service in Manchester"
-        description="Learn about OkTaxis, Manchester’s trusted chauffeur and private taxi service. Discover our values of punctuality, safety, and customer care."
-        url="https://oktaxis.co.uk/about"
-        image="https://oktaxis.com/og-image.jpg"
-         breadcrumbs={[
-          { position: 1, name: "About", item: "https://oktaxis.co.uk/about" },
-          { position: 2, name: "About" }
-        ]}
+      <StructuredData
+        data={generateWebPageSchema({
+          title: "About Ok Taxis | Premium Chauffeur Service in Manchester | OKTaxis",
+          description:
+            "Learn about OkTaxis, Manchester's trusted chauffeur and private taxi service. Discover our values of punctuality, safety, and customer care.",
+          url: "https://oktaxis.co.uk/about",
+          breadcrumbs,
+        })}
+        id="about-schema"
       />
-      <HeroSection2
         bgImage={HeroImge.src}
         title="Premium Chauffeur Services Manchester | OKTaxis"
       />

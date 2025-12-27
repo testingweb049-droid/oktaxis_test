@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import FleetClasses from "@/components/home/fleet";
 import OfferSection from "@/components/ui/OfferSection";
 import HeroSection2 from "@/components/ui/HeroSection2";
@@ -9,20 +10,25 @@ import {
   FaBriefcase,
 } from "react-icons/fa";
 import { Check } from "lucide-react";
-import SEO from "@/components/SEO";
+import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = generateSEOMetadata({
+  title: "Taxi Manchester City Centre | 24/7 Executive City Transfers",
+  description:
+    "Book premium taxis in Manchester city centre with OKTaxis. Enjoy fixed rates, executive cars, and fast pickups for shopping, business or night outs.",
+  pageUrl: "/city-center",
+  keywords: [
+    "taxi manchester city centre",
+    "city centre taxi",
+    "manchester city taxi",
+    "city taxi service",
+    "manchester taxi",
+  ],
+});
+
 export default function CityCenter() {
   return (
     <>
-      <SEO
-        title="Taxi Manchester City Centre | 24/7 Executive City Transfers"
-        description="Book premium taxis in Manchester city centre with OKTaxis. Enjoy fixed rates, executive cars, and fast pickups for shopping, business or night outs."
-        url="https://oktaxis.co.uk/city-centre"
-        image="https://oktaxis.co.uk/Luxury%20Chauffeur%20Service%20(2).webp"
-         breadcrumbs={[
-          { position: 1, name: "City Center", item: "https://oktaxis.co.uk/city-centre" },
-          { position: 2, name: "City Center" }
-        ]}
-      />
       <HeroSection2
         bgImage="/Luxury Chauffeur Service (2).webp"
         title="Premier Taxi Services in Manchester City Centre by OK Taxis"

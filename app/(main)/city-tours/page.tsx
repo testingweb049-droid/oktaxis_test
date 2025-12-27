@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import OfferSection from "@/components/ui/OfferSection";
 import HeroSection2 from "@/components/ui/HeroSection2";
 import BusImage from "@/assets/vehicles/xlvan.jpg";
@@ -12,20 +13,25 @@ import ImageTextSection from "@/components/ui/ImageTextSection";
 import FleetClasses from "@/components/home/fleet";
 import Image from "next/image";
 import { Check } from "lucide-react";
-import SEO from "@/components/SEO";
+import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = generateSEOMetadata({
+  title: "Manchester & Liverpool City Tours | Luxury Chauffeur Sightseeing",
+  description:
+    "Explore Manchester, Liverpool, and nearby UK cities with OKTaxis' premium city tour service. Enjoy bespoke itineraries, executive cars, and expert local chauffeurs.",
+  pageUrl: "/city-tours",
+  keywords: [
+    "city tour manchester",
+    "manchester sightseeing",
+    "liverpool city tour",
+    "chauffeur tour",
+    "sightseeing tour",
+  ],
+});
+
 export default function CityTour() {
   return (
     <>
-      <SEO
-        title="Manchester & Liverpool City Tours | Luxury Chauffeur Sightseeing"
-        description="Explore Manchester, Liverpool, and nearby UK cities with OKTaxis’ premium city tour service. Enjoy bespoke itineraries, executive cars, and expert local chauffeurs."
-        url="https://oktaxis.co.uk/city-tour"
-        image="https://oktaxis.co.uk/city.jpg"
-         breadcrumbs={[
-          { position: 1, name: "City Tours", item: "https://oktaxis.co.uk/city-tour" },
-          { position: 2, name: "City Tours" }
-        ]}
-      />
       <HeroSection2
         bgImage="/city.jpg"
         title="Exclusive Manchester City Tours with Chauffeur"

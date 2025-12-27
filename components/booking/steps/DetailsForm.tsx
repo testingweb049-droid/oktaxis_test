@@ -1,11 +1,10 @@
-import { User, Mail, Plane } from 'lucide-react'
+import { User, Mail, Plane, Loader } from 'lucide-react'
 import React, { useState } from 'react'
 import { DetailsInput, PhoneInput } from '@/components/booking/forms/UserDetailInput'
 import useFormStore from '@/stores/FormStore'
 import SelectableCheckbox from '@/components/booking/forms/SelectableCheckbox'
 import QuantityCheckbox from '@/components/booking/forms/QuantityCheckbox'
 import AddReturn from '@/components/booking/forms/AddReturn'
-import LoadingButton from '@/components/booking/shared/LoadingButton'
 import NewDateTimePicker from '@/components/booking/forms/NewDateTimePicker'
 import { useRouter } from 'next/navigation'
 
@@ -168,137 +167,81 @@ function Step3() {
                 </div>
             </div>
 
-            {/* Price Breakdown Section */}
-            <div className='flex flex-col gap-4 w-full bg-white rounded-lg border border-gray-200 p-5'>
-                <div className='font-bold text-lg'>Price Breakdown</div>
-                <div className='flex flex-col gap-2 w-full'>
-                    <div className='flex items-center justify-between gap-2'>
-                        <div className='text-sm text-gray-600'>{formData.car.value} Transfer</div>
-                        <div className='text-sm text-gray-900 font-medium'>£ {basePrice.toFixed(2)}</div>
-                    </div>
-                    {meetGreetFee > 0 && (
-                        <div className='flex items-center justify-between gap-2'>
-                            <div className='text-sm text-gray-600'>Meet & Greet</div>
-                            <div className='text-sm text-gray-900 font-medium'>£ {meetGreetFee.toFixed(2)}</div>
-                        </div>
-                    )}
-                    {flightTrackFee > 0 && (
-                        <div className='flex items-center justify-between gap-2'>
-                            <div className='text-sm text-gray-600'>Flight Track</div>
-                            <div className='text-sm text-gray-900 font-medium'>£ {flightTrackFee.toFixed(2)}</div>
-                        </div>
-                    )}
-                    {extraStopsFee > 0 && (
-                        <div className='flex items-center justify-between gap-2'>
-                            <div className='text-sm text-gray-600'>Extra Stops ({formData.extraStopsCount?.value || 0})</div>
-                            <div className='text-sm text-gray-900 font-medium'>£ {extraStopsFee.toFixed(2)}</div>
-                        </div>
-                    )}
-                    {returnPrice > 0 && (
-                        <div className='flex items-center justify-between gap-2'>
-                            <div className='text-sm text-gray-600'>Return Transfer</div>
-                            <div className='text-sm text-gray-900 font-medium'>£ {returnPrice.toFixed(2)}</div>
-                        </div>
-                    )}
-                    {returnMeetGreetFee > 0 && (
-                        <div className='flex items-center justify-between gap-2'>
-                            <div className='text-sm text-gray-600'>Return Meet & Greet</div>
-                            <div className='text-sm text-gray-900 font-medium'>£ {returnMeetGreetFee.toFixed(2)}</div>
-                        </div>
-                    )}
-                    {returnFlightTrackFee > 0 && (
-                        <div className='flex items-center justify-between gap-2'>
-                            <div className='text-sm text-gray-600'>Return Flight Track</div>
-                            <div className='text-sm text-gray-900 font-medium'>£ {returnFlightTrackFee.toFixed(2)}</div>
-                        </div>
-                    )}
-                    {returnExtraStopsFee > 0 && (
-                        <div className='flex items-center justify-between gap-2'>
-                            <div className='text-sm text-gray-600'>Return Extra Stops ({formData.returnExtraStopsCount?.value || 0})</div>
-                            <div className='text-sm text-gray-900 font-medium'>£ {returnExtraStopsFee.toFixed(2)}</div>
-                        </div>
-                    )}
-                </div>
-                <div className='flex items-center justify-between gap-2 pt-3 border-t-2 border-gray-300 text-xl font-bold text-black'>
-                    <div>Total:</div>
-                    <div>£ {totalPrice}</div>
-                </div>
-            </div>
-
             {/* Continue Button */}
-            {
-                (formLoading || isProcessing) ? <LoadingButton /> :
-                    <div 
-                        onClick={async () => { 
-                            const isValid = await changeStep(true, 3); 
-                            if (isValid) {
-                                setIsProcessing(true);
-                                try {
-                                    // Prepare order data
-                                    const stops = formData.stops?.map(stop => stop.value).filter(Boolean) || [];
-                                    const orderData = {
-                                        name: formData.name.value,
-                                        email: formData.email.value,
-                                        phone: formData.phone.value,
-                                        car: formData.car.value,
-                                        price: formData.price.value,
-                                        distance: formData.distance.value || 0,
-                                        fromLocation: formData.fromLocation.value,
-                                        toLocation: formData.toLocation.value || '',
-                                        stops: stops,
-                                        date: formData.date.value,
-                                        time: formData.time.value,
-                                        duration: formData.duration.value || '',
-                                        passengers: formData.passengers.value,
-                                        bags: formData.bags.value,
-                                        isReturn: formData.isReturn?.value || false,
-                                        returnDate: formData.returnDate?.value || '',
-                                        returnTime: formData.returnTime?.value || '',
-                                        isFlightTrack: formData.isFlightTrack?.value || false,
-                                        isMeetGreet: formData.isMeetGreet?.value || false,
-                                        extraStopsCount: formData.extraStopsCount?.value || '0',
-                                        isReturnFlightTrack: formData.isReturnFlightTrack?.value || false,
-                                        isReturnMeetGreet: formData.isReturnMeetGreet?.value || false,
-                                        returnExtraStopsCount: formData.returnExtraStopsCount?.value || '0',
-                                        isAirportPickup: formData.isAirportPickup?.value || false,
-                                        flightName: formData.flightName?.value || '',
-                                        flightNumber: formData.flightNumber?.value || '',
-                                        instructions: formData.instructions?.value || '',
-                                        category: category || 'trip',
-                                    };
+            <div 
+                onClick={async () => { 
+                    if (formLoading || isProcessing) return;
+                    const isValid = await changeStep(true, 3); 
+                    if (isValid) {
+                        setIsProcessing(true);
+                        try {
+                            // Prepare order data
+                            const stops = formData.stops?.map(stop => stop.value).filter(Boolean) || [];
+                            const orderData = {
+                                name: formData.name.value,
+                                email: formData.email.value,
+                                phone: formData.phone.value,
+                                car: formData.car.value,
+                                price: formData.price.value,
+                                distance: formData.distance.value || 0,
+                                fromLocation: formData.fromLocation.value,
+                                toLocation: formData.toLocation.value || '',
+                                stops: stops,
+                                date: formData.date.value,
+                                time: formData.time.value,
+                                duration: formData.duration.value || '',
+                                passengers: formData.passengers.value,
+                                bags: formData.bags.value,
+                                isReturn: formData.isReturn?.value || false,
+                                returnDate: formData.returnDate?.value || '',
+                                returnTime: formData.returnTime?.value || '',
+                                isFlightTrack: formData.isFlightTrack?.value || false,
+                                isMeetGreet: formData.isMeetGreet?.value || false,
+                                extraStopsCount: formData.extraStopsCount?.value || '0',
+                                isReturnFlightTrack: formData.isReturnFlightTrack?.value || false,
+                                isReturnMeetGreet: formData.isReturnMeetGreet?.value || false,
+                                returnExtraStopsCount: formData.returnExtraStopsCount?.value || '0',
+                                isAirportPickup: formData.isAirportPickup?.value || false,
+                                flightName: formData.flightName?.value || '',
+                                flightNumber: formData.flightNumber?.value || '',
+                                instructions: formData.instructions?.value || '',
+                                category: category || 'trip',
+                            };
 
-                                    // Create Stripe Checkout Session
-                                    const response = await fetch('/api/create-checkout-session', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                        },
-                                        body: JSON.stringify({
-                                            amount: parseFloat(totalPrice),
-                                            orderData,
-                                        }),
-                                    });
+                            // Create Stripe Checkout Session
+                            const response = await fetch('/api/create-checkout-session', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    amount: parseFloat(totalPrice),
+                                    orderData,
+                                }),
+                            });
 
-                                    const data = await response.json();
+                            const data = await response.json();
 
-                                    if (!response.ok || !data.url) {
-                                        throw new Error(data.error || 'Failed to create checkout session');
-                                    }
-
-                                    // Redirect to Stripe Checkout
-                                    window.location.href = data.url;
-                                } catch (error) {
-                                    console.error('Error creating checkout session:', error);
-                                    alert('Failed to proceed to payment. Please try again.');
-                                    setIsProcessing(false);
-                                }
+                            if (!response.ok || !data.url) {
+                                throw new Error(data.error || 'Failed to create checkout session');
                             }
-                        }} 
-                        className='p-2 rounded-lg border border-gray-200 w-full text-center text-black font-bold cursor-pointer bg-brand hover:bg-primary-yellow/90 transition-colors'
-                    >
-                        Continue to Payment
-                    </div>
-            }
+
+                            // Redirect to Stripe Checkout
+                            window.location.href = data.url;
+                        } catch (error) {
+                            console.error('Error creating checkout session:', error);
+                            alert('Failed to proceed to payment. Please try again.');
+                            setIsProcessing(false);
+                        }
+                    }
+                }} 
+                className='p-2 rounded-lg border border-gray-200 w-full text-center text-black font-bold cursor-pointer bg-brand hover:bg-primary-yellow/90 transition-colors flex justify-center items-center gap-2'
+            >
+                {(formLoading || isProcessing) && (
+                    <Loader className="animate-spin w-4 h-4" />
+                )}
+                <span>Continue to Payment - £{totalPrice}</span>
+            </div>
         </div>
     )
 }

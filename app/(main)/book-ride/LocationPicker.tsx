@@ -32,6 +32,14 @@ export default function LocationInput({ field, label, placeholder, index }: Loca
     if (place.geometry?.location) {
       const coords = `${place.geometry.location.lat()},${place.geometry.location.lng()}`
       
+      // Check if this is an airport location
+      const isAirport = place.types?.some(type => 
+        type === 'airport' || 
+        type.includes('airport') ||
+        place.name?.toLowerCase().includes('airport') ||
+        place.name?.toLowerCase().includes('terminal')
+      ) || false
+      
       // Build address in format: Place Name, Street Address, City, Country (no postal code, no neighborhood)
       let address = ""
       
@@ -81,6 +89,13 @@ export default function LocationInput({ field, label, placeholder, index }: Loca
       }
       
       setFormData(field, address, coords, index)
+      
+      // If airport detected and this is fromLocation or toLocation, auto-set airport pickup
+      if (isAirport && (field === 'fromLocation' || field === 'toLocation')) {
+        // Use getState to access the store outside of hook context
+        const store = useFormStore.getState()
+        store.setFormData('isAirportPickup', true)
+      }
     }
   }
 
@@ -114,7 +129,7 @@ export default function LocationInput({ field, label, placeholder, index }: Loca
           onPlaceChanged={handlePlaceChanged}
             options={{ 
               componentRestrictions: { country: 'uk' },
-              fields: ["name", "formatted_address", "geometry", "address_components"]
+              fields: ["name", "formatted_address", "geometry", "address_components", "types"]
             }}
           >
             <input

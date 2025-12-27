@@ -7,11 +7,43 @@ import { useRouter } from 'next/navigation'
 import NewDropdownInput from '@/components/booking/forms/DropDownInput'
 import QuantitySelector from '@/components/booking/forms/QuantitySelector'
 import NewDateTimePicker from '@/components/booking/forms/NewDateTimePicker'
+import { useToast } from '@/components/ui/use-toast'
 
 function HeroForm() {
   const { category, changeCategory, formError, formLoading, changeStep, formData, setFormData, manageStops, isOrderDone, step, resetForm } = useFormStore()
-
+  const { toast } = useToast()
   const router = useRouter()
+
+  // Helper function to detect if a location is an airport
+  const isAirportLocation = (location: string): boolean => {
+    if (!location) return false
+    const lowerLocation = location.toLowerCase()
+    const airportKeywords = [
+      'airport',
+      'terminal',
+      'manchester airport',
+      'liverpool airport',
+      'man airport',
+      'lpl airport',
+      'heathrow',
+      'gatwick',
+      'stansted',
+      'luton',
+      'birmingham airport',
+      'edinburgh airport',
+      'glasgow airport',
+      'bristol airport',
+      'newcastle airport',
+      'leeds bradford airport',
+      'east midlands airport',
+      'terminal 1',
+      'terminal 2',
+      'terminal 3',
+      'terminal 4',
+      'terminal 5'
+    ]
+    return airportKeywords.some(keyword => lowerLocation.includes(keyword))
+  }
   const durationArray = Array.from({ length: 48 }, (_, i) => {
     const hours = (i + 1) / 2
     const label =
@@ -102,6 +134,32 @@ function HeroForm() {
         {/* See Prices Button */}
         <button
           onClick={async () => {
+            // Check if start and end locations are the same (for trip category)
+            if (category === 'trip' && formData.fromLocation.value && formData.toLocation.value) {
+              const fromLocation = formData.fromLocation.value.trim().toLowerCase()
+              const toLocation = formData.toLocation.value.trim().toLowerCase()
+              
+              // Compare locations (check if they're the same or very similar)
+              if (fromLocation === toLocation || 
+                  (fromLocation.includes(toLocation) && toLocation.length > 10) ||
+                  (toLocation.includes(fromLocation) && fromLocation.length > 10)) {
+                toast({
+                  title: "Invalid Locations",
+                  description: "Start and end locations cannot be the same. Please choose different locations.",
+                  variant: "destructive",
+                })
+                return
+              }
+            }
+
+            // Check for airport in locations and auto-set airport pickup
+            const fromIsAirport = isAirportLocation(formData.fromLocation.value)
+            const toIsAirport = category === 'trip' ? isAirportLocation(formData.toLocation.value) : false
+            
+            if (fromIsAirport || toIsAirport) {
+              setFormData('isAirportPickup', true)
+            }
+
             const isOk = await changeStep(true, 1);
             if (isOk) {
               router.replace('/book-ride/select-car')

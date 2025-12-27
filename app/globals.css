@@ -90,3 +90,60 @@ body {
     transition: background-color 5000s ease-in-out 0s;
   }
 }
+
+/* Services Swiper Pagination Styles */
+.services-swiper .swiper-pagination {
+  position: relative !important;
+  bottom: auto !important;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.services-swiper .swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background: #d1d5db;
+  opacity: 1;
+}
+
+.services-swiper .swiper-pagination-bullet-active {
+  background: #FFB400;
+}
+
+/* Top Things Swiper Pagination Styles */
+.top-things-swiper .swiper-pagination {
+  position: relative !important;
+  bottom: auto !important;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.top-things-swiper .swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background: #d1d5db;
+  opacity: 1;
+}
+
+.top-things-swiper .swiper-pagination-bullet-active {
+  background: #FFB400;
+}
+
+/* Fleet Swiper Pagination Styles */
+.fleet-swiper .swiper-pagination {
+  position: relative !important;
+  bottom: auto !important;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.fleet-swiper .swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background: #d1d5db;
+  opacity: 1;
+}
+
+.fleet-swiper .swiper-pagination-bullet-active {
+  background: #FFB400;
+}

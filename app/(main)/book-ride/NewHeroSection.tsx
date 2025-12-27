@@ -1,7 +1,5 @@
 import React from 'react'
 import HeroForm from './HeroForm'
-import BackgroundImage from "@/assets/new-form/background.png"
-import YearsImage from "@/assets/new-form/10years.png"
 import Image from 'next/image'
 
 function NewHeroSection() {

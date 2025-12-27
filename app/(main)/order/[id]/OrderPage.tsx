@@ -1,55 +1,16 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import {
-  User,
-  Mail,
-  Phone,
-  Plane,
-  CreditCard,
-  MapPin,
-  ClipboardCopy,
-  CheckCircle2,
-  Navigation,
-  Calendar,
-  Users,
-  Luggage,
-  Star,
-  Car,
-} from 'lucide-react';
 import { getOrderById } from '@/actions/get-order';
 import useFormStore from '@/stores/FormStore';
-import { fleetsLocal } from '@/lib/fleet-data';
+import { TbCopy } from 'react-icons/tb';
+import { MdOutlineFlight, MdOutlineEmail, MdOutlinePhone, MdOutlinePayment, MdAirlines } from 'react-icons/md';
+import { IoCarSportSharp } from 'react-icons/io5';
+import { BiUserCircle } from 'react-icons/bi';
 import Image from 'next/image';
-
-// 🕒 Helpers
-const formatDate = (date?: string | Date | null) => {
-  if (!date) return '';
-  try {
-    const d = typeof date === 'string' ? new Date(date) : date;
-    return d.toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
-  } catch {
-    return '';
-  }
-};
-
-const formatTime = (time?: string | null) => {
-  if (!time) return '';
-  try {
-    const parsed = new Date(`1970-01-01T${time}`);
-    return parsed.toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    });
-  } catch {
-    return time;
-  }
-};
+import { Timer } from 'lucide-react';
+import { fleetsLocal } from '@/lib/fleet-data';
+import WhiteLogo from '@/assets/logo-white.png';
 
 interface OrderPageProps {
   id: string;
@@ -92,21 +53,29 @@ export interface OrderProps {
 
 export default function OrderPage({ id }: OrderPageProps) {
   const [order, setOrder] = useState<OrderProps | null>(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
   const { resetForm, isOrderDone } = useFormStore();
 
   useEffect(() => {
-    if (!id) return;
+    if (!id || id === 'undefined' || id === 'null') {
+      setError('Invalid order ID');
+      setLoading(false);
+      return;
+    }
 
     const fetchOrder = async () => {
       try {
+        setLoading(true);
+        setError(null);
+
         const result = await getOrderById(id);
+
         if (result.status === 200 && result.order) {
           const orderData = result.order;
 
-          // ✅ Verify payment was confirmed before showing order
+          // Verify payment was confirmed before showing order
           if (!orderData.payment_id) {
             setError('Payment not confirmed for this order. Please contact support.');
             setLoading(false);
@@ -114,7 +83,7 @@ export default function OrderPage({ id }: OrderPageProps) {
           }
 
           // Convert Date fields to string
-          const formattedOrder = {
+          const formattedOrder: OrderProps = {
             ...orderData,
             pickup_date: orderData.pickup_date ? orderData.pickup_date.toISOString() : null,
             return_date: orderData.return_date ? orderData.return_date.toISOString() : null,
@@ -126,9 +95,10 @@ export default function OrderPage({ id }: OrderPageProps) {
         } else {
           setError(result.error || 'Order not found.');
         }
-      } catch (err) {
-        console.error(err);
-        setError('Failed to load order.');
+      } catch (err: unknown) {
+        console.error('Error in OrderPage:', err);
+        const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred';
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -141,312 +111,515 @@ export default function OrderPage({ id }: OrderPageProps) {
     if (isOrderDone) resetForm();
   }, [isOrderDone, resetForm]);
 
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (e) {
-      console.error(e);
-    }
+  const formatMiles = (miles?: string | null): string => {
+    if (!miles) return '0';
+    const num = parseFloat(miles);
+    return isNaN(num) ? '0' : num.toFixed(2);
   };
 
-  if (loading)
+  const formatPrice = (price: string | null | undefined): string => {
+    if (!price) return '£0.00';
+    const num = parseFloat(price);
+    return isNaN(num) ? '£0.00' : `£${num.toFixed(2)}`;
+  };
+
+  const handleCopy = (text: string, field: string): void => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedField(field);
+      setTimeout(() => setCopiedField(null), 2000);
+    }).catch((copyError: Error) => {
+      console.error('Failed to copy text:', copyError);
+    });
+  };
+
+  // Loading state
+  if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-gray-600 font-medium">
-        Loading your booking...
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">Loading Order Details</h2>
+          <p className="text-gray-600">Please wait while we fetch your order information...</p>
+        </div>
       </div>
     );
+  }
 
-  if (error)
+  // Error state
+  if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-red-500 font-semibold">
-        {error}
-      </div>
-    );
-
-  if (!order) return null;
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 pt-52">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-1">
-              Booking Confirmed
-            </h1>
-            <p className="text-gray-600">Your ride is ready to go</p>
-          </div>
-          <div className="flex items-center gap-2 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200">
-            <div className="flex-1 min-w-0">
-              <p className="text-xs font-medium text-gray-600 mb-1">Booking ID</p>
-              <p className="font-mono font-bold text-gray-900 truncate">
-                {order.id}
-              </p>
-            </div>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="text-center max-w-md">
+          <div className="text-red-500 text-6xl mb-4">⚠️</div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Unable to Load Order</h2>
+          <p className="text-gray-600 mb-6">{error}</p>
+          <div className="flex gap-4 justify-center">
             <button
-              onClick={() => copyToClipboard(String(order.id))}
-              className="p-2 hover:bg-white rounded-lg transition-all duration-200"
-              title="Copy ID"
+              onClick={() => window.location.reload()}
+              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              {copied ? (
-                <CheckCircle2 className="w-5 h-5 text-green-600" />
-              ) : (
-                <ClipboardCopy className="w-5 h-5 text-gray-600" />
-              )}
+              Try Again
+            </button>
+            <button
+              onClick={() => window.history.back()}
+              className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              Go Back
             </button>
           </div>
         </div>
-      </header>
+      </div>
+    );
+  }
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-8 lg:flex lg:gap-8">
-        <div className="flex-1">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <StatCard 
-              label="Total Price" 
-              value={`£${Number(order.price).toFixed(2)}`} 
-              icon={<CreditCard className="w-5 h-5" />} 
+  // No order found
+  if (!order) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="text-center">
+          <div className="text-gray-400 text-6xl mb-4">📭</div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Order Not Found</h2>
+          <p className="text-gray-600">The requested order could not be found.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const stops = order.stops || [];
+
+  // Calculate individual prices
+  const totalPrice = Number(order.price) || 0;
+  
+  // Known service prices
+  const meetGreetPrice = order.meet_greet ? 15 : 0;
+  const flightTrackPrice = order.flight_track ? 7 : 0;
+  const extraStopsPrice = (order.extra_stops_count || 0) * 7;
+  const returnMeetGreetPrice = order.return_meet_greet ? 15 : 0;
+  const returnFlightTrackPrice = order.return_flight_track ? 7 : 0;
+  const returnExtraStopsPrice = (order.return_extra_stops_count || 0) * 7;
+  
+  // Calculate base price and return price
+  // Total = basePrice + returnPrice + all extras
+  // If return: returnPrice = basePrice * 0.9 (10% discount)
+  // So: total = basePrice + (basePrice * 0.9) + extras = basePrice * 1.9 + extras
+  // Therefore: basePrice = (total - extras) / 1.9
+  
+  const totalExtras = meetGreetPrice + flightTrackPrice + extraStopsPrice + 
+                      returnMeetGreetPrice + returnFlightTrackPrice + returnExtraStopsPrice;
+  
+  let basePrice = 0;
+  let returnPrice = 0;
+  
+  if (order.is_return) {
+    // basePrice + returnPrice = total - extras
+    // returnPrice = basePrice * 0.9
+    // So: basePrice + (basePrice * 0.9) = total - extras
+    // basePrice * 1.9 = total - extras
+    basePrice = (totalPrice - totalExtras) / 1.9;
+    returnPrice = basePrice * 0.9;
+  } else {
+    basePrice = totalPrice - totalExtras;
+    returnPrice = 0;
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header Banner */}
+      <div className="h-14 sm:h-20 w-full bg-black"></div>
+      
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        {/* Order Header */}
+        <header className="bg-[#181818] text-white flex flex-col sm:flex-row justify-between items-center px-6 sm:px-8 py-6 rounded-2xl mb-8">
+          <div className="mb-4 sm:mb-0">
+            <Image
+              src={WhiteLogo}
+              alt="OKTaxis Logo"
+              width={140}
+              height={70}
+              className="w-24 sm:w-32 object-contain"
+              priority
             />
-            <StatCard 
-              label="Vehicle" 
-              value={order.car} 
-              icon={<Car className="w-5 h-5" />} 
+          </div>
+          <div className="text-center sm:text-right">
+            <p className="text-sm text-gray-300 mb-1">Order ID</p>
+            <div className="flex items-center gap-2 justify-center sm:justify-end">
+              <p className="text-white font-medium text-sm sm:text-base">#{order.id}</p>
+              <button
+                onClick={() => handleCopy(order.id.toString(), 'orderId')}
+                className="flex items-center gap-1 text-gray-400 hover:text-gray-200 transition-colors"
+                title="Copy Order ID"
+              >
+                <TbCopy className="text-lg" />
+                {copiedField === 'orderId' && (
+                  <span className="text-xs text-green-400">Copied!</span>
+                )}
+              </button>
+            </div>
+          </div>
+        </header>
+
+        {/* Main Content */}
+        <main className="space-y-8">
+          {/* Summary Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <SummaryCard
+              label="Total Amount"
+              value={formatPrice(order.price)}
+              color="text-green-600"
             />
-            <StatCard 
-              label="Passengers" 
-              value={order.passengers} 
-              icon={<Users className="w-5 h-5" />} 
-            />
-            <StatCard 
-              label="Bags" 
-              value={order.bags} 
-              icon={<Luggage className="w-5 h-5" />} 
+            {order.category === 'hourly' ? (
+              <SummaryCard
+                label="Duration"
+                value={`${order.duration || 0} hours`}
+              />
+            ) : (
+              <SummaryCard
+                label="Distance"
+                value={`${formatMiles(order.distance)} miles`}
+              />
+            )}
+            <SummaryCard
+              label="Trip Type"
+              value={order.category?.toUpperCase() || 'N/A'}
             />
           </div>
 
-          {/* Journey Details */}
-          <Section title="Journey Details" icon={<Navigation />}>
-            <div className="space-y-4">
-              {/* Pickup */}
-              <RouteStop
-                type="pickup"
-                location={order.pickup_location}
+          {/* Route Information */}
+          <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <IoCarSportSharp className="text-blue-600 text-xl" />
+              Route Information
+            </h2>
+            <div className="relative pl-6">
+              {/* Pickup Location */}
+              <TimelineItem
+                color="#10b981"
+                label="Pick-Up Location"
+                value={order.pickup_location}
                 date={order.pickup_date}
                 time={order.pickup_time}
               />
 
               {/* Stops */}
-              {order.stops?.map((stop: string, i: number) => (
-                <RouteStop key={i} type="stop" location={stop} number={i + 1} />
+              {stops.map((stop, index) => (
+                <TimelineItem
+                  key={index}
+                  color="#3b82f6"
+                  label={`Stop ${index + 1}`}
+                  value={stop}
+                />
               ))}
 
-              {/* Dropoff or Duration */}
+              {/* Destination or Duration */}
               {order.category === 'hourly' ? (
-                <RouteStop 
-                  type="dropoff" 
-                  location={`${order.duration} hours`} 
+                <TimelineItem
+                  color="#ef4444"
+                  label="Duration"
+                  value={`${order.duration || 0} hours`}
                 />
               ) : (
-                order.dropoff_location && (
-                  <RouteStop type="dropoff" location={order.dropoff_location} />
-                )
+                <TimelineItem
+                  color="#ef4444"
+                  label="Drop-Off Location"
+                  value={order.dropoff_location || 'N/A'}
+                />
               )}
 
               {/* Return Trip */}
+              {order.is_return && order.return_date && (
+                <>
+                  <div className="mt-6 pt-4 border-t border-gray-200">
+                    <h3 className="font-semibold text-gray-800 mb-4">Return Trip</h3>
+                    <TimelineItem
+                      color="#10b981"
+                      label="Pick-Up Location"
+                      value={order.dropoff_location || order.pickup_location}
+                      date={order.return_date}
+                      time={order.return_time}
+                    />
+                    <TimelineItem
+                      color="#ef4444"
+                      label="Drop-Off Location"
+                      value={order.pickup_location}
+                    />
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Details Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Trip Details */}
+            <InfoCard title="Trip Details">
+              <InfoField label="Car Type" value={order.car || 'N/A'} />
+              <InfoField label="Trip Type" value={order.category?.toUpperCase() || 'N/A'} />
               {order.is_return && (
-                <div className="mt-6 border-t border-gray-200 pt-4">
-                  <h3 className="font-semibold text-gray-800 mb-2">Return Trip</h3>
-                  <RouteStop
-                    type="pickup"
-                    location={order.dropoff_location || ''}
-                    date={order.return_date}
-                    time={order.return_time}
-                  />
-                  <RouteStop
-                    type="dropoff"
-                    location={order.pickup_location}
-                  />
+                <>
+                  <InfoField label="Return Date" value={formatDate(order.return_date)} />
+                  <InfoField label="Return Time" value={formatTime(order.return_time)} />
+                </>
+              )}
+              <InfoField label="Flight Tracking" value={order.flight_track ? 'Yes' : 'No'} />
+              <InfoField label="Meet & Greet" value={order.meet_greet ? 'Yes' : 'No'} />
+              {order.is_return && (
+                <InfoField label="Return Meet & Greet" value={order.return_meet_greet ? 'Yes' : 'No'} />
+              )}
+              {order.extra_stops_count && order.extra_stops_count > 0 && (
+                <InfoField label="Extra Stops" value={order.extra_stops_count.toString()} />
+              )}
+              {order.return_extra_stops_count && order.return_extra_stops_count > 0 && (
+                <InfoField label="Return Extra Stops" value={order.return_extra_stops_count.toString()} />
+              )}
+            </InfoCard>
+
+            {/* Passenger & Vehicle Info */}
+            <InfoCard title="Passenger & Vehicle">
+              <InfoField label="Passengers" value={order.passengers?.toString() || 'N/A'} />
+              <InfoField label="Bags" value={order.bags?.toString() || 'N/A'} />
+            </InfoCard>
+
+            {/* Customer Information */}
+            <InfoCard title="Customer Information">
+              <InfoField
+                label="Name"
+                value={order.name}
+                icon={<BiUserCircle className="text-blue-600" />}
+                onCopy={() => handleCopy(order.name, 'name')}
+                copied={copiedField === 'name'}
+              />
+              <InfoField
+                label="Email"
+                value={order.email}
+                icon={<MdOutlineEmail className="text-green-600" />}
+                onCopy={() => handleCopy(order.email, 'email')}
+                copied={copiedField === 'email'}
+              />
+              <InfoField
+                label="Phone"
+                value={order.phone}
+                icon={<MdOutlinePhone className="text-purple-600" />}
+                onCopy={() => handleCopy(order.phone, 'phone')}
+                copied={copiedField === 'phone'}
+              />
+              {order.flight_number && (
+                <InfoField
+                  label="Flight Number"
+                  value={order.flight_number}
+                  icon={<MdOutlineFlight className="text-orange-600" />}
+                />
+              )}
+              {order.flight_name && (
+                <InfoField
+                  label="Airline"
+                  value={order.flight_name}
+                  icon={<MdAirlines className="text-red-600" />}
+                />
+              )}
+              {order.payment_id && (
+                <InfoField
+                  label="Payment ID"
+                  value={order.payment_id}
+                  icon={<MdOutlinePayment className="text-indigo-600" />}
+                  onCopy={() => handleCopy(order.payment_id || '', 'paymentId')}
+                  copied={copiedField === 'paymentId'}
+                />
+              )}
+              <InfoField
+                label="Order Date"
+                value={formatDate(order.created_at)}
+                icon={<Timer className="text-gray-600" size={18} />}
+              />
+            </InfoCard>
+          </div>
+
+          {/* Price Breakdown */}
+          <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">Price Breakdown</h2>
+            <div className="space-y-3 text-sm">
+              {/* Base Transfer */}
+              <PriceItem label={`${order.car} Transfer`} value={formatPrice(basePrice.toFixed(2))} />
+
+              {/* Additional Services */}
+              {meetGreetPrice > 0 && (
+                <PriceItem label="Meet & Greet" value={formatPrice(meetGreetPrice.toFixed(2))} />
+              )}
+              {flightTrackPrice > 0 && (
+                <PriceItem label="Flight Track" value={formatPrice(flightTrackPrice.toFixed(2))} />
+              )}
+              {extraStopsPrice > 0 && (
+                <PriceItem
+                  label={`Extra Stops (${order.extra_stops_count})`}
+                  value={formatPrice(extraStopsPrice.toFixed(2))}
+                />
+              )}
+
+              {/* Return Trip Services */}
+              {returnPrice > 0 && (
+                <PriceItem label="Return Transfer" value={formatPrice(returnPrice.toFixed(2))} />
+              )}
+              {returnMeetGreetPrice > 0 && (
+                <PriceItem label="Return Meet & Greet" value={formatPrice(returnMeetGreetPrice.toFixed(2))} />
+              )}
+              {returnFlightTrackPrice > 0 && (
+                <PriceItem label="Return Flight Track" value={formatPrice(returnFlightTrackPrice.toFixed(2))} />
+              )}
+              {returnExtraStopsPrice > 0 && (
+                <PriceItem
+                  label={`Return Extra Stops (${order.return_extra_stops_count})`}
+                  value={formatPrice(returnExtraStopsPrice.toFixed(2))}
+                />
+              )}
+
+              {/* Instructions */}
+              {order.instructions && (
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <p className="text-gray-700">
+                    <span className="font-medium">Instructions:</span> {order.instructions}
+                  </p>
                 </div>
               )}
             </div>
-          </Section>
 
-          {/* Contact & Passengers */}
-          <div className="grid gap-6 mt-6">
-            <Section title="Contact Information" icon={<User />}>
-              <div className="grid sm:grid-cols-2 gap-4">
-                <DetailItem icon={<User />} label="Name" value={order.name} />
-                <DetailItem icon={<Mail />} label="Email" value={order.email} />
-                <DetailItem icon={<Phone />} label="Phone" value={order.phone} />
-                {order.flight_name && (
-                  <DetailItem icon={<Plane />} label="Flight Name" value={order.flight_name} />
-                )}
-                {order.flight_number && (
-                  <DetailItem icon={<Plane />} label="Flight Number" value={order.flight_number} />
-                )}
-              </div>
-            </Section>
-          </div>
-        </div>
-
-        {/* Sidebar */}
-        <div className="w-full lg:w-80 space-y-6 mt-8 lg:mt-0">
-          {/* Vehicle Image */}
-          {(() => {
-            const selectedFleet = fleetsLocal.find((fleet) => fleet.name === order.car);
-            return selectedFleet ? (
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <div className="flex flex-col items-center justify-center gap-4">
-                  <div className="relative w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-                    <img
-                      src={selectedFleet.image}
-                      alt={selectedFleet.name}
-                      className="w-full h-full object-contain"
-                      onError={(e) => {
-                        console.error('Image failed to load:', selectedFleet.image);
-                        e.currentTarget.style.display = 'none';
-                      }}
-                    />
-                  </div>
-                  <div className="font-bold text-gray-900 text-lg text-center">{selectedFleet.name}</div>
-                  <div className="text-sm text-gray-600 text-center">{selectedFleet.cars}</div>
-                </div>
-              </div>
-            ) : null;
-          })()}
-
-          {/* Payment */}
-          <Section title="Payment" icon={<CreditCard />}>
-            <PaymentItem label="Method" value={order.payment_method || '—'} />
-            <PaymentItem label="Booking Date" value={formatDate(order.created_at)} />
-            <PaymentItem label="Pickup Date" value={formatDate(order.pickup_date)} />
-            <PaymentItem label="Pickup Time" value={formatTime(order.pickup_time)} />
-            {order.is_return && (
-              <>
-                <PaymentItem label="Return Date" value={formatDate(order.return_date)} />
-                <PaymentItem label="Return Time" value={formatTime(order.return_time)} />
-              </>
-            )}
-            <div className="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center">
-              <span className="text-sm font-medium text-gray-700">Total Paid</span>
-              <span className="text-2xl font-bold text-emerald-600">£{Number(order.price).toFixed(2)}</span>
+            {/* Total */}
+            <div className="flex justify-between items-center border-t-2 border-dashed border-gray-300 mt-6 pt-4 text-lg font-bold text-gray-900">
+              <span>Total Amount</span>
+              <span className="text-green-600">{formatPrice(order.price)}</span>
             </div>
-          </Section>
-
-          {/* Extras */}
-          {(order.flight_track || order.meet_greet || order.extra_stops_count || order.instructions || 
-            order.return_flight_track || order.return_meet_greet || order.return_extra_stops_count) && (
-            <Section title="Extras" icon={<Star />}>
-              <div className="space-y-2 text-sm">
-                {order.flight_track && <p className="break-words">✓ Flight Tracking</p>}
-                {order.meet_greet && <p className="break-words">✓ Meet & Greet</p>}
-                {order.extra_stops_count && order.extra_stops_count > 0 && (
-                  <p className="break-words">Extra Stops: {order.extra_stops_count}</p>
-                )}
-                {order.is_return && (
-                  <>
-                    {order.return_flight_track && <p className="break-words">✓ Return Flight Tracking</p>}
-                    {order.return_meet_greet && <p className="break-words">✓ Return Meet & Greet</p>}
-                    {order.return_extra_stops_count && order.return_extra_stops_count > 0 && (
-                      <p className="break-words">Return Extra Stops: {order.return_extra_stops_count}</p>
-                    )}
-                  </>
-                )}
-                {order.instructions && (
-                  <p className="break-words mt-2 pt-2 border-t border-gray-200">
-                    <span className="font-medium">Instructions:</span> {order.instructions}
-                  </p>
-                )}
-              </div>
-            </Section>
-          )}
-        </div>
-      </main>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
 
-const StatCard = ({ label, value, icon }: any) => (
-  <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200 flex items-center gap-4">
-    {icon && (
-      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 text-white flex items-center justify-center">
-        {icon}
-      </div>
-    )}
-    <div>
-      <p className="text-sm text-gray-600">{label}</p>
-      <p className="text-lg font-bold text-gray-900">{value}</p>
-    </div>
+/* ---------- Helper Components ---------- */
+
+interface SummaryCardProps {
+  label: string;
+  value: string;
+  color?: string;
+}
+
+const SummaryCard: React.FC<SummaryCardProps> = ({ label, value, color }) => (
+  <div className="bg-white border border-gray-200 rounded-xl p-5 text-center shadow-sm hover:shadow-md transition-shadow">
+    <p className="text-sm font-medium text-gray-600 mb-2">{label}</p>
+    <p className={`text-xl font-bold ${color || 'text-gray-800'}`}>{value}</p>
   </div>
 );
 
-const Section = ({ title, icon, children }: any) => (
-  <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 w-full lg:w-auto">
-    <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-200">
-      <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg text-white">
-        {icon}
-      </div>
-      <h2 className="text-lg font-bold text-gray-900">{title}</h2>
-    </div>
-    {children}
-  </div>
-);
-
-type RouteStopType = 'pickup' | 'stop' | 'dropoff';
-
-interface RouteStopProps {
-  type: RouteStopType;
-  location: string;
+interface TimelineItemProps {
+  color: string;
+  label: string;
+  value?: string;
   date?: string | null;
   time?: string | null;
-  number?: number;
 }
 
-const RouteStop = ({ type, location, date, time, number }: RouteStopProps) => {
-  const config = {
-    pickup: { color: 'bg-emerald-500', label: 'Pick-Up' },
-    stop: { color: 'bg-blue-500', label: `Stop ${number}` },
-    dropoff: { color: 'bg-red-500', label: 'Drop-Off' },
-  }[type];
+const TimelineItem: React.FC<TimelineItemProps> = ({ color, label, value, date, time }) => (
+  <div className="relative pb-6 last:pb-0">
+    <div
+      className="absolute -left-0.5 w-4 h-4 top-1 rounded-full border-2 border-white shadow-sm"
+      style={{ backgroundColor: color }}
+    ></div>
+    <div className="ml-6">
+      <p className="text-sm font-semibold text-gray-800">{label}</p>
+      {date && (
+        <p className="text-xs text-gray-500 mt-1">
+          {formatDate(date)} • {formatTime(time)}
+        </p>
+      )}
+      <p className="text-sm text-gray-700 mt-1 bg-gray-50 p-2 rounded border">{value}</p>
+    </div>
+  </div>
+);
 
-  return (
-    <div className="flex gap-4">
-      <div className="flex flex-col items-center">
-        <div
-          className={`w-10 h-10 rounded-full ${config.color} flex items-center justify-center text-white`}
-        >
-          <MapPin className="w-5 h-5" />
-        </div>
-        {type !== 'dropoff' && <div className="w-0.5 flex-1 bg-gray-300 mt-2"></div>}
+interface InfoCardProps {
+  title: string;
+  children: React.ReactNode;
+}
+
+const InfoCard: React.FC<InfoCardProps> = ({ title, children }) => (
+  <div className="bg-white border border-gray-200 rounded-xl p-6 h-fit">
+    <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b">{title}</h3>
+    <div className="space-y-4">{children}</div>
+  </div>
+);
+
+interface InfoFieldProps {
+  label: string;
+  value: string;
+  icon?: React.ReactNode;
+  onCopy?: () => void;
+  copied?: boolean;
+}
+
+const InfoField: React.FC<InfoFieldProps> = ({ label, value, icon, onCopy, copied = false }) => (
+  <div className="flex items-start justify-between group">
+    <div className="flex items-start gap-3 flex-1">
+      {icon && <span className="text-lg mt-0.5 flex-shrink-0">{icon}</span>}
+      <div className="flex-1 min-w-0">
+        <p className="text-gray-500 text-xs font-medium">{label}</p>
+        <p className="text-gray-800 font-medium text-sm break-words">{value}</p>
       </div>
-      <div className="flex-1 pb-6">
-        <p className="font-semibold text-gray-900 mb-1">{config.label}</p>
-        {date && (
-          <p className="text-sm text-gray-500 mb-1 flex items-center gap-1">
-            <Calendar className="w-3 h-3" /> {formatDate(date)} {formatTime(time)}
-          </p>
+    </div>
+    {onCopy && (
+      <button
+        onClick={onCopy}
+        className="opacity-0 group-hover:opacity-100 transition-opacity ml-2 flex-shrink-0 text-gray-400 hover:text-gray-600"
+        title="Copy to clipboard"
+      >
+        {copied ? (
+          <span className="text-green-500 text-xs">Copied!</span>
+        ) : (
+          <TbCopy size={16} />
         )}
-        <p className="text-sm text-gray-700 break-words">{location}</p>
-      </div>
-    </div>
-  );
-};
-
-const DetailItem = ({ icon, label, value }: any) => (
-  <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50">
-    <div className="text-gray-400 w-5 h-5 flex-shrink-0 mt-0.5">{icon}</div>
-    <div>
-      <p className="text-xs text-gray-500">{label}</p>
-      <p className="font-medium text-gray-900 break-all">{value}</p>
-    </div>
+      </button>
+    )}
   </div>
 );
 
-const PaymentItem = ({ label, value }: any) => (
-  <div className="flex justify-between text-sm">
+interface PriceItemProps {
+  label: string;
+  value: string;
+  isDiscount?: boolean;
+}
+
+const PriceItem: React.FC<PriceItemProps> = ({ label, value, isDiscount = false }) => (
+  <div className="flex justify-between items-center py-1">
     <span className="text-gray-600">{label}</span>
-    <span className="font-medium text-gray-900">{value}</span>
+    <span className={`font-medium ${isDiscount ? 'text-red-600' : 'text-gray-800'}`}>
+      {value}
+    </span>
   </div>
 );
+
+/* ---------- Utility Functions ---------- */
+
+function formatDate(date?: string | null): string {
+  if (!date) return 'N/A';
+  try {
+    const d = typeof date === 'string' ? new Date(date) : date;
+    return d.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    });
+  } catch {
+    return 'N/A';
+  }
+}
+
+function formatTime(time?: string | null): string {
+  if (!time) return 'N/A';
+  try {
+    // If time is in HH:mm format, convert to 12h format
+    const [hours, minutes] = time.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const hour12 = hour % 12 || 12;
+    return `${hour12}:${minutes} ${ampm}`;
+  } catch {
+    return time || 'N/A';
+  }
+}

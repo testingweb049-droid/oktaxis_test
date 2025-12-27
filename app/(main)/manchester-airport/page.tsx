@@ -9,8 +9,10 @@ import {
     FaStar,
   } from "react-icons/fa";
   import { Check } from "lucide-react";
-  import SEO from "@/components/SEO";
+  import { Metadata } from "next";
   import PageBanner from "@/components/PageBanner";
+  import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateServiceSchema } from "@/lib/seo";
+  import StructuredData from "@/components/StructuredData";
   import PageAboutSection from "@/components/PageAboutSection";
   import PageFeatureSection from "@/components/PageFeatureSection";
 import InfoCards from "@/components/Sections/InfoCards";
@@ -24,17 +26,48 @@ import FleetShowcase from "@/components/FleetShowcase";
 import TransfersSection from "@/components/TransfersSection";
 import FleetClasses from "@/components/home/fleet";
 
+export const metadata: Metadata = generateSEOMetadata({
+  title: "Manchester Airport Transfers | Reliable Taxi & Chauffeur Service",
+  description:
+    "Book seamless Manchester airport transfers with OKTaxis. Enjoy executive chauffeur service, flight tracking, and 24/7 pickups from Manchester, Liverpool, and UK airports. Stress-free travel starts here.",
+  pageUrl: "/manchester-airport",
+  keywords: [
+    "manchester airport transfer",
+    "manchester airport taxi",
+    "airport chauffeur manchester",
+    "MAN airport service",
+    "airport transfer manchester",
+  ],
+});
+
 export default function Manchester() {
-    return (
-      <>
-        <SEO
-          title="Manchester Airport Transfers | Reliable Taxi & Chauffeur Service"
-          description="Book seamless Manchester airport transfers with OKTaxis. Enjoy executive chauffeur service, flight tracking, and 24/7 pickups from Manchester, Liverpool, and UK airports. Stress-free travel starts here."
-          url="https://oktaxis.co.uk/services/airport-transfer"
-          image="https://oktaxis.co.uk/images/airport-transfer.png"
-        />
-  
-        <PageBanner
+  const breadcrumbs = [
+    { name: "Home", url: "https://oktaxis.co.uk/" },
+    { name: "Manchester Airport", url: "https://oktaxis.co.uk/manchester-airport" },
+  ];
+
+  return (
+    <>
+      <StructuredData
+        data={[
+          generateWebPageSchema({
+            title: "Manchester Airport Transfers | Reliable Taxi & Chauffeur Service | OKTaxis",
+            description:
+              "Book seamless Manchester airport transfers with OKTaxis. Enjoy executive chauffeur service, flight tracking, and 24/7 pickups.",
+            url: "https://oktaxis.co.uk/manchester-airport",
+            breadcrumbs,
+          }),
+          generateServiceSchema({
+            name: "Manchester Airport Transfer Service",
+            description:
+              "Professional airport transfer service to Manchester Airport (MAN) terminals 1, 2, and 3. Meet and greet service, flight tracking, and fixed pricing included.",
+            areaServed: "Manchester, Liverpool, Leeds, Greater Manchester",
+            serviceType: "Airport Transfer Service",
+          }),
+        ]}
+        id="manchester-airport-schema"
+      />
+      <PageBanner
           heading="Manchester Airport Chauffeur Service | Luxury Transfers for Leeds & Liverpool"
           text="Executive Manchester airport chauffeur service. Private transfers for Terminal 1, 2 & 3. Fixed prices for Leeds, Liverpool, and long-distance travel. Meet & greet included."
           maxWidthClass="max-w-5xl"
