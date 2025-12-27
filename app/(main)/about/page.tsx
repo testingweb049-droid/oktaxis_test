@@ -42,6 +42,7 @@ export default function About() {
         })}
         id="about-schema"
       />
+      <HeroSection2
         bgImage={HeroImge.src}
         title="Premium Chauffeur Services Manchester | OKTaxis"
       />
