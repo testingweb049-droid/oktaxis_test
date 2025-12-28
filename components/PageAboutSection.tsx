@@ -84,6 +84,10 @@ export default function PageAboutSection({
                 imageHeight || ""
               } ${imageClassName || ""}`}
               priority={imagePriority}
+              style={{
+                boxShadow:
+                  "0px 10.67px 13.33px -8px #0000001A, 0px 26.67px 33.33px -6.67px #0000001A",
+              }}
             />
           </div>
         </div>

@@ -9,6 +9,7 @@ interface ConnectionAreaCard {
   description?: React.ReactNode | React.ReactNode[];
   imageSrc: string;
   imageAlt: string;
+  children?: React.ReactNode;
 }
 
 interface ConnectionAreasSectionProps {
@@ -56,18 +57,18 @@ export function ConnectionAreasSection({
                 className={`flex flex-col ${layoutClass} items-stretch gap-6 sm:gap-8 md:gap-10 lg:gap-16`}
               >
                 {/* Image first for mobile */}
-                <div className="relative w-full md:w-1/2 h-[220px] sm:h-[260px] md:h-[320px] lg:h-[450px] rounded-lg overflow-hidden">
+                <div className="relative w-full md:w-1/2 h-[220px] sm:h-[260px] md:h-auto md:self-stretch rounded-lg overflow-hidden">
                   <Image
                     src={card.imageSrc}
                     alt={card.imageAlt}
                     fill
-                    className=""
+                    className="object-cover"
                     sizes="(min-width: 768px) 50vw, 100vw"
                   />
                 </div>
 
                 {/* Text content */}
-                <div className="w-full md:w-1/2 flex flex-col justify-center">
+                <div className="w-full md:w-1/2 flex flex-col justify-center md:self-stretch">
                   <h3 className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-bold text-heading-black mb-3 sm:mb-4 md:mb-5">
                     {card.title}
                   </h3>
@@ -82,6 +83,12 @@ export function ConnectionAreasSection({
                           {paragraph}
                         </p>
                       ))}
+                    </div>
+                  )}
+
+                  {card.children && (
+                    <div className="mt-3 sm:mt-4 md:mt-5">
+                      {card.children}
                     </div>
                   )}
                 </div>
