@@ -1,12 +1,13 @@
 import { Metadata } from "next";
-import FleetClasses from "@/components/home/fleet";
-import OfferSection from "@/components/ui/OfferSection";
-import HeroSection2 from "@/components/ui/HeroSection2";
-import ImageTextSection from "@/components/ui/ImageTextSection";
-import { FaCar, FaShieldAlt, FaWifi, FaCalendarAlt } from "react-icons/fa";
-import { Check } from "lucide-react";
 import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateServiceSchema } from "@/lib/seo";
 import StructuredData from "@/components/StructuredData";
+import PageBanner from "@/components/PageBanner";
+import PageAboutSection from "@/components/PageAboutSection";
+import ConnectionAreasSection from "@/components/ConnectionAreasSection";
+import ServiceDetailSection from "@/components/ServiceDetailSection";
+import FleetClasses from "@/components/home/fleet";
+import FAQSection from "@/components/FAQSection";
+import ReviewsSection from "@/components/Sections/reviews";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Chauffeur Services in Manchester | OKTaxis",
@@ -48,139 +49,140 @@ export default function ChauffeurServices() {
         ]}
         id="chauffeur-services-schema"
       />
-      <HeroSection2
-        bgImage="/blog6.webp"
-        title="Professional Chauffeur Services in Manchester Cooperate, Business & More"
-      // description="Experience the highest level of comfort and class with OKTaxis' chauffeur services. Whether you're a corporate client, a tourist, or attending an important event, our professional drivers ensure a premium travel experience. From executive travel to Manchester airport, we provide punctual, discreet, and luxurious transport tailored to your needs."
+      <PageBanner
+        heading="Corporate Chauffeur Service | Executive Business Travel for Manchester"
+        text="Executive corporate chauffeur service. Reliable executive transport for business meetings, roadshows, and events in Manchester and Liverpool. Privacy and punctuality guaranteed."
+        maxWidthClass="max-w-5xl"
       />
-      <OfferSection />
-    <ImageTextSection
-            imageSrc="/chauffeur--.jpg"
-            imageAlt="Manchester Airport Transfers"
-            imagePosition="left"
-            headingAs="h2"
-    
-            text={
-              <>
-                <p>
-                 At OKTaxis, we deliver top-tier chauffeur services in Manchester, perfect for executive travel, business meetings, or leisurely explorations. Our fleet boasts luxurious Mercedes and BMWs, ensuring every journey is smooth, dependable, and comfortable. With vetted drivers who know the city intimately and always arrive punctually, we handle airport transfers, events, and more, prioritising your safety and ease. 
-                </p>
-                <p className="mt-4">
-                  Available 24/7, our green hybrid cars, live tracking apps, and transparent pricing set us apart in the Manchester transport scene. As a seasoned, family-oriented service, we tailor rides for professionals and families, drawing on years of expertise to provide reliable, friendly experiences that build loyalty and trust.
-                </p>
-              </>
-            }
-    
-          />
-          <div className="w-full max-w-7xl mx-auto px-4">
-    
-           
-    
-            <ul className="mt-6 space-y-3 text-gray-800">
-              {[
-                "Luxurious Mercedes and BMW fleet",
-                "Vetted, punctual local drivers",
-                "24/7 availability for all journeys",
-                "Hybrid cars for eco-friendly travel",
-                "Transparent, fair upfront pricing",
-                "Tailored services for pros and families"
-              ].map((item, i) => (
-                <li key={i} className="flex items-start">
-                  <div className="flex-shrink-0 mt-1">
-                    <div className="w-6 h-6 bg-brand rounded-full flex items-center justify-center">
-                      <Check className="w-4 h-4 text-white" />
-                    </div>
-                  </div>
-                  <span className="ml-3 text-base md:text-lg">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-      <ImageTextSection
-        imageSrc="/luxury chauffeur service.png"
-        imageAlt="Premium chauffeur service"
-        title=
-        {
-          <span className="text-3xl md:text-4xl font-bold">
-            Premium Chauffeur Service for {' '}
-            <span className="text-brand text-3xl md:text-4xl font-bold">Every Occasion</span>{' '}
-
-          </span>
-        }
-        text="Experience unmatched comfort with OKTaxis’ luxury chauffeur service Manchester. From Manchester airport transfers to corporate events or private tours, our professional chauffeurs and diverse fleet—ranging from fuel-efficient sedans to spacious SUVs—cater to every requirement with elegance and ease."
-        bgColor="bg-white"
-        imagePosition="left"
-      />
-
-      <ImageTextSection
-        imageSrc="/blog6.png"
-        imageAlt="Professional chauffeur"
-        title=
-        {
-          <span className="text-3xl md:text-4xl font-bold">
-
-            <span className="text-brand text-3xl md:text-4xl font-bold">White-Glove</span>{' '}
-            Chauffeur Experience
-          </span>
-        }
-        text="Our chauffeurs are trained professionals dedicated to delivering a white-glove experience. Uniformed, knowledgeable about Manchester’s roads, and committed to safety, they ensure you arrive relaxed and on time. All vehicles are fully insured, sanitized before each trip, and equipped with Wi-Fi and bottled water for your comfort. With transparent pricing and easy booking, OKTaxis makes luxury travel in Manchester seamless."
-        bgColor="bg-white"
+      <PageAboutSection
+        heading="Chauffeur Service for Business"
+        text={[
+          "In the business world, time is your most valuable asset. A missed train or a late taxi isn’t just an inconvenience; it’s a lost opportunity. OKTaxis provides a business chauffeur service that ensures you arrive relaxed, prepared, and on time.",
+          "We understand that for our clients, the car is an extension of the boardroom. Whether you are transporting a VIP client, attending a roadshow, or simply commuting between offices in Manchester and Liverpool, our chauffeur service for business offers the privacy and reliability that standard taxis cannot match.",
+        ]}
+        image="/assets/chauffeur-images/chauffeur-about-img.png"
+        imageAlt="Executive chauffeur service car driving through the countryside"
         imagePosition="right"
+        imagePriority={true}
       />
-      <FleetClasses />
-
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-
-            {
-              <span className="text-3xl md:text-4xl font-bold">
-                Why Choose Our {' '}
-                <span className="text-brand text-3xl md:text-4xl font-bold">Chauffeur Service</span>{' '}
-
-              </span>
-            }
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-gray-50 p-6 rounded-xl text-center">
-              <div className="bg-black w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
-                <FaCar className="text-white text-xl" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Versatile Travel</h3>
-              <p className="text-gray-600">
-                Tailored for Manchester airport transfers, corporate travel, social events, or private tours.
-              </p>
-            </div>
-            <div className="bg-gray-50 p-6 rounded-xl text-center">
-              <div className="bg-black w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
-                <FaWifi className="text-white text-xl" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Premium Amenities</h3>
-              <p className="text-gray-600">
-                Enjoy complimentary bottled water, Wi-Fi, and climate-controlled interiors for a luxurious ride.
-              </p>
-            </div>
-            <div className="bg-gray-50 p-6 rounded-xl text-center">
-              <div className="bg-black w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
-                <FaShieldAlt className="text-white text-xl" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Licensed & Insured</h3>
-              <p className="text-gray-600">
-                 All vehicles and drivers meet UK licensing and insurance standards for your peace of mind.
-              </p>
-            </div>
-            <div className="bg-gray-50 p-6 rounded-xl text-center">
-              <div className="bg-black w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
-                <FaCalendarAlt className="text-white text-xl" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Effortless Booking</h3>
-              <p className="text-gray-600">
-                Book online or contact us directly for quick confirmation and hassle-free chauffeur services in Manchester.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ConnectionAreasSection
+        heading="Chauffeur Service for Corporate"
+        cards={[
+          {
+            title: "1. Executive Transport: More Than Just a Ride",
+            description: [
+              "We don’t just drive; we facilitate your business day. When you book our corporate chauffeur service, you are booking a mobile office environment.",
+            ],
+            imageSrc: "/assets/chauffeur-images/chauffeur-connection-img-1.png",
+            imageAlt: "Executive transport chauffeur assisting a business passenger into a vehicle",
+            children: (
+              <ul className="list-disc pl-5 space-y-2 text-text-gray text-sm sm:text-base md:text-lg lg:text-2xl leading-relaxed">
+                <li>
+                  <span className="font-semibold">Work on the Move:</span> Our
+                  vehicles are quiet, smooth, and equipped with Wi-Fi (on
+                  request). You can answer emails, take conference calls, or
+                  review notes without interruption.
+                </li>
+                <li>
+                  <span className="font-semibold">Impression Matters:</span>{" "}
+                  Pulling up in a pristine Mercedes S-Class sends a message of
+                  professionalism. It is the ideal business chauffeur car
+                  service for impressing investors or partners.
+                </li>
+                <li>
+                  <span className="font-semibold">Absolute Privacy:</span> Our
+                  drivers understand the importance of discretion.
+                  Conversations held in the back of our vehicles remain
+                  confidential.
+                </li>
+              </ul>
+            ),
+          },
+          {
+            title: "2. Business Chauffeur Service Manchester",
+            description: [
+              "Manchester is the commercial engine of the North, and navigating it requires expertise. We provide business chauffeur services in Manchester that keep your schedule on track.",
+            ],
+            imageSrc: "/assets/chauffeur-images/chauffeur-connection-img-2.png",
+            imageAlt: "Business chauffeur opening the door of a luxury car in Manchester",
+            children: (
+              <ul className="list-disc pl-5 space-y-2 text-text-gray text-sm sm:text-base md:text-lg lg:text-2xl leading-relaxed">
+                <li>
+                  <span className="font-semibold">Meeting to Meeting:</span> We
+                  specialize in the business meetings chauffeur service package.
+                  If you have a breakfast meeting in Spinningfields and a lunch
+                  at MediaCityUK, your driver waits outside. This is best booked
+                  as an Hourly service. [Link: View Hourly Chauffeur Service]
+                </li>
+                <li>
+                  <span className="font-semibold">The City Commute:</span> Avoid
+                  the crush of the trams during rush hour. We offer a direct,
+                  door-to-door corporate chauffeur service, utilizing smart
+                  routes to bypass the congestion on the Mancunian Way and
+                  Deansgate.
+                </li>
+                <li>
+                  <span className="font-semibold">International Guests:</span>{" "}
+                  Hosting clients from abroad? We provide a direct link from
+                  Manchester Airport to your office or hotel. [Link: View
+                  Manchester Airport Service]
+                </li>
+              </ul>
+            ),
+          },
+          {
+            title: "3. Business Class Chauffeur Service Liverpool",
+            description: [
+              "Liverpool’s economy is thriving, but transport links between the Commercial District and the wider region can be slow. Our team covers the entire Merseyside area.",
+              "We offer a dedicated business class chauffeur service Liverpool package. Whether you are heading to the Knowledge Quarter or need to travel across to Manchester, our drivers provide a stable, comfortable alternative to the train.",
+              "You can rely on our business chauffeur services to get you to your destination regardless of rail strikes or weather on the M62. [Link: View Liverpool Airport Service]",
+            ],
+            imageSrc: "/assets/chauffeur-images/chauffeur-connection-img-3.png",
+            imageAlt: "Business travellers with luggage being greeted by a chauffeur in Liverpool",
+          },
+        ]}
+      />
+      <ServiceDetailSection
+        heading="Event Chauffeur Service Manchester & Liverpool"
+        intro="Organizing a conference, gala dinner, or board retreat? Logistics are key to a successful event. We provide chauffeur services for corporate events that scale with your needs."
+        imageSrc="/assets/chauffeur-images/chauffeur-feature-img.png"
+        imageAlt="Event chauffeur service car for corporate travel in Manchester and Liverpool"
+        bullets={[
+          {
+            title: "VIP Transfers",
+            description:
+              "We ensure your keynote speakers or CEO arrive in luxury. Our team is experienced in red-carpet drop-offs at major North West venues like Manchester Central, The ACC Liverpool, and The Midland Hotel.",
+          },
+          {
+            title: "Group Logistics",
+            description:
+              "Need to move a team? Our fleet includes the XL Passenger Van, perfect for transporting delegates comfortably while keeping the team together.",
+          },
+        ]}
+      />
+      <FleetClasses/>
+      <FAQSection
+        title="Frequently Asked Questions"
+        faqs={[
+          {
+            question: "Do you serve areas outside of the North West?",
+            answer:"Yes. We provide a corporate chauffeur service nationwide. We frequently handle long-distance business travel, such as Manchester to Leeds or Liverpool to London."
+           },
+           {
+            question: "Can I book a business meetings chauffeur service for a full day?",
+            answer: "Yes. We highly recommend our 'Hourly' service for meetings. It guarantees the car stays with you all day, allowing you to leave laptops or luggage securely inside between appointments in Manchester or Liverpool."
+           },
+           {
+            question: "Can you handle last-minute bookings for business clients?",
+            answer:"Yes. We understand business is unpredictable. While we recommend pre-booking, our corporate chauffeur services team operates 24/7 and will do everything possible to accommodate urgent requests."
+           },
+           {
+            question: "Is your service discreet?",
+            answer: "Absolutely. Our drivers are trained to be polite but unobtrusive. Whether you are on a call or discussing strategy with a colleague, our business chauffeur service guarantees a private environment."
+           }
+        ]}
+      />
+      <ReviewsSection/>
     </>
   );
 }

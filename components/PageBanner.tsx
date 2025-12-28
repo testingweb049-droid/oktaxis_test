@@ -1,14 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import QuoteButton from "@/components/QuoteButton";
+import HeroForm from "@/app/(main)/book-ride/HeroForm";
 
 interface PageBannerProps {
   heading: string;
   text?: string;
   image?: string;
-  buttonText?: string;
-  buttonLink?: string;
   maxWidthClass?: string;
 }
 
@@ -16,12 +14,10 @@ export default function PageBanner({
   heading,
   text,
   image = "/assets/airport-transfer-images/airport-banner-img.png",
-  buttonText = "Get an Instant Quote",
-  buttonLink = "#",
   maxWidthClass = "max-w-4xl",
 }: PageBannerProps) {
   return (
-    <section className="font-montserrat relative w-full min-h-[600px] sm:min-h-[600px] md:min-h-[700px] lg:min-h-[100vh] flex items-end md:items-center justify-center overflow-hidden">
+    <section className="font-montserrat relative w-full min-h-[600px] sm:min-h-[600px] md:min-h-[700px] lg:min-h-[100vh] flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <Image
         src={image}
@@ -31,37 +27,40 @@ export default function PageBanner({
         className="object-cover "
       />
 
+{/*  */}
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/50" />
 
+      {/*  */}
+
       {/* Content Container */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 pb-6 pb-8 md:pb-12 lg:py-18">
-        <div className={`flex flex-col items-center gap-4 text-center mx-auto ${maxWidthClass}  mb-10 md:mb-0 md:px-0`}>
-          {/* Heading */}
-          <div className="w-full mb-3 sm:mb-4 md:mb-6">
-          <h1 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold !leading-snug">
-            {heading}
-          </h1>
-          </div>
-     
+      <div className="relative z-10 w-full max-lg:rounded-b-3xl">
+        <div className="container mx-auto px-0 sm:px-4 lg:px-6">
+          <div className="grid gap-6 sm:gap-8 lg:grid-cols-2 xl:grid-cols-3 pt-12 pb-0 sm:py-16 md:py-20 lg:py-24 xl:py-32 lg:px-5 w-full">
+            {/* Left Content: Heading & Text */}
+            <div
+              className={`flex flex-col gap-4 items-start justify-center h-full w-full xl:col-span-2 max-lg:px-4 ${maxWidthClass}`}
+            >
+              <div className="w-full mb-2 sm:mb-3 md:mb-4">
+                <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold !leading-tight">
+                  {heading}
+                </h1>
+              </div>
 
-          {/* Description Text */}
-          {text && (
-            <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl font-medium mb-4 sm:mb-5 md:mb-6 lg:mb-8 !leading-relaxed w-full px-2 sm:px-0">
-              {text}
-            </p>
-          )}
-
-          {/* Call-to-Action Button */}
-          {buttonText && (
-            <div className="w-full md:w-auto md:inline-block">
-              <QuoteButton
-                label={buttonText}
-                href={buttonLink}
-                className="w-full md:w-auto text-center"
-              />
+              {text && (
+                <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl font-medium !leading-relaxed max-w-2xl">
+                  {text}
+                </p>
+              )}
             </div>
-          )}
+
+            {/* Right Content: Booking Form */}
+            <div className="flex items-center justify-center h-full w-full mt-6 sm:mt-8 lg:mt-0 max-lg:col-span-full max-lg:mb-0">
+              <div className="w-full max-w-xl">
+                <HeroForm />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

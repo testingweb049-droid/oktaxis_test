@@ -17,7 +17,7 @@ export default function Footer() {
 
   const airportTransfers = [
     { title: "Manchester" },
-    { title: "Liverpool", href: "/liverpool" },
+    { title: "Liverpool", href: "/liverpool-airport" },
     { title: "London" },
     { title: "Leeds" },
     { title: "Birmingham" },
