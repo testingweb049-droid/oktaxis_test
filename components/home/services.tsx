@@ -46,8 +46,8 @@ const services = [
     id: 4,
     slug: "chauffeur-services",
     path: "/chauffeur-services",
-    title: "Executive Chauffeur Services in Manchester",
-    category: "CHAUFFEUR SERVICES",
+    title: "Corporate Chauffeur Services in Manchester",
+    category: "CORPORATE CHAUFFEUR SERVICES",
     description:
       "Trust our chauffeur services for all your travel needs. Experience executive chauffeur-driven vehicles with discretion and comfort. Explore our premiu...",
     image: "/blog6.jpg",
@@ -55,10 +55,10 @@ const services = [
   },
   {
     id: 5,
-    slug: "city-tours",
-    path: "/city-tours",
-    title: "City Tours in Manchester",
-    category: "CITY TOURS",
+    slug: "chauffeur-service-manchester",
+    path: "/chauffeur-service-manchester",
+    title: "Chauffeur Service Manchester",
+    category: "CHAUFFEUR SERVICES",
     description:
       "Explore Manchester with our city tours in style. Visit Northern Quarter and Spinningfields with expert guides. Book today for a memorable journey.",
     image: "/city.jpg",

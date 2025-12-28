@@ -16,11 +16,11 @@ export default function Footer() {
   ];
 
   const airportTransfers = [
-    { title: "Manchester" },
+    { title: "Manchester" , href: "/manchester-airport" },
     { title: "Liverpool", href: "/liverpool-airport" },
-    { title: "London" },
-    { title: "Leeds" },
-    { title: "Birmingham" },
+    { title: "London" , href: "/london-chauffeur-service" },
+    { title: "Leeds" , href: "/leeds"},
+    { title: "Birmingham" , href: "/birmingham-chauffeur-service" },
     { title: "Edinburgh" },
   ];
 
@@ -29,7 +29,7 @@ export default function Footer() {
     { title: "Hourly Chauffeur Service", href: "/services/hourly-chauffeur" },
     { title: "Event & Weddings", href: "/services/event-weddings" },
     { title: "Chauffeur Services", href: "/services/chauffeur-services" },
-    { title: "City Tours", href: "/services/city-tours" },
+    { title: "Chauffeur Service Manchester", href: "/services/chauffeur-service-manchester" },
     { title: "Stadium Transfer", href: "/services/stadium-transfer" },
     { title: "Manchester City Center", href: "/services/city-center" },
   ];

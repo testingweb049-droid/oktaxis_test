@@ -74,13 +74,14 @@ export default function PageAboutSection({
           </div>
 
           {/* Image */}
-          <div className="w-full lg:basis-5/12 lg:flex-shrink-0 order-1 lg:order-2">
+          <div className="w-full lg:basis-5/12 lg:flex-shrink-0 order-1 lg:order-2 min-h-[300px] sm:min-h-[380px] md:min-h-[400px] lg:min-h-[440px]">
             <Image
               src={image}
               alt={imageAlt}
               width={1200}
-              height={750}
-              className={`w-full h-auto rounded-[10px] object-contain md:object-contain ${
+              height={550}
+                className={`w-full h-full rounded-[10px] object-cover md:object-cover
+                min-h-[300px] sm:min-h-[380px] md:min-h-[400px] lg:min-h-[440px] ${
                 imageHeight || ""
               } ${imageClassName || ""}`}
               priority={imagePriority}

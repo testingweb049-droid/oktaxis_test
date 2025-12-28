@@ -1431,7 +1431,7 @@ export const blogData = [
     {
       "sectionTitle": "Additional Services",
       "sectionContent": [
-        "While you’re planning your trip to the stadium, remember that OK Taxis offers more than just match-day rides. We provide Manchester Airport Transfers if you’re flying in for the game, and City Tours if you have extra time to explore. Heading to a big away game? We can take you to the train station, too. Whatever your schedule, OK Taxis has you covered beyond the final whistle."
+        "While you’re planning your trip to the stadium, remember that OK Taxis offers more than just match-day rides. We provide Manchester Airport Transfers if you’re flying in for the game, and Chauffeur Service Manchester if you have extra time to explore. Heading to a big away game? We can take you to the train station, too. Whatever your schedule, OK Taxis has you covered beyond the final whistle."
       ]
     },
     {
@@ -1573,7 +1573,7 @@ export const blogData = [
           "list": [
             "Corporate Travel: Impress clients or attend meetings in an executive vehicle. Use travel time to work on the move or prepare calmly for presentations. We also provide meet-and-greet service at Manchester Airport, complete with assist-to-collect your luggage if needed.",
             "Weddings and Events: Arrive at your wedding venue, a gala or a premiere in style. We can decorate cars with ribbons and provide champagne (on request) for bridal parties. For proms, anniversary celebrations or special anniversaries, let us handle your transport so you enjoy the event stress-free.",
-            "City Tours: For visitors wanting a premium tour of Manchester or the surrounding Cheshire countryside, hire a chauffeur for a bespoke city tour. Our drivers know the sights and can be your private guide.",
+            "Chauffeur Service Manchester: For visitors wanting a premium tour of Manchester or the surrounding Cheshire countryside, hire a chauffeur for a bespoke city tour. Our drivers know the sights and can be your private guide.",
             "VIP Nights Out: Heading to a theatre show or fancy dinner? Treat yourself to a chauffeur-driven night. Enjoy the night without worrying about parking; afterward, a driver will safely take you home."
           ]
         },
@@ -1745,7 +1745,7 @@ export const blogData = [
           "list": [
             "Corporate Visits: Schedule your day – airport pickup, meetings in Salford, client dinner in MediaCity, and final drop at your hotel, all covered by a single booking. The driver waits during each appointment and is ready when you are.",
             "Multistop Errands: Perhaps you have a wedding suit to pick up, grocery needs, and a cafe meeting. Instead of separate taxi fares, book a car for 3–4 hours and do it all smoothly.",
-            "City Tours & Entertainment: Want to tour Manchester and surrounding towns at your own pace? Hire a chauffeur for sightseeing, whether it’s football stadium tours, countryside drives to the Peaks, or theatre nights in the city.",
+            "Chauffeur Service Manchester & Entertainment: Want to tour Manchester and surrounding towns at your own pace? Hire a chauffeur for sightseeing, whether it’s football stadium tours, countryside drives to the Peaks, or theatre nights in the city.",
             "Meet & Event Services: During conferences or events where you constantly move from venue to venue, having a dedicated driver means instant transit at a moment’s notice."
           ]
         },
@@ -1904,11 +1904,11 @@ export const blogData = [
 },
 {
   "id": 18,
-  "title": "City Tours of Manchester and Nearby Cities",
-  "description": "OK Taxis offers City Tours of Manchester and Nearby Cities, giving you a comfortable, customizable way to see the sights. Whether you want a guided tour of Manchester’s landmarks or a day trip to Liverpool or the Peak District, our professional drivers double as friendly guides.",
+  "title": "Chauffeur Service Manchester and Nearby Cities",
+  "description": "OK Taxis offers Chauffeur Service Manchester and Nearby Cities, giving you a comfortable, customizable way to see the sights. Whether you want a guided tour of Manchester’s landmarks or a day trip to Liverpool or the Peak District, our professional drivers double as friendly guides.",
   "image": "/blog15.png",
   "date": "July 5, 2025",
-  "category": "City Tours",
+  "category": "Chauffeur Service Manchester",
   "content": [
     {
       "sectionTitle": "Manchester City Highlights",

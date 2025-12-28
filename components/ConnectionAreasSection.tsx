@@ -57,12 +57,18 @@ export function ConnectionAreasSection({
                 className={`flex flex-col ${layoutClass} items-stretch gap-6 sm:gap-8 md:gap-10 lg:gap-16`}
               >
                 {/* Image first for mobile */}
-                <div className="relative w-full md:w-1/2 h-[220px] sm:h-[260px] md:h-auto md:self-stretch rounded-lg overflow-hidden">
+                <div
+                  className="relative w-full md:w-1/2 h-[220px] sm:h-[260px] md:h-auto md:self-stretch !rounded-md overflow-hidden"
+                  style={{
+                    boxShadow:
+                      "0px 5.33px 8px -5.33px #0000001A, 0px 13.33px 20px -4px #0000001A",
+                  }}
+                >
                   <Image
                     src={card.imageSrc}
                     alt={card.imageAlt}
                     fill
-                    className="object-cover"
+                    className="object-cover rounded-md"
                     sizes="(min-width: 768px) 50vw, 100vw"
                   />
                 </div>
