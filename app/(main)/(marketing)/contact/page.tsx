@@ -1,78 +1,88 @@
 "use client";
 
 import ContactForm from "@/components/ContactForm/ContactForm";
-import { homePageData } from "@/constants/homePageData";
+import ContactTeamSection from "@/components/ContactTeamSection";
+import Image from "next/image";
+import { useEffect, useRef } from "react";
+
 const Contact = () => {
-  const { subtitle } = homePageData.contactFormSection;
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const title = titleRef.current;
+    const subtitle = subtitleRef.current;
+    const overlay = overlayRef.current;
+
+    if (overlay) {
+      overlay.style.opacity = "0.7";
+      setTimeout(() => {
+        overlay.style.transition = "opacity 1.5s ease-out";
+        overlay.style.opacity = "0.5";
+      }, 100);
+    }
+
+    if (title) {
+      title.style.opacity = "0";
+      title.style.transform = "translateY(30px)";
+      setTimeout(() => {
+        title.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out";
+        title.style.opacity = "1";
+        title.style.transform = "translateY(0)";
+      }, 300);
+    }
+
+    if (subtitle) {
+      subtitle.style.opacity = "0";
+      subtitle.style.transform = "translateY(30px)";
+      setTimeout(() => {
+        subtitle.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out";
+        subtitle.style.opacity = "1";
+        subtitle.style.transform = "translateY(0)";
+      }, 600);
+    }
+  }, []);
 
   return (
     <>
-      <div className="w-full flex flex-col gap-16 items-center pt-32 pb-20 px-4 bg-white">
-        {/* ───────────────────────── 1. Header ───────────────────────── */}
-        <div className="text-center max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4">
-              {
-                <span className="text-3xl md:text-4xl font-bold">
-                  Contact{' '}
-                  <span className="text-brand text-3xl md:text-4xl font-bold"> OKTaxis</span>{' '}
-              
-                </span>
-              }
-          </h1>
-          <p className="text-lg md:text-xl text-gray-700">
-            Luxury Chauffeur &amp; Airport Transfers in Manchester &amp;
-            Liverpool
-          </p>
-          <p className="mt-4 text-md md:text-lg text-gray-600">
-            For bookings and inquiries, OKTaxis is here for you 24/7. Contact us
-            today to book your luxury transfer or request a personalized quote.
-          </p>
-        </div>
-
-        {/* ──────────────────────── 2. Get-in-Touch Form ──────────────────────── */}
-        <div className="w-full lg:w-1/2 bg-white rounded-xl shadow-xl p-6 flex flex-col items-center">
-          <div className="text-center mb-6">
-            <h2 className="text-4xl font-bold mb-2">{subtitle}</h2>
-            <p className="text-gray-600">
-              Fill out the form below and we’ll get back to you as soon as
-              possible.
+      <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden">
+        <Image
+          src="/assets/airport-transfer-images/airport-banner-img.png"
+          alt="Contact Us"
+          fill
+          className="object-cover object-top"
+          priority
+        />
+        <div ref={overlayRef} className="absolute inset-0 bg-black" />
+        <div className="relative z-10 h-full flex items-end justify-center pb-12 md:pb-16 px-4">
+          <div className="text-center text-white max-w-4xl">
+            <h1
+              ref={titleRef}
+              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
+            >
+              Contact OKTaxis
+            </h1>
+            <p
+              ref={subtitleRef}
+              className="text-lg md:text-xl lg:text-2xl text-gray-200"
+            >
+              For bookings and inquiries, OKTaxis is here for you 24/7. Contact us
+              today to book your luxury transfer or request a personalized quote.
             </p>
           </div>
-          <div className="w-full">
+        </div>
+      </section>
+
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto">
             <ContactForm />
           </div>
         </div>
+      </section>
 
-        {/* ──────────────────────── 3. Additional Info Blurb ──────────────────────── */}
-        <div className="max-w-3xl text-center text-gray-600 px-4">
-          Our friendly customer support team is available around the clock to
-          assist with last-minute bookings or special requests. Book your luxury
-          chauffeur service with OKTaxis today and enjoy a stress-free, VIP
-          travel experience.
-        </div>
-
-        {/* ─────────────────── 4. Phone • Email • Service Areas (Bottom) ─────────────────── */}
-        <div className="grid md:grid-cols-3 gap-8 p-6 bg-white shadow-2xl border border-gray-100 rounded-xl max-w-screen-lg w-full">
-          <div className="flex flex-col gap-2 items-center text-center">
-            <div className="text-xl font-semibold">Phone (24/7)</div>
-            <p className="text-gray-700">Call us anytime</p>
-            <p className="font-semibold text-brand">+44 7342&nbsp;193341</p>
-          </div>
-          <div className="flex flex-col gap-2 items-center text-center">
-            <div className="text-xl font-semibold">Email</div>
-            <p className="text-gray-700">Send us an email</p>
-            <p className="font-semibold text-brand">info@oktaxis.co.uk</p>
-          </div>
-          <div className="flex flex-col gap-2 items-center text-center">
-            <div className="text-xl font-semibold">Service Areas</div>
-            <p className="text-gray-700">
-              Manchester, Liverpool,
-              <br />
-              All UK Airports
-            </p>
-          </div>
-        </div>
-      </div>
+      <ContactTeamSection />
     </>
   );
 };

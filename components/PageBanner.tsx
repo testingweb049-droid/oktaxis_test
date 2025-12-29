@@ -35,7 +35,7 @@ export default function PageBanner({
 
       {/* Content Container */}
       <div className="relative z-10 w-full max-lg:rounded-b-3xl">
-        <div className="container mx-auto px-0 sm:px-4 lg:px-6">
+        <div className="container mx-auto px-2 sm:px-4 lg:px-6">
           <div className="grid gap-6 sm:gap-8 lg:grid-cols-2 xl:grid-cols-3 pt-12 pb-0 sm:py-16 md:py-20 lg:py-24 xl:py-32 lg:px-5 w-full">
             {/* Left Content: Heading & Text */}
             <div

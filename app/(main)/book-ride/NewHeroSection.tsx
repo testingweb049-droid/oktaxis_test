@@ -15,7 +15,7 @@ function NewHeroSection() {
         sizes="100vw"
       />
       <div className='relative bg-black/40 w-full max-lg:rounded-b-3xl'>
-        <div className='container mx-auto px-0 sm:px-4 lg:px-6'>
+        <div className='container mx-auto px-2 sm:px-4 lg:px-6'>
           <div className='grid gap-6 sm:gap-8 lg:grid-cols-2 xl:grid-cols-3 pt-12 pb-0 sm:py-16 md:py-20 lg:py-24 xl:py-32 lg:px-5 w-full'>
 
             <div className='flex flex-col gap-6 sm:gap-8 items-start justify-center h-full w-full xl:col-span-2 max-lg:px-4 mt-4 md:mt-0 mb-4 md:mb-0'>

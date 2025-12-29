@@ -50,7 +50,7 @@ const services = [
     category: "CORPORATE CHAUFFEUR SERVICES",
     description:
       "Trust our chauffeur services for all your travel needs. Experience executive chauffeur-driven vehicles with discretion and comfort. Explore our premiu...",
-    image: "/blog6.jpg",
+    image: "/cooporate-chauffeur.png",
     size: "small",
   },
   {
@@ -61,7 +61,7 @@ const services = [
     category: "CHAUFFEUR SERVICES",
     description:
       "Explore Manchester with our city tours in style. Visit Northern Quarter and Spinningfields with expert guides. Book today for a memorable journey.",
-    image: "/city.jpg",
+    image: "/manchester-chauffeur.jpg",
     size: "small",
   },
 ]

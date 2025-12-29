@@ -11,7 +11,7 @@ export default function Footer() {
     { title: "About Us", href: "/about" },
     { title: "Our Fleet", href: "/fleet" },
     { title: "Services", href: "/services" },
-    { title: "Business Account", href: "/business" },
+    { title: "Partner With Us", href: "/driver" },
     { title: "Contact", href: "/contact" },
   ];
 
@@ -21,24 +21,16 @@ export default function Footer() {
     { title: "London" , href: "/london-chauffeur-service" },
     { title: "Leeds" , href: "/leeds"},
     { title: "Birmingham" , href: "/birmingham-chauffeur-service" },
-    { title: "Edinburgh" },
+  
   ];
 
   const otherServices = [
-    { title: "Airport Transfers", href: "/services/airport-transfer" },
-    { title: "Hourly Chauffeur Service", href: "/services/hourly-chauffeur" },
-    { title: "Event & Weddings", href: "/services/event-weddings" },
-    { title: "Chauffeur Services", href: "/services/chauffeur-services" },
-    { title: "Chauffeur Service Manchester", href: "/services/chauffeur-service-manchester" },
-    { title: "Stadium Transfer", href: "/services/stadium-transfer" },
-    { title: "Manchester City Center", href: "/services/city-center" },
-  ];
-
-  const popularRoutes = [
-    { title: "Taxi in Birmingham", href: "/taxi-in-birmingham" },
-    { title: "Taxi in Bradford", href: "/taxi-in-bradford" },
-    { title: "Taxi in London", href: "/taxi-in-london" },
-  ];
+    { title: "Airport Transfers", href: "/airport-transfer" },
+    { title: "Hourly Chauffeur Service", href: "/hourly-chauffeur" },
+    { title: "Event & Weddings", href: "/event-weddings" },
+    { title: "Corporate Chauffeur Services", href: "/chauffeur-services" },
+    { title: "Chauffeur Service Manchester", href: "/chauffeur-service-manchester" },
+   ];
 
   return (
     <footer className="font-montserrat bg-heading-black text-white">
@@ -99,7 +91,7 @@ export default function Footer() {
             </div>
 
             {/* Second Container - Other Columns in Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-6 sm:gap-8 md:gap-6 lg:gap-4 xl:gap-8 flex-1 lg:justify-end">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 sm:gap-8 md:gap-6 lg:gap-4 xl:gap-8 flex-1 lg:justify-end">
               {/* Column 2 - Quick Links */}
               <div className="min-w-0">
                 <h3 className="mb-3 sm:mb-4 text-sm sm:text-base font-semibold text-white">Quick Links</h3>
@@ -161,25 +153,7 @@ export default function Footer() {
                 </ul>
               </div>
 
-              {/* Column 5 - Popular Routes */}
-              <div className="min-w-0">
-                <h3 className="mb-3 sm:mb-4 text-sm sm:text-base font-semibold text-white">Popular Routes</h3>
-                <ul className="space-y-2 sm:space-y-2.5 md:space-y-3">
-                  {popularRoutes.map((item) => (
-                    <li key={item.title}>
-                      <Link
-                        href={item.href}
-                        className="group flex items-center gap-2 text-xs sm:text-sm md:text-base text-text-gray transition-all duration-300 hover:text-white hover:translate-x-1"
-                      >
-                        <ArrowRight className="h-3 w-3 sm:h-3.5 sm:w-3.5 opacity-50 text-text-gray group-hover:opacity-100 group-hover:text-white transition-all duration-300" />
-                        <span>{item.title}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Column 6 - Contact Us */}
+              {/* Column 5 - Contact Us */}
               <div className="min-w-0 col-span-2 sm:col-span-2 md:col-span-3 lg:col-span-1">
                 <h3 className="mb-3 sm:mb-4 text-sm sm:text-base font-semibold text-white">Contact Us</h3>
                 <div className="space-y-3 sm:space-y-4">
