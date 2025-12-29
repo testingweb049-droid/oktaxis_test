@@ -32,7 +32,7 @@ export function OurServicesSection({
         {/* Main Heading */}
         <Heading
           as="h2"
-          className="font-semibold text-white leading-relaxed"
+          className="font-semibold text-white leading-relaxed max-w-4xl mx-auto"
         >
           {headline}
         </Heading>

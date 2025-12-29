@@ -289,8 +289,8 @@ export function generateLocalBusinessSchema(additionalData?: Record<string, any>
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "City Tours",
-            description: "Guided city tours of Manchester, Liverpool, and surrounding areas",
+            name: "Chauffeur Service Manchester",
+            description: "Premium chauffeur service for Manchester, Liverpool, and surrounding areas",
           },
         },
       ],

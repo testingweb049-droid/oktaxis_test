@@ -48,24 +48,24 @@ const navLinks: NavLink[] = [
       },
       {
         id: "chauffeur-services",
-        title: "Chauffeur Services",
+        title: "Corporate Chauffeur Services",
         path: "/chauffeur-services",
       },
       {
-        id: "city-tours",
-        title: "City Tours",
-        path: "/city-tours",
+        id: "chauffeur-service-manchester",
+        title: "Chauffeur Service Manchester",
+        path: "/chauffeur-service-manchester",
       },
-      {
-        id: "stadium-transfer",
-        title: "Stadium Transfer",
-        path: "/stadium-transfer",
-      },
-      {
-        id: "city-center",
-        title: "Manchester City Center",
-        path: "/city-center",
-      },
+      // {
+      //   id: "stadium-transfer",
+      //   title: "Stadium Transfer",
+      //   path: "/stadium-transfer",
+      // },
+      // {
+      //   id: "city-center",
+      //   title: "Manchester City Center",
+      //   path: "/city-center",
+      // },
     ],
   },
   {

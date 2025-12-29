@@ -42,7 +42,7 @@ export default function PageBanner({
               className={`flex flex-col gap-4 items-start justify-center h-full w-full xl:col-span-2 max-lg:px-4 ${maxWidthClass}`}
             >
               <div className="w-full mb-2 sm:mb-3 md:mb-4">
-                <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold !leading-tight">
+                <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-semibold ">
                   {heading}
                 </h1>
               </div>

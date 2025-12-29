@@ -295,7 +295,7 @@ const OfferSection: React.FC = () => {
     if (pathname === '/services/hourly-chauffeur') return hourlyChauffeurOffers;
     if (pathname === '/services/chauffeur-services') return chauffeurServicesOffers;
     if (pathname === '/services/event-weddings') return eventWeddingOffers;
-    if (pathname === '/services/city-tours') return cityToursOffers;
+    if (pathname === '/services/chauffeur-service-manchester') return cityToursOffers;
     if (pathname === '/services/city-center') return cityCenterOffers;
     if (pathname === '/services/stadium-transfer') return stadiumTransferOffers;
     return defaultOffers;
@@ -330,8 +330,8 @@ const OfferSection: React.FC = () => {
             <>Why Choose <span className="text-brand">OKTaxis</span> for Hourly Chauffeur Services in Manchester?</>
           ) : pathname === '/services/stadium-transfer' ? (
             <>Why Choose <span className="text-brand">OKTaxis</span> for Manchester Stadium Transfers and Events?</>
-          ) : pathname === '/services/city-tours' ? (
-            <>Why Choose <span className="text-brand">OKTaxis</span> for City Tours in Manchester?</>
+          ) : pathname === '/services/chauffeur-service-manchester' ? (
+            <>Why Choose <span className="text-brand">OKTaxis</span> for Chauffeur Service Manchester?</>
           ) : pathname === '/services/event-weddings' ? (
             <>Why Choose <span className="text-brand">OKTaxis</span> for Weddings and Special Events in Manchester?</>
           ) : pathname === '/fleet' ? (
@@ -382,8 +382,8 @@ const OfferSection: React.FC = () => {
             "We elevate your chauffeur by the hour Manchester experience with features focused on flexibility and excellence. Here's what makes us stand out:"
           ) : pathname === '/services/stadium-transfer' ? (
             "Experience seamless and luxurious transport with OKTaxis’ chauffeur services for Manchester airport transfers and event venues. Here’s why we stand out:"
-          ) : pathname === '/services/city-tours' ? (
-            "Experience luxury and convenience with OKTaxis’ long-distance chauffeur services in Manchester. Perfect for airport transfers, city tours, and beyond, here’s what makes us exceptional:"
+          ) : pathname === '/services/chauffeur-service-manchester' ? (
+            "Experience luxury and convenience with OKTaxis’ chauffeur service in Manchester. Perfect for airport transfers, city-to-city travel, and executive journeys, here’s what makes us exceptional:"
           ) : pathname === '/services/event-weddings' && (
             "Experience unparalleled luxury and reliability with OKTaxis’ chauffeur services in Manchester. Tailored for airport transfers, weddings, and special events, here’s what makes us stand out:"
           )}
