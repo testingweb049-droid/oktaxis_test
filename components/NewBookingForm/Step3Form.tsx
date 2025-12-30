@@ -343,15 +343,62 @@ function Step3Form() {
               // Get form values and calculate total amount
               const values = form.getValues();
               const basePrice = Number(values.price) || 0;
+              
+              // Calculate all fees and extras
               const flightTrackFee = values.flight_track ? 7 : 0;
               const meetGreetFee = values.meet_greet ? 15 : 0;
-              const totalAmount = basePrice + flightTrackFee + meetGreetFee;
+              
+              // Get extra stops count - check both possible field names
+              const extraStopsCount = Number((values as any).extra_stops_count || (values as any).extraStopsCount || 0);
+              const extraStopsFee = extraStopsCount * 7;
+              
+              // Return trip extras (only if return trip is selected)
+              // Check both possible field names for return extras
+              const returnFlightTrack = (values as any).return_flight_track || (values as any).isReturnFlightTrack || false;
+              const returnMeetGreet = (values as any).return_meet_greet || (values as any).isReturnMeetGreet || false;
+              const returnFlightTrackFee = (values.is_return && returnFlightTrack) ? 7 : 0;
+              const returnMeetGreetFee = (values.is_return && returnMeetGreet) ? 15 : 0;
+              
+              const returnExtraStopsCount = Number((values as any).return_extra_stops_count || (values as any).returnExtraStopsCount || 0);
+              const returnExtraStopsFee = returnExtraStopsCount * 7;
+              
+              // Total amount includes base price (which already includes return trip if is_return is true) + all extras
+              const totalAmount = basePrice + flightTrackFee + meetGreetFee + extraStopsFee + 
+                                  returnFlightTrackFee + returnMeetGreetFee + returnExtraStopsFee;
+
+              // Convert stops from form format (stop_1, stop_2, stop_3) to array
+              const stopsArray: string[] = [];
+              const stopsCount = values.stops || 0;
+              if (stopsCount >= 1 && values.stop_1) stopsArray.push(values.stop_1);
+              if (stopsCount >= 2 && values.stop_2) stopsArray.push(values.stop_2);
+              if (stopsCount >= 3 && values.stop_3) stopsArray.push(values.stop_3);
 
               // Prepare order data for Stripe Checkout
+              // Map form field names to orderData field names
               const orderData = {
                 ...values,
                 totalAmount,
+                price: totalAmount, // Update price to total amount (this will be stored in DB)
                 category: category || 'trips',
+                // Map form fields to orderData format
+                fromLocation: values.pickup_location || '',
+                toLocation: values.dropoff_location || '',
+                stops: stopsArray,
+                date: values.pickup_date ? new Date(values.pickup_date).toISOString().split('T')[0] : '',
+                time: values.pickup_time ? `${values.pickup_time.hour}:${values.pickup_time.minute.toString().padStart(2, '0')}` : '',
+                returnDate: values.return_date ? new Date(values.return_date).toISOString().split('T')[0] : '',
+                returnTime: values.return_time ? `${values.return_time.hour}:${values.return_time.minute.toString().padStart(2, '0')}` : '',
+                flightName: (values as any).flight_name || '',
+                flightNumber: values.flight || '',
+                isAirportPickup: values.airport_pickup || false,
+                isFlightTrack: values.flight_track || false,
+                isMeetGreet: values.meet_greet || false,
+                isReturn: values.is_return || false,
+                isReturnFlightTrack: returnFlightTrack,
+                isReturnMeetGreet: returnMeetGreet,
+                extraStopsCount: String(extraStopsCount),
+                returnExtraStopsCount: String(returnExtraStopsCount),
+                instructions: values.instructions || '',
               };
 
               try {

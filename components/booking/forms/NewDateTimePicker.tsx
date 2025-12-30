@@ -229,7 +229,7 @@ export default function NewDateTimePicker({
                 )}
               >
                 {/* Cancel Header - Mobile Only */}
-                <div className="bg-gray-800 text-white py-3 px-4 -mx-6 -mt-4 mb-4 sm:hidden relative z-10 rounded-t-xl flex items-center justify-between">
+                <div className="bg-yellow-500 text-white py-3 px-4 -mx-6 -mt-4 mb-4 sm:hidden relative z-10 rounded-t-xl flex items-center justify-between">
                   <span className="text-base font-medium">Select Date</span>
                   <button
                     type="button"
@@ -292,7 +292,7 @@ export default function NewDateTimePicker({
                         key={idx}
                         onClick={() => !disabled && handleDateSelect(date)}
                         className={cn(
-                          "py-1.5 sm:py-2 cursor-pointer transition-all text-xs sm:text-sm flex items-center justify-center",
+                          "py-1.5 sm:py-2 cursor-pointer transition-all text-sm sm:text-base flex items-center justify-center font-bold",
                           disabled
                             ? "text-gray-300 cursor-not-allowed"
                             : inactive

@@ -14,13 +14,13 @@ function Step3() {
 
     // Calculate total price
     const basePrice = Number(formData.price.value ?? 0);
-    const returnPrice = formData.isReturn?.value ? basePrice - (basePrice / 10) : 0;
+    const returnPrice = category !== 'hourly' && formData.isReturn?.value ? basePrice - (basePrice / 10) : 0;
     const meetGreetFee = formData.isMeetGreet?.value ? 15 : 0;
     const flightTrackFee = formData.isFlightTrack?.value ? 7 : 0;
-    const extraStopsFee = Number(formData.extraStopsCount?.value || 0) * 7;
-    const returnMeetGreetFee = formData.isReturnMeetGreet?.value ? 15 : 0;
-    const returnFlightTrackFee = formData.isReturnFlightTrack?.value ? 7 : 0;
-    const returnExtraStopsFee = Number(formData.returnExtraStopsCount?.value || 0) * 7;
+    const extraStopsFee = category !== 'hourly' ? Number(formData.extraStopsCount?.value || 0) * 7 : 0;
+    const returnMeetGreetFee = category !== 'hourly' && formData.isReturnMeetGreet?.value ? 15 : 0;
+    const returnFlightTrackFee = category !== 'hourly' && formData.isReturnFlightTrack?.value ? 7 : 0;
+    const returnExtraStopsFee = category !== 'hourly' ? Number(formData.returnExtraStopsCount?.value || 0) * 7 : 0;
     
     const totalPrice = (
         basePrice + 
@@ -43,24 +43,26 @@ function Step3() {
                 </div>
                 <PhoneInput />
 
-                {/* Airport Pickup Details - After Phone Number */}
-                <div className="w-full rounded-lg bg-gray-200 px-4 py-3 border border-gray-200 flex flex-col">
-                    <SelectableCheckbox fieldName='isAirportPickup' label='Airport Pickup Details' />
+                {/* Airport Pickup Details - After Phone Number - Hide for hourly */}
+                {category !== 'hourly' && (
+                    <div className="w-full rounded-lg bg-gray-200 px-4 py-3 border border-gray-200 flex flex-col">
+                        <SelectableCheckbox fieldName='isAirportPickup' label='Airport Pickup Details' />
 
-                    <div className="w-full overflow-hidden transition-all duration-500"
-                        style={{ maxHeight: formData.isAirportPickup.value ? '200px' : '0' }}>
-                        <div className={`flex flex-col gap-3 pt-3 opacity-${formData.isAirportPickup.value ? '100' : '0'} transition-opacity duration-500`}>
-                            <DetailsInput field='flightName' placeholder='Airline Name' Icon={Plane} type='text' />
-                            <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
+                        <div className="w-full overflow-hidden transition-all duration-500"
+                            style={{ maxHeight: formData.isAirportPickup.value ? '200px' : '0' }}>
+                            <div className={`flex flex-col gap-3 pt-3 opacity-${formData.isAirportPickup.value ? '100' : '0'} transition-opacity duration-500`}>
+                                <DetailsInput field='flightName' placeholder='Airline Name' Icon={Plane} type='text' />
+                                <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
 
-                {/* Add Return */}
-                <AddReturn />
+                {/* Add Return - Hide for hourly */}
+                {category !== 'hourly' && <AddReturn />}
 
-                {/* Return Block - Show when return is checked */}
-                {formData.isReturn?.value && (
+                {/* Return Block - Show when return is checked - Hide for hourly */}
+                {category !== 'hourly' && formData.isReturn?.value && (
                     <div className="w-full rounded-lg bg-gray-200 px-4 py-3 border border-gray-200 flex flex-col gap-2">
                         <div className='font-bold text-gray-900'>Return Journey</div>
                         {/* Return Date and Time */}
@@ -133,14 +135,17 @@ function Step3() {
                       getQuantity={() => formData.isMeetGreet?.value ? 1 : 0}
                       onQuantityChange={(qty) => setFormData('isMeetGreet', qty === 1)}
                     />
-                    <QuantityCheckbox 
-                      fieldName='isExtraStops' 
-                      label='Extra Stops' 
-                      subLabel='£ 7'
-                      maxQuantity={999}
-                      getQuantity={() => Number(formData.extraStopsCount?.value || 0)}
-                      onQuantityChange={(qty) => setFormData('extraStopsCount', qty.toString())}
-                    />
+                    {/* Extra Stops - Hide for hourly */}
+                    {category !== 'hourly' && (
+                        <QuantityCheckbox 
+                          fieldName='isExtraStops' 
+                          label='Extra Stops' 
+                          subLabel='£ 7'
+                          maxQuantity={999}
+                          getQuantity={() => Number(formData.extraStopsCount?.value || 0)}
+                          onQuantityChange={(qty) => setFormData('extraStopsCount', qty.toString())}
+                        />
+                    )}
                 </div>
 
                 {/* Add Instructions */}
@@ -182,7 +187,8 @@ function Step3() {
                                 email: formData.email.value,
                                 phone: formData.phone.value,
                                 car: formData.car.value,
-                                price: formData.price.value,
+                                price: totalPrice, // Use total price (includes all extras), not base price
+                                totalAmount: parseFloat(totalPrice), // Also include as totalAmount for compatibility
                                 distance: formData.distance.value || 0,
                                 fromLocation: formData.fromLocation.value,
                                 toLocation: formData.toLocation.value || '',
