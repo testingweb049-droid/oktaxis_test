@@ -187,10 +187,10 @@ export default function OrderPage({ id }: OrderPageProps) {
 
   const stops = order.stops || [];
 
-  // Calculate individual prices
+  // The stored price is the TOTAL price including all extras
   const totalPrice = Number(order.price) || 0;
   
-  // Known service prices
+  // Calculate all extras fees
   const meetGreetPrice = order.meet_greet ? 15 : 0;
   const flightTrackPrice = order.flight_track ? 7 : 0;
   const extraStopsPrice = (order.extra_stops_count || 0) * 7;
@@ -198,29 +198,18 @@ export default function OrderPage({ id }: OrderPageProps) {
   const returnFlightTrackPrice = order.return_flight_track ? 7 : 0;
   const returnExtraStopsPrice = (order.return_extra_stops_count || 0) * 7;
   
-  // Calculate base price and return price
-  // Total = basePrice + returnPrice + all extras
-  // If return: returnPrice = basePrice * 0.9 (10% discount)
-  // So: total = basePrice + (basePrice * 0.9) + extras = basePrice * 1.9 + extras
-  // Therefore: basePrice = (total - extras) / 1.9
-  
+  // Total of all extras
   const totalExtras = meetGreetPrice + flightTrackPrice + extraStopsPrice + 
                       returnMeetGreetPrice + returnFlightTrackPrice + returnExtraStopsPrice;
   
-  let basePrice = 0;
-  let returnPrice = 0;
+  // Price without extras (this is the transfer price)
+  const transferPriceWithoutExtras = totalPrice - totalExtras;
   
-  if (order.is_return) {
-    // basePrice + returnPrice = total - extras
-    // returnPrice = basePrice * 0.9
-    // So: basePrice + (basePrice * 0.9) = total - extras
-    // basePrice * 1.9 = total - extras
-    basePrice = (totalPrice - totalExtras) / 1.9;
-    returnPrice = basePrice * 0.9;
-  } else {
-    basePrice = totalPrice - totalExtras;
-    returnPrice = 0;
-  }
+  // For return trips, the stored transfer price is already the total for both trips (with discount)
+  // For one-way trips, it's just the one-way price
+  // We'll use this directly in the breakdown
+  const basePrice = transferPriceWithoutExtras;
+  const returnPrice = order.is_return && order.category === 'trips' ? transferPriceWithoutExtras : 0;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -298,6 +287,8 @@ export default function OrderPage({ id }: OrderPageProps) {
                 value={order.pickup_location}
                 date={order.pickup_date}
                 time={order.pickup_time}
+                dateLabel="Pickup Date"
+                timeLabel="Pickup Time"
               />
 
               {/* Stops */}
@@ -336,6 +327,8 @@ export default function OrderPage({ id }: OrderPageProps) {
                       value={order.dropoff_location || order.pickup_location}
                       date={order.return_date}
                       time={order.return_time}
+                      dateLabel="Return Date"
+                      timeLabel="Return Time"
                     />
                     <TimelineItem
                       color="#ef4444"
@@ -438,7 +431,13 @@ export default function OrderPage({ id }: OrderPageProps) {
             <h2 className="text-lg font-semibold text-gray-800 mb-4">Price Breakdown</h2>
             <div className="space-y-3 text-sm">
               {/* Base Transfer */}
-              <PriceItem label={`${order.car} Transfer`} value={formatPrice(basePrice.toFixed(2))} />
+              {order.is_return && order.category === 'trips' ? (
+                // For return trips, show the total transfer price (both trips)
+                <PriceItem label={`${order.car} Transfer (Return)`} value={formatPrice(returnPrice.toFixed(2))} />
+              ) : (
+                // For one-way trips
+                <PriceItem label={`${order.car} Transfer`} value={formatPrice(basePrice.toFixed(2))} />
+              )}
 
               {/* Additional Services */}
               {meetGreetPrice > 0 && (
@@ -455,9 +454,6 @@ export default function OrderPage({ id }: OrderPageProps) {
               )}
 
               {/* Return Trip Services */}
-              {returnPrice > 0 && (
-                <PriceItem label="Return Transfer" value={formatPrice(returnPrice.toFixed(2))} />
-              )}
               {returnMeetGreetPrice > 0 && (
                 <PriceItem label="Return Meet & Greet" value={formatPrice(returnMeetGreetPrice.toFixed(2))} />
               )}
@@ -514,9 +510,11 @@ interface TimelineItemProps {
   value?: string;
   date?: string | null;
   time?: string | null;
+  timeLabel?: string; // Optional label for time (e.g., "Pickup Time", "Return Time")
+  dateLabel?: string; // Optional label for date (e.g., "Pickup Date", "Return Date")
 }
 
-const TimelineItem: React.FC<TimelineItemProps> = ({ color, label, value, date, time }) => (
+const TimelineItem: React.FC<TimelineItemProps> = ({ color, label, value, date, time, timeLabel, dateLabel }) => (
   <div className="relative pb-6 last:pb-0">
     <div
       className="absolute -left-0.5 w-4 h-4 top-1 rounded-full border-2 border-white shadow-sm"
@@ -524,12 +522,24 @@ const TimelineItem: React.FC<TimelineItemProps> = ({ color, label, value, date, 
     ></div>
     <div className="ml-6">
       <p className="text-sm font-semibold text-gray-800">{label}</p>
-      {date && (
-        <p className="text-xs text-gray-500 mt-1">
-          {formatDate(date)} • {formatTime(time)}
-        </p>
+      {(date || time) && (
+        <div className="text-sm font-semibold text-blue-600 mt-1 bg-blue-50 px-3 py-1.5 rounded border border-blue-200 inline-block">
+          {date && (
+            <span>
+              {dateLabel || 'Date'}: <span className="font-bold">{formatDate(date)}</span>
+            </span>
+          )}
+          {date && time && <span className="mx-2">•</span>}
+          {time && (
+            <span>
+              {timeLabel || 'Time'}: <span className="font-bold">{formatTime(time)}</span>
+            </span>
+          )}
+        </div>
       )}
-      <p className="text-sm text-gray-700 mt-1 bg-gray-50 p-2 rounded border">{value}</p>
+      {value && (
+        <p className="text-sm text-gray-700 mt-2 bg-gray-50 p-2 rounded border">{value}</p>
+      )}
     </div>
   </div>
 );

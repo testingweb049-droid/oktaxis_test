@@ -1,18 +1,33 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { GoPeople } from "react-icons/go";
 import { PiSuitcase } from "react-icons/pi";
 import { cn } from "@/lib/utils";
 import useFormStore from "@/stores/FormStore";
-import { ArrowRight, Loader } from "lucide-react";
+import { ArrowRight, Loader, Building, CarFront, Ruler, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { fleets } from "./fleets-data";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 function CarList() {
   const { formData, category, setFormData, changeStep, formLoading } = useFormStore();
   const router = useRouter();
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  // Show dialog by default when component mounts and category is hourly
+  useEffect(() => {
+    if (category === 'hourly') {
+      setDialogOpen(true);
+    }
+  }, [category]);
 
   const handleSelect = async (item: (typeof fleets)[0], price: number) => {
     setFormData("car", item.name, '');
@@ -23,9 +38,79 @@ function CarList() {
     }
   };
 
+  const handleDialogConfirm = () => {
+    setDialogOpen(false);
+  };
+
+  // Filter vehicles based on passenger count
+  const passengerCount = Number(formData.passengers.value) || 1;
+  const filteredFleets = fleets.filter((item) => item.passengers >= passengerCount);
+
   return (
-    <div className="w-full flex flex-col gap-3 sm:gap-4 md:gap-5">
-      {fleets.map((item) => {
+    <>
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="max-w-lg p-6">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-semibold">Important Information</DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-5 mt-4">
+            {/* Distance Included */}
+            <div className="flex gap-3">
+              <Ruler className="text-gray-700 mt-1 flex-shrink-0" />
+              <div>
+                <h3 className="font-medium text-lg">Distance Included</h3>
+                <p className="text-gray-600 text-base">
+                  Your ride includes <strong>15 miles/hour</strong> booked. Extra distance or time will result in extra charges.
+                </p>
+              </div>
+            </div>
+
+            {/* Return Location */}
+            <div className="flex gap-3">
+              <Building className="text-gray-700 mt-1 flex-shrink-0" />
+              <div>
+                <h3 className="font-medium text-lg">Return Location</h3>
+                <p className="text-gray-600 text-base">
+                  Bookings must end in the same city or metropolitan area as the pickup location, or a vehicle-return fee will apply. For inter-city travel, choose one-way.
+                </p>
+              </div>
+            </div>
+
+            {/* Capacity Limits */}
+            <div className="flex gap-3">
+              <Users className="text-gray-700 mt-1 flex-shrink-0" />
+              <div>
+                <h3 className="font-medium text-lg">Capacity Limits</h3>
+                <p className="text-gray-600 text-base">
+                  Respect guest/luggage capacity for safety. Choose a larger class if unsure—chauffeurs may decline if limits are exceeded.
+                </p>
+              </div>
+            </div>
+
+            {/* Vehicle Assignment */}
+            <div className="flex gap-3">
+              <CarFront className="text-gray-700 mt-1 flex-shrink-0" />
+              <div>
+                <h3 className="font-medium text-lg">Vehicle Assignment</h3>
+                <p className="text-gray-600 text-base">
+                  Vehicle images are examples. A similar-quality vehicle may be assigned.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <Button
+            onClick={handleDialogConfirm}
+            className="w-full mt-6 bg-brand hover:bg-primary-yellow/90 text-black font-semibold"
+          >
+            GOT IT
+          </Button>
+        </DialogContent>
+      </Dialog>
+
+      <div className="w-full flex flex-col gap-3 sm:gap-4 md:gap-5">
+        {filteredFleets.map((item) => {
         let price = '0';
         if (category === 'hourly') {
           price = (Number(formData.duration.value) * item.hourly).toFixed()
@@ -78,9 +163,11 @@ function CarList() {
                 <div className="text-base sm:text-lg md:text-xl font-bold text-gray-900">
                   £{price}
                 </div>
-                <div className="text-xs text-red-500 line-through">
-                  £{(Number(price) + (Number(price) / 10)).toFixed(2)}
-                </div>
+                {(item.name === "Premium" || item.name === "Executive Premium") && (
+                  <div className="text-xs text-red-500 line-through">
+                    £{(Number(price) + (Number(price) / 10)).toFixed(2)}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -102,7 +189,8 @@ function CarList() {
           </div>
         </div>
       })}
-    </div>
+      </div>
+    </>
   );
 }
 

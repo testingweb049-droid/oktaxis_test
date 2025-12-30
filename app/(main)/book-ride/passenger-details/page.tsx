@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 import { ArrowDown, ArrowUp, ArrowLeft } from 'lucide-react'
 
 function Page() {
-  const { isMobileDropdownOpen, toggleMobileDropdown, formData } = useFormStore()
+  const { isMobileDropdownOpen, toggleMobileDropdown, formData, category } = useFormStore()
   const router = useRouter()
   const headerRef = useRef<HTMLDivElement | null>(null)
 
@@ -57,7 +57,7 @@ function Page() {
           <div className={`overflow-hidden transition-all duration-700 flex flex-col gap-3  ease-out
             ${isMobileDropdownOpen ? 'max-h-[2000px] opacity-100  p-1' : 'max-h-0 opacity-0 p-0' }
           `}>
-            <GoogleMapsRoute/>
+            {category !== 'hourly' && <GoogleMapsRoute/>}
             <PickupTripDetails/>
             <SelectedCar/>
             <FeatureList/>
@@ -73,7 +73,7 @@ function Page() {
             <DetailsForm/>
           </div>
           <div className='hidden lg:flex flex-col gap-5 w-full'>
-            <GoogleMapsRoute/>
+            {category !== 'hourly' && <GoogleMapsRoute/>}
             <PickupTripDetails/>
             <SelectedCar/>
             <FeatureList/>
