@@ -69,6 +69,38 @@ const navLinks: NavLink[] = [
     ],
   },
   {
+    id: "top-cities",
+    title: "Top Cities",
+    submenu: true,
+    sublinks: [
+      {
+        id: "manchester",
+        title: "Manchester",
+        path: "/manchester-airport",
+      },
+      {
+        id: "liverpool",
+        title: "Liverpool",
+        path: "/liverpool-airport",
+      },
+      {
+        id: "london",
+        title: "London",
+        path: "/london-chauffeur-service",
+      },
+      {
+        id: "leeds",
+        title: "Leeds",
+        path: "/leeds",
+      },
+      {
+        id: "birmingham",
+        title: "Birmingham",
+        path: "/birmingham-chauffeur-service",
+      },
+    ],
+  },
+  {
     id: "fleet",
     title: "Fleets",
     path: "/fleet",

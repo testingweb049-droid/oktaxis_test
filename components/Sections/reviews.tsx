@@ -1,5 +1,6 @@
- "use client"
+"use client"
 import React, { useRef } from "react";
+import Image from "next/image";
 import Heading from "@/components/Heading";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -13,6 +14,7 @@ interface Review {
   platform: "google" | "facebook" | "spotify";
   review: string;
   rating: number;
+  image?: string;
 }
 
 const reviews: Review[] = [
@@ -23,6 +25,7 @@ const reviews: Review[] = [
     review:
       "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The fixed pricing gave me peace of mind, and the journey was smooth and comfortable.",
     rating: 5,
+    image: "/assets/clients/client-1.jpg",
   },
   {
     name: "Bessie Cooper",
@@ -38,6 +41,7 @@ const reviews: Review[] = [
     review:
       "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The fixed pricing gave me peace of mind, and the journey was smooth and comfortable.",
     rating: 5,
+    image: "/assets/clients/client-2.jpg",
   },
   {
     name: "John Doe",
@@ -209,15 +213,25 @@ export default function Reviews() {
         >
           {reviews.map((review, index) => (
             <SwiperSlide key={index}>
-              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 flex flex-col h-full">
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 flex flex-col h-[260px] md:h-[280px] lg:h-[300px]">
                 {/* User Info */}
                 <div className="flex items-start gap-3 mb-4">
                   {/* Avatar with Platform Logo */}
                   <div className="relative flex-shrink-0">
-                    <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
-                      <span className="text-lg font-semibold text-gray-600">
-                        {review.name.charAt(0)}
-                      </span>
+                    <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                      {review.image ? (
+                        <Image
+                          src={review.image}
+                          alt={review.name}
+                          width={120}
+                          height={120}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-lg font-semibold text-gray-600">
+                          {review.name.charAt(0)}
+                        </span>
+                      )}
                     </div>
                     <PlatformLogo platform={review.platform} />
                   </div>

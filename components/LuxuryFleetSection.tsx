@@ -33,37 +33,78 @@ const FLEET_CARDS = [
   {
     id: 1,
     title: "1. Economy Class",
-    image: "/assets/cars/economy.png",
+    image: "/assets/cars/economy-vehical-img.png",
+    details: [
+      {
+        label: "Models:",
+        text: "Skoda Octavia, Toyota Prius",
+      },
+      {
+        label: "Best For:",
+        text: "Daily airport runs and cost-effective city travel.",
+      },
+      {
+        label: "Details:",
+        text: "Thrifty on fuel and solid on reliability. These vehicles are ideal for solo travellers or couples needing a quick, budget-friendly transfer without sacrificing cleanliness or punctuality.",
+      },
+    ],
   },
   {
     id: 2,
-    title: "2. Premium",
-    image: "/assets/cars/premium.png",
+    title: "2. Executive Class",
+    image: "/assets/cars/premium-vehical-img.png",
+    details: [
+      {
+        label: "Models:",
+        text: "BMW 5 Series, Mercedes E-Class",
+      },
+      {
+        label: "Best For:",
+        text: "Business meetings and corporate travel.",
+      },
+      {
+        label: "Details:",
+        text: "Step up a notch with our Executive range. Featuring leather seats, superior soundproofing, and a smooth drive, these are perfect for professionals who need a smart, productive environment on the move.",
+      },
+    ],
   },
   {
     id: 3,
     title: "3. Executive Premium",
-    image: "/assets/cars/executive-premium.png",
+    image: "/assets/cars/executive-premium-vehical-img.png",
+    details: [
+      {
+        label: "Models:",
+        text: "Tesla Model S",
+      },
+      {
+        label: "Best For:",
+        text: "VIP arrivals and eco-conscious travelers.",
+      },
+      {
+        label: "Details:",
+        text: "Experience the future of travel. The Tesla Model S offers near-silent electric power and zero emissions, ensuring you arrive in sophisticated style while minimizing your carbon footprint.",
+      },
+    ],
   },
   {
     id: 4,
-    title: "4. Luxury Van",
-    image: "/assets/cars/luxury-van.png",
-  },
-];
-
-const DETAILS_POINTS = [
-  {
-    label: "Models:",
-    text: "Skoda Octavia, Toyota Prius",
-  },
-  {
-    label: "Best For:",
-    text: "Daily airport runs and cost-effective city travel.",
-  },
-  {
-    label: "Details:",
-    text: "Thrifty on fuel and solid on reliability. These vehicles are ideal for solo travellers or couples needing a quick, budget-friendly transfer without sacrificing cleanliness or punctuality.",
+    title: "4. Luxury Van & Group Vehicles",
+    image: "/assets/cars/luxury-van-vehical-img.png",
+    details: [
+      {
+        label: "Models:",
+        text: "Mercedes V-Class",
+      },
+      {
+        label: "Best For:",
+        text: "Families, Roadshows, and Golf Trips.",
+      },
+      {
+        label: "Details:",
+        text: "If you are travelling with a team or family, our XL Passenger Vans offer loads of space for up to 8 passengers plus luggage. Flexible seating arrangements make this brilliant for airport transfers or group days out.",
+      },
+    ],
   },
 ];
 
@@ -106,7 +147,7 @@ export default function LuxuryFleetSection() {
                       </Heading>
 
                       <div className="space-y-4">
-                        {DETAILS_POINTS.map((item) => (
+                        {card.details.map((item) => (
                           <div
                             key={item.label}
                             className="flex items-start gap-3"
@@ -128,13 +169,13 @@ export default function LuxuryFleetSection() {
                     {/* Image column */}
                     <div className="w-full lg:w-1/2 flex justify-center">
                       <div className="w-full max-w-3xl rounded-md border border-[#EFEFEF] bg-white px-4 py-6 sm:px-8 sm:py-10 flex items-center justify-center">
-                        <div className="relative w-full aspect-[16/6] md:aspect-[16/5]">
+                        <div className="relative w-full aspect-[16/6] md:aspect-[16/8]">
                           <Image
                             src={card.image}
                             alt={card.title}
                             fill
                             sizes="(min-width:1024px) 50vw, 100vw"
-                            className="object-contain rounded-md"
+                            className="object-cover"
                             priority={index === 0}
                           />
                         </div>

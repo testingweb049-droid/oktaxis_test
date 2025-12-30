@@ -31,12 +31,19 @@ const montserrat = Montserrat({
 });
 
 // Generate metadata using the SEO utility
-export const metadata: Metadata = generateSEOMetadata({
+const baseMetadata: Metadata = generateSEOMetadata({
   title: "Trusted Taxi Service in Manchester",
   description:
     "Book reliable and affordable taxi services in Manchester. 24/7 availability. Airport transfers, city rides & more.",
   pageUrl: "/",
 });
+
+export const metadata: Metadata = {
+  ...baseMetadata,
+  icons: {
+    icon: "/assets/favicon.png",
+  },
+};
 
 export default function RootLayout({
   children,

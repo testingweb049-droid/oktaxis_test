@@ -8,7 +8,7 @@ export const SITE_CONFIG = {
     "OKTaxis provides luxury chauffeur services, airport transfers, city rides, wedding cars, and premium transportation in Manchester, Liverpool, and across the UK. 24/7 reliable service.",
   url: process.env.NEXT_PUBLIC_BASE_URL || "https://oktaxis.co.uk",
   ogImage: "/premium-vehicles.jpg",
-  logo: "/favicon.png",
+  logo: "/assets/favicon.png",
   twitterHandle: process.env.NEXT_PUBLIC_TWITTER_HANDLE || undefined,
   author: "OKTaxis",
   phone: "+44 7788 710290",

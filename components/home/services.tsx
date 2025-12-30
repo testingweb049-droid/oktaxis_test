@@ -61,7 +61,7 @@ const services = [
     category: "CHAUFFEUR SERVICES",
     description:
       "Explore Manchester with our city tours in style. Visit Northern Quarter and Spinningfields with expert guides. Book today for a memorable journey.",
-    image: "/manchester-chauffeur.jpg",
+    image: "/chauffeur-manchester.jpg",
     size: "small",
   },
 ]

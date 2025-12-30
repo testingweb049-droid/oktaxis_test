@@ -49,14 +49,13 @@ export default function WhyChoose() {
           <div className="flex flex-col items-center sm:items-start space-y-2 sm:space-y-3">
             {/* Stars Rating */}
             <div className="flex items-center gap-1.5 sm:gap-2">
-              {[...Array(4)].map((_, i) => (
+              {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
                   className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 fill-primary-yellow text-primary-yellow"
                 />
               ))}
-              <Star className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 fill-gray-300 text-gray-300" />
-            </div>
+             </div>
 
             {/* Trust Text */}
             <p className="text-sm sm:text-base md:text-lg font-regular text-text-gray leading-tight text-center sm:text-left">

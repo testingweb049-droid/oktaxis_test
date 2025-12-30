@@ -64,6 +64,8 @@ export default function Fleet() {
 
       <OurServicesSection
         headline="Key Fleet Features"
+        servicesClassName="!gap-20"
+
         services={[
           {
             icon: (

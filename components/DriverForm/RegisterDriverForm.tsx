@@ -281,7 +281,7 @@ export default function RegisterDriverForm() {
       onSubmit={handleSubmit}
     >
       {({ values, setFieldValue, isSubmitting, errors, touched }) => (
-        <Form className="space-y-5 bg-white rounded-lg p-6 md:p-8 shadow-lg">
+        <Form className="space-y-5 bg-white rounded-lg py-6 px-4 sm:p-6 md:p-8 shadow-lg max-h-[calc(100vh-4rem)] md:max-h-none overflow-y-auto">
           <div>
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Partner With Us</h2>
             <p className="text-gray-600 text-sm md:text-base">Join our driver network and start earning today.</p>

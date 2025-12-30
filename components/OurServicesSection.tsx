@@ -43,7 +43,7 @@ export function OurServicesSection({
         {/* Services Grid */}
         <div
           className={cn(
-            "mt-12 flex flex-wrap justify-center gap-10 md:gap-12",
+            "mt-16 flex flex-wrap justify-center gap-10 md:gap-12",
             servicesClassName,
           )}
         >
