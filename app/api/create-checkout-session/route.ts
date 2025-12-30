@@ -26,7 +26,8 @@ function transformToOrderDataType(formData: any): OrderDataType {
     duration: String(formData.duration || ''),
     distance: Number(formData.distance || 0),
     car: formData.car || '',
-    price: String(formData.price || '0'),
+    // Use totalAmount if available, otherwise use price (for backward compatibility)
+    price: String(formData.totalAmount || formData.price || '0'),
     name: formData.name || '',
     phone: formData.phone || '',
     email: formData.email || '',
