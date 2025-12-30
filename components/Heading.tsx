@@ -12,7 +12,7 @@ interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
 export function Heading({ as = "h2", children, className, align = "center", ...props }: HeadingProps) {
   const Tag = as
   const baseClasses =
-    "text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold text-heading-black mb-6 sm:mb-8 md:mb-12 lg:mb-16"
+    "text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-heading-black mb-4 sm:mb-6 md:mb-8 lg:mb-12"
 
   const alignClass =
     align === "left" ? "text-left" : align === "right" ? "text-right" : "text-center"

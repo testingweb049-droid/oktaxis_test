@@ -164,7 +164,7 @@ export default function HourlyChauffeur() {
               "If you are visiting for a series of investor meetings or media interviews, punctuality is non-negotiable. We navigate the busy streets of Manchester City Centre and the Liverpool Commercial District, ensuring you are dropped off at the door.",
               "Arriving by air? We can pick you up directly with our Manchester Airport Service and immediately switch to an hourly rate for your day of meetings.",
             ],
-            imageSrc: "/assets/hourly-images/hourly-img-1.png",
+            imageSrc: "/assets/hourly-images/hourly-connection-img-1.png",
             imageAlt: "Financial and media roadshows in Manchester and Liverpool",
           },
           {
@@ -173,7 +173,7 @@ export default function HourlyChauffeur() {
               "The North West is a shopping destination. Visiting the Trafford Centre, King Street, or the Cheshire Oaks Designer Outlet is difficult with public transport.",
               "With our hourly chauffeur service in Manchester, you can shop without carrying heavy bags. Your chauffeur will load your purchases into the boot while you head to the next boutique.",
             ],
-            imageSrc: "/assets/hourly-images/hourly-img-2.png",
+            imageSrc: "/assets/hourly-images/hourly-connection-img-2.png",
             imageAlt: "Luxury shopping trip with chauffeur service",
           },
           {
@@ -182,7 +182,7 @@ export default function HourlyChauffeur() {
               "From match days at Old Trafford and Anfield to races at Aintree or Chester, parking at major events is difficult. We drop you at the VIP entrance and wait for you.",
               "If you have a free day, we can create a custom tour of the region, taking you from the Liverpool waterfront to the stunning landscapes of the Lake District or Peak District on your schedule.",
             ],
-            imageSrc: "/assets/hourly-images/hourly-img-3.png",
+            imageSrc: "/assets/hourly-images/hourly-connection-img-3.png",
             imageAlt: "Events and sightseeing with chauffeur-driven car",
           },
         ]}

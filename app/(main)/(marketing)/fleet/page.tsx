@@ -1,118 +1,176 @@
 import { Metadata } from "next";
-import FleetClasses from "@/components/home/fleet";
-import WhyChoose from "@/components/ui/ChooseWhy";
-import OfferSection from "@/components/ui/OfferSection";
-import HeroSection2 from "@/components/ui/HeroSection2";
-import ImageTextSection from "@/components/ui/ImageTextSection";
-import { homePageData } from "@/constants/homePageData";
-import { Check } from "lucide-react";
-import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+import FleetsOfferSection from "@/components/FleetsOfferSection";
+import StructuredData from "@/components/StructuredData";
+import MainBanner from "@/components/MainBanner";
+import PageAboutSection from "@/components/PageAboutSection";
+import OurServicesSection from "@/components/OurServicesSection";
+import LuxuryFleetSection from "@/components/LuxuryFleetSection";
+import {
+  generateMetadata as generateSEOMetadata,
+  generateWebPageSchema,
+  generateServiceSchema,
+} from "@/lib/seo";
+import ReviewsSection from "@/components/Sections/reviews";
+
+const FLEET_HEADING =
+  "Our Services & Luxury Fleet | OKTaxis Chauffeur Service Manchester";
+const FLEET_DESCRIPTION =
+  "Explore the OKTaxis luxury fleet. From Executive Mercedes E-Class to XL Passenger Vans. Premium chauffeur services in Manchester and Liverpool.";
 
 export const metadata: Metadata = generateSEOMetadata({
-  title: "Our Fleet | OKTaxis Manchester Chauffeur Services",
-  description:
-    "Explore OKTaxis' premium fleet including executive sedans, spacious vans, and luxury vehicles. Impeccably maintained for every journey in Manchester and beyond.",
+  title: FLEET_HEADING,
+  description: FLEET_DESCRIPTION,
   pageUrl: "/fleet",
   keywords: [
-    "fleet manchester",
-    "luxury car fleet",
-    "executive car fleet",
-    "chauffeur fleet",
-    "vehicle fleet",
+    "luxury fleet manchester",
+    "executive car fleet manchester",
+    "chauffeur fleet manchester",
+    "mercedes chauffeur vehicles",
+    "xl passenger vans manchester",
   ],
 });
 
 export default function Fleet() {
-  const { bgImg } = homePageData.ourFleets || [];
+  const breadcrumbs = [
+    { name: "Home", url: "https://oktaxis.co.uk/" },
+    { name: "Our Fleet", url: "https://oktaxis.co.uk/fleet" },
+  ];
+
   return (
-    <>  
-      <HeroSection2
-        bgImage={bgImg.src}
-        title="Our Fleet"
+    <>
+      <StructuredData
+        data={[
+          generateWebPageSchema({
+            title: `${FLEET_HEADING} | OKTaxis`,
+            description: FLEET_DESCRIPTION,
+            url: "https://oktaxis.co.uk/fleet",
+            breadcrumbs,
+          }),
+          generateServiceSchema({
+            name: "OKTaxis Luxury Chauffeur Fleet Manchester",
+            description: FLEET_DESCRIPTION,
+            areaServed: "Manchester, Liverpool, Greater Manchester, Merseyside",
+            serviceType: "Chauffeur Service",
+          }),
+        ]}
+        id="fleet-schema"
       />
 
-      <OfferSection />
-      <ImageTextSection
-        imageSrc="/chauffeur.jpg"
-        imageAlt="Manchester Airport Transfers"
-        imagePosition="left"
-        headingAs="h2"
+      <MainBanner heading={FLEET_HEADING} text={FLEET_DESCRIPTION} />
+      <FleetsOfferSection />
 
-        text={
-          <>
-            <p>
-              Here at OKTaxis, we focus on giving you dependable, custom trips right across the UK. We cover places like Manchester, Liverpool, London, Leeds, Birmingham, and Edinburgh, where our drivers really know the roads well. We make sure you're on time with live tracking and round-the-clock help on +44 7788 710290 or info@oktaxis.co.uk. Safety and comfort come first, based on our long track record of reliable service.
-            </p>
-            <p className="mt-4">
-              We give you choices that suit any budget, whether you're going alone or with mates. Our cars come with Wi-Fi, spots to charge your phone, and plenty of room for bags. Our qualified drivers can share tips on the best ways to go and what's good locally. You get fair prices with no hidden extras—just straightforward, easy travel.
-            </p>
-          </>
-        }
+      <LuxuryFleetSection />
+     
+
+      <OurServicesSection
+        headline="Key Fleet Features"
+        services={[
+          {
+            icon: (
+              <svg
+                className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10"
+                viewBox="0 0 52 52"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M13.0013 21.6667L8.66797 26L21.668 39L43.3346 17.3333L39.0013 13L21.668 30.3333L13.0013 21.6667Z"
+                  fill="#FFB400"
+                />
+              </svg>
+            ),
+            title: "Connectivity",
+            description: "Wi-Fi and USB charging points to keep you connected.",
+            className:
+              "w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 max-w-[18rem]",
+          },
+          {
+            icon: (
+              <svg
+                className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10"
+                viewBox="0 0 52 52"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M13.0013 21.6667L8.66797 26L21.668 39L43.3346 17.3333L39.0013 13L21.668 30.3333L13.0013 21.6667Z"
+                  fill="#FFB400"
+                />
+              </svg>
+            ),
+            title: "Comfort",
+            description:
+              "Roomy interiors with ample legroom for long-distance travel.",
+            className:
+              "w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 max-w-[18rem]",
+          },
+          {
+            icon: (
+              <svg
+                className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10"
+                viewBox="0 0 52 52"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M13.0013 21.6667L8.66797 26L21.668 39L43.3346 17.3333L39.0013 13L21.668 30.3333L13.0013 21.6667Z"
+                  fill="#FFB400"
+                />
+              </svg>
+            ),
+            title: "Safety",
+            description:
+              "Top-tier safety kits including advanced crash avoidance technology.",
+            className:
+              "w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 max-w-[18rem]",
+          },
+          {
+            icon: (
+              <svg
+                className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10"
+                viewBox="0 0 52 52"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M13.0013 21.6667L8.66797 26L21.668 39L43.3346 17.3333L39.0013 13L21.668 30.3333L13.0013 21.6667Z"
+                  fill="#FFB400"
+                />
+              </svg>
+            ),
+            title: "Flexibility",
+            description:
+              "Optional extras like child seats available upon request.",
+            className:
+              "w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 max-w-[18rem]",
+          },
+        ]}
 
       />
-
-      <ImageTextSection
-        imageSrc="/Taxi In Manchester Taxi Service.png"
-        imageAlt="Executive Airport Transfer"
-        title={
-          <span className="text-3xl md:text-4xl font-bold">
-            Our{" "}
-            <span className="text-brand text-3xl md:text-4xl font-bold">
-              Luxury{" "}
-            </span>{" "}
-            Fleet at{" "}
-            <span className="text-brand text-3xl md:text-4xl font-bold">
-              OKTaxis
-            </span>
-          </span>
-        }
-        text={
-          <>
-            <p>
-              Our fleet mixes comfort, good looks, and smart running for all
-              sorts of travellers. Every car gets strict checks to keep it super
-              safe. From green hybrids to big vans, they're spot on for busy
-              city streets in London or the ups and downs in Edinburgh. We keep
-              things fresh by listening to what you say and adding new bits.
-            </p>
-            <p className="mt-4">
-              We match what you want, be it cheap or posh, in our selection.
-              Here's the key stuff that makes it great:
-            </p>
-
-
-          </>
-        }
-        bgColor="bg-white"
-        imagePosition="right"
-      />
-
-      <div className="w-full max-w-7xl mx-auto px-4">
-
-
-
-
-        <ul className="mt-6 space-y-3 text-gray-800">
-          {[
-            "Roomy insides for comfy long trips.",
-            "Top safety kit like crash avoidance.",
-            "Green choices that cut emissions.",
-            "Extras you can add, like baby seats.",
-
-          ].map((item, i) => (
-            <li key={i} className="flex items-start">
-              <div className="flex-shrink-0 mt-1">
-                <div className="w-6 h-6 bg-brand rounded-full flex items-center justify-center">
-                  <Check className="w-4 h-4 text-white" />
-                </div>
-              </div>
-              <span className="ml-3 text-base md:text-lg">{item}</span>
-            </li>
-          ))}
-        </ul>
+ <div className="bg-light-background py-2 md:py-8">
+        <PageAboutSection
+          heading="Dependable UK-Wide Coverage"
+          text={[
+            "Here at OKTaxis, we focus on giving you dependable, custom trips right across the UK.",
+            "While our heart is in the North West (Manchester, Liverpool, Leeds), our reach extends to Birmingham, London, and Edinburgh.",
+            "Our drivers know the UK motorway network inside out. We ensure you're on time with live tracking and round-the-clock help via our 24/7 support line on +44 7788 710290 or info@oktaxis.co.uk.",
+          ]}
+          image="/assets/fleets-images/fleet-about-img.png"
+          imageAlt="Dependable UK-wide chauffeur coverage by OKTaxis"
+          imagePosition="right"
+         
+        />
       </div>
-      <WhyChoose />
-      <FleetClasses />
+
+      <ReviewsSection />
     </>
   );
 }

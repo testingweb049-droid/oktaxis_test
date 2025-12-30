@@ -6,18 +6,21 @@ export interface ServiceItem {
   icon: React.ReactNode
   title: string
   description: string
+  className?: string
 }
 
 interface OurServicesSectionProps {
   headline: string
   services: ServiceItem[]
   className?: string
+  servicesClassName?: string
 }
 
 export function OurServicesSection({
   headline,
   services,
   className,
+  servicesClassName,
 }: OurServicesSectionProps) {
   return (
     <section
@@ -38,34 +41,41 @@ export function OurServicesSection({
         </Heading>
 
         {/* Services Grid */}
-        <div className="">
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
-          {services.map((service, index) => (
-            <div
-              key={index}
-              className="flex flex-col items-center text-center"
-            >
-              {/* Icon Circle */}
-              <div className="flex items-center justify-center h-16 w-16 md:h-18 md:w-18 rounded-full border border-dark-border bg-dark-background">
-                <div className="text-primary-yellow !text-xl sm:text-2xl">
-                  {service.icon}
+        <div
+          className={cn(
+            "mt-12 flex flex-wrap justify-center gap-10 md:gap-12",
+            servicesClassName,
+          )}
+        >
+          {services.map((service, index) => {
+            const defaultCardClasses =
+              "flex flex-col items-center text-center";
+
+            return (
+              <div
+                key={index}
+                className={cn(defaultCardClasses, service.className)}
+              >
+                {/* Icon Circle */}
+                <div className="flex items-center justify-center h-16 w-16 md:h-18 md:w-18 rounded-full border border-dark-border bg-dark-background">
+                  <div className="text-primary-yellow !text-xl sm:text-2xl">
+                    {service.icon}
+                  </div>
                 </div>
+
+                {/* Service Heading */}
+                <h3 className="mt-6 text-2xl md:text-3xl font-semibold text-white">
+                  {service.title}
+                </h3>
+
+                {/* Service Text */}
+                <p className="mt-4 text-lg text-light-gray leading-relaxed max-w-[27rem]">
+                  {service.description}
+                </p>
               </div>
-
-              {/* Service Heading */}
-              <h3 className="mt-6 text-2xl md:text-3xl font-semibold text-white">
-                {service.title}
-              </h3>
-
-              {/* Service Text */}
-              <p className="mt-4 text-lg text-light-gray leading-relaxed max-w-[27rem]">
-                {service.description}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
-        </div>
-     
       </div>
         </div>
      
