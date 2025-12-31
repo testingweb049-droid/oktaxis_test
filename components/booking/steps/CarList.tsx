@@ -16,6 +16,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 function CarList() {
   const { formData, category, setFormData, changeStep, formLoading } = useFormStore();
@@ -130,13 +136,13 @@ function CarList() {
             {/* Row 1: Image, Title and Car Description */}
             <div className="flex flex-row items-center gap-2 sm:gap-3 md:gap-4">
               {/* Image Section */}
-              <div className="flex-shrink-0 w-16 sm:w-20 md:w-24 flex justify-center items-center">
+              <div className="flex-shrink-0 w-32 sm:w-40 md:w-48 lg:w-56 flex justify-center items-center">
                 <Image
                   src={item.image}
                   alt={item.name}
-                  className="object-contain w-full h-auto max-h-16 sm:max-h-20"
+                  className="object-contain w-full h-auto"
                   width={140}
-                  height={100}
+                  height={200}
                 />
               </div>
               
@@ -160,7 +166,7 @@ function CarList() {
                 <span>{item.suitcases}</span>
               </div>
               <div className="flex items-center gap-1.5 sm:gap-2 ml-auto">
-                <div className="text-base sm:text-lg md:text-xl font-bold text-gray-900">
+                <div className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-900">
                   £{price}
                 </div>
                 {(item.name === "Premium" || item.name === "Executive Premium") && (
@@ -170,6 +176,39 @@ function CarList() {
                 )}
               </div>
             </div>
+
+            {/* Features Accordion */}
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value={`features-${item.name}`} className="border-0">
+                <AccordionTrigger className="py-1 text-sm font-medium text-gray-700 hover:no-underline">
+                  <span>Included Features</span>
+                </AccordionTrigger>
+                <AccordionContent className="pt-2 pb-3">
+                  <div className="space-y-2 text-sm text-gray-600">
+                    <div className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-brand flex-shrink-0"></div>
+                      <span>Free 40 minutes of wait time</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-brand flex-shrink-0"></div>
+                      <span>Complimentary bottle of water</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-brand flex-shrink-0"></div>
+                      <span>Complimentary in-vehicle WiFi</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-brand flex-shrink-0"></div>
+                      <span>Tissues and sanitizer</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-brand flex-shrink-0"></div>
+                      <span>Android and iPhone chargers</span>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
           <div className="w-full border-t border-gray-200">
             {formLoading && formData.car.value === item.name ? (

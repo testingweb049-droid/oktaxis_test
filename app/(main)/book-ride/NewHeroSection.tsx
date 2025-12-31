@@ -24,7 +24,7 @@ function NewHeroSection() {
                   <path d="M7.06342 1.3563L5.28467 4.96282L1.30497 5.54303C0.591294 5.64654 0.305279 6.52638 0.822831 7.03031L3.70205 9.83599L3.02107 13.7993C2.89849 14.5157 3.65302 15.0524 4.28498 14.7173L7.8452 12.846L11.4054 14.7173C12.0374 15.0496 12.7919 14.5157 12.6693 13.7993L11.9883 9.83599L14.8676 7.03031C15.3851 6.52638 15.0991 5.64654 14.3854 5.54303L10.4057 4.96282L8.62697 1.3563C8.30827 0.713449 7.38485 0.705278 7.06342 1.3563Z" className="fill-primary-yellow" />
                 </svg>
                 <span className='font-montserrat text-primary-yellow text-xs sm:text-sm md:text-base font-bold uppercase tracking-wide whitespace-normal sm:whitespace-nowrap'>
-                 Airport Transfer & Chauffeured Service
+                Best Fleet Service In Manchester
                 </span>
               </div>
 

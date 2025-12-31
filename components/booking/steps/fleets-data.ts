@@ -12,7 +12,7 @@ export const fleets = [
     price: 2.2,
     hourly: 80,
     passengers: 4,
-    suitcases: 3,
+    suitcases: 2,
     image: Economy,
   },
   {
@@ -32,7 +32,7 @@ export const fleets = [
     price: 2.5,
     hourly: 100,
     passengers: 4,
-    suitcases: 3,
+    suitcases: 4,
     image: ExecutivePremium,
   },
   {
@@ -41,8 +41,8 @@ export const fleets = [
     price10Miles: 100,
     price: 3,
     hourly: 160,
-    passengers: 6,
-    suitcases: 6,
+    passengers: 8,
+    suitcases: 8,
     image: LuxuryVan,
   },
 ];

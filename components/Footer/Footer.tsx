@@ -172,7 +172,6 @@ export default function Footer() {
                   <div className="flex items-start gap-2 sm:gap-3">
                     <Mail className="h-4 w-4 sm:h-5 sm:w-5 text-text-gray mt-0.5 sm:mt-1 flex-shrink-0" />
                     <p className="text-xs sm:text-sm md:text-base text-text-gray">
-                      Email:{" "}
                       <a
                         href="mailto:info@oktaxis.co.uk"
                         className="text-text-gray hover:text-white transition-colors duration-300 break-words hover:underline"
@@ -202,9 +201,39 @@ export default function Footer() {
       {/* Bottom Section - Copyright, Policy Links, and Payment Methods */}
       <div className="border-t border-gray-800 bg-heading-black py-4 sm:py-5 md:py-6">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-4 sm:gap-5">
-            {/* Payment Methods Row */}
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+          {/* Payment Methods Row - Mobile */}
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-4 sm:mb-0 sm:hidden">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png"
+              alt="Visa"
+              className="h-5 sm:h-6 object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 cursor-pointer"
+            />
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png"
+              alt="Mastercard"
+              className="h-5 sm:h-6 object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 cursor-pointer"
+            />
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/American_Express_logo.svg/1200px-American_Express_logo.svg.png"
+              alt="American Express"
+              className="h-5 sm:h-6 object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 cursor-pointer"
+            />
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/1200px-PayPal.svg.png"
+              alt="PayPal"
+              className="h-5 sm:h-6 object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 cursor-pointer"
+            />
+          </div>
+
+          {/* Desktop: Payment Methods, Copyright and Policy Links in one row */}
+          <div className="hidden sm:flex sm:items-center sm:justify-between sm:gap-6">
+            {/* Copyright - Left */}
+            <p className="text-sm sm:text-base text-text-gray whitespace-nowrap">
+              © 2024 OKTaxis Mobility Solutions. All rights reserved.
+            </p>
+            
+            {/* Payment Methods - Center */}
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 flex-1">
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png"
                 alt="Visa"
@@ -227,31 +256,41 @@ export default function Footer() {
               />
             </div>
             
-            {/* Copyright and Policy Links */}
-            <div className="flex flex-col items-center justify-between gap-3 sm:gap-4 sm:flex-row">
-              <p className="text-[10px] xs:text-xs text-text-gray text-center sm:text-left">
-                © 2024 OKTaxis Mobility Solutions. All rights reserved.
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-[10px] xs:text-xs text-text-gray">
-                <Link
-                  href="/privacy"
-                  className="group relative transition-colors duration-300 hover:text-white whitespace-nowrap after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-white after:transition-all after:duration-300 hover:after:w-full"
-                >
-                  Privacy Policy
-                </Link>
-                <Link
-                  href="/terms"
-                  className="group relative transition-colors duration-300 hover:text-white whitespace-nowrap after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-white after:transition-all after:duration-300 hover:after:w-full"
-                >
-                  Terms of Service
-                </Link>
-                <Link
-                  href="/cookies"
-                  className="group relative transition-colors duration-300 hover:text-white whitespace-nowrap after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-white after:transition-all after:duration-300 hover:after:w-full"
-                >
-                  Cookie Policy
-                </Link>
-              </div>
+            {/* Policy Links - Right */}
+            <div className="flex items-center gap-3 sm:gap-4 text-sm sm:text-base text-text-gray">
+              <Link
+                href="/privacy"
+                className="group relative transition-colors duration-300 hover:text-white whitespace-nowrap after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-white after:transition-all after:duration-300 hover:after:w-full"
+              >
+                Privacy Policy
+              </Link>
+            </div>
+          </div>
+
+          {/* Mobile: Copyright and Policy Links */}
+          <div className="flex flex-col items-center gap-3 sm:hidden">
+            <p className="text-sm text-text-gray text-center">
+              © 2024 OKTaxis Mobility Solutions. All rights reserved.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3 text-sm text-text-gray">
+              <Link
+                href="/privacy"
+                className="group relative transition-colors duration-300 hover:text-white whitespace-nowrap after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-white after:transition-all after:duration-300 hover:after:w-full"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms"
+                className="group relative transition-colors duration-300 hover:text-white whitespace-nowrap after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-white after:transition-all after:duration-300 hover:after:w-full"
+              >
+                Terms of Service
+              </Link>
+              <Link
+                href="/cookies"
+                className="group relative transition-colors duration-300 hover:text-white whitespace-nowrap after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-white after:transition-all after:duration-300 hover:after:w-full"
+              >
+                Cookie Policy
+              </Link>
             </div>
           </div>
         </div>

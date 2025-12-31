@@ -45,17 +45,17 @@ function Step3() {
 
                 {/* Airport Pickup Details - After Phone Number - Hide for hourly */}
                 {category !== 'hourly' && (
-                    <div className="w-full rounded-lg bg-gray-200 px-4 py-3 border border-gray-200 flex flex-col">
-                        <SelectableCheckbox fieldName='isAirportPickup' label='Airport Pickup Details' />
+                <div className="w-full rounded-lg bg-gray-200 px-4 py-3 border border-gray-200 flex flex-col">
+                    <SelectableCheckbox fieldName='isAirportPickup' label='Airport Pickup Details' />
 
-                        <div className="w-full overflow-hidden transition-all duration-500"
-                            style={{ maxHeight: formData.isAirportPickup.value ? '200px' : '0' }}>
-                            <div className={`flex flex-col gap-3 pt-3 opacity-${formData.isAirportPickup.value ? '100' : '0'} transition-opacity duration-500`}>
-                                <DetailsInput field='flightName' placeholder='Airline Name' Icon={Plane} type='text' />
-                                <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
-                            </div>
+                    <div className="w-full overflow-hidden transition-all duration-500"
+                        style={{ maxHeight: formData.isAirportPickup.value ? '200px' : '0' }}>
+                        <div className={`flex flex-col gap-3 pt-3 opacity-${formData.isAirportPickup.value ? '100' : '0'} transition-opacity duration-500`}>
+                            <DetailsInput field='flightName' placeholder='Airline Name' Icon={Plane} type='text' />
+                            <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
                         </div>
                     </div>
+                </div>
                 )}
 
                 {/* Add Return - Hide for hourly */}
@@ -137,14 +137,14 @@ function Step3() {
                     />
                     {/* Extra Stops - Hide for hourly */}
                     {category !== 'hourly' && (
-                        <QuantityCheckbox 
-                          fieldName='isExtraStops' 
-                          label='Extra Stops' 
-                          subLabel='£ 7'
-                          maxQuantity={999}
-                          getQuantity={() => Number(formData.extraStopsCount?.value || 0)}
-                          onQuantityChange={(qty) => setFormData('extraStopsCount', qty.toString())}
-                        />
+                    <QuantityCheckbox 
+                      fieldName='isExtraStops' 
+                      label='Extra Stops' 
+                      subLabel='£ 7'
+                      maxQuantity={999}
+                      getQuantity={() => Number(formData.extraStopsCount?.value || 0)}
+                      onQuantityChange={(qty) => setFormData('extraStopsCount', qty.toString())}
+                    />
                     )}
                 </div>
 

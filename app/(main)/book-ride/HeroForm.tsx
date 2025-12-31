@@ -130,59 +130,110 @@ function HeroForm() {
         </div>
 
         {formError && <div className='text-sm text-red-500'>{formError}</div>}
-
+        {/* <div className="flex items-center justify-center gap-1.5 px-2">
+            <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-brand"></div>
+            <p className="text-xs sm:text-sm text-center font-medium text-brand">
+              Chauffeur will wait 40 min free of charge
+            </p>
+            <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-brand"></div>
+          </div> */}
         {/* See Prices Button */}
-        <button
-          onClick={async () => {
-            // Check if start and end locations are the same (for trip category)
-            if (category === 'trip' && formData.fromLocation.value && formData.toLocation.value) {
-              const fromLocation = formData.fromLocation.value.trim().toLowerCase()
-              const toLocation = formData.toLocation.value.trim().toLowerCase()
-              
-              // Compare locations (check if they're the same or very similar)
-              if (fromLocation === toLocation || 
-                  (fromLocation.includes(toLocation) && toLocation.length > 10) ||
-                  (toLocation.includes(fromLocation) && fromLocation.length > 10)) {
+        <div className="flex flex-col gap-2">
+          <button
+            onClick={async () => {
+              // Validate date and time are selected
+              if (!formData.date.value || !formData.time.value) {
                 toast({
-                  title: "Invalid Locations",
-                  description: "Start and end locations cannot be the same. Please choose different locations.",
+                  title: "Missing Date or Time",
+                  description: "Please select both pickup date and time.",
                   variant: "destructive",
                 })
                 return
               }
-            }
 
-            // Check for airport in locations and auto-set airport pickup
-            const fromIsAirport = isAirportLocation(formData.fromLocation.value)
-            const toIsAirport = category === 'trip' ? isAirportLocation(formData.toLocation.value) : false
-            
-            if (fromIsAirport || toIsAirport) {
-              setFormData('isAirportPickup', true)
-            }
+              // Check if booking is at least 2 hours from now
+              try {
+                const selectedDate = new Date(formData.date.value)
+                const [hours, minutes] = formData.time.value.split(':').map(Number)
+                const pickupDateTime = new Date(
+                  selectedDate.getFullYear(),
+                  selectedDate.getMonth(),
+                  selectedDate.getDate(),
+                  hours,
+                  minutes
+                )
+                
+                const now = new Date()
+                const twoHoursLater = new Date(now.getTime() + 2 * 60 * 60 * 1000)
+                
+                if (pickupDateTime < twoHoursLater) {
+                  toast({
+                    title: "Booking Too Soon",
+                    description: "Booking can't be added within 2 hours of pickup time, choose another time.",
+                    variant: "destructive",
+                  })
+                  return
+                }
+              } catch (error) {
+                toast({
+                  title: "Invalid Date or Time",
+                  description: "Please select a valid date and time.",
+                  variant: "destructive",
+                })
+                return
+              }
 
-            const isOk = await changeStep(true, 1);
-            if (isOk) {
-              router.replace('/book-ride/select-car')
-            }
-          }}
-          className={`flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg cursor-pointer font-semibold text-black transition-colors ${formLoading
-              ? 'bg-brand/70 cursor-not-allowed'
-              : 'bg-brand hover:bg-primary-yellow/90'
-            }`}
-          disabled={formLoading}
-        >
-          {formLoading ? (
-            <>
-              <Loader className='animate-spin' size={20} />
-              <span>Loading...</span>
-            </>
-          ) : (
-            <>
-              <Search size={20} />
-              <span>See Prices</span>
-            </>
-          )}
-        </button>
+              // Check if start and end locations are the same (for trip category)
+              if (category === 'trip' && formData.fromLocation.value && formData.toLocation.value) {
+                const fromLocation = formData.fromLocation.value.trim().toLowerCase()
+                const toLocation = formData.toLocation.value.trim().toLowerCase()
+                
+                // Compare locations (check if they're the same or very similar)
+                if (fromLocation === toLocation || 
+                    (fromLocation.includes(toLocation) && toLocation.length > 10) ||
+                    (toLocation.includes(fromLocation) && fromLocation.length > 10)) {
+                  toast({
+                    title: "Invalid Locations",
+                    description: "Start and end locations cannot be the same. Please choose different locations.",
+                    variant: "destructive",
+                  })
+                  return
+                }
+              }
+
+              // Check for airport in locations and auto-set airport pickup
+              const fromIsAirport = isAirportLocation(formData.fromLocation.value)
+              const toIsAirport = category === 'trip' ? isAirportLocation(formData.toLocation.value) : false
+              
+              if (fromIsAirport || toIsAirport) {
+                setFormData('isAirportPickup', true)
+              }
+
+              const isOk = await changeStep(true, 1);
+              if (isOk) {
+                router.replace('/book-ride/select-car')
+              }
+            }}
+            className={`flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg cursor-pointer font-semibold text-black transition-colors ${formLoading
+                ? 'bg-brand/70 cursor-not-allowed'
+                : 'bg-brand hover:bg-primary-yellow/90'
+              }`}
+            disabled={formLoading}
+          >
+            {formLoading ? (
+              <>
+                <Loader className='animate-spin' size={20} />
+                <span>Loading...</span>
+              </>
+            ) : (
+              <>
+                <Search size={20} />
+                <span>See Prices</span>
+              </>
+            )}
+          </button>
+        
+        </div>
       </div>
     </div>
   )
