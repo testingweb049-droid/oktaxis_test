@@ -6,9 +6,10 @@ import GoogleMapsRoute from '@/components/booking/shared/GoogleMap'
 import PickupTripDetails from '@/components/booking/sidebar/PickupDetails'
 import { useRouter } from 'next/navigation'
 import { ArrowDown, ArrowUp, ArrowLeft } from 'lucide-react'
+import { format } from 'date-fns'
 
 function Page() {
-  const { isMobileDropdownOpen, toggleMobileDropdown, category } = useFormStore()
+  const { isMobileDropdownOpen, toggleMobileDropdown, category, formData } = useFormStore()
   const router = useRouter()
   const headerRef = useRef<HTMLDivElement | null>(null)
 
@@ -17,6 +18,64 @@ function Page() {
       headerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }, [])
+
+  // Format date and time for mobile summary
+  const formatDateTime = () => {
+    if (!formData.date.value || !formData.time.value) return ''
+    try {
+      const date = new Date(formData.date.value)
+      const [hours, minutes] = formData.time.value.split(':').map(Number)
+      const dateTime = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        hours,
+        minutes
+      )
+      return format(dateTime, 'EEE, MMM d \'at\' hh:mm a')
+    } catch {
+      return ''
+    }
+  }
+
+  // Calculate estimated arrival time (assuming average speed of 30 mph)
+  const calculateEstimatedArrival = () => {
+    if (!formData.date.value || !formData.time.value || !formData.distance.value) return null
+    try {
+      const date = new Date(formData.date.value)
+      const [hours, minutes] = formData.time.value.split(':').map(Number)
+      const pickupDateTime = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        hours,
+        minutes
+      )
+      
+      // Distance is in miles, estimate time (assuming 30 mph average)
+      const distanceMiles = Number(formData.distance.value)
+      const estimatedMinutes = Math.round((distanceMiles / 30) * 60)
+      const arrivalDateTime = new Date(pickupDateTime.getTime() + estimatedMinutes * 60 * 1000)
+      
+      return {
+        time: format(arrivalDateTime, 'hh:mm a'),
+        distance: distanceMiles.toFixed(1)
+      }
+    } catch {
+      return null
+    }
+  }
+
+  const formattedDateTime = formatDateTime()
+  const estimatedArrival = calculateEstimatedArrival()
+  const fromLocation = formData.fromLocation?.value || ''
+  const toLocation = formData.toLocation?.value || ''
+
+  // Truncate long location names
+  const truncateLocation = (location: string, maxLength: number = 25) => {
+    if (location.length <= maxLength) return location
+    return location.substring(0, maxLength) + '...'
+  }
 
   return (
     <div className=' w-full bg-slate-50 flex flex-col min-h-[50vh]'>
@@ -46,18 +105,33 @@ function Page() {
           </button>
         </div>
 
-        <div className={`w-full border-2 border-brand rounded-md flex flex-col lg:hidden ${isMobileDropdownOpen ? 'gap-5' : 'gap-0'}`}>
-          <div className={`overflow-hidden transition-all duration-700 flex flex-col gap-3  ease-out
-            ${isMobileDropdownOpen ? 'max-h-[2000px] opacity-100  p-1' : 'max-h-0 opacity-0 p-0' }
-          `}>
-            {category !== 'hourly' && <GoogleMapsRoute/>}
-            <PickupTripDetails/>
+        {/* Mobile Summary Card - Only for trip category */}
+        {category !== 'hourly' && formattedDateTime && (
+          <div className="w-full bg-gray-100 rounded-lg p-4 border border-gray-200 lg:hidden">
+            {/* Date and Time */}
+            <div className="font-bold text-base text-gray-900 mb-3">
+              {formattedDateTime}
+            </div>
+            
+            {/* Origin → Destination */}
+            <div className="flex items-center gap-2 text-sm text-gray-700 mb-2">
+              <span className="truncate flex-1 min-w-0">
+                {truncateLocation(fromLocation)}
+              </span>
+              <span className="text-gray-500 flex-shrink-0">→</span>
+              <span className="truncate flex-1 min-w-0">
+                {truncateLocation(toLocation)}
+              </span>
+            </div>
+            
+            {/* Estimated Arrival and Distance */}
+            {estimatedArrival && (
+              <div className="text-xs text-gray-600">
+                Est. arrival at {estimatedArrival.time} • {estimatedArrival.distance} miles
+              </div>
+            )}
           </div>
-          <div onClick={()=>toggleMobileDropdown()} className='bg-brand p-2 rounded-sm font-bold flex items-center justify-between' >
-            <div>Ride Details</div>
-            {isMobileDropdownOpen ?   <ArrowUp/> : <ArrowDown/>}
-          </div>
-        </div>
+        )}
 
         <div className='grid lg:grid-cols-3 gap-4 sm:gap-5 w-full'>
           <div className='lg:col-span-2 w-full flex flex-col gap-4 sm:gap-5'>

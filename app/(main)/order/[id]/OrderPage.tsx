@@ -524,7 +524,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({ color, label, value, date, 
       <p className="text-sm font-semibold text-gray-800">{label}</p>
       {(date || time) && (
         <div className="text-sm font-semibold text-blue-600 mt-1 bg-blue-50 px-3 py-1.5 rounded border border-blue-200 inline-block">
-          {date && (
+      {date && (
             <span>
               {dateLabel || 'Date'}: <span className="font-bold">{formatDate(date)}</span>
             </span>
@@ -534,7 +534,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({ color, label, value, date, 
             <span>
               {timeLabel || 'Time'}: <span className="font-bold">{formatTime(time)}</span>
             </span>
-          )}
+      )}
         </div>
       )}
       {value && (

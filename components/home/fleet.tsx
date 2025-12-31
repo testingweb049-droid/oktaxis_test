@@ -2,7 +2,9 @@
 
 import { useRef } from "react"
 import Image from "next/image"
-import { Users, Briefcase, ChevronLeft, ChevronRight } from "lucide-react"
+import { GoPeople } from "react-icons/go"
+import { PiSuitcase } from "react-icons/pi"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Autoplay, Pagination, Navigation } from "swiper/modules"
 import type { Swiper as SwiperType } from "swiper"
@@ -10,7 +12,7 @@ import "swiper/css"
 import "swiper/css/autoplay"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
-import { fleets } from "../NewBookingForm/CarList"
+import { fleets } from "../booking/steps/fleets-data"
 
 export default function FleetClasses() {
   const swiperRef = useRef<SwiperType>()
@@ -78,26 +80,41 @@ export default function FleetClasses() {
           >
             {fleets.map((vehicle, index) => (
               <SwiperSlide key={`${vehicle.name}-${index}`}>
-                <div className="overflow-hidden rounded-lg bg-white shadow-sm transition-all duration-300 hover:shadow-lg">
-                  <div className="relative h-64 w-full">
-                    <Image 
-                      src={vehicle.image || "/placeholder.svg"} 
-                      alt={vehicle.name || vehicle.cars} 
-                      fill 
-                      className="object-cover object-center" 
-                    />
+                <div className="flex flex-col h-full overflow-hidden rounded-xl bg-white border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-md">
+                  {/* Image Section */}
+                  <div className="relative w-full bg-gray-50 flex items-center justify-center py-4 px-4">
+                    <div className="relative w-full h-32 sm:h-36 flex items-center justify-center">
+                      <Image 
+                        src={vehicle.image || "/placeholder.svg"} 
+                        alt={vehicle.name || vehicle.cars} 
+                        width={280}
+                        height={200}
+                        className="object-contain object-center w-full h-full" 
+                      />
+                    </div>
                   </div>
-                  <div className="p-6">
-                    <h3 className="mb-4 text-xl font-bold text-gray-900">{vehicle.cars}</h3>
-                    <div className="flex items-center justify-start space-x-6">
-                      <div className="flex items-center text-brand">
-                        <Users className="mr-2 h-5 w-5" />
-                        <span className="text-sm">{vehicle.persons} passengers</span>
+                  
+                  {/* Content Section */}
+                  <div className="flex flex-col gap-2 p-4 sm:p-5 flex-1">
+                    <div className="flex flex-col gap-0.5">
+                      <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 uppercase leading-tight">
+                        {vehicle.name}
+                      </h3>
+                      <p className="text-sm sm:text-sm md:text-base text-gray-600">
+                        {vehicle.cars}
+                      </p>
+                    </div>
+                    
+                    {/* Capacity Icons */}
+                    <div className="flex items-center gap-4 sm:gap-6 text-gray-700">
+                      <div className="flex items-center gap-1.5">
+                        <GoPeople size={16} className="sm:w-5 sm:h-5" style={{ color: '#FFB400' }} />
+                        <span className="text-sm sm:text-base font-medium">{vehicle.passengers} passengers</span>
                       </div>
-                      <div className="flex items-center text-brand">
-                        <Briefcase className="mr-2 h-5 w-5" />
-                        <span className="text-sm">{vehicle.bags} suitcases</span>
-                      </div> 
+                      <div className="flex items-center gap-1.5">
+                        <PiSuitcase size={16} className="sm:w-5 sm:h-5" style={{ color: '#FFB400' }} />
+                        <span className="text-sm sm:text-base font-medium">{vehicle.suitcases} suitcases</span>
+                      </div>
                     </div>
                   </div>
                 </div>

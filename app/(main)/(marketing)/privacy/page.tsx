@@ -1,8 +1,8 @@
-import { FiShield, FiUser, FiCreditCard, FiServer, FiMail } from "react-icons/fi";
+import { FiShield, FiUser, FiCreditCard, FiServer, FiMail, FiLock, FiGlobe, FiLink, FiAlertCircle, FiClock, FiDollarSign } from "react-icons/fi";
 
 export default function Privacy() {
   return (
-    <div className="max-w-4xl mx-auto px-4  sm:px-6 lg:px-8 pb-16 pt-32">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-32">
       <div className="text-center mb-12">
         <div className="flex items-center justify-center mb-4">
           <FiShield className="h-12 w-12 text-blue-600" />
@@ -11,131 +11,420 @@ export default function Privacy() {
           Privacy Policy
         </h1>
         <p className="mt-3 max-w-2xl mx-auto text-lg text-gray-500">
-          Last updated: {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+          Last updated: November 20, 2025
         </p>
       </div>
 
       <div className="prose prose-blue prose-lg mx-auto">
         <section className="mb-12">
           <p className="text-gray-600">
-            At OK Taxis, we are committed to protecting your personal data and respecting your privacy. 
-            This policy outlines how we collect, use, and safeguard your information in accordance with 
-            the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018.
+            This Privacy Policy describes how OKTaxis ("we", "us", "our", "the Company") collects, uses, stores, shares, protects, and discloses personal information when you use our taxi and chauffeur services and our website https://oktaxis.co.uk/ ("Service"). We are committed to protecting your privacy in accordance with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018.
+          </p>
+          <p className="text-gray-600 mt-4">
+            By using our Service, you agree to the collection and use of information in accordance with this Privacy Policy.
           </p>
         </section>
 
         <section className="mb-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
             <FiUser className="mr-2 text-blue-600" />
-            Information We Collect
+            1. Interpretation and Definitions
           </h2>
-          <ul className="space-y-4 text-gray-600">
-            <li className="flex">
+          
+          <h3 className="text-xl font-semibold text-gray-800 mb-4 mt-6">Interpretation</h3>
+          <p className="text-gray-600 mb-4">
+            Words with initial capital letters have meanings defined under the following conditions. These definitions apply in both singular and plural.
+          </p>
+
+          <h3 className="text-xl font-semibold text-gray-800 mb-4 mt-6">Definitions</h3>
+          <ul className="space-y-3 text-gray-600">
+            <li className="flex items-start">
               <span className="mr-2 text-blue-600">•</span>
-              <span><strong>Personal Details:</strong> Name, contact information, pickup and drop-off addresses, payment details.</span>
+              <span><strong>Account:</strong> Means a unique account created for you to access our Service.</span>
             </li>
-            <li className="flex">
+            <li className="flex items-start">
               <span className="mr-2 text-blue-600">•</span>
-              <span><strong>Booking Information:</strong> Journey dates, times, and preferences.</span>
+              <span><strong>Company:</strong> Refers to OKTaxis.</span>
             </li>
-            <li className="flex">
+            <li className="flex items-start">
               <span className="mr-2 text-blue-600">•</span>
-              <span><strong>Technical Data:</strong> IP address, browser type, and device information collected via cookies.</span>
+              <span><strong>Cookies:</strong> Small files placed on your device by a website containing details of your browsing history and preferences.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span><strong>Personal Data:</strong> Any information relating to an identified or identifiable individual.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span><strong>Service:</strong> Refers to our taxi services and the website https://oktaxis.co.uk/.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span><strong>Service Provider:</strong> Any natural or legal person who processes data on behalf of the Company.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span><strong>Usage Data:</strong> Data collected automatically when using the Service.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span><strong>You:</strong> The individual using the Service or on whose behalf the Service is used.</span>
             </li>
           </ul>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <FiLock className="mr-2 text-blue-600" />
+            2. Data Protection Principles
+          </h2>
+          <p className="text-gray-600">
+            We process Personal Data lawfully, fairly, and transparently. We collect data for specific, explicit and legitimate purposes and do not use it in ways incompatible with those purposes. We ensure your data is accurate, kept up to date, and retained only as necessary.
+          </p>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">3. Lawful Basis for Processing</h2>
+          <p className="text-gray-600 mb-4">
+            We process your Personal Data where we have a lawful basis, including:
+          </p>
+          <ul className="space-y-2 text-gray-600">
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>To perform our contract with you (e.g., booking and providing transport services).</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>To comply with a legal obligation.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>With your consent.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>For our legitimate interests, provided your rights do not override those interests.</span>
+            </li>
+          </ul>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <FiUser className="mr-2 text-blue-600" />
+            4. What Personal Data We Collect
+          </h2>
+          
+          <h3 className="text-xl font-semibold text-gray-800 mb-4 mt-6">Personal Data You Provide</h3>
+          <p className="text-gray-600 mb-4">We may collect and process the following:</p>
+          <ul className="space-y-2 text-gray-600 mb-6">
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Name</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Email address</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Telephone number</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Address, City, Postcode</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Booking details (pick-up/drop-off locations)</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Payment information (if provided directly)</span>
+            </li>
+          </ul>
+
+          <h3 className="text-xl font-semibold text-gray-800 mb-4 mt-6">Automatically Collected Data</h3>
+          <p className="text-gray-600 mb-4">We automatically collect Usage Data such as:</p>
+          <ul className="space-y-2 text-gray-600 mb-6">
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>IP address</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Browser type and version</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Pages visited on our Site</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Device identifiers</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Time and date of visit</span>
+            </li>
+          </ul>
+
+          <h3 className="text-xl font-semibold text-gray-800 mb-4 mt-6">Cookies and Tracking Technologies</h3>
+          <p className="text-gray-600">
+            We use cookies and similar technologies to improve your experience, remember preferences, and analyse traffic. You can manage cookies via your browser settings.
+          </p>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <FiMail className="mr-2 text-blue-600" />
+            5. SMS Opt-In / Communications
+          </h2>
+          <p className="text-gray-600 mb-4">
+            If you consent to receive SMS updates, you may receive messages related to:
+          </p>
+          <ul className="space-y-2 text-gray-600 mb-4">
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Reservation updates</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Service notifications</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Customer care messages</span>
+            </li>
+          </ul>
+          <p className="text-gray-600 mb-2">
+            <strong>Message frequency:</strong> Up to 3–5 per week depending on service activity.
+          </p>
+          <p className="text-gray-600 mb-2">
+            Standard message and data rates may apply.
+          </p>
+          <p className="text-gray-600">
+            To opt-out, reply STOP to any message or contact us. Standard UK charges may apply.
+          </p>
         </section>
 
         <section className="mb-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
             <FiCreditCard className="mr-2 text-blue-600" />
-            How We Use Your Information
+            6. How We Use Your Personal Data
           </h2>
-          <div className="grid md:grid-cols-2 gap-6 text-gray-600">
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <h3 className="font-semibold text-gray-800 mb-2">Service Delivery</h3>
-              <p>To process bookings and provide transportation services.</p>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <h3 className="font-semibold text-gray-800 mb-2">Communication</h3>
-              <p>To send confirmations, updates, and respond to inquiries.</p>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <h3 className="font-semibold text-gray-800 mb-2">Improvement</h3>
-              <p>To enhance our services and user experience.</p>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <h3 className="font-semibold text-gray-800 mb-2">Legal Compliance</h3>
-              <p>To fulfill legal obligations and protect our rights.</p>
-            </div>
-          </div>
+          <p className="text-gray-600 mb-4">We use Personal Data to:</p>
+          <ul className="space-y-2 text-gray-600">
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Provide and manage your bookings</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Communicate with you via email, phone, SMS</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Improve and customise our Service</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Process payments and refunds</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Send service updates and promotional offers (with consent)</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Comply with legal obligations</span>
+            </li>
+          </ul>
         </section>
 
         <section className="mb-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
             <FiServer className="mr-2 text-blue-600" />
-            Data Sharing
+            7. Sharing Your Data
           </h2>
-          <p className="text-gray-600 mb-4">
-            We do not sell your personal data. We may share information with:
-          </p>
-          <ul className="space-y-2 text-gray-600">
+          <p className="text-gray-600 mb-4">We may share data with:</p>
+          <ul className="space-y-2 text-gray-600 mb-4">
             <li className="flex items-start">
               <span className="mr-2 text-blue-600">•</span>
-              <span><strong>Licensed Drivers:</strong> To facilitate your journey.</span>
+              <span>Service Providers who support our operations</span>
             </li>
             <li className="flex items-start">
               <span className="mr-2 text-blue-600">•</span>
-              <span><strong>Payment Processors:</strong> To handle transactions securely.</span>
+              <span>Business partners where you consent to sharing</span>
             </li>
             <li className="flex items-start">
               <span className="mr-2 text-blue-600">•</span>
-              <span><strong>Legal Authorities:</strong> When required by law.</span>
+              <span>Law enforcement or regulatory authorities if required by law</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Successors in the event of a business transfer</span>
             </li>
           </ul>
-        </section>
-
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Data Security</h2>
           <p className="text-gray-600">
-            We implement appropriate technical and organizational measures to protect your data against 
-            unauthorized access, alteration, or disclosure.
+            We do not sell your personal data to third parties for marketing without explicit consent.
           </p>
         </section>
 
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Rights</h2>
-          <p className="text-gray-600 mb-4">
-            You have the right to:
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <FiGlobe className="mr-2 text-blue-600" />
+            8. International Transfers
+          </h2>
+          <p className="text-gray-600">
+            Your data may be processed outside the UK. Where we do so, we ensure appropriate safeguards are in place in accordance with UK GDPR.
           </p>
-          <ul className="space-y-2 text-gray-600">
-            <li className="flex">
-              <span className="mr-2 text-blue-600">•</span>
-              <span>Access the personal data we hold about you.</span>
-            </li>
-            <li className="flex">
-              <span className="mr-2 text-blue-600">•</span>
-              <span>Request correction or deletion of your data.</span>
-            </li>
-            <li className="flex">
-              <span className="mr-2 text-blue-600">•</span>
-              <span>Object to or restrict certain data processing activities.</span>
-            </li>
-            <li className="flex">
-              <span className="mr-2 text-blue-600">•</span>
-              <span>Withdraw consent at any time.</span>
-            </li>
-          </ul>
         </section>
 
-        {/* <section className="bg-blue-50 rounded-xl p-6">
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">9. Data Retention</h2>
+          <p className="text-gray-600">
+            We retain Personal Data only for as long as necessary for the purposes set out in this policy or as required by law.
+          </p>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">10. Your Rights</h2>
+          <p className="text-gray-600 mb-4">
+            Under UK GDPR, you have the right to:
+          </p>
+          <ul className="space-y-2 text-gray-600 mb-4">
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Access your Personal Data</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Correct inaccurate data</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Request erasure in certain circumstances</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Restrict processing</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Object to processing</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Data portability</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Withdraw consent at any time</span>
+            </li>
+          </ul>
+          <p className="text-gray-600">
+            To exercise these rights, contact us using the details below.
+          </p>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <FiLock className="mr-2 text-blue-600" />
+            11. Security
+          </h2>
+          <p className="text-gray-600">
+            We use appropriate technical and organisational measures to protect your Personal Data. However, no method of transmission over the internet is 100% secure.
+          </p>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <FiAlertCircle className="mr-2 text-blue-600" />
+            12. Children's Privacy
+          </h2>
+          <p className="text-gray-600">
+            Our services are not directed at children under 13. We do not knowingly collect data from individuals under 13.
+          </p>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <FiLink className="mr-2 text-blue-600" />
+            13. Links to Other Websites
+          </h2>
+          <p className="text-gray-600">
+            Our website may contain links to third-party sites. We are not responsible for their privacy practices.
+          </p>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">14. Changes to This Policy</h2>
+          <p className="text-gray-600">
+            We may update this policy periodically. We will notify you of significant changes via our website or email.
+          </p>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <FiDollarSign className="mr-2 text-blue-600" />
+            15. Payments and Cancellation Fees
+          </h2>
+          <ul className="space-y-3 text-gray-600 mb-4">
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>If you cancel a ride, 5% of your payment will be deducted to cover transaction fees.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>If you cancel the ride after 8 hours, 15% will be deducted from your payment.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Additional costs such as tolls or detours will be billed separately.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-blue-600">•</span>
+              <span>Tips are voluntary.</span>
+            </li>
+          </ul>
+
+          <div className="bg-blue-50 rounded-lg p-6 mt-6">
+            <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+              <FiClock className="mr-2 text-blue-600" />
+              WAITING TIME POLICY
+            </h3>
+            <p className="text-gray-600 mb-4">
+              Complimentary waiting time is included for all airport pickups.
+            </p>
+            <ul className="space-y-2 text-gray-600">
+              <li className="flex items-start">
+                <span className="mr-2 text-blue-600">•</span>
+                <span><strong>Domestic Flights:</strong> 30 minutes free, then £1 per minute</span>
+              </li>
+              <li className="flex items-start">
+                <span className="mr-2 text-blue-600">•</span>
+                <span><strong>International Flights:</strong> 40 minutes free, then £1 per minute</span>
+              </li>
+            </ul>
+            <p className="text-gray-600 mt-4">
+              After the trip is completed, the driver will confirm the total waiting time. OKTaxis will verify the waiting time with the customer before any charges are applied.
+            </p>
+          </div>
+        </section>
+
+        <section className="bg-blue-50 rounded-xl p-6">
           <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
             <FiMail className="mr-2 text-blue-600" />
-            Contact Us
+            Contact Information
           </h2>
-          <p className="text-gray-600">
-            For any privacy-related inquiries, please contact us at +44 7342 193341.
-          </p>
-        </section> */}
+          <div className="space-y-2 text-gray-600">
+            <p><strong>Company Name:</strong> OKTaxis</p>
+            <p><strong>Website:</strong> <a href="https://oktaxis.co.uk/" className="text-blue-600 hover:underline">https://oktaxis.co.uk/</a></p>
+            <p><strong>Phone:</strong> <a href="tel:+447788710290" className="text-blue-600 hover:underline">+44 7788 710290</a></p>
+            <p><strong>Email:</strong> <a href="mailto:info@oktaxis.co.uk" className="text-blue-600 hover:underline">info@oktaxis.co.uk</a></p>
+            <p><strong>Office Address:</strong> 0B Portway, Wythenshawe, Manchester, United Kingdom</p>
+          </div>
+        </section>
       </div>
     </div>
   );
