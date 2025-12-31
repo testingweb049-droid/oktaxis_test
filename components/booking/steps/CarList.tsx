@@ -169,7 +169,7 @@ function CarList() {
                 <div className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-900">
                   £{price}
                 </div>
-                {(item.name === "Premium" || item.name === "Executive Premium") && (
+                {(item.name === "Business Class" || item.name === "First Class") && (
                   <div className="text-xs text-red-500 line-through">
                     £{(Number(price) + (Number(price) / 10)).toFixed(2)}
                   </div>
@@ -180,29 +180,29 @@ function CarList() {
             {/* Features Accordion */}
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value={`features-${item.name}`} className="border-0">
-                <AccordionTrigger className="py-1 text-sm font-medium text-gray-700 hover:no-underline">
+                <AccordionTrigger className="py-1 text-sm font-medium text-gray-700 hover:no-underline [&>svg]:text-gray-900 [&>svg]:font-bold [&>svg]:w-5 [&>svg]:h-5">
                   <span>Included Features</span>
                 </AccordionTrigger>
                 <AccordionContent className="pt-2 pb-3">
                   <div className="space-y-2 text-sm text-gray-600">
                     <div className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-brand flex-shrink-0"></div>
-                      <span>Free 40 minutes of wait time</span>
+                      <div className="w-2.5 h-2.5 rounded-full bg-brand flex-shrink-0"></div>
+                      <span>Free 30 minutes of wait time</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-brand flex-shrink-0"></div>
+                      <div className="w-2.5 h-2.5 rounded-full bg-brand flex-shrink-0"></div>
                       <span>Complimentary bottle of water</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-brand flex-shrink-0"></div>
+                      <div className="w-2.5 h-2.5 rounded-full bg-brand flex-shrink-0"></div>
                       <span>Complimentary in-vehicle WiFi</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-brand flex-shrink-0"></div>
+                      <div className="w-2.5 h-2.5 rounded-full bg-brand flex-shrink-0"></div>
                       <span>Tissues and sanitizer</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-brand flex-shrink-0"></div>
+                      <div className="w-2.5 h-2.5 rounded-full bg-brand flex-shrink-0"></div>
                       <span>Android and iPhone chargers</span>
                     </div>
                   </div>
@@ -212,7 +212,7 @@ function CarList() {
           </div>
           <div className="w-full border-t border-gray-200">
             {formLoading && formData.car.value === item.name ? (
-              <div className="w-full bg-brand text-black font-semibold rounded-b-xl px-2 sm:px-2.5 md:px-3 py-1 sm:py-1.5 md:py-2 flex justify-center items-center gap-1.5">
+              <div className="w-full bg-brand text-black font-semibold rounded-b-xl px-2 sm:px-2.5 md:px-3 py-3 sm:py-2 md:py-2 flex justify-center items-center gap-1.5">
                 <Loader className="animate-spin w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 <span className="text-sm sm:text-sm md:text-base">Loading</span>
               </div>

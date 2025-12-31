@@ -35,8 +35,8 @@ export default function SelectableCheckbox({
   return (
     <div
       className={cn(
-        "w-full rounded-lg bg-gray-200 border flex items-center gap-3 cursor-pointer transition-all",
-        isError ? "border-red-500" : "border-gray-200"
+        "w-full rounded-lg bg-gray-100 border flex items-center gap-3 cursor-pointer transition-all",
+        isError ? "border-red-500" : "border-gray-100"
       )}
       onClick={() => handleChange(!value)}
     >

@@ -8,6 +8,9 @@ import NewDropdownInput from '@/components/booking/forms/DropDownInput'
 import QuantitySelector from '@/components/booking/forms/QuantitySelector'
 import NewDateTimePicker from '@/components/booking/forms/NewDateTimePicker'
 import { useToast } from '@/components/ui/use-toast'
+import { toZonedTime, fromZonedTime } from 'date-fns-tz'
+
+const UK_TIMEZONE = "Europe/London"
 
 function HeroForm() {
   const { category, changeCategory, formError, formLoading, changeStep, formData, setFormData, manageStops, isOrderDone, step, resetForm } = useFormStore()
@@ -151,25 +154,29 @@ function HeroForm() {
                 return
               }
 
-              // Check if booking is at least 2 hours from now
+              // Check if booking is at least 5 hours from now (using UK timezone)
               try {
-                const selectedDate = new Date(formData.date.value)
+                // Get current time in UK timezone
+                const nowUK = toZonedTime(new Date(), UK_TIMEZONE)
+                
+                // Parse selected date and time as UK timezone
+                const [year, month, day] = formData.date.value.split('-').map(Number)
                 const [hours, minutes] = formData.time.value.split(':').map(Number)
-                const pickupDateTime = new Date(
-                  selectedDate.getFullYear(),
-                  selectedDate.getMonth(),
-                  selectedDate.getDate(),
-                  hours,
-                  minutes
-                )
                 
-                const now = new Date()
-                const twoHoursLater = new Date(now.getTime() + 2 * 60 * 60 * 1000)
+                // Create pickup datetime in UK timezone (treating the input as UK local time)
+                const pickupDateTimeUK = new Date(year, month - 1, day, hours, minutes)
                 
-                if (pickupDateTime < twoHoursLater) {
+                // Convert UK local time to UTC, then back to UK timezone for proper comparison
+                const pickupDateTimeUTC = fromZonedTime(pickupDateTimeUK, UK_TIMEZONE)
+                const pickupDateTime = toZonedTime(pickupDateTimeUTC, UK_TIMEZONE)
+                
+                // Calculate 5 hours later in UK timezone
+                const fiveHoursLater = new Date(nowUK.getTime() + 5 * 60 * 60 * 1000)
+                
+                if (pickupDateTime < fiveHoursLater) {
                   toast({
                     title: "Booking Too Soon",
-                    description: "Booking can't be added within 2 hours of pickup time, choose another time.",
+                    description: "Booking can't be added within 5 hours of pickup time, choose another time.",
                     variant: "destructive",
                   })
                   return

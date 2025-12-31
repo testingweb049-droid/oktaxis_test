@@ -1,3 +1,4 @@
+'use client'
 import { User, Mail, Plane, Loader } from 'lucide-react'
 import React, { useState } from 'react'
 import { DetailsInput, PhoneInput } from '@/components/booking/forms/UserDetailInput'
@@ -6,7 +7,6 @@ import SelectableCheckbox from '@/components/booking/forms/SelectableCheckbox'
 import QuantityCheckbox from '@/components/booking/forms/QuantityCheckbox'
 import AddReturn from '@/components/booking/forms/AddReturn'
 import NewDateTimePicker from '@/components/booking/forms/NewDateTimePicker'
-import { useRouter } from 'next/navigation'
 
 function Step3() {
     const { formData, setFormData, changeStep, formLoading, category } = useFormStore();
@@ -45,7 +45,7 @@ function Step3() {
 
                 {/* Airport Pickup Details - After Phone Number - Hide for hourly */}
                 {category !== 'hourly' && (
-                <div className="w-full rounded-lg bg-gray-200 px-4 py-3 border border-gray-200 flex flex-col">
+                <div className="w-full rounded-lg bg-gray-100 px-4 py-3 border border-gray-200 flex flex-col">
                     <SelectableCheckbox fieldName='isAirportPickup' label='Airport Pickup Details' />
 
                     <div className="w-full overflow-hidden transition-all duration-500"
@@ -63,7 +63,7 @@ function Step3() {
 
                 {/* Return Block - Show when return is checked - Hide for hourly */}
                 {category !== 'hourly' && formData.isReturn?.value && (
-                    <div className="w-full rounded-lg bg-gray-200 px-4 py-3 border border-gray-200 flex flex-col gap-2">
+                    <div className="w-full rounded-lg bg-gray-100 px-4 py-3 border border-gray-200 flex flex-col gap-2">
                         <div className='font-bold text-gray-900'>Return Journey</div>
                         {/* Return Date and Time */}
                         <NewDateTimePicker
@@ -114,7 +114,7 @@ function Step3() {
                 )}
 
                 {/* Equipment and Extras Block */}
-                <div className="w-full rounded-lg bg-gray-200 px-4 py-3 border border-gray-200 flex flex-col gap-4">
+                <div className="w-full rounded-lg bg-gray-100 px-4 py-3 border border-gray-200 flex flex-col gap-4">
                     <div className='font-bold text-gray-900'>Equipment and Extras</div>
                     <QuantityCheckbox 
                       fieldName='isFlightTrack' 
@@ -149,13 +149,13 @@ function Step3() {
                 </div>
 
                 {/* Add Instructions */}
-                <div className="w-full rounded-lg bg-gray-200 px-4 py-3 border border-gray-200 flex flex-col">
+                <div className="w-full rounded-lg bg-gray-100 px-4 py-3 border border-gray-200 flex flex-col">
                     <SelectableCheckbox fieldName='isAddInstructions' label='Add Instructions' />
 
                     <div className="w-full overflow-hidden transition-all duration-500"
                         style={{ maxHeight: formData.isAddInstructions?.value ? '200px' : '0' }}>
                         <div className={`flex flex-col gap-3 pt-3 opacity-${formData.isAddInstructions?.value ? '100' : '0'} transition-opacity duration-500`}>
-                            <div className={`w-full rounded-lg bg-gray-200 px-4 py-3 border ${formData.instructions?.error ? 'border-red-500' : 'border-gray-300'}`}>
+                            <div className={`w-full rounded-lg bg-gray-100 px-4 py-3 border ${formData.instructions?.error ? 'border-red-500' : 'border-gray-300'}`}>
                                 <label className="block text-sm font-medium text-gray-600 mb-1">
                                     Instructions
                                 </label>
