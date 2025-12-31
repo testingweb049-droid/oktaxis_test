@@ -1,7 +1,7 @@
 // Fleet data with image paths (images are in public/assets/cars/)
 export const fleets = [
   {
-    name: "Economy",
+    name: "Essential",
     cars: "Skoda Octavia | Toyota Prius",
     price10Miles: 58,
     price: 2.2,
@@ -11,7 +11,7 @@ export const fleets = [
     image: "/assets/cars/economy-vehical-img.png",
   },
   {
-    name: "Premium",
+    name: "Business Class",
     cars: "BMW 5 Series | Mercedes E-Class",
     price10Miles: 80,
     price: 2.9,
@@ -21,7 +21,7 @@ export const fleets = [
     image: "/assets/cars/premium-vehical-img.png",
   },
   {
-    name: "Executive Premium",
+    name: "First Class",
     cars: "Tesla Model S",
     price10Miles: 70,
     price: 2.5,
@@ -31,7 +31,7 @@ export const fleets = [
     image: "/assets/cars/executive-premium-vehical-img.png",
   },
   {
-    name: "Luxury Van",
+    name: "Business Van/SUV",
     cars: "XL Passenger Van",
     price10Miles: 100,
     price: 3,
