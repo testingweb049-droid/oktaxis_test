@@ -12,9 +12,12 @@ import {
   isBefore,
   startOfDay,
 } from "date-fns"
+import { fromZonedTime, toZonedTime, format as formatTz } from "date-fns-tz"
 import { ChevronRight, Calendar, Clock, ChevronUp, ChevronDown, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import useFormStore, { FieldType, FormDataType } from "@/stores/FormStore"
+
+const UK_TIMEZONE = "Europe/London"
 
 interface DateTimePickerProps {
   selectedDate: string
@@ -46,7 +49,9 @@ export default function NewDateTimePicker({
   dateLabel = "Pickup date",
   timeLabel = "Pickup time",
 }: DateTimePickerProps) {
-  const [currentMonth, setCurrentMonth] = useState(new Date())
+  // Get current time in UK timezone
+  const getUKTime = () => toZonedTime(new Date(), UK_TIMEZONE)
+  const [currentMonth, setCurrentMonth] = useState(getUKTime())
   const [dateOpen, setDateOpen] = useState(false)
   const [timeOpen, setTimeOpen] = useState(false)
   const [hour, setHour] = useState<number | null>(null)
@@ -92,9 +97,31 @@ export default function NewDateTimePicker({
 
     return days
   }
+  
+  // Helper to get UK timezone date from string
+  const getUKDateFromString = (dateString: string): Date => {
+    if (!dateString) return getUKTime()
+    // Parse the date string (format: yyyy-MM-dd)
+    // Create date at midnight in UK timezone
+    const [year, month, day] = dateString.split('-').map(Number)
+    // Create a date representing midnight in UK timezone
+    // We use fromZonedTime to treat the date as if it's in UK timezone
+    const ukDate = new Date(year, month - 1, day, 0, 0, 0, 0)
+    // Convert from UK timezone perspective to actual Date object
+    return fromZonedTime(ukDate, UK_TIMEZONE)
+  }
+  
+  // Helper to get today's date in UK timezone
+  const getTodayUK = () => {
+    const now = getUKTime()
+    return startOfDay(now)
+  }
 
   const handleDateSelect = (date: Date) => {
-    const formatted = format(date, "yyyy-MM-dd")
+    // Convert the selected date to UK timezone and format it
+    // The date from calendar is in local time, convert to UK timezone first
+    const ukDate = toZonedTime(date, UK_TIMEZONE)
+    const formatted = format(ukDate, "yyyy-MM-dd")
     setFormData(dateFieldName, formatted)
     setDateOpen(false)
   }
@@ -203,7 +230,7 @@ export default function NewDateTimePicker({
               <div className={`text-sm sm:text-base truncate ${selectedDate ? "text-gray-800" : "text-gray-400"
                 }`}>
                 {selectedDate
-                  ? format(new Date(selectedDate), "dd MMM yyyy")
+                  ? format(getUKDateFromString(selectedDate), "dd MMM yyyy")
                   : "Select date"}
               </div>
             </div>
@@ -279,18 +306,28 @@ export default function NewDateTimePicker({
                 <div className="grid grid-cols-7 text-center text-sm gap-1">
                   {getCalendarDays().map((date, idx) => {
                     const inactive = date.getMonth() !== currentMonth.getMonth()
-                    const today = startOfDay(new Date())
+                    const today = getTodayUK()
+                    // Convert calendar date to UK timezone for proper comparison
+                    const dateUK = toZonedTime(date, UK_TIMEZONE)
+                    const dateStartOfDay = startOfDay(dateUK)
+                    
+                    // Convert minSelectableDate to UK timezone if provided
+                    const minDateUK = minSelectableDate 
+                      ? toZonedTime(minSelectableDate, UK_TIMEZONE)
+                      : null
+                    const minDateStartOfDay = minDateUK ? startOfDay(minDateUK) : null
+                    
                     const disabled =
-                      (minSelectableDate && isBefore(date, startOfDay(minSelectableDate))) ||
-                      isBefore(date, startOfDay(new Date()))
+                      (minDateStartOfDay && isBefore(dateStartOfDay, minDateStartOfDay)) ||
+                      isBefore(dateStartOfDay, today)
 
                     const isSelected =
-                      selectedDate && isSameDay(date, new Date(selectedDate))
+                      selectedDate && isSameDay(dateUK, getUKDateFromString(selectedDate))
 
                     return (
                       <div
                         key={idx}
-                        onClick={() => !disabled && handleDateSelect(date)}
+                        onClick={() => !disabled && handleDateSelect(dateUK)}
                         className={cn(
                           "py-1.5 sm:py-2 cursor-pointer transition-all text-sm sm:text-base flex items-center justify-center font-bold",
                           disabled
@@ -303,7 +340,7 @@ export default function NewDateTimePicker({
                             : ""
                         )}
                       >
-                        {date.getDate()}
+                        {dateUK.getDate()}
                       </div>
                     )
                   })}

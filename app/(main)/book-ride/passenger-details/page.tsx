@@ -7,10 +7,10 @@ import PickupTripDetails from '@/components/booking/sidebar/PickupDetails'
 import SelectedCar from '@/components/booking/sidebar/SelectedCar'
 import FeatureList from '@/components/booking/sidebar/FeatureList'
 import { useRouter } from 'next/navigation'
-import { ArrowDown, ArrowUp, ArrowLeft } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 
 function Page() {
-  const { isMobileDropdownOpen, toggleMobileDropdown, formData, category } = useFormStore()
+  const { formData, category } = useFormStore()
   const router = useRouter()
   const headerRef = useRef<HTMLDivElement | null>(null)
 
@@ -53,19 +53,9 @@ function Page() {
           </button>
         </div>
 
-        <div className={`w-full border-2 border-brand rounded-md flex flex-col lg:hidden ${isMobileDropdownOpen ? 'gap-5' : 'gap-0'}`}>
-          <div className={`overflow-hidden transition-all duration-700 flex flex-col gap-3  ease-out
-            ${isMobileDropdownOpen ? 'max-h-[2000px] opacity-100  p-1' : 'max-h-0 opacity-0 p-0' }
-          `}>
-            {category !== 'hourly' && <GoogleMapsRoute/>}
-            <PickupTripDetails/>
-            <SelectedCar/>
-            <FeatureList/>
-          </div>
-          <div onClick={()=>toggleMobileDropdown()} className='bg-brand p-2 rounded-sm font-bold flex items-center justify-between' >
-            <div>Ride Details</div>
-            {isMobileDropdownOpen ?   <ArrowUp/> : <ArrowDown/>}
-          </div>
+        {/* Selected Car - Mobile Only */}
+        <div className="lg:hidden w-full">
+          <SelectedCar/>
         </div>
 
         <div className='grid lg:grid-cols-3 gap-5 w-full'>

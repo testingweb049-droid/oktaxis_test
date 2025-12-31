@@ -17,7 +17,7 @@ export function DetailsInput({field, placeholder, Icon, type}:DetailInputType) {
     const fieldData = !Array.isArray(formData[field]) ? formData[field] : null
     
   return (
-          <div className={`w-full rounded-lg bg-gray-200 px-4 py-3 border ${fieldData?.error ? 'border-red-500' : 'border-gray-300'}`}>
+          <div className={`w-full rounded-lg bg-gray-100 px-4 py-3 border ${fieldData?.error ? 'border-red-500' : 'border-gray-300'}`}>
             {/* Label inside box */}
             <label className="block text-sm font-medium text-gray-600 mb-1">
               {placeholder}
@@ -39,7 +39,7 @@ export function DetailsInput({field, placeholder, Icon, type}:DetailInputType) {
 export function PhoneInput() {
     const {formData, setFormData} = useFormStore()
   return (
-          <div className={`w-full rounded-lg bg-gray-200 px-4 py-3 border ${formData.phone.error ? 'border-red-500' : 'border-gray-300'}`}>
+          <div className={`w-full rounded-lg bg-gray-100 px-4 py-3 border ${formData.phone.error ? 'border-red-500' : 'border-gray-300'}`}>
             {/* Label inside box */}
             <label className="block text-sm font-medium text-gray-600 mb-1">
               Phone Number

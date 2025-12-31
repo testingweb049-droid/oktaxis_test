@@ -6,10 +6,9 @@ import { GoPeople } from "react-icons/go"
 import { PiSuitcase } from "react-icons/pi"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Autoplay, Pagination, Navigation } from "swiper/modules"
+import { Pagination, Navigation } from "swiper/modules"
 import type { Swiper as SwiperType } from "swiper"
 import "swiper/css"
-import "swiper/css/autoplay"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
 import { fleets } from "../booking/steps/fleets-data"
@@ -50,17 +49,12 @@ export default function FleetClasses() {
         {/* Swiper Slider - Mobile and Desktop */}
         <div className="relative">
           <Swiper
-            modules={[Autoplay, Pagination, Navigation]}
+            modules={[Pagination, Navigation]}
             spaceBetween={24}
             slidesPerView={1}
             loop={true}
             onBeforeInit={(swiper) => {
               swiperRef.current = swiper
-            }}
-            autoplay={{
-              delay: 3000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
             }}
             pagination={{
               clickable: true,
@@ -82,14 +76,14 @@ export default function FleetClasses() {
               <SwiperSlide key={`${vehicle.name}-${index}`}>
                 <div className="flex flex-col h-full overflow-hidden rounded-xl bg-white border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-md">
                   {/* Image Section */}
-                  <div className="relative w-full bg-gray-50 flex items-center justify-center py-4 px-4">
-                    <div className="relative w-full h-32 sm:h-36 flex items-center justify-center">
+                  <div className="relative w-full flex items-center justify-center py-6 px-4">
+                    <div className="relative w-full aspect-[4/2] flex items-center justify-center">
                       <Image 
                         src={vehicle.image || "/placeholder.svg"} 
                         alt={vehicle.name || vehicle.cars} 
-                        width={280}
-                        height={200}
-                        className="object-contain object-center w-full h-full" 
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-contain object-center" 
                       />
                     </div>
                   </div>

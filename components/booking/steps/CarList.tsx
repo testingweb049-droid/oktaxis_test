@@ -187,7 +187,7 @@ function CarList() {
                   <div className="space-y-2 text-sm text-gray-600">
                     <div className="flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-brand flex-shrink-0"></div>
-                      <span>Free 40 minutes of wait time</span>
+                      <span>Free 30 minutes of wait time</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-brand flex-shrink-0"></div>
@@ -212,7 +212,7 @@ function CarList() {
           </div>
           <div className="w-full border-t border-gray-200">
             {formLoading && formData.car.value === item.name ? (
-              <div className="w-full bg-brand text-black font-semibold rounded-b-xl px-2 sm:px-2.5 md:px-3 py-1 sm:py-1.5 md:py-2 flex justify-center items-center gap-1.5">
+              <div className="w-full bg-brand text-black font-semibold rounded-b-xl px-2 sm:px-2.5 md:px-3 py-3 sm:py-2 md:py-2 flex justify-center items-center gap-1.5">
                 <Loader className="animate-spin w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 <span className="text-sm sm:text-sm md:text-base">Loading</span>
               </div>
