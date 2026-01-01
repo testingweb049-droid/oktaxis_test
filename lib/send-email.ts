@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import { sanitizeHtml, isValidEmail } from "./utils";
-import { getEmailConfig } from "./emailConfig";
+import { getEmailConfig } from "./email-config";
 
 interface EmailParams {
   to: string | string[];
