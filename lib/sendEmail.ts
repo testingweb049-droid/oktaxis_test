@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { sanitizeHtml } from "./utils";
+import { sanitizeHtml, isValidEmail } from "./utils";
 import { getEmailConfig } from "./emailConfig";
 
 interface EmailParams {
@@ -12,11 +12,6 @@ interface EmailResult {
   success: boolean;
   messageId?: string;
   error?: string;
-}
-
-function isValidEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
 }
 
 const sendEmail = async ({ to, subject, html }: EmailParams): Promise<EmailResult> => {

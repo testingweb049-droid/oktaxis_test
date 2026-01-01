@@ -214,16 +214,7 @@ export default function RegisterDriverPage() {
         services={driverBenefitsServices}
         servicesClassName="!gap-20"
       />
-
-      {/* Chauffeur Testimonials Section */}
       <ChauffeurTestimonials />
-
-      {/* Form Section */}
-      {/* <div className="bg-gray-100 min-h-screen py-12 md:py-16 px-4">
-        <div className="m-auto w-full max-w-4xl">
-          <RegisterDriverForm />
-        </div>
-      </div> */}
 
       {/* Modal with RegisterDriverForm */}
       {isModalOpen && (

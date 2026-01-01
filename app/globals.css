@@ -9,7 +9,6 @@
   --color-text-gray: #7F848B;
   --color-light-background: #F9FAFB;
   --color-white: #FFFFFF;
-  
   --gradient-primary: linear-gradient(90deg, var(--color-primary) 0%, var(--color-white) 100%);
 }
 
@@ -37,11 +36,9 @@ body {
 
 
 @layer utilities {
-  /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
-  /* Hide scrollbar for IE, Edge and Firefox */
   .no-scrollbar {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
@@ -59,7 +56,6 @@ body {
 
 @layer base {
   :root {
-    /* Using approved color palette - converted to HSL for shadcn/ui */
     --background: 0 0% 100%; /* white */
     --foreground: 0 0% 10%; /* heading-black */
     --card: 0 0% 100%; /* white */

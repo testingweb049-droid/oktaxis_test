@@ -9,12 +9,12 @@ import { generateMetadata as generateSEOMetadata, generateWebPageSchema } from "
 import StructuredData from "@/components/StructuredData";
 
 export const metadata: Metadata = generateSEOMetadata({
-  title: "Premium Chauffeur Services Manchester | Airport Transfers & Wedding Hire",
+  title: "Chauffeur Services Manchester | Airport Transfers & Wedding Hire",
   description:
-    "Book premium chauffeur services in Manchester with OKTaxis. Luxury airport transfers, hourly hire, city tours, wedding chauffeurs, and stadium transfers. 24/7 reliable service.",
+    "Book chauffeur services in Manchester with OKTaxis. Luxury airport transfers, hourly hire, city tours, wedding chauffeurs, and stadium transfers. 24/7 reliable service.",
   pageUrl: "/",
   keywords: [
-    "premium chauffeur manchester",
+    "chauffeur manchester",
     "airport transfer manchester",
     "wedding car hire",
     "luxury taxi service",
@@ -31,9 +31,9 @@ export default function Home() {
     <>
       <StructuredData
         data={generateWebPageSchema({
-          title: "Premium Chauffeur Services Manchester | Airport Transfers & Wedding Hire | OKTaxis",
+          title: "Chauffeur Services Manchester | Airport Transfers & Wedding Hire | OKTaxis",
           description:
-            "Book premium chauffeur services in Manchester with OKTaxis. Luxury airport transfers, hourly hire, city tours, wedding chauffeurs, and stadium transfers. 24/7 reliable service.",
+            "Book chauffeur services in Manchester with OKTaxis. Luxury airport transfers, hourly hire, city tours, wedding chauffeurs, and stadium transfers. 24/7 reliable service.",
           url: "https://oktaxis.co.uk/",
           breadcrumbs,
         })}
