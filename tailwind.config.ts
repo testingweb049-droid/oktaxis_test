@@ -12,19 +12,18 @@ const config = {
   theme: {
     extend: {
       fontFamily: {
-        inter: ["var(--font-inter)", "sans-serif"],
         roboto: ["var(--font-roboto)", "sans-serif"],
         montserrat: ["var(--font-montserrat)", "sans-serif"],
       },
       colors: {
-        brand: '#FFB400',
-        'primary-yellow': '#FFB400',
-        'heading-black': '#1A1A1A',
-        'dark-background': '#334155',
-        'dark-border': '#334155',
-        'light-gray': '#EFEFEF',
-        'text-gray': '#7F848B',
-        'light-background': '#F9FAFB',
+        // Approved color palette - only these 5 colors
+        brand: "var(--color-primary)",
+        'primary-yellow': "var(--color-primary)",
+        'heading-black': "var(--color-heading-black)",
+        'text-gray': "var(--color-text-gray)",
+        'light-background': "var(--color-light-background)",
+        white: "var(--color-white)",
+        // shadcn/ui color system (keep for UI components)
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -81,7 +80,6 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
-
     },
   },
   plugins: [require("tailwindcss-animate")],

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import { cn } from "@/lib/utils";
 
 interface HeroBannerProps {
     title: string;
@@ -40,7 +41,11 @@ const HeroBanner: React.FC<HeroBannerProps> = ({
                 {buttonText && (
                     <a
                         href={buttonLink || "#"}
-                        className="bg-yellow-500 hover:bg-yellow-600 text-black font-medium px-6 py-3 rounded-md text-sm sm:text-base transition"
+                        className={cn(
+                          "bg-primary-yellow hover:bg-primary-yellow/90 text-heading-black font-semibold transition-all duration-200",
+                          "px-4 py-2.5 text-base rounded-lg",
+                          "text-sm sm:text-base"
+                        )}
                     >
                         {buttonText}
                     </a>

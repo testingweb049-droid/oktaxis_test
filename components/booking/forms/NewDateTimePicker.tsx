@@ -35,6 +35,7 @@ interface DateTimePickerProps {
   isDisable?: boolean
   dateLabel?: string
   timeLabel?: string
+  className?: string
 }
 
 export default function NewDateTimePicker({
@@ -48,6 +49,7 @@ export default function NewDateTimePicker({
   isDisable,
   dateLabel = "Pickup date",
   timeLabel = "Pickup time",
+  className = "bg-white",
 }: DateTimePickerProps) {
   // Get current time in UK timezone
   const getUKTime = () => toZonedTime(new Date(), UK_TIMEZONE)
@@ -63,7 +65,6 @@ export default function NewDateTimePicker({
   const minuteScrollRef = useRef<HTMLDivElement>(null)
   const ampmScrollRef = useRef<HTMLDivElement>(null)
 
-  // Initialize hour/minute/ampm from selectedTime when time picker opens
   useEffect(() => {
     if (timeOpen && selectedTime) {
       const [hours, minutes] = selectedTime.split(":")
@@ -198,6 +199,10 @@ export default function NewDateTimePicker({
 
   const dateFieldData = formData[dateFieldName] as FieldType<string>
   const timeFieldData = formData[timeFieldName] as FieldType<string>
+  
+  // Only show red border when there's an actual error set (not just when required and empty)
+  const dateHasError = !!dateFieldData?.error
+  const timeHasError = !!timeFieldData?.error
 
   return (
     <div className="w-full">
@@ -205,10 +210,10 @@ export default function NewDateTimePicker({
         {/* DATE PICKER */}
         <div className="relative w-full">
           <div
-            className={`bg-gray-200 rounded-lg px-4 py-3 border ${dateFieldData.error ? "border-red-500" : dateFieldName === "returnDate" ? "border-gray-300" : "border-gray-200"
+            className={`${className} rounded-lg px-4 py-3 border ${dateHasError ? "border-red-500" : "border-gray-200"
               }`}
           >
-            <label className="block text-xs sm:text-sm font-medium text-gray-600 mb-1">
+            <label className="block text-xs sm:text-sm font-medium text-text-gray mb-1">
               {dateLabel}
             </label>
 
@@ -225,9 +230,9 @@ export default function NewDateTimePicker({
             >
               <Calendar
                 size={16}
-                className="text-gray-500 sm:w-[18px] sm:h-[18px]"
+                className="text-text-gray sm:w-[18px] sm:h-[18px]"
               />
-              <div className={`text-sm sm:text-base truncate ${selectedDate ? "text-gray-800" : "text-gray-400"
+              <div className={`text-sm sm:text-base truncate ${selectedDate ? "text-heading-black" : "text-text-gray"
                 }`}>
                 {selectedDate
                   ? format(getUKDateFromString(selectedDate), "dd MMM yyyy")
@@ -256,12 +261,12 @@ export default function NewDateTimePicker({
                 )}
               >
                 {/* Cancel Header - Mobile Only */}
-                <div className="bg-yellow-500 text-white py-3 px-4 -mx-6 -mt-4 mb-4 sm:hidden relative z-10 rounded-t-xl flex items-center justify-between">
+                <div className="bg-primary-yellow text-heading-black py-3 px-4 -mx-6 -mt-4 mb-4 sm:hidden relative z-10 rounded-t-xl flex items-center justify-between">
                   <span className="text-base font-medium">Select Date</span>
                   <button
                     type="button"
                     onClick={() => setDateOpen(false)}
-                    className="p-1 hover:bg-gray-700 rounded-full transition-colors"
+                    className="p-1 hover:bg-heading-black/10 rounded-full transition-colors"
                   >
                     <X className="h-5 w-5" />
                   </button>
@@ -336,7 +341,7 @@ export default function NewDateTimePicker({
                               ? "text-gray-400"
                               : "hover:bg-gray-100 text-gray-700",
                           isSelected
-                            ? "bg-primary text-white font-semibold"
+                            ? "bg-primary-yellow text-heading-black font-semibold"
                             : ""
                         )}
                       >
@@ -353,10 +358,10 @@ export default function NewDateTimePicker({
         {/* TIME PICKER */}
         <div className="relative w-full">
           <div
-            className={`bg-gray-200 rounded-lg px-4 py-3 border ${timeFieldData.error ? "border-red-500" : timeFieldName === "returnTime" ? "border-gray-300" : "border-gray-200"
+            className={`${className} rounded-lg px-4 py-3 border ${timeHasError ? "border-red-500" : "border-gray-200"
               }`}
           >
-            <label className="block text-xs sm:text-sm font-medium text-gray-600 mb-1">
+            <label className="block text-xs sm:text-sm font-medium text-text-gray mb-1">
               {timeLabel}
             </label>
 
@@ -373,9 +378,9 @@ export default function NewDateTimePicker({
             >
               <Clock
                 size={16}
-                className="text-gray-500 sm:w-[18px] sm:h-[18px]"
+                className="text-text-gray sm:w-[18px] sm:h-[18px]"
               />
-              <div className={`text-sm sm:text-base truncate ${selectedTime ? "text-gray-800" : "text-gray-400"
+              <div className={`text-sm sm:text-base truncate ${selectedTime ? "text-heading-black" : "text-text-gray"
                 }`}>
                 {selectedTime
                   ? formatTimeDisplay(selectedTime)
@@ -429,8 +434,8 @@ export default function NewDateTimePicker({
                             className={cn(
                               "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
                               hour === hourValue
-                                ? "bg-primary text-white"
-                                : "bg-white text-gray-700 hover:bg-gray-50"
+                                ? "bg-primary-yellow text-heading-black"
+                                : "bg-white text-heading-black hover:bg-light-background"
                             )}
                             onClick={() => handleHourSelect(hourValue)}
                           >
@@ -472,8 +477,8 @@ export default function NewDateTimePicker({
                             className={cn(
                               "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
                               minute === i
-                                ? "bg-primary text-white"
-                                : "bg-white text-gray-700 hover:bg-gray-50"
+                                ? "bg-primary-yellow text-heading-black"
+                                : "bg-white text-heading-black hover:bg-light-background"
                             )}
                             onClick={() => setMinute(i)}
                           >
@@ -515,8 +520,8 @@ export default function NewDateTimePicker({
                             className={cn(
                               "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
                               ampm === val
-                                ? "bg-primary text-white"
-                                : "bg-white text-gray-700 hover:bg-gray-50"
+                                ? "bg-primary-yellow text-heading-black"
+                                : "bg-white text-heading-black hover:bg-light-background"
                             )}
                             onClick={() => setAmPm(val as "AM" | "PM")}
                           >
@@ -541,10 +546,10 @@ export default function NewDateTimePicker({
                     onClick={handleSaveTime}
                     disabled={hour === null || minute === null}
                     className={cn(
-                      "text-white text-xs sm:text-sm font-medium py-2 sm:py-2.5 px-4 sm:px-6 rounded-lg transition-all",
+                      "text-xs sm:text-sm font-medium py-2 sm:py-2.5 px-4 sm:px-6 rounded-lg transition-all",
                       hour === null || minute === null
-                        ? "bg-gray-300 cursor-not-allowed"
-                        : "bg-black hover:bg-gray-800"
+                        ? "bg-text-gray text-white cursor-not-allowed opacity-50"
+                        : "bg-primary-yellow hover:bg-primary-yellow/90 text-heading-black"
                     )}
                   >
                     Save

@@ -168,7 +168,7 @@ export default function LuxuryFleetSection() {
 
                     {/* Image column */}
                     <div className="w-full lg:w-1/2 flex justify-center">
-                      <div className="w-full max-w-3xl rounded-md border border-[#EFEFEF] bg-white px-4 py-6 sm:px-8 sm:py-10 flex items-center justify-center">
+                      <div className="w-full max-w-3xl rounded-md border border-light-background bg-white px-4 py-6 sm:px-8 sm:py-10 flex items-center justify-center">
                         <div className="relative w-full aspect-[16/6] md:aspect-[16/8]">
                           <Image
                             src={card.image}

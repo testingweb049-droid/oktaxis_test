@@ -1,52 +1,22 @@
 'use client'
-import React, { useEffect } from 'react'
-import useFormStore from '@/stores/FormStore'
+import React, { useEffect, useCallback } from 'react'
+import useFormStore, { FieldType } from '@/stores/FormStore'
 import LocationInput from './LocationPicker'
 import { Loader, TimerIcon, Search } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import NewDropdownInput from '@/components/booking/forms/DropDownInput'
 import QuantitySelector from '@/components/booking/forms/QuantitySelector'
 import NewDateTimePicker from '@/components/booking/forms/NewDateTimePicker'
+import { isAirportLocation, validateBookingTime } from '@/lib/utils'
+import { heroFormValidationSchema } from '@/types/FormInterfaces'
 import { useToast } from '@/components/ui/use-toast'
-import { toZonedTime, fromZonedTime } from 'date-fns-tz'
-
-const UK_TIMEZONE = "Europe/London"
 
 function HeroForm() {
   const { category, changeCategory, formError, formLoading, changeStep, formData, setFormData, manageStops, isOrderDone, step, resetForm } = useFormStore()
-  const { toast } = useToast()
   const router = useRouter()
-
-  // Helper function to detect if a location is an airport
-  const isAirportLocation = (location: string): boolean => {
-    if (!location) return false
-    const lowerLocation = location.toLowerCase()
-    const airportKeywords = [
-      'airport',
-      'terminal',
-      'manchester airport',
-      'liverpool airport',
-      'man airport',
-      'lpl airport',
-      'heathrow',
-      'gatwick',
-      'stansted',
-      'luton',
-      'birmingham airport',
-      'edinburgh airport',
-      'glasgow airport',
-      'bristol airport',
-      'newcastle airport',
-      'leeds bradford airport',
-      'east midlands airport',
-      'terminal 1',
-      'terminal 2',
-      'terminal 3',
-      'terminal 4',
-      'terminal 5'
-    ]
-    return airportKeywords.some(keyword => lowerLocation.includes(keyword))
-  }
+  const { toast } = useToast()
+  
   const durationArray = Array.from({ length: 48 }, (_, i) => {
     const hours = (i + 1) / 2
     const label =
@@ -61,6 +31,177 @@ function HeroForm() {
       resetForm()
     }
   }, [step, isOrderDone])
+
+  const formatFieldName = useCallback((fieldName: string): string => {
+    const fieldMap: Record<string, string> = {
+      date: 'Date',
+      time: 'Time',
+      fromLocation: 'Pickup Location',
+      toLocation: 'Drop Off Location',
+      duration: 'Duration',
+      passengers: 'Passengers',
+      bags: 'Bags',
+      category: 'Category',
+    }
+    return fieldMap[fieldName] || fieldName.charAt(0).toUpperCase() + fieldName.slice(1)
+  }, [])
+  const validateForm = useCallback((validationData: {
+    category: string
+    date: string
+    time: string
+    fromLocation: string
+    toLocation: string
+    duration: string
+    passengers: string
+    bags: string
+  }) => {
+    const result = heroFormValidationSchema.safeParse(validationData)
+
+    if (result.success) {
+      return { isValid: true, errors: [] }
+    }
+
+    // Group errors by field and format them
+    const errorsByField = new Map<string, string[]>()
+    
+    result.error.errors.forEach((error) => {
+      const fieldName = error.path[0] ? String(error.path[0]) : 'general'
+      const formattedFieldName = formatFieldName(fieldName)
+      
+      if (!errorsByField.has(formattedFieldName)) {
+        errorsByField.set(formattedFieldName, [])
+      }
+      errorsByField.get(formattedFieldName)!.push(error.message)
+    })
+
+    // Convert to array format
+    const errors = Array.from(errorsByField.entries()).map(([field, messages]) => ({
+      field,
+      messages,
+      displayText: `${field}: ${messages.join(', ')}`
+    }))
+
+    return { isValid: false, errors }
+  }, [formatFieldName])
+
+  const setFieldErrors = useCallback((errors: Array<{ field: string; messages: string[] }>) => {
+    const fieldMap: Record<string, keyof typeof formData> = {
+      'Date': 'date',
+      'Time': 'time',
+      'Pickup Location': 'fromLocation',
+      'Drop Off Location': 'toLocation',
+      'Duration': 'duration',
+      'Passengers': 'passengers',
+      'Bags': 'bags',
+    }
+
+    // Set errors on fields that have validation issues
+    useFormStore.setState((state) => {
+      const updatedFormData = { ...state.formData } as typeof state.formData
+      
+      errors.forEach(({ field, messages }) => {
+        const fieldKey = fieldMap[field]
+        if (fieldKey && updatedFormData[fieldKey] && !Array.isArray(updatedFormData[fieldKey])) {
+          const currentField = updatedFormData[fieldKey] as FieldType<string>
+          ;(updatedFormData as any)[fieldKey] = {
+            ...currentField,
+            error: messages[0] || 'Invalid value'
+          }
+        }
+      })
+      
+      return { formData: updatedFormData }
+    })
+  }, [])
+  const handleSubmit = useCallback(async () => {
+    // Prepare data for validation
+    const validationData = {
+      category,
+      date: formData.date.value,
+      time: formData.time.value,
+      fromLocation: formData.fromLocation.value,
+      toLocation: formData.toLocation.value,
+      duration: formData.duration.value,
+      passengers: formData.passengers.value,
+      bags: formData.bags.value,
+    }
+
+    // Validate form (excluding 5-hour check)
+    const validation = validateForm(validationData)
+
+    if (!validation.isValid) {
+      setFieldErrors(validation.errors)
+      return
+    }
+
+    // Check 5-hour requirement separately and show toast if invalid
+    if (formData.date.value && formData.time.value) {
+      const timeValidation = validateBookingTime(
+        formData.date.value,
+        formData.time.value,
+        5,
+        "Europe/London"
+      )
+
+      if (!timeValidation.isValid) {
+        // Set errors on date and time fields to show red borders
+        useFormStore.setState((state) => {
+          const updatedFormData = { ...state.formData } as typeof state.formData
+          
+          // Set date field error
+          if (updatedFormData.date && !Array.isArray(updatedFormData.date)) {
+            const currentDateField = updatedFormData.date as FieldType<string>
+            ;(updatedFormData as any).date = {
+              ...currentDateField,
+              error: timeValidation.error?.includes("can't be added") ? timeValidation.error : 'Invalid date'
+            }
+          }
+          
+          // Set time field error
+          if (updatedFormData.time && !Array.isArray(updatedFormData.time)) {
+            const currentTimeField = updatedFormData.time as FieldType<string>
+            ;(updatedFormData as any).time = {
+              ...currentTimeField,
+              error: timeValidation.error?.includes("can't be added") ? timeValidation.error : 'Invalid time'
+            }
+          }
+          
+          return { formData: updatedFormData }
+        })
+        
+        toast({
+          title: "Booking Too Soon",
+          description: timeValidation.error || "Booking can't be added within 5 hours of pickup time, choose another time.",
+          variant: "destructive",
+          duration: 3000, // 3 seconds
+        })
+        return
+      }
+    }
+
+    // Check for airport in locations and auto-set airport pickup
+    const fromIsAirport = isAirportLocation(formData.fromLocation.value)
+    const toIsAirport = category === 'trip' ? isAirportLocation(formData.toLocation.value) : false
+    
+    if (fromIsAirport || toIsAirport) {
+      setFormData('isAirportPickup', true)
+    }
+
+    // Proceed with form submission
+    const isOk = await changeStep(true, 1)
+    if (isOk) {
+      router.replace('/book-ride/select-car')
+    }
+  }, [
+    category,
+    formData,
+    validateForm,
+    setFieldErrors,
+    setFormData,
+    changeStep,
+    router,
+    toast,
+  ])
 
 
   return (
@@ -92,7 +233,7 @@ function HeroForm() {
         <div className='flex flex-col gap-4 w-full'>
           {/* Location Inputs */}
           <div className='flex flex-col gap-4 w-full'>
-            <LocationInput field="fromLocation" placeholder="Pickup Location" label='Start' />
+            <LocationInput field="fromLocation" placeholder="Pickup Location" label='From' />
 
             {category !== 'hourly' && formData.stops.map((_, i) => (
               <LocationInput
@@ -108,7 +249,7 @@ function HeroForm() {
               />
             ))}
 
-            {category !== 'hourly' && <LocationInput field="toLocation" placeholder="Drop Off Location" label='End' />}
+            {category !== 'hourly' && <LocationInput field="toLocation" placeholder="Drop Off Location" label='To' />}
             {category === 'hourly' && (
               <NewDropdownInput Icon={TimerIcon} fieldName='duration' placeholder='Duration in Hours' options={durationArray} />
             )}
@@ -123,6 +264,7 @@ function HeroForm() {
             timeFieldName="time"
             placeholder='Select Date & Time'
             isDisable={false}
+            className="bg-gray-200"
           />
 
           {/* Passengers and Bags */}
@@ -133,99 +275,13 @@ function HeroForm() {
         </div>
 
         {formError && <div className='text-sm text-red-500'>{formError}</div>}
-        {/* <div className="flex items-center justify-center gap-1.5 px-2">
-            <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-brand"></div>
-            <p className="text-xs sm:text-sm text-center font-medium text-brand">
-              Chauffeur will wait 40 min free of charge
-            </p>
-            <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-brand"></div>
-          </div> */}
-        {/* See Prices Button */}
         <div className="flex flex-col gap-2">
-          <button
-            onClick={async () => {
-              // Validate date and time are selected
-              if (!formData.date.value || !formData.time.value) {
-                toast({
-                  title: "Missing Date or Time",
-                  description: "Please select both pickup date and time.",
-                  variant: "destructive",
-                })
-                return
-              }
-
-              // Check if booking is at least 5 hours from now (using UK timezone)
-              try {
-                // Get current time in UK timezone
-                const nowUK = toZonedTime(new Date(), UK_TIMEZONE)
-                
-                // Parse selected date and time as UK timezone
-                const [year, month, day] = formData.date.value.split('-').map(Number)
-                const [hours, minutes] = formData.time.value.split(':').map(Number)
-                
-                // Create pickup datetime in UK timezone (treating the input as UK local time)
-                const pickupDateTimeUK = new Date(year, month - 1, day, hours, minutes)
-                
-                // Convert UK local time to UTC, then back to UK timezone for proper comparison
-                const pickupDateTimeUTC = fromZonedTime(pickupDateTimeUK, UK_TIMEZONE)
-                const pickupDateTime = toZonedTime(pickupDateTimeUTC, UK_TIMEZONE)
-                
-                // Calculate 5 hours later in UK timezone
-                const fiveHoursLater = new Date(nowUK.getTime() + 5 * 60 * 60 * 1000)
-                
-                if (pickupDateTime < fiveHoursLater) {
-                  toast({
-                    title: "Booking Too Soon",
-                    description: "Booking can't be added within 5 hours of pickup time, choose another time.",
-                    variant: "destructive",
-                  })
-                  return
-                }
-              } catch (error) {
-                toast({
-                  title: "Invalid Date or Time",
-                  description: "Please select a valid date and time.",
-                  variant: "destructive",
-                })
-                return
-              }
-
-              // Check if start and end locations are the same (for trip category)
-              if (category === 'trip' && formData.fromLocation.value && formData.toLocation.value) {
-                const fromLocation = formData.fromLocation.value.trim().toLowerCase()
-                const toLocation = formData.toLocation.value.trim().toLowerCase()
-                
-                // Compare locations (check if they're the same or very similar)
-                if (fromLocation === toLocation || 
-                    (fromLocation.includes(toLocation) && toLocation.length > 10) ||
-                    (toLocation.includes(fromLocation) && fromLocation.length > 10)) {
-                  toast({
-                    title: "Invalid Locations",
-                    description: "Start and end locations cannot be the same. Please choose different locations.",
-                    variant: "destructive",
-                  })
-                  return
-                }
-              }
-
-              // Check for airport in locations and auto-set airport pickup
-              const fromIsAirport = isAirportLocation(formData.fromLocation.value)
-              const toIsAirport = category === 'trip' ? isAirportLocation(formData.toLocation.value) : false
-              
-              if (fromIsAirport || toIsAirport) {
-                setFormData('isAirportPickup', true)
-              }
-
-              const isOk = await changeStep(true, 1);
-              if (isOk) {
-                router.replace('/book-ride/select-car')
-              }
-            }}
-            className={`flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg cursor-pointer font-semibold text-black transition-colors ${formLoading
-                ? 'bg-brand/70 cursor-not-allowed'
-                : 'bg-brand hover:bg-primary-yellow/90'
-              }`}
+          <Button
+            onClick={handleSubmit}
+            variant="brand"
+            size="default"
             disabled={formLoading}
+            className="w-full py-2 px-3 gap-2"
           >
             {formLoading ? (
               <>
@@ -238,8 +294,7 @@ function HeroForm() {
                 <span>See Prices</span>
               </>
             )}
-          </button>
-        
+          </Button>
         </div>
       </div>
     </div>

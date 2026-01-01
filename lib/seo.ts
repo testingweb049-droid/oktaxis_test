@@ -5,7 +5,7 @@ export const SITE_CONFIG = {
   name: "OKTaxis",
   title: "OKTaxis | Premium Chauffeur Services & Airport Transfers in Manchester",
   description:
-    "OKTaxis provides luxury chauffeur services, airport transfers, city rides, wedding cars, and premium transportation in Manchester, Liverpool, and across the UK. 24/7 reliable service.",
+    "OKTaxis provides premium chauffeur services, airport transfers, city rides, wedding cars, and executive transportation in Manchester, Liverpool, and across the UK. 24/7 reliable service.",
   url: process.env.NEXT_PUBLIC_BASE_URL || "https://oktaxis.co.uk",
   ogImage: "/premium-vehicles.jpg",
   logo: "/assets/favicon.png",
@@ -25,7 +25,6 @@ export const SITE_CONFIG = {
     "airport transfer manchester",
     "chauffeur service manchester",
     "manchester airport taxi",
-    "luxury car service",
     "executive car service",
     "wedding car hire",
     "stadium transfer",
@@ -266,7 +265,7 @@ export function generateLocalBusinessSchema(additionalData?: Record<string, any>
           itemOffered: {
             "@type": "Service",
             name: "Wedding Car Hire",
-            description: "Luxury wedding car hire service with professional chauffeurs",
+            description: "Wedding car hire service with professional chauffeurs",
           },
         },
         {

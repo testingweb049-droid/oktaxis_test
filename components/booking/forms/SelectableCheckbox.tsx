@@ -8,12 +8,14 @@ interface SelectableCheckboxProps {
   fieldName: keyof FormDataType
   label: string
   subLabel?: string
+  noBorder?: boolean
 }
 
 export default function SelectableCheckbox({
   fieldName,
   label,
   subLabel,
+  noBorder = false,
 }: SelectableCheckboxProps) {
   const { formData, setFormData, setFieldOptions } = useFormStore()
 
@@ -35,8 +37,8 @@ export default function SelectableCheckbox({
   return (
     <div
       className={cn(
-        "w-full rounded-lg bg-gray-100 border flex items-center gap-3 cursor-pointer transition-all",
-        isError ? "border-red-500" : "border-gray-100"
+        "w-full rounded-lg bg-white flex items-center gap-3 cursor-pointer transition-all px-4 py-3",
+        !noBorder && (isError ? "border border-red-500" : "border border-gray-200")
       )}
       onClick={() => handleChange(!value)}
     >
@@ -49,13 +51,13 @@ export default function SelectableCheckbox({
         <label
           className={cn(
             "text-sm font-medium leading-none cursor-pointer",
-            value ? "text-gray-900" : "text-gray-700"
+            value ? "text-heading-black" : "text-text-gray"
           )}
         >
           {label}
         </label>
         {subLabel && (
-          <span className="text-xs text-gray-500">{subLabel}</span>
+          <span className="text-xs text-text-gray">{subLabel}</span>
         )}
       </div>
     </div>

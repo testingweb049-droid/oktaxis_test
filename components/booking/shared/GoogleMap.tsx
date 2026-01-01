@@ -2,23 +2,52 @@
 
 import { useEffect, useRef } from "react";
 import useFormStore from "@/stores/FormStore";
-import { brandColor } from "@/lib/colors";
 import { Route, Timer } from "lucide-react";
 
-export default function GoogleMapsRoute() {
+const PRIMARY_COLOR = "#FFB400"; // Approved color: --color-primary
+
+interface Coordinates {
+  lat: number;
+  lng: number;
+}
+
+interface GoogleMapsRouteProps {
+  fromCoords?: Coordinates;
+  toCoords?: Coordinates;
+  showDistanceDuration?: boolean;
+}
+
+export default function GoogleMapsRoute({ 
+  fromCoords: propsFromCoords, 
+  toCoords: propsToCoords,
+  showDistanceDuration = true 
+}: GoogleMapsRouteProps = {}) {
   const mapRef = useRef<HTMLDivElement>(null);
   const { formData } = useFormStore();
-  const { fromLocation, toLocation, stops, distance, duration } = formData;
 
-  const fromCoords = fromLocation.coardinates;
-  const toCoords = toLocation.coardinates;
-
-  // Helper: "lat,lng" → { lat, lng }
-  const parseCoords = (coord?: string) => {
+  // Helper: "lat,lng" → { lat, lng } or Coordinates object → { lat, lng }
+  const parseCoords = (coord?: string | Coordinates): Coordinates | null => {
     if (!coord) return null;
+    if (typeof coord === 'object' && 'lat' in coord && 'lng' in coord) {
+      return coord;
+    }
+    if (typeof coord === 'string') {
     const [lat, lng] = coord.split(",").map(Number);
     return isNaN(lat) || isNaN(lng) ? null : { lat, lng };
+    }
+    return null;
   };
+
+  // Use props if provided, otherwise use formStore
+  const fromCoordsString = propsFromCoords 
+    ? `${propsFromCoords.lat},${propsFromCoords.lng}` 
+    : formData.fromLocation?.coardinates;
+  const toCoordsString = propsToCoords 
+    ? `${propsToCoords.lat},${propsToCoords.lng}` 
+    : formData.toLocation?.coardinates;
+  const stops = formData.stops;
+  const distance = formData.distance;
+  const duration = formData.duration;
 
   useEffect(() => {
     const initMap = async () => {
@@ -27,8 +56,8 @@ export default function GoogleMapsRoute() {
         const { Marker } = (await google.maps.importLibrary("marker")) as google.maps.MarkerLibrary;
         const { DirectionsService, DirectionsRenderer } = (await google.maps.importLibrary("routes")) as google.maps.RoutesLibrary;
 
-        const from = parseCoords(fromCoords);
-        const to = parseCoords(toCoords);
+        const from = propsFromCoords || parseCoords(fromCoordsString);
+        const to = propsToCoords || parseCoords(toCoordsString);
         const waypointsList = (stops || [])
           .map((s) => parseCoords(s.coardinates))
           .filter(Boolean);
@@ -56,21 +85,23 @@ export default function GoogleMapsRoute() {
           const directionsRenderer = new DirectionsRenderer({
             suppressMarkers: true,
             polylineOptions: {
-              strokeColor: brandColor,
+              strokeColor: PRIMARY_COLOR,
               strokeWeight: 5,
             },
           });
           directionsRenderer.setMap(map);
 
-          const waypoints = waypointsList.map((stop) => ({
+          const waypoints = waypointsList.length > 0 
+            ? waypointsList.map((stop) => ({
             location: stop!,
             stopover: true,
-          }));
+              }))
+            : undefined;
 
           const request: google.maps.DirectionsRequest = {
             origin: from,
             destination: to,
-            waypoints,
+            ...(waypoints && { waypoints }),
             travelMode: google.maps.TravelMode.DRIVING,
           };
 
@@ -143,23 +174,25 @@ export default function GoogleMapsRoute() {
     script.defer = true;
     script.onload = initMap;
     document.head.appendChild(script);
-  }, [fromCoords, toCoords, JSON.stringify(formData.stops)]);
+  }, [propsFromCoords, propsToCoords, fromCoordsString, toCoordsString, JSON.stringify(formData.stops)]);
 
   return (
     <div
       className={`w-full h-[350px] rounded-2xl overflow-hidden bg-white border-2 lg:border-4 border-brand shadow-sm flex flex-col`}
     >
       <div ref={mapRef} className="w-full h-full rounded-sm" />
-      <div className="py-1 flex items-center gap-3 px-2 ">
-      <div className="py-1 flex items-center gap-1 ">
-       <Route color={brandColor} size={15}/>
-       <div>{distance.value ?? 0 } Mile</div>
+      {showDistanceDuration && (
+        <div className="py-1 flex items-center gap-3 px-2">
+          <div className="py-1 flex items-center gap-1">
+            <Route color={PRIMARY_COLOR} size={15}/>
+            <div>{distance?.value ?? 0} Mile</div>
       </div>
-      <div className="py-1 flex items-center gap-1 ">
-       <Timer color={brandColor} size={15}/>
-       <div>{duration.value !== '' ? duration.value : 0} hours</div>
+          <div className="py-1 flex items-center gap-1">
+            <Timer color={PRIMARY_COLOR} size={15}/>
+            <div>{duration?.value !== '' ? duration.value : 0} hours</div>
       </div>
       </div>
+      )}
     </div>
   );
 }

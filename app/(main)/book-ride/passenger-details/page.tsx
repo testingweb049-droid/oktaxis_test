@@ -5,9 +5,10 @@ import DetailsForm from '@/components/booking/steps/DetailsForm'
 import GoogleMapsRoute from '@/components/booking/shared/GoogleMap'
 import PickupTripDetails from '@/components/booking/sidebar/PickupDetails'
 import SelectedCar from '@/components/booking/sidebar/SelectedCar'
-import FeatureList from '@/components/booking/sidebar/FeatureList'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 
 function Page() {
   const { formData, category } = useFormStore()
@@ -26,31 +27,34 @@ function Page() {
   }, [formData.car.value, router])
 
   return (
-    <div className=' w-full bg-slate-50 flex flex-col min-h-[50vh]'>
-      <div ref={headerRef} className='h-24 w-full bg-black header'></div>
-      <div className='max-w-screen-lg mx-auto flex flex-col gap-5 lg:gap-10 w-full py-5 lg:py-16 px-2 '>
+    <div className={cn('w-full flex flex-col min-h-[50vh]', 'bg-white')}>
+      <div ref={headerRef} className='h-24 w-full bg-heading-black header'></div>
+      <div className='max-w-screen-lg mx-auto flex flex-col gap-5 lg:gap-10 w-full py-5 lg:py-16 px-2'>
         {/* Back Button - Mobile Full Width */}
         <div className="lg:hidden flex justify-start w-full">
-          <button
+          <Button
             onClick={() => router.push('/book-ride/select-car')}
-            className="flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-4 py-2 rounded-lg border border-gray-300 transition-all shadow-sm hover:shadow-md active:scale-[0.98] w-full"
+            variant="outline"
+            size="default"
+            className="w-full"
             aria-label="Go back"
           >
             <ArrowLeft size={18} />
             <span>Back</span>
-          </button>
+          </Button>
         </div>
 
         {/* Back Button - Desktop */}
         <div className="hidden lg:flex justify-start w-full">
-          <button
+          <Button
             onClick={() => router.push('/book-ride/select-car')}
-            className="flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-4 py-2 rounded-lg border border-gray-300 transition-all shadow-sm hover:shadow-md active:scale-[0.98]"
+            variant="outline"
+            size="default"
             aria-label="Go back"
           >
             <ArrowLeft size={18} />
             <span>Back</span>
-          </button>
+          </Button>
         </div>
 
         {/* Selected Car - Mobile Only */}
@@ -66,7 +70,6 @@ function Page() {
             {category !== 'hourly' && <GoogleMapsRoute/>}
             <PickupTripDetails/>
             <SelectedCar/>
-            <FeatureList/>
           </div>
         </div>
       </div>

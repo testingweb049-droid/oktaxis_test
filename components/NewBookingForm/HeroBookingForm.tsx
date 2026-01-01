@@ -124,14 +124,14 @@ function HeroSectionBookingForm() {
       <div className="space-y-3 md:space-y-4 pt-5 w-full">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <h3 className="text-base md:text-lg font-semibold text-gray-800 flex items-center gap-2 max-lg:hidden">
-            <MapPin className="w-4 h-4 md:w-5 md:h-5 text-[#F4910B]" />
+            <MapPin className="w-4 h-4 md:w-5 md:h-5 text-primary-yellow" />
             Additional Stops
           </h3>
           {stopsCount < 3 && (
             <button
               type="button"
               onClick={addStop}
-              className="px-3 py-2 md:px-4 md:py-2 bg-[#F4910B] hover:bg-[#e8840a] text-white rounded-lg font-medium transition-all duration-200 flex items-center gap-2 shadow-md hover:shadow-lg transform hover:scale-105 text-sm md:text-base"
+              className="px-3 py-2 md:px-4 md:py-2 bg-primary-yellow hover:bg-primary-yellow/90 text-white rounded-lg font-medium transition-all duration-200 flex items-center gap-2 shadow-md hover:shadow-lg transform hover:scale-105 text-sm md:text-base"
             >
               <Plus className="w-3 h-3 md:w-4 md:h-4" />
               Add Stop
@@ -183,7 +183,7 @@ function HeroSectionBookingForm() {
                               value={stopValue}
                               onChange={(e) => updateStop(index, e.target.value, "")}
                               placeholder={`Enter stop ${index + 1} location`}
-                              className="w-full pl-7 md:pl-10 pr-2 md:pr-3 py-2 md:py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F4910B] focus:border-transparent text-black text-sm md:text-base bg-white"
+                              className="w-full pl-7 md:pl-10 pr-2 md:pr-3 py-2 md:py-2.5 border border-gray-200 rounded-lg focus:outline-none text-black text-sm md:text-base bg-white"
                             />
                           </div>
                         </Autocomplete>
@@ -221,7 +221,7 @@ function HeroSectionBookingForm() {
               <h4 className="text-xs md:text-sm font-semibold text-gray-700 mb-2">Your Journey</h4>
               <div className="flex items-center gap-1 md:gap-2 text-xs text-gray-600 overflow-x-auto">
                 <div className="flex items-center gap-1 flex-shrink-0">
-                  <div className="w-2 h-2 md:w-3 md:h-3 bg-[#F4910B] rounded-full"></div>
+                  <div className="w-2 h-2 md:w-3 md:h-3 bg-primary-yellow rounded-full"></div>
                   <span className="text-xs">Pickup</span>
                 </div>
                 {Array.from({ length: stopsCount }, (_, index) => (
@@ -260,7 +260,7 @@ function HeroSectionBookingForm() {
             }}
             className={cn(
               "px-8 py-3 rounded-full font-semibold transition-colors",
-              category === "trips" ? "bg-brand text-white" : "bg-white text-gray-700 hover:bg-gray-50",
+              category === "trips" ? "bg-primary-yellow hover:bg-primary-yellow/90 text-white font-semibold transition-all duration-200 rounded-full" : "border border-text-gray bg-white hover:bg-light-background text-heading-black font-semibold transition-all duration-200 rounded-full",
             )}
           >
             Trip
@@ -277,7 +277,7 @@ function HeroSectionBookingForm() {
           }}
           className={cn(
             "px-8 py-3 rounded-full font-semibold transition-colors",
-            category === "hourly" ? "bg-brand text-white" : "bg-white text-gray-700 hover:bg-gray-50",
+              category === "hourly" ? "bg-primary-yellow hover:bg-primary-yellow/90 text-white font-semibold transition-all duration-200 rounded-full" : "border border-text-gray bg-white hover:bg-light-background text-heading-black font-semibold transition-all duration-200 rounded-full",
           )}
         >
           Hourly
@@ -600,7 +600,11 @@ function HeroSectionBookingForm() {
                 NextStep()
               }}
               disabled={loading}
-              className="w-full bg-black text-white py-3 px-6 rounded-xl font-semibold text-base hover:bg-gray-900 transition-colors md:py-4 md:px-8 md:text-lg flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+              className={cn(
+                "w-full py-3 px-6 rounded-xl font-semibold text-base md:py-4 md:px-8 md:text-lg flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed",
+                "bg-heading-black hover:bg-heading-black/90 text-white font-semibold transition-all duration-200",
+                "px-6 py-3 text-lg rounded-lg"
+              )}
             >
               {loading ? (
                 <>

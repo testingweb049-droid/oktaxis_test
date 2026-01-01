@@ -62,7 +62,7 @@ export default function Footer() {
                   href="https://wa.me/+447788710290"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group text-text-gray transition-all duration-300 hover:text-[#25D366] hover:scale-110"
+                  className="group text-text-gray transition-all duration-300 hover:text-primary-yellow hover:scale-110"
                   aria-label="WhatsApp"
                 >
                   <FaWhatsapp className="h-5 w-5 sm:h-6 sm:w-6 transition-transform duration-300" />

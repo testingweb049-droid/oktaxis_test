@@ -73,14 +73,14 @@ function CheckIcon() {
     <svg
       viewBox="0 0 52 52"
       xmlns="http://www.w3.org/2000/svg"
-      className="w-7 h-7 sm:w-9 sm:h-9"
+      className="w-7 h-7 sm:w-9 sm:h-9 text-primary-yellow"
       aria-hidden="true"
     >
       <path
         fillRule="evenodd"
         clipRule="evenodd"
         d="M13.0013 21.6667L8.66797 26L21.668 39L43.3346 17.3333L39.0013 13L21.668 30.3333L13.0013 21.6667Z"
-        fill="#FFB400"
+        fill="currentColor"
       />
     </svg>
   );

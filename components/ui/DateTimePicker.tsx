@@ -214,7 +214,7 @@ function TabNavigation({
       <div className="relative bg-gray-900 rounded-lg p-0.5 grid grid-cols-2 gap-0.5 shadow-inner">
         <div
           className={cn(
-            "absolute top-0.5 bottom-0.5 w-[calc(50%-1px)] bg-[#F4910B] rounded-md transition-all duration-500 ease-out shadow-lg",
+            "absolute top-0.5 bottom-0.5 w-[calc(50%-1px)] bg-primary-yellow rounded-md transition-all duration-500 ease-out shadow-lg",
             isDate ? "left-0.5" : "left-[calc(50%+0.5px)]",
           )}
         />
@@ -272,7 +272,7 @@ function CalendarView({
 }) {
   return (
     <>
-      <div className="bg-[#F4910B] text-white font-bold text-base py-2 px-3 flex items-center justify-between">
+      <div className="bg-primary-yellow text-white font-bold text-base py-2 px-3 flex items-center justify-between">
         <button
         type="button"
           className="size-7 flex items-center justify-center text-white hover:bg-white/20 rounded-lg transition-colors"
@@ -309,9 +309,9 @@ function CalendarView({
                     ? "text-gray-500 cursor-not-allowed"
                     : "text-white hover:bg-gray-700 hover:scale-110",
                   isSameDay(dayObj.date, selectedDate || new Date()) && !dayObj.inactive
-                    ? "bg-[#F4910B] text-white font-bold shadow-lg"
+                    ? "bg-primary-yellow text-white font-bold shadow-lg"
                     : isSameDay(dayObj.date, new Date()) && !dayObj.inactive
-                      ? "border border-[#F4910B] text-[#F4910B]"
+                      ? "border border-primary-yellow text-primary-yellow"
                       : "",
                 )}
                 onClick={() => {
@@ -360,9 +360,9 @@ function TimePickerView({
           >
             {selectedTime ? (
               <>
-                <span className="text-[#F4910B]">{getDisplayHour(selectedTime.hour).toString().padStart(2, "0")}</span>
+                <span className="text-primary-yellow">{getDisplayHour(selectedTime.hour).toString().padStart(2, "0")}</span>
                 <span className="text-gray-400 mx-2 animate-pulse">:</span>
-                <span className="text-[#F4910B]">{selectedTime.minute.toString().padStart(2, "0")}</span>
+                <span className="text-primary-yellow">{selectedTime.minute.toString().padStart(2, "0")}</span>
                 <span
                   className={cn(
                     "ml-3 text-white bg-gray-800 rounded-lg",
@@ -383,13 +383,13 @@ function TimePickerView({
           <button
             type="button"
             onClick={() => handleHourChange(true)}
-            className="w-8 h-8 bg-gray-700 hover:bg-[#F4910B] rounded-xl flex items-center justify-center transition-all duration-200 mb-2 shadow-lg hover:scale-110 active:scale-95"
+            className="w-8 h-8 bg-gray-700 hover:bg-primary-yellow rounded-xl flex items-center justify-center transition-all duration-200 mb-2 shadow-lg hover:scale-110 active:scale-95"
           >
             <ChevronUp className="size-3 text-white" />
           </button>
 
           <div
-            className="text-xl font-bold text-[#F4910B] mb-2 cursor-grab active:cursor-grabbing select-none bg-gray-800 px-2 py-1 rounded-lg border border-gray-600 hover:border-[#F4910B] transition-colors"
+            className="text-xl font-bold text-primary-yellow mb-2 cursor-grab active:cursor-grabbing select-none bg-gray-800 px-2 py-1 rounded-lg border border-gray-600 hover:border-primary-yellow transition-colors"
             onMouseDown={(e) => handleMouseDown("hour", e)}
           >
             {selectedTime ? getDisplayHour(selectedTime.hour).toString().padStart(2, "0") : "00"}
@@ -398,7 +398,7 @@ function TimePickerView({
           <button
           type="button"
             onClick={() => handleHourChange(false)}
-            className="w-8 h-8 bg-gray-700 hover:bg-[#F4910B] rounded-xl flex items-center justify-center transition-all duration-200 shadow-lg hover:scale-110 active:scale-95"
+            className="w-8 h-8 bg-gray-700 hover:bg-primary-yellow rounded-xl flex items-center justify-center transition-all duration-200 shadow-lg hover:scale-110 active:scale-95"
           >
             <ChevronDown className="size-3 text-white" />
           </button>
@@ -408,13 +408,13 @@ function TimePickerView({
           <button
           type="button"
             onClick={() => handleMinuteChange(true)}
-            className="w-8 h-8 bg-gray-700 hover:bg-[#F4910B] rounded-xl flex items-center justify-center transition-all duration-200 mb-2 shadow-lg hover:scale-110 active:scale-95"
+            className="w-8 h-8 bg-gray-700 hover:bg-primary-yellow rounded-xl flex items-center justify-center transition-all duration-200 mb-2 shadow-lg hover:scale-110 active:scale-95"
           >
             <ChevronUp className="size-3 text-white" />
           </button>
 
           <div
-            className="text-xl font-bold text-[#F4910B] mb-2 cursor-grab active:cursor-grabbing select-none bg-gray-800 px-2 py-1 rounded-lg border border-gray-600 hover:border-[#F4910B] transition-colors"
+            className="text-xl font-bold text-primary-yellow mb-2 cursor-grab active:cursor-grabbing select-none bg-gray-800 px-2 py-1 rounded-lg border border-gray-600 hover:border-primary-yellow transition-colors"
             onMouseDown={(e) => handleMouseDown("minute", e)}
           >
             {selectedTime ? selectedTime.minute.toString().padStart(2, "0") : "00"}
@@ -423,7 +423,7 @@ function TimePickerView({
           <button
           type="button"
             onClick={() => handleMinuteChange(false)}
-            className="w-8 h-8 bg-gray-700 hover:bg-[#F4910B] rounded-xl flex items-center justify-center transition-all duration-200 shadow-lg hover:scale-110 active:scale-95"
+            className="w-8 h-8 bg-gray-700 hover:bg-primary-yellow rounded-xl flex items-center justify-center transition-all duration-200 shadow-lg hover:scale-110 active:scale-95"
           >
             <ChevronDown className="size-3 text-white" />
           </button>
@@ -433,19 +433,19 @@ function TimePickerView({
           <button
           type="button"
             onClick={() => handlePeriodChange(true)}
-            className="w-8 h-8 bg-gray-700 hover:bg-[#F4910B] rounded-xl flex items-center justify-center transition-all duration-200 mb-2 shadow-lg hover:scale-110 active:scale-95"
+            className="w-8 h-8 bg-gray-700 hover:bg-primary-yellow rounded-xl flex items-center justify-center transition-all duration-200 mb-2 shadow-lg hover:scale-110 active:scale-95"
           >
             <ChevronUp className="size-3 text-white" />
           </button>
 
-          <div className="text-xl font-bold text-[#F4910B] mb-2 cursor-pointer select-none bg-gray-800 px-2 py-1 rounded-lg border border-gray-600 hover:border-[#F4910B] transition-colors">
+          <div className="text-xl font-bold text-primary-yellow mb-2 cursor-pointer select-none bg-gray-800 px-2 py-1 rounded-lg border border-gray-600 hover:border-primary-yellow transition-colors">
             {selectedTime ? getAmPm(selectedTime.hour) : "--"}
           </div>
 
           <button
           type="button"
             onClick={() => handlePeriodChange(false)}
-            className="w-8 h-8 bg-gray-700 hover:bg-[#F4910B] rounded-xl flex items-center justify-center transition-all duration-200 shadow-lg hover:scale-110 active:scale-95"
+            className="w-8 h-8 bg-gray-700 hover:bg-primary-yellow rounded-xl flex items-center justify-center transition-all duration-200 shadow-lg hover:scale-110 active:scale-95"
           >
             <ChevronDown className="size-3 text-white" />
           </button>
@@ -511,7 +511,7 @@ function MobileDateTimePicker({
             <button
             type="button"
               onClick={() => setOpen(false)}
-              className="w-full bg-[#F4910B] hover:bg-[#e8840a] text-white text-sm font-medium py-2.5 rounded-lg transition-all duration-200 shadow-md hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full bg-primary-yellow hover:bg-primary-yellow/90 text-white text-sm font-medium py-2.5 rounded-lg transition-all duration-200 shadow-md hover:scale-[1.02] active:scale-[0.98]"
             >
               ✓ Done
             </button>
@@ -573,7 +573,7 @@ function DesktopDateTimePicker({
           <button
           type="button"
             onClick={() => setOpen(false)}
-            className="w-full bg-[#F4910B] hover:bg-[#e8840a] text-white text-sm font-medium py-2.5 rounded-lg transition-all duration-200 shadow-md hover:scale-[1.02] active:scale-[0.98]"
+            className="w-full bg-primary-yellow hover:bg-primary-yellow/90 text-white text-sm font-medium py-2.5 rounded-lg transition-all duration-200 shadow-md hover:scale-[1.02] active:scale-[0.98]"
           >
             ✓ Done
           </button>
@@ -631,7 +631,7 @@ export default function EnhancedDateTimePicker(props: DateTimePickerProps) {
         }
         onClick={() => setOpen(true)}
         className={cn(
-          "w-full px-3 py-2 rounded-lg text-sm shadow-sm bg-white cursor-pointer text-black border transition-all duration-200 hover:border-[#F4910B] focus:border-[#F4910B]",
+          "w-full px-3 py-2 rounded-lg text-sm shadow-sm bg-white cursor-pointer text-black border transition-all duration-200 hover:border-primary-yellow focus:border-primary-yellow",
           errors[props.dateFieldName as "pickup_date"] || errors[props.timeFieldName as "pickup_time"]
             ? "border-red-500"
             : " border-gray-500 ",

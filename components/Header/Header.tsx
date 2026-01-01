@@ -246,9 +246,9 @@ export default function Header() {
       <header
         ref={headerRef}
         className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${shouldHaveBlackHeader
-          ? "bg-[#000000] shadow-md py-3 sm:py-4 text-white"
+          ? "bg-heading-black shadow-md py-3 sm:py-4 text-white"
           : scrolled
-            ? "bg-[#000000] shadow-md py-3 sm:py-4 text-white"
+            ? "bg-heading-black shadow-md py-3 sm:py-4 text-white"
             : "py-3 sm:py-4 text-white"
           }`}
       >
@@ -342,7 +342,7 @@ export default function Header() {
                 href="https://wa.me/+447788710290"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group text-white/70 transition-all duration-300 hover:text-[#25D366] hover:scale-110"
+                className="group text-white/70 transition-all duration-300 hover:text-primary-yellow hover:scale-110"
                 onClick={() => setIsOpen(false)}
                 aria-label="WhatsApp"
               >

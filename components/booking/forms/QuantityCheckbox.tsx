@@ -103,8 +103,8 @@ export default function QuantityCheckbox({
   return (
     <div
       className={cn(
-        "w-full rounded-lg bg-gray-100 border flex items-center gap-3 transition-all",
-        isError ? "border-red-500" : "border-gray-100"
+        "w-full rounded-lg bg-white border flex items-center gap-3 transition-all px-4 py-3",
+        isError ? "border-red-500" : "border-gray-200"
       )}
       onClick={() => handleChange(!value)}
     >
@@ -117,39 +117,39 @@ export default function QuantityCheckbox({
         <label
           className={cn(
             "text-sm font-medium leading-none cursor-pointer",
-            value ? "text-gray-900" : "text-gray-700"
+            value ? "text-heading-black" : "text-text-gray"
           )}
         >
           {label}
         </label>
         {subLabel && (
-          <span className="text-xs text-gray-500">{subLabel}</span>
+          <span className="text-xs text-text-gray">{subLabel}</span>
         )}
         {description && (
-          <span className="text-xs text-gray-400 italic">{description}</span>
+          <span className="text-xs text-text-gray italic">{description}</span>
         )}
       </div>
       {/* Horizontal Quantity Selector - Always visible by default */}
       <div 
-        className="flex items-center border border-gray-300 rounded-lg overflow-hidden bg-white"
+        className="flex items-center border border-gray-200 rounded-lg overflow-hidden bg-white"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           onClick={handleDecrement}
           disabled={quantity <= minQuantity}
-          className="px-3 py-1.5 text-gray-700 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors border-r border-gray-300"
+          className="px-3 py-1.5 text-heading-black hover:bg-light-background disabled:opacity-40 disabled:cursor-not-allowed transition-colors border-r border-gray-200"
         >
           -
         </button>
-        <div className="px-4 py-1.5 text-sm font-medium text-gray-800 min-w-[2rem] text-center">
+        <div className="px-4 py-1.5 text-sm font-medium text-heading-black min-w-[2rem] text-center">
           {quantity}
         </div>
         <button
           type="button"
           onClick={handleIncrement}
           disabled={quantity >= maxQuantity}
-          className="px-3 py-1.5 text-gray-700 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors border-l border-gray-300"
+          className="px-3 py-1.5 text-heading-black hover:bg-light-background disabled:opacity-40 disabled:cursor-not-allowed transition-colors border-l border-gray-200"
         >
           +
         </button>

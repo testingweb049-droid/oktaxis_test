@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ReactNode } from "react";
 import { Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type CTA = { label: string; href: string; variant?: "primary" | "outline" };
 
@@ -120,7 +121,11 @@ export default function ImageTextSection({
                     <a
                       key={i}
                       href={href}
-                      className="inline-flex items-center justify-center rounded-lg bg-brand px-5 py-3 font-semibold text-white transition hover:bg-brand/90"
+                      className={cn(
+                        "inline-flex items-center justify-center rounded-lg px-5 py-3 font-semibold transition",
+                        "bg-primary-yellow hover:bg-primary-yellow/90 text-white font-semibold transition-all duration-200",
+                        "px-4 py-2.5 text-base rounded-lg"
+                      )}
                     >
                       {label}
                     </a>
@@ -128,7 +133,11 @@ export default function ImageTextSection({
                     <a
                       key={i}
                       href={href}
-                      className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3 font-semibold text-gray-900 hover:border-gray-400"
+                      className={cn(
+                        "inline-flex items-center justify-center rounded-lg px-5 py-3 font-semibold transition",
+                        "border border-text-gray bg-white hover:bg-light-background text-heading-black font-semibold transition-all duration-200",
+                        "px-4 py-2.5 text-base rounded-lg"
+                      )}
                     >
                       {label}
                     </a>

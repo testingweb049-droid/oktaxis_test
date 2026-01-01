@@ -85,15 +85,15 @@ function Step3Form() {
     <div className="w-full max-w-2xl mx-auto p-2 bg-white shadow-lg rounded-2xl border border-gray-300">
       <h2 className="text-xl font-semibold uppercase text-black mx-3 pt-7">Booking Details</h2>
       <div className='w-full flex flex-col gap-5 px-3 md:px-5 py-5'>
-        <div className="flex flex-col gap-1">
-          <label htmlFor="name" className="text-base font-medium text-black">Full Name <span className="text-red-500">*</span></label>
+        <div>
+          <div className={cn("w-full rounded-lg bg-white px-4 py-3 border", errors.name ? "border-red-500" : "border-gray-200")}>
+            <label htmlFor="name" className="block text-sm font-medium text-text-gray mb-1">
+              Full Name <span className="text-red-500">*</span>
+            </label>
           <input
             id="name"
             name="name"
-            className={cn(
-              'p-2 rounded-xl border text-base md:text-base placeholder:text-xs sm:placeholder:text-base',
-              errors.name ? 'border-red-500' : 'border-gray-500',
-            )}
+              className={cn("w-full bg-transparent text-heading-black placeholder:text-text-gray outline-none focus:outline-none text-sm md:text-base", errors.name && "text-red-600 placeholder:text-red-400")}
             value={watch('name')}
             onChange={(e) => {
               setValue('name', e.target.value);
@@ -101,17 +101,20 @@ function Step3Form() {
             }}
             placeholder="Enter your name"
           />
+          </div>
+          {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
         </div>
         
-        <div className="flex flex-col gap-1">
-          <label htmlFor="email" className="text-base font-medium text-black">Email Address <span className="text-red-500">*</span></label>
+        <div>
+          <div className={cn("w-full rounded-lg bg-white px-4 py-3 border", errors.email ? "border-red-500" : "border-gray-200")}>
+            <label htmlFor="email" className="block text-sm font-medium text-text-gray mb-1">
+              Email Address <span className="text-red-500">*</span>
+            </label>
           <input
             id="email"
             name="email"
-            className={cn(
-              'p-2 rounded-xl border text-base md:text-base placeholder:text-xs sm:placeholder:text-base',
-              errors.email ? 'border-red-500' : 'border-gray-500',
-            )}
+              type="email"
+              className={cn("w-full bg-transparent text-heading-black placeholder:text-text-gray outline-none focus:outline-none text-sm md:text-base", errors.email && "text-red-600 placeholder:text-red-400")}
             value={watch('email')}
             onChange={(e) => {
               setValue('email', e.target.value);
@@ -119,6 +122,8 @@ function Step3Form() {
             }}
             placeholder="Enter your email"
           />
+          </div>
+          {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
         </div>
         
         <div className="md:hidden">
@@ -298,7 +303,11 @@ function Step3Form() {
         {/* Payment Action Buttons */}
         <div className="flex flex-col gap-4 mt-8 w-full">
           <button
-            className="w-full bg-black text-white py-3 px-6 rounded-full font-bold text-center disabled:opacity-50 disabled:cursor-not-allowed"
+            className={cn(
+              "w-full py-3 px-6 rounded-full font-bold text-center disabled:opacity-50 disabled:cursor-not-allowed",
+              "bg-heading-black hover:bg-heading-black/90 text-white font-semibold transition-all duration-200",
+              "px-6 py-3 text-lg rounded-lg"
+            )}
             type="button"
             disabled={loading}
             onClick={async () => {

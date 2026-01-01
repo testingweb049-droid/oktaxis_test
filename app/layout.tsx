@@ -1,7 +1,7 @@
 
 import type React from "react";
 import type { Metadata } from "next";
-import { Roboto, Inter, Montserrat } from "next/font/google";
+import { Roboto, Montserrat } from "next/font/google";
 import "./globals.css";
 
 import { Toaster } from "@/components/ui/toaster";
@@ -15,12 +15,6 @@ const roboto = Roboto({
   weight: ["100", "300", "400", "700", "900"],
   subsets: ["latin"],
   variable: "--font-roboto",
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
   display: "swap",
 });
 
@@ -65,7 +59,7 @@ export default function RootLayout({
         />
       </head>
 
-      <body className={`${roboto.variable} ${inter.variable} ${montserrat.variable} antialiased`}>
+      <body className={`${roboto.variable} ${montserrat.variable} antialiased`}>
         {/* ✅ Structured Data - Local Business Schema */}
         <StructuredData data={generateLocalBusinessSchema()} id="local-business-schema" />
         {/* ✅ Google Tag Manager (NOSCRIPT) */}
