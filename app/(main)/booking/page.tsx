@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import FullWidthSectionLayout from "@/components/NewBookingForm/FullWidthSectionLayout";
 import useCustomForm from "@/hooks/useFormContext";
 import CarList from "@/components/NewBookingForm/CarList";
@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import Step3Form from "@/components/NewBookingForm/Step3Form";
 import HourlyNoteDialog from "@/components/NewBookingForm/HourlyNoteDialog";
 import BookingStepper from "@/components/NewBookingForm/BookingStepper";
-import GoogleMapsRoute from "@/components/NewBookingForm/GoogleMap";
+import GoogleMapsRoute from "@/components/booking/shared/GoogleMap";
 function Page() {
   const { category, step, form } = useCustomForm();
   const { watch } = form;
@@ -25,7 +25,7 @@ function Page() {
 
 
   return (
-    <div className=" w-full pb-10 bg-[#EBF1F5]">
+    <div className=" w-full pb-10 bg-light-background">
       <div className="w-full h-16 sm:h-20 mb-4 bg-black/80"></div>
       <FullWidthSectionLayout>
         <div className="flex flex-col gap-5 w-full">
@@ -68,13 +68,14 @@ function Page() {
               {category !== 'hourly' && (
               <GoogleMapsRoute
                 fromCoords={{
-                  lng: Number(watch('pickup_location_lag_alt')?.split(',')[1] ?? 0),
                   lat: Number(watch('pickup_location_lag_alt')?.split(',')[0] ?? 0),
+                  lng: Number(watch('pickup_location_lag_alt')?.split(',')[1] ?? 0),
                 }}
                 toCoords={{
-                  lng: Number(watch('dropoff_location_lag_alt')?.split(',')[1] ?? 0),
                   lat: Number(watch('dropoff_location_lag_alt')?.split(',')[0] ?? 0),
+                  lng: Number(watch('dropoff_location_lag_alt')?.split(',')[1] ?? 0),
                 }}
+                showDistanceDuration={false}
               />
               )}
 
@@ -82,13 +83,14 @@ function Page() {
               {step === 2 && category !== 'hourly' && (
                 <GoogleMapsRoute
                 fromCoords={{
-                  lng: Number(watch('pickup_location_lag_alt')?.split(',')[1] ?? 0),
                   lat: Number(watch('pickup_location_lag_alt')?.split(',')[0] ?? 0),
+                  lng: Number(watch('pickup_location_lag_alt')?.split(',')[1] ?? 0),
                 }}
                 toCoords={{
-                  lng: Number(watch('dropoff_location_lag_alt')?.split(',')[1] ?? 0),
                   lat: Number(watch('dropoff_location_lag_alt')?.split(',')[0] ?? 0),
+                  lng: Number(watch('dropoff_location_lag_alt')?.split(',')[1] ?? 0),
                 }}
+                showDistanceDuration={false}
                 />
               )}
 

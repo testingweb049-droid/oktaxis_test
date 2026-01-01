@@ -1,8 +1,5 @@
-import React from "react";
 import useCustomForm from "@/hooks/useFormContext";
 import Image from "next/image";
-import { GoPeople } from "react-icons/go";
-import { PiSuitcase } from "react-icons/pi";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Executive from "@/assets/vehicles/Mercedes-S-Class-cutout.png";
@@ -245,7 +242,7 @@ function CarList() {
               </div>
             </div>
 
-            <div className="w-full px-4 py-3 md:py-3 flex flex-col p-6 justify-center gap-5 bg-gray-50 border-t md:border-t-0 md:border-l border-gray-200">
+            <div className="w-full px-4 py-3 md:py-3 flex flex-col p-6 justify-center gap-5 bg-light-background border-t md:border-t-0 md:border-l border-text-gray">
               {!item.specailRequest ? (
                 <>
                   {category === "hourly" && (
@@ -257,7 +254,11 @@ function CarList() {
                         setValue("price", price);
                         NextStep();
                       }}
-                      className="w-full bg-black text-white px-4 py-3 rounded-xl text-center font-bold cursor-pointer"
+                      className={cn(
+                        "w-full px-4 py-3 rounded-xl text-center font-bold cursor-pointer",
+                        "bg-heading-black hover:bg-heading-black/90 text-white font-semibold transition-all duration-200",
+                        "px-4 py-2.5 text-base rounded-lg"
+                      )}
                     >
                       £ {price}
                     </button>
@@ -276,7 +277,11 @@ function CarList() {
                             setValue("price", price);
                             NextStep();
                           }}
-                          className="w-full bg-black text-white px-4 py-3 rounded-xl text-center font-bold cursor-pointer"
+                          className={cn(
+                        "w-full px-4 py-3 rounded-xl text-center font-bold cursor-pointer",
+                        "bg-heading-black hover:bg-heading-black/90 text-white font-semibold transition-all duration-200",
+                        "px-4 py-2.5 text-base rounded-lg"
+                      )}
                         >
                           £ {price}
                         </button>
@@ -293,7 +298,11 @@ function CarList() {
                             setValue("price", returnPrice);
                             NextStep();
                           }}
-                          className="relative w-full bg-black text-white px-4 py-3 rounded-xl text-center font-bold cursor-pointer"
+                          className={cn(
+                            "relative w-full px-4 py-3 rounded-xl text-center font-bold cursor-pointer",
+                            "bg-heading-black hover:bg-heading-black/90 text-white font-semibold transition-all duration-200",
+                            "px-4 py-2.5 text-base rounded-lg"
+                          )}
                         >
                           £ {returnPrice}
                           {discountPercent > 0 && (
@@ -310,7 +319,11 @@ function CarList() {
               ) : (
                 <Link
                   href="/contact"
-                  className="w-full bg-black text-white px-4 py-2 rounded-xl text-center font-bold"
+                  className={cn(
+                    "w-full px-4 py-2 rounded-xl text-center font-bold",
+                    "bg-heading-black hover:bg-heading-black/90 text-white font-semibold transition-all duration-200",
+                    "px-3 py-1.5 text-sm rounded-md"
+                  )}
                 >
                   Request
                 </Link>

@@ -12,13 +12,13 @@ import ReviewsSection from "@/components/Sections/reviews";
 export const metadata: Metadata = generateSEOMetadata({
   title: "Chauffeur Services in Manchester | OKTaxis",
   description:
-    "Book professional chauffeur services in Manchester for airport transfers, corporate events, and luxury rides. 24/7 service with licensed drivers and premium amenities.",
+    "Book professional chauffeur services in Manchester for airport transfers, corporate events, and premium rides. 24/7 service with licensed drivers and premium amenities.",
   pageUrl: "/chauffeur-services",
   keywords: [
     "chauffeur service manchester",
     "professional chauffeur",
     "executive chauffeur",
-    "luxury chauffeur service",
+    "chauffeur service",
     "chauffeur manchester",
   ],
 });
@@ -36,13 +36,13 @@ export default function ChauffeurServices() {
           generateWebPageSchema({
             title: "Chauffeur Services in Manchester | OKTaxis",
             description:
-              "Book professional chauffeur services in Manchester for airport transfers, corporate events, and luxury rides. 24/7 service with licensed drivers and premium amenities.",
+              "Book professional chauffeur services in Manchester for airport transfers, corporate events, and premium rides. 24/7 service with licensed drivers and premium amenities.",
             url: "https://oktaxis.co.uk/chauffeur-services",
             breadcrumbs,
           }),
           generateServiceSchema({
             name: "Chauffeur Service",
-            description: "Professional chauffeur services in Manchester for airport transfers, corporate events, and luxury rides. 24/7 service with licensed drivers and premium amenities.",
+            description: "Professional chauffeur services in Manchester for airport transfers, corporate events, and premium rides. 24/7 service with licensed drivers and premium amenities.",
             areaServed: "Manchester, Liverpool, Greater Manchester, Merseyside",
             serviceType: "Chauffeur Transportation Service",
           }),

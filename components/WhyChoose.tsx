@@ -148,7 +148,7 @@ const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
             .custom-pagination .swiper-pagination-bullet {
               width: 10px;
               height: 10px;
-              background-color: theme('colors.light-gray');
+              background-color: theme('colors.light-background');
               opacity: 1;
               border-radius: 50%;
               transition: all 0.3s ease;

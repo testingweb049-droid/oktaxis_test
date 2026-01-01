@@ -218,7 +218,7 @@ export default function OrderPage({ id }: OrderPageProps) {
       
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Order Header */}
-        <header className="bg-[#181818] text-white flex flex-col sm:flex-row justify-between items-center px-6 sm:px-8 py-6 rounded-2xl mb-8">
+        <header className="bg-heading-black text-white flex flex-col sm:flex-row justify-between items-center px-6 sm:px-8 py-6 rounded-2xl mb-8">
           <div className="mb-4 sm:mb-0">
             <Image
               src={WhiteLogo}
@@ -282,7 +282,7 @@ export default function OrderPage({ id }: OrderPageProps) {
             <div className="relative pl-6">
               {/* Pickup Location */}
               <TimelineItem
-                color="#10b981"
+                color="var(--color-text-gray)"
                 label="Pick-Up Location"
                 value={order.pickup_location}
                 date={order.pickup_date}
@@ -295,7 +295,7 @@ export default function OrderPage({ id }: OrderPageProps) {
               {stops.map((stop, index) => (
                 <TimelineItem
                   key={index}
-                  color="#3b82f6"
+                  color="var(--color-text-gray)"
                   label={`Stop ${index + 1}`}
                   value={stop}
                 />
@@ -304,13 +304,13 @@ export default function OrderPage({ id }: OrderPageProps) {
               {/* Destination or Duration */}
               {order.category === 'hourly' ? (
                 <TimelineItem
-                  color="#ef4444"
+                  color="var(--color-text-gray)"
                   label="Duration"
                   value={`${order.duration || 0} hours`}
                 />
               ) : (
                 <TimelineItem
-                  color="#ef4444"
+                  color="var(--color-text-gray)"
                   label="Drop-Off Location"
                   value={order.dropoff_location || 'N/A'}
                 />
@@ -322,7 +322,7 @@ export default function OrderPage({ id }: OrderPageProps) {
                   <div className="mt-6 pt-4 border-t border-gray-200">
                     <h3 className="font-semibold text-gray-800 mb-4">Return Trip</h3>
                     <TimelineItem
-                      color="#10b981"
+                      color="var(--color-text-gray)"
                       label="Pick-Up Location"
                       value={order.dropoff_location || order.pickup_location}
                       date={order.return_date}
@@ -331,7 +331,7 @@ export default function OrderPage({ id }: OrderPageProps) {
                       timeLabel="Return Time"
                     />
                     <TimelineItem
-                      color="#ef4444"
+                      color="var(--color-text-gray)"
                       label="Drop-Off Location"
                       value={order.pickup_location}
                     />

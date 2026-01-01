@@ -28,9 +28,9 @@ const AirportLocationIcon = ({ className }: { className?: string }) => (
 );
 
 export const metadata: Metadata = generateSEOMetadata({
-  title: "Hourly Chauffeur Manchester | Luxury Hire by the Hour or Day",
+  title: "Hourly Chauffeur Manchester | Hire by the Hour or Day",
   description:
-    "Book flexible hourly chauffeur in Manchester with OKTaxis. Enjoy luxury vehicles, professional drivers, and transparent pricing for business, leisure, or events. Free cancellation up to 48 hours.",
+    "Book flexible hourly chauffeur in Manchester with OKTaxis. Enjoy premium vehicles, professional drivers, and transparent pricing for business, leisure, or events. Free cancellation up to 48 hours.",
   pageUrl: "/hourly-chauffeur",
   keywords: [
     "hourly chauffeur manchester",
@@ -52,16 +52,16 @@ export default function HourlyChauffeur() {
       <StructuredData
         data={[
           generateWebPageSchema({
-            title: "Hourly Chauffeur Manchester | Luxury Hire by the Hour or Day | OKTaxis",
+            title: "Hourly Chauffeur Manchester | Hire by the Hour or Day | OKTaxis",
             description:
-              "Book flexible hourly chauffeur in Manchester with OKTaxis. Enjoy luxury vehicles, professional drivers, and transparent pricing for business, leisure, or events.",
+              "Book flexible hourly chauffeur in Manchester with OKTaxis. Enjoy premium vehicles, professional drivers, and transparent pricing for business, leisure, or events.",
             url: "https://oktaxis.co.uk/hourly-chauffeur",
             breadcrumbs,
           }),
           generateServiceSchema({
             name: "Hourly Chauffeur Service",
             description:
-              "Flexible hourly chauffeur service in Manchester for business meetings, shopping trips, events, and sightseeing. Professional drivers with luxury vehicles available by the hour.",
+              "Flexible hourly chauffeur service in Manchester for business meetings, shopping trips, events, and sightseeing. Professional drivers with premium vehicles available by the hour.",
             areaServed: "Manchester, Liverpool, Greater Manchester",
             serviceType: "Hourly Car Hire Service",
           }),

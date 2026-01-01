@@ -7,9 +7,10 @@ import PickupTripDetails from '@/components/booking/sidebar/PickupDetails'
 import { useRouter } from 'next/navigation'
 import { ArrowDown, ArrowUp, ArrowLeft } from 'lucide-react'
 import { format } from 'date-fns'
+import { cn } from '@/lib/utils'
 
 function Page() {
-  const { isMobileDropdownOpen, toggleMobileDropdown, category, formData } = useFormStore()
+  const { category, formData } = useFormStore()
   const router = useRouter()
   const headerRef = useRef<HTMLDivElement | null>(null)
 
@@ -78,14 +79,20 @@ function Page() {
   }
 
   return (
-    <div className=' w-full bg-slate-50 flex flex-col min-h-[50vh]'>
-      <div ref={headerRef} className='h-24 w-full bg-black header'></div>
+    <div className={cn('w-full flex flex-col min-h-[50vh]', 'bg-light-background')}>
+      <div ref={headerRef} className='h-24 w-full bg-heading-black header'></div>
       <div className='max-w-screen-lg mx-auto flex flex-col gap-4 sm:gap-5 lg:gap-10 w-full py-4 sm:py-5 lg:py-16 px-3 sm:px-4 lg:px-6'>
         {/* Back Button - Mobile Full Width */}
         <div className="lg:hidden flex justify-start w-full">
           <button
             onClick={() => router.push('/')}
-            className="flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-4 py-2 rounded-lg border border-gray-300 transition-all shadow-sm hover:shadow-md active:scale-[0.98] w-full"
+            className={cn(
+              "flex items-center justify-center gap-2 font-semibold px-4 py-2 rounded-lg transition-all shadow-sm hover:shadow-md active:scale-[0.98] w-full",
+              "bg-light-background",
+              "hover:bg-light-background",
+              "text-heading-black",
+              "border border-text-gray"
+            )}
             aria-label="Go back"
           >
             <ArrowLeft size={18} />
@@ -97,7 +104,13 @@ function Page() {
         <div className="hidden lg:flex justify-start w-full">
           <button
             onClick={() => router.push('/')}
-            className="flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-4 py-2 rounded-lg border border-gray-300 transition-all shadow-sm hover:shadow-md active:scale-[0.98]"
+            className={cn(
+              "flex items-center justify-center gap-2 font-semibold px-4 py-2 rounded-lg transition-all shadow-sm hover:shadow-md active:scale-[0.98]",
+              "bg-light-background",
+              "hover:bg-light-background",
+              "text-heading-black",
+              "border border-text-gray"
+            )}
             aria-label="Go back"
           >
             <ArrowLeft size={18} />
@@ -107,18 +120,22 @@ function Page() {
 
         {/* Mobile Summary Card - Only for trip category */}
         {category !== 'hourly' && formattedDateTime && (
-          <div className="w-full bg-gray-100 rounded-lg p-4 border border-gray-200 lg:hidden">
+          <div className={cn(
+            "w-full rounded-lg p-4 lg:hidden",
+            "bg-light-background",
+            "border border-text-gray"
+          )}>
             {/* Date and Time */}
-            <div className="font-bold text-base text-gray-900 mb-3">
+            <div className={cn("font-bold text-base mb-3", "text-heading-black")}>
               {formattedDateTime}
             </div>
             
             {/* Origin → Destination */}
-            <div className="flex items-center gap-2 text-sm text-gray-700 mb-2">
+            <div className={cn("flex items-center gap-2 text-sm mb-2", "text-heading-black")}>
               <span className="truncate flex-1 min-w-0">
                 {truncateLocation(fromLocation)}
               </span>
-              <span className="text-gray-500 flex-shrink-0">→</span>
+              <span className={cn("flex-shrink-0", "text-text-gray")}>→</span>
               <span className="truncate flex-1 min-w-0">
                 {truncateLocation(toLocation)}
               </span>
@@ -126,7 +143,7 @@ function Page() {
             
             {/* Estimated Arrival and Distance */}
             {estimatedArrival && (
-              <div className="text-xs text-gray-600">
+              <div className={cn("text-xs", "text-text-gray")}>
                 Est. arrival at {estimatedArrival.time} • {estimatedArrival.distance} miles
               </div>
             )}

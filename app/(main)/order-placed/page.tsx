@@ -5,7 +5,8 @@ import React, { useEffect, useState, useRef, Suspense } from 'react';
 import { MdDone } from 'react-icons/md';
 import Link from 'next/link';
 import Image from 'next/image';
-import { fleetsLocal } from '@/lib/fleet-data';
+import { fleets } from '@/components/booking/steps/fleets-data';
+import { Button } from '@/components/ui/button';
 
 function OrderPlacedContent() {
   const router = useRouter();
@@ -88,10 +89,10 @@ function OrderPlacedContent() {
 
   if (loading) {
     return (
-      <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <div className="w-full min-h-screen flex items-center justify-center bg-light-background">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 font-medium">Processing your order...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-yellow mx-auto mb-4"></div>
+          <p className="text-text-gray font-medium">Processing your order...</p>
         </div>
       </div>
     );
@@ -99,18 +100,18 @@ function OrderPlacedContent() {
 
   if (!orderId) {
     return (
-      <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <div className="w-full min-h-screen flex items-center justify-center bg-light-background">
         <div className="text-center">
           <p className="text-red-600 mb-4 font-semibold">Failed to process your order</p>
-          <Link href="/booking" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
-            Try Again
-          </Link>
+          <Button asChild variant="secondary">
+            <Link href="/booking">Try Again</Link>
+          </Button>
         </div>
       </div>
     );
   }
 
-  const selectedFleet = fleetsLocal.find((item) => item.name === orderData?.car);
+  const selectedFleet = fleets.find((item) => item.name === orderData?.car);
   
   // Build locations array from order data
   const locations: any[] = [];
@@ -127,41 +128,41 @@ function OrderPlacedContent() {
   }
 
   return (
-    <div className="w-full bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex flex-col min-h-screen">
-      <div ref={headerRef} className="h-24 w-full bg-black"></div>
+    <div className="w-full bg-light-background flex flex-col min-h-screen">
+      <div ref={headerRef} className="h-24 w-full bg-heading-black"></div>
 
       <div className="max-w-5xl mx-auto py-16 lg:py-24 w-full flex items-center justify-center flex-col gap-6 lg:gap-12 text-center p-3">
         <div className="w-full flex items-center justify-center flex-col gap-3 lg:gap-5">
-          <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
-            <MdDone className="text-white" size={45} />
+          <div className="w-16 h-16 bg-primary-yellow rounded-full flex items-center justify-center">
+            <MdDone className="text-heading-black" size={45} />
           </div>
-          <div className="text-gray-800 text-lg font-medium">
+          <div className="text-heading-black text-lg font-medium">
             Great choice{orderData?.name ? `, ${orderData.name}` : ''}!
           </div>
-          <div className="text-black text-2xl lg:text-4xl font-bold">
+          <div className="text-heading-black text-2xl lg:text-4xl font-bold">
             YOUR RESERVATION IS CONFIRMED
           </div>
           {email && (
-            <div className="text-gray-800 text-lg">
+            <div className="text-heading-black text-lg">
               We&apos;ve sent a confirmation email to {email}
             </div>
           )}
         </div>
 
         <div className="w-full grid md:grid-cols-3 lg:gap-5">
-          <div className="lg:col-span-2 w-full bg-white max-lg:rounded-b-xl max-lg:order-2 lg:rounded-l-xl border-2 border-gray-300 shadow-lg py-6 px-4 gap-8 flex flex-col justify-center text-start">
-            <div className="text-xl lg:text-2xl font-bold text-gray-900">
+          <div className="lg:col-span-2 w-full bg-white max-lg:rounded-b-xl max-lg:order-2 lg:rounded-l-xl border border-text-gray border-2 shadow-lg py-6 px-4 gap-8 flex flex-col justify-center text-start">
+            <div className="text-xl lg:text-2xl font-bold text-heading-black">
               Your itinerary
             </div>
 
             <div className="flex gap-3 w-full">
               <div className="w-1 h-full py-2">
-                <div className="w-full h-full bg-gradient-to-b from-blue-500 to-indigo-500 rounded-full"></div>
+                <div className="w-full h-full bg-gradient-to-b from-primary-yellow to-primary-yellow/80 rounded-full"></div>
               </div>
               <div className="flex flex-col gap-3 w-full">
                 {locations.map((item: any, index: number) => (
                   <div key={index} className="flex items-start gap-3 md:gap-5">
-                    <div className="max-lg:text-sm text-gray-700">
+                    <div className="max-lg:text-sm text-heading-black">
                       {typeof item === 'string' ? item : item.value}
                     </div>
                   </div>
@@ -170,8 +171,8 @@ function OrderPlacedContent() {
             </div>
 
             <div className="flex flex-col gap-1">
-              <div className="text-gray-500 text-sm font-medium">Pickup Date & Time</div>
-              <div className="text-gray-900 font-semibold">
+              <div className="text-text-gray text-sm font-medium">Pickup Date & Time</div>
+              <div className="text-heading-black font-semibold">
                 {orderData?.pickup_date
                   ? new Date(orderData.pickup_date).toLocaleDateString('en-GB', {
                       day: '2-digit',
@@ -185,24 +186,18 @@ function OrderPlacedContent() {
 
             <div className="flex items-center justify-end w-full pt-4">
               <div className="flex items-center gap-5">
-                <Link
-                  href="/"
-                  className="bg-gray-200 px-4 py-2 text-gray-800 font-semibold w-fit rounded-md hover:bg-gray-300 transition"
-                >
-                  Home
-                </Link>
-                <Link
-                  href={`/order/${orderId}`}
-                  className="bg-brand hover:bg-[#e6a200] px-6 py-3 text-black font-semibold w-fit rounded-md transition shadow-lg"
-                >
-                  View Order Details
-                </Link>
+                <Button asChild variant="ghost">
+                  <Link href="/">Home</Link>
+                </Button>
+                <Button asChild variant="default" size="lg" className="shadow-lg">
+                  <Link href={`/order/${orderId}`}>View Order Details</Link>
+                </Button>
               </div>
             </div>
           </div>
 
           {selectedFleet && (
-            <div className="max-lg:rounded-t-xl lg:rounded-r-xl border-2 border-gray-300 shadow-lg p-4 gap-5 flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 max-lg:order-1">
+            <div className="max-lg:rounded-t-xl lg:rounded-r-xl border-2 border border-text-gray shadow-lg p-4 gap-5 flex flex-col items-center justify-center bg-light-background max-lg:order-1">
               <div className="relative w-full h-64 flex items-center justify-center bg-white rounded-lg">
                 <img
                   src={selectedFleet.image}
@@ -214,7 +209,7 @@ function OrderPlacedContent() {
                   }}
                 />
               </div>
-              <div className="font-bold text-gray-900 text-lg">{selectedFleet.name}</div>
+              <div className="font-bold text-heading-black text-lg">{selectedFleet.name}</div>
             </div>
           )}
         </div>
@@ -227,10 +222,10 @@ function Page() {
   return (
     <Suspense
       fallback={
-        <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+        <div className="w-full min-h-screen flex items-center justify-center bg-light-background">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600 font-medium">Loading...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-yellow mx-auto mb-4"></div>
+            <p className="text-text-gray font-medium">Loading...</p>
           </div>
         </div>
       }

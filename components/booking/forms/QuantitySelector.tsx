@@ -15,6 +15,7 @@ export default function QuantitySelector({ fieldName, label, min = 0, max = 10, 
   const { formData, setFormData } = useFormStore()
   
   const currentValue = Number(formData[fieldName].value) || min
+  const hasError = !!formData[fieldName]?.error
   
   const increment = () => {
     const newValue = currentValue + stepValue
@@ -35,7 +36,7 @@ export default function QuantitySelector({ fieldName, label, min = 0, max = 10, 
     : currentValue
 
   return (
-    <div className="flex flex-col w-full bg-gray-200 rounded-xl px-4 py-3">
+    <div className={`flex flex-col w-full bg-gray-200 rounded-xl px-4 py-3 border ${hasError ? 'border-red-500' : 'border-transparent'}`}>
       {/* Label inside field */}
       <label className="text-sm font-medium text-gray-600 mb-1">
         {label}

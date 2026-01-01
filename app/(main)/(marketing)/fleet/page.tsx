@@ -13,16 +13,16 @@ import {
 import ReviewsSection from "@/components/Sections/reviews";
 
 const FLEET_HEADING =
-  "Our Services & Luxury Fleet | OKTaxis Chauffeur Service Manchester";
+  "Our Services & Fleet | OKTaxis Chauffeur Service Manchester";
 const FLEET_DESCRIPTION =
-  "Explore the OKTaxis luxury fleet. From Executive Mercedes E-Class to XL Passenger Vans. Premium chauffeur services in Manchester and Liverpool.";
+  "Explore the OKTaxis fleet. From Executive Mercedes E-Class to XL Passenger Vans. Premium chauffeur services in Manchester and Liverpool.";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: FLEET_HEADING,
   description: FLEET_DESCRIPTION,
   pageUrl: "/fleet",
   keywords: [
-    "luxury fleet manchester",
+    "fleet manchester",
     "executive car fleet manchester",
     "chauffeur fleet manchester",
     "mercedes chauffeur vehicles",
@@ -47,7 +47,7 @@ export default function Fleet() {
             breadcrumbs,
           }),
           generateServiceSchema({
-            name: "OKTaxis Luxury Chauffeur Fleet Manchester",
+            name: "OKTaxis Chauffeur Fleet Manchester",
             description: FLEET_DESCRIPTION,
             areaServed: "Manchester, Liverpool, Greater Manchester, Merseyside",
             serviceType: "Chauffeur Service",
@@ -79,7 +79,7 @@ export default function Fleet() {
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M13.0013 21.6667L8.66797 26L21.668 39L43.3346 17.3333L39.0013 13L21.668 30.3333L13.0013 21.6667Z"
-                  fill="#FFB400"
+                  fill="currentColor"
                 />
               </svg>
             ),
@@ -100,7 +100,7 @@ export default function Fleet() {
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M13.0013 21.6667L8.66797 26L21.668 39L43.3346 17.3333L39.0013 13L21.668 30.3333L13.0013 21.6667Z"
-                  fill="#FFB400"
+                  fill="currentColor"
                 />
               </svg>
             ),
@@ -122,7 +122,7 @@ export default function Fleet() {
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M13.0013 21.6667L8.66797 26L21.668 39L43.3346 17.3333L39.0013 13L21.668 30.3333L13.0013 21.6667Z"
-                  fill="#FFB400"
+                  fill="currentColor"
                 />
               </svg>
             ),
@@ -144,7 +144,7 @@ export default function Fleet() {
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M13.0013 21.6667L8.66797 26L21.668 39L43.3346 17.3333L39.0013 13L21.668 30.3333L13.0013 21.6667Z"
-                  fill="#FFB400"
+                  fill="currentColor"
                 />
               </svg>
             ),

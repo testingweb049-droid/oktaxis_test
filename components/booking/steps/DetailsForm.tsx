@@ -7,6 +7,7 @@ import SelectableCheckbox from '@/components/booking/forms/SelectableCheckbox'
 import QuantityCheckbox from '@/components/booking/forms/QuantityCheckbox'
 import AddReturn from '@/components/booking/forms/AddReturn'
 import NewDateTimePicker from '@/components/booking/forms/NewDateTimePicker'
+import { cn } from '@/lib/utils'
 
 function Step3() {
     const { formData, setFormData, changeStep, formLoading, category } = useFormStore();
@@ -34,7 +35,7 @@ function Step3() {
     ).toFixed(2);
     return (
         <div className='flex flex-col gap-5 w-full'>
-            <div className='text-2xl'>Add Details</div>
+            <div className='text-2xl text-heading-black font-semibold'>Add Details</div>
             {/* max-lg:bg-gray-200 max-lg:px-2 max-lg:py-3 max-lg:rounded-md  */}
             <div className='flex flex-col gap-3 w-full'>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
@@ -45,12 +46,12 @@ function Step3() {
 
                 {/* Airport Pickup Details - After Phone Number - Hide for hourly */}
                 {category !== 'hourly' && (
-                <div className="w-full rounded-lg bg-gray-100 px-4 py-3 border border-gray-200 flex flex-col">
-                    <SelectableCheckbox fieldName='isAirportPickup' label='Airport Pickup Details' />
+                <div className="w-full rounded-lg bg-white border border-gray-200 flex flex-col overflow-hidden">
+                    <SelectableCheckbox fieldName='isAirportPickup' label='Airport Pickup Details' noBorder />
 
-                    <div className="w-full overflow-hidden transition-all duration-500"
-                        style={{ maxHeight: formData.isAirportPickup.value ? '200px' : '0' }}>
-                        <div className={`flex flex-col gap-3 pt-3 opacity-${formData.isAirportPickup.value ? '100' : '0'} transition-opacity duration-500`}>
+                    <div className="w-full overflow-hidden transition-all duration-500 px-4"
+                        style={{ maxHeight: formData.isAirportPickup.value ? '300px' : '0' }}>
+                        <div className={`flex flex-col gap-3 pb-4 pt-2 opacity-${formData.isAirportPickup.value ? '100' : '0'} transition-opacity duration-500`}>
                             <DetailsInput field='flightName' placeholder='Airline Name' Icon={Plane} type='text' />
                             <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
                         </div>
@@ -63,8 +64,8 @@ function Step3() {
 
                 {/* Return Block - Show when return is checked - Hide for hourly */}
                 {category !== 'hourly' && formData.isReturn?.value && (
-                    <div className="w-full rounded-lg bg-gray-100 px-4 py-3 border border-gray-200 flex flex-col gap-2">
-                        <div className='font-bold text-gray-900'>Return Journey</div>
+                    <div className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200 flex flex-col gap-2">
+                        <div className='font-bold text-heading-black'>Return Journey</div>
                         {/* Return Date and Time */}
                         <NewDateTimePicker
                             selectedDate={formData.returnDate?.value || ''}
@@ -81,7 +82,7 @@ function Step3() {
 
                       <div className='flex flex-col gap-2'>
                           {/* Return Equipment and Extras */}
-                          <div className='font-bold text-gray-900 mt-3'>Return Equipment and Extras</div>
+                          <div className='font-bold text-heading-black mt-3'>Return Equipment and Extras</div>
                         <QuantityCheckbox 
                           fieldName='isReturnFlightTrack' 
                           label='Flight Track' 
@@ -114,8 +115,8 @@ function Step3() {
                 )}
 
                 {/* Equipment and Extras Block */}
-                <div className="w-full rounded-lg bg-gray-100 px-4 py-3 border border-gray-200 flex flex-col gap-4">
-                    <div className='font-bold text-gray-900'>Equipment and Extras</div>
+                <div className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200 flex flex-col gap-4">
+                    <div className='font-bold text-heading-black'>Equipment and Extras</div>
                     <QuantityCheckbox 
                       fieldName='isFlightTrack' 
                       label='Flight Track' 
@@ -149,24 +150,36 @@ function Step3() {
                 </div>
 
                 {/* Add Instructions */}
-                <div className="w-full rounded-lg bg-gray-100 px-4 py-3 border border-gray-200 flex flex-col">
-                    <SelectableCheckbox fieldName='isAddInstructions' label='Add Instructions' />
+                <div className="w-full rounded-lg bg-white border border-gray-200 flex flex-col overflow-hidden">
+                    <SelectableCheckbox fieldName='isAddInstructions' label='Add Instructions' noBorder />
 
-                    <div className="w-full overflow-hidden transition-all duration-500"
-                        style={{ maxHeight: formData.isAddInstructions?.value ? '200px' : '0' }}>
-                        <div className={`flex flex-col gap-3 pt-3 opacity-${formData.isAddInstructions?.value ? '100' : '0'} transition-opacity duration-500`}>
-                            <div className={`w-full rounded-lg bg-gray-100 px-4 py-3 border ${formData.instructions?.error ? 'border-red-500' : 'border-gray-300'}`}>
-                                <label className="block text-sm font-medium text-gray-600 mb-1">
-                                    Instructions
-                                </label>
-                                <textarea
-                                    value={formData.instructions?.value || ''}
-                                    onChange={(e) => setFormData('instructions', e.target.value)}
-                                    placeholder="Enter your instructions here..."
-                                    rows={4}
-                                    className={`w-full text-base bg-transparent text-gray-800 placeholder:text-gray-400 outline-none focus:text-gray-900 resize-none ${formData.instructions?.error ? 'text-red-600' : ''}`}
-                                />
-                            </div>
+                    <div className="w-full overflow-hidden transition-all duration-500 px-4"
+                        style={{ maxHeight: formData.isAddInstructions?.value ? '300px' : '0' }}>
+                        <div className={`flex flex-col gap-3 pb-4 pt-2 opacity-${formData.isAddInstructions?.value ? '100' : '0'} transition-opacity duration-500`}>
+                            {(() => {
+                              const instructionsHasError = !!formData.instructions?.error
+                              return (
+                                <div className={cn(
+                                  "w-full rounded-lg bg-white px-4 py-3 border",
+                                  instructionsHasError ? "border-red-500" : "border-gray-200"
+                                )}>
+                                    <label className="block text-sm font-medium text-text-gray mb-1">
+                                        Instructions
+                                    </label>
+                                    <textarea
+                                        value={formData.instructions?.value || ''}
+                                        onChange={(e) => setFormData('instructions', e.target.value)}
+                                        placeholder="Enter your instructions here..."
+                                        rows={4}
+                                        className={cn(
+                                          "w-full bg-transparent text-heading-black placeholder:text-text-gray outline-none focus:outline-none text-sm md:text-base",
+                                          "resize-none",
+                                          instructionsHasError && "text-red-600 placeholder:text-red-400"
+                                        )}
+                                    />
+                                </div>
+                              )
+                            })()}
                         </div>
                     </div>
                 </div>
@@ -241,7 +254,11 @@ function Step3() {
                         }
                     }
                 }} 
-                className='p-2 rounded-lg border border-gray-200 w-full text-center text-black font-bold cursor-pointer bg-brand hover:bg-primary-yellow/90 transition-colors flex justify-center items-center gap-2'
+                className={cn(
+                  "p-2 rounded-lg w-full text-center font-bold cursor-pointer transition-colors flex justify-center items-center gap-2",
+                  "bg-primary-yellow hover:bg-primary-yellow/90 text-heading-black font-semibold transition-all duration-200",
+                  "px-6 py-3 text-lg rounded-lg"
+                )}
             >
                 {(formLoading || isProcessing) && (
                     <Loader className="animate-spin w-4 h-4" />

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { GoPeople } from "react-icons/go";
 import { PiSuitcase } from "react-icons/pi";
@@ -108,7 +108,11 @@ function CarList() {
 
           <Button
             onClick={handleDialogConfirm}
-            className="w-full mt-6 bg-brand hover:bg-primary-yellow/90 text-black font-semibold"
+            className={cn(
+              "w-full mt-6 font-semibold",
+              "bg-primary-yellow hover:bg-primary-yellow/90 text-heading-black font-semibold transition-all duration-200",
+              "px-4 py-2.5 text-base rounded-lg"
+            )}
           >
             GOT IT
           </Button>
@@ -158,11 +162,11 @@ function CarList() {
             {/* Row 2: Capacity Icons and Price */}
             <div className="flex items-center gap-2 sm:gap-3 md:gap-4 text-gray-700 text-sm sm:text-sm md:text-base">
               <div className="flex items-center gap-1">
-                <GoPeople size={14} className="sm:w-3.5 sm:h-3.5" style={{ color: '#FFB400' }} />
+                <GoPeople size={14} className="sm:w-3.5 sm:h-3.5 text-primary-yellow" />
                 <span>{item.passengers}</span>
               </div>
               <div className="flex items-center gap-1">
-                <PiSuitcase size={14} className="sm:w-3.5 sm:h-3.5" style={{ color: '#FFB400' }} />
+                <PiSuitcase size={14} className="sm:w-3.5 sm:h-3.5 text-primary-yellow" />
                 <span>{item.suitcases}</span>
               </div>
               <div className="flex items-center gap-1.5 sm:gap-2 ml-auto">
@@ -212,14 +216,21 @@ function CarList() {
           </div>
           <div className="w-full border-t border-gray-200">
             {formLoading && formData.car.value === item.name ? (
-              <div className="w-full bg-brand text-black font-semibold rounded-b-xl px-2 sm:px-2.5 md:px-3 py-3 sm:py-2 md:py-2 flex justify-center items-center gap-1.5">
+              <div className={cn(
+                "w-full font-semibold rounded-b-xl px-2 sm:px-2.5 md:px-3 py-3 sm:py-2 md:py-2 flex justify-center items-center gap-1.5",
+                "bg-primary-yellow hover:bg-primary-yellow/90 text-heading-black font-semibold transition-all duration-200",
+                "px-3 py-1.5 text-sm rounded-md"
+              )}>
                 <Loader className="animate-spin w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 <span className="text-sm sm:text-sm md:text-base">Loading</span>
               </div>
             ) : (
               <button
                 onClick={() => handleSelect(item, Number(price))}
-                className="w-full bg-brand hover:bg-primary-yellow/90 text-black font-semibold rounded-b-xl px-2 sm:px-2.5 md:px-3 py-3 sm:py-2 md:py-2 transition-all duration-200 flex justify-center items-center"
+                className={cn(
+                "w-full rounded-b-xl px-2 sm:px-2.5 md:px-3 py-3 sm:py-2 md:py-2 transition-all duration-200 flex justify-center items-center",
+                "bg-primary-yellow hover:bg-primary-yellow/90 text-heading-black font-semibold transition-all duration-200"
+              )}
               >
                 <span className="text-sm sm:text-sm md:text-base">Select Vehicle</span>
                 <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />

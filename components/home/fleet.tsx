@@ -102,11 +102,11 @@ export default function FleetClasses() {
                     {/* Capacity Icons */}
                     <div className="flex items-center gap-4 sm:gap-6 text-gray-700">
                       <div className="flex items-center gap-1.5">
-                        <GoPeople size={16} className="sm:w-5 sm:h-5" style={{ color: '#FFB400' }} />
+                        <GoPeople size={16} className="sm:w-5 sm:h-5 text-primary-yellow" />
                         <span className="text-sm sm:text-base font-medium">{vehicle.passengers} passengers</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <PiSuitcase size={16} className="sm:w-5 sm:h-5" style={{ color: '#FFB400' }} />
+                        <PiSuitcase size={16} className="sm:w-5 sm:h-5 text-primary-yellow" />
                         <span className="text-sm sm:text-base font-medium">{vehicle.suitcases} suitcases</span>
                       </div>
                     </div>

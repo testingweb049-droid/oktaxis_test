@@ -1,4 +1,5 @@
 import z from "zod";
+import { validateBookingTime } from "@/lib/utils";
 
 const timeSchema = z.object({
   hour: z.number({
@@ -72,6 +73,60 @@ export const hourlyFormValidation = z.object({
     if (!data.stop_3) ctx.addIssue({ path: ['stop_3'], code: z.ZodIssueCode.custom, message: "Stop 3 is required" });
     if (!data.stop_3_lag_alt) ctx.addIssue({ path: ['stop_3_lag_alt'], code: z.ZodIssueCode.custom, message: "Stop 3 lag/lat is required" });
   }
+});
+
+/**
+ * Schema for HeroForm validation (step 1 of booking)
+ */
+export const heroFormValidationSchema = z.object({
+  category: z.enum(["trip", "hourly"]),
+  date: z.string().min(1, "Please select pickup date"),
+  time: z.string().min(1, "Please select pickup time"),
+  fromLocation: z.string().min(1, "Please select pickup location"),
+  toLocation: z.string().optional(),
+  duration: z.string().optional(),
+  passengers: z.string().min(1, "Please select number of passengers"),
+  bags: z.string().min(1, "Please select number of bags"),
+}).superRefine((data, ctx) => {
+  // For trip category, toLocation is required
+  if (data.category === "trip") {
+    if (!data.toLocation || data.toLocation.trim() === "") {
+      ctx.addIssue({
+        path: ['toLocation'],
+        code: z.ZodIssueCode.custom,
+        message: "Please select drop off location"
+      });
+    }
+    
+    // Check if start and end locations are different
+    if (data.fromLocation && data.toLocation) {
+      const fromLocation = data.fromLocation.trim().toLowerCase();
+      const toLocation = data.toLocation.trim().toLowerCase();
+      
+      if (fromLocation === toLocation || 
+          (fromLocation.includes(toLocation) && toLocation.length > 10) ||
+          (toLocation.includes(fromLocation) && fromLocation.length > 10)) {
+        ctx.addIssue({
+          path: ['toLocation'],
+          code: z.ZodIssueCode.custom,
+          message: "Start and end locations cannot be the same. Please choose different locations."
+        });
+      }
+    }
+  }
+  
+  // For hourly category, duration is required
+  if (data.category === "hourly") {
+    if (!data.duration || data.duration.trim() === "") {
+      ctx.addIssue({
+        path: ['duration'],
+        code: z.ZodIssueCode.custom,
+        message: "Please select duration"
+      });
+    }
+  }
+  
+  // Note: 5-hour validation is handled separately in the component to show toast instead of field error
 });
 
 

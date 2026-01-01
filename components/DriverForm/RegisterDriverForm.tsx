@@ -356,7 +356,7 @@ export default function RegisterDriverForm() {
           {/* Upload Sections - Side by Side */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {/* Upload Car Image */}
-            <div className={`w-full rounded-lg bg-gray-200 px-4 py-3 border ${errors.carImage && touched.carImage ? 'border-red-500' : 'border-gray-300'}`}>
+            <div className={`w-full rounded-lg bg-white px-4 py-3 border ${errors.carImage && touched.carImage ? 'border-red-500' : 'border-text-gray'}`}>
               <label className="block text-sm font-medium text-gray-600 mb-1">
                 Upload Car Image <span className="text-red-500">*</span>
               </label>
@@ -412,7 +412,7 @@ export default function RegisterDriverForm() {
             </div>
 
             {/* Upload Driver License Front Side */}
-            <div className={`w-full rounded-lg bg-gray-200 px-4 py-3 border ${errors.licenseFront && touched.licenseFront ? 'border-red-500' : 'border-gray-300'}`}>
+            <div className={`w-full rounded-lg bg-white px-4 py-3 border ${errors.licenseFront && touched.licenseFront ? 'border-red-500' : 'border-text-gray'}`}>
               <label className="block text-sm font-medium text-gray-600 mb-1">
                 Upload License Front <span className="text-red-500">*</span>
               </label>
@@ -465,7 +465,7 @@ export default function RegisterDriverForm() {
             </div>
 
             {/* Upload Driver License Back Side */}
-            <div className={`w-full rounded-lg bg-gray-200 px-4 py-3 border ${errors.licenseBack && touched.licenseBack ? 'border-red-500' : 'border-gray-300'}`}>
+            <div className={`w-full rounded-lg bg-white px-4 py-3 border ${errors.licenseBack && touched.licenseBack ? 'border-red-500' : 'border-text-gray'}`}>
               <label className="block text-sm font-medium text-gray-600 mb-1">
                 Upload License Back <span className="text-red-500">*</span>
               </label>

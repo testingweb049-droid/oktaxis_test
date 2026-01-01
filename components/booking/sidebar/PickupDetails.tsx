@@ -1,12 +1,13 @@
 "use client";
 
-import { brandColor } from "@/lib/colors";
 import useFormStore from "@/stores/FormStore";
-import { ArrowRight, Users, ShoppingBag } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+
+const PRIMARY_COLOR = "#FFB400"; // Approved color: --color-primary
 
 export default function PickupTripDetails() {
   const { formData, category } = useFormStore();
-  const { fromLocation, toLocation, stops, duration, passengers, bags } = formData
+  const { fromLocation, toLocation, stops, duration } = formData
   
   const locations = [
     fromLocation,
@@ -24,8 +25,7 @@ export default function PickupTripDetails() {
       {/* Header */}
       <div className="flex items-center gap-2 mb-3">
         <div
-          className="p-2 rounded-md"
-          style={{ backgroundColor: brandColor }}
+          className="p-2 rounded-md bg-primary-yellow"
         >
           <ArrowRight className="text-black w-4 h-4" />
         </div>
@@ -42,7 +42,7 @@ export default function PickupTripDetails() {
           const isFirst = index === 0;
           const isLast = index === locations.length - 1;
           const isStop = !isFirst && !isLast;
-          const color = isLast ? brandColor : "black";
+          const color = isLast ? PRIMARY_COLOR : "#1A1A1A"; // heading-black
 
           return (
             <div key={index} className="flex gap-3 items-start relative">
@@ -69,28 +69,6 @@ export default function PickupTripDetails() {
           );
         })}
       </div>
-
-      {/* Passengers and Bags - After distance */}
-      {(passengers?.value || bags?.value) && (
-        <div className="flex items-center justify-between border-t border-gray-300 pt-4 mt-4">
-          {passengers?.value && (
-            <div className="flex items-center gap-2 text-sm">
-              <Users className="w-4 h-4 text-gray-500" />
-              <span className="text-gray-700 font-medium">
-                {passengers.value} {passengers.value === "1" ? "Passenger" : "Passengers"}
-              </span>
-            </div>
-          )}
-          {bags?.value && (
-            <div className="flex items-center gap-2 text-sm">
-              <ShoppingBag className="w-4 h-4 text-gray-500" />
-              <span className="text-gray-700 font-medium">
-                {bags.value} {bags.value === "1" ? "Bag" : "Bags"}
-              </span>
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 }

@@ -21,34 +21,24 @@ export const FormField = React.forwardRef<HTMLInputElement, FormFieldProps>(
     
     return (
       <div className={cn(
-        "w-full rounded-lg bg-gray-200 px-4 py-3 border",
-        hasError ? "border-red-500" : "border-gray-300"
+        "w-full rounded-lg bg-white px-4 py-3 border",
+        hasError ? "border-red-500" : "border-gray-200"
       )}>
-        {/* Label inside box */}
-        <label className="block text-sm font-medium text-gray-600 mb-1">
-          {label} {required && <span className="text-red-500">*</span>}
-        </label>
-        {/* Input Field */}
-        <div className="relative w-full">
-          {Icon && (
-            <Icon className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-500 z-10" size={18} />
-          )}
           <Field name={name}>
             {({ field }: any) => (
               <Input
                 {...field}
                 type={type}
+              icon={Icon}
+              label={label + (required ? " *" : "")}
                 placeholder={placeholder || label}
-                className={cn(
-                  "w-full pl-6 text-base bg-transparent text-gray-800 placeholder:text-gray-400 outline-none focus:text-gray-900 focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus:ring-0 border-0",
-                  hasError && "text-red-600"
-                )}
+              error={hasError}
+              className="bg-transparent text-heading-black placeholder:text-text-gray"
                 ref={ref}
                 {...props}
               />
             )}
           </Field>
-        </div>
       </div>
     )
   }

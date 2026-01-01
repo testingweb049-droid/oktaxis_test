@@ -60,7 +60,7 @@ export default function ChauffeurTestimonials() {
               key={index}
               className="flex items-start gap-4 md:gap-5"
             >
-              <div className="flex-shrink-0 h-14 w-14 rounded-full bg-[#F0F0F0] flex items-center justify-center text-base font-semibold text-heading-black overflow-hidden">
+              <div className="flex-shrink-0 h-14 w-14 rounded-full bg-light-background flex items-center justify-center text-base font-semibold text-heading-black overflow-hidden">
                 {testimonial.image ? (
                   <Image
                     src={testimonial.image}
