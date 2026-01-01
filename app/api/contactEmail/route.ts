@@ -1,4 +1,4 @@
-import sendEmail from "@/lib/sendEmail";
+import sendEmail from "@/lib/send-email";
 import { isValidEmail, safeLog, sanitizeHtml } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 

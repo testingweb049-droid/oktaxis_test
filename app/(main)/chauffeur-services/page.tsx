@@ -1,12 +1,12 @@
 import { Metadata } from "next";
 import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateServiceSchema } from "@/lib/seo";
-import StructuredData from "@/components/StructuredData";
-import PageBanner from "@/components/PageBanner";
-import PageAboutSection from "@/components/PageAboutSection";
-import ConnectionAreasSection from "@/components/ConnectionAreasSection";
-import ServiceDetailSection from "@/components/ServiceDetailSection";
+import StructuredData from "@/components/structured-data";
+import PageBanner from "@/components/page-banner";
+import PageAboutSection from "@/components/page-about-section";
+import ConnectionAreasSection from "@/components/connection-areas-section";
+import ServiceDetailSection from "@/components/service-detail-section";
 import FleetClasses from "@/components/home/fleet";
-import FAQSection from "@/components/FAQSection";
+import FAQSection from "@/components/faq-section";
 import ReviewsSection from "@/components/Sections/reviews";
 
 export const metadata: Metadata = generateSEOMetadata({

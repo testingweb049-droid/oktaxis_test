@@ -1,13 +1,13 @@
 import { Metadata } from "next";
 import FleetClasses from "@/components/home/fleet";
-import OfferSection from "@/components/ui/OfferSection";
-import HeroSection2 from "@/components/ui/HeroSection2";
-import ImageTextSection from "@/components/ui/ImageTextSection";
+import OfferSection from "@/components/ui/offer-section";
+import HeroSection2 from "@/components/ui/hero-section-2";
+import ImageTextSection from "@/components/ui/image-text-section";
 import Image from "next/image";
 import { FaFutbol, FaMusic, FaUsers, FaCarSide } from "react-icons/fa";
 import { Check } from "lucide-react";
 import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateServiceSchema } from "@/lib/seo";
-import StructuredData from "@/components/StructuredData";
+import StructuredData from "@/components/structured-data";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Stadium Transfers in Manchester | OKTaxis",

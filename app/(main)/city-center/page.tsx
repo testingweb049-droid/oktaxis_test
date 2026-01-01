@@ -1,15 +1,15 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import FleetClasses from "@/components/home/fleet";
-import OfferSection from "@/components/ui/OfferSection";
-import HeroSection2 from "@/components/ui/HeroSection2";
-import ImageTextSection from "@/components/ui/ImageTextSection";
-import PageBanner from "@/components/PageBanner";
-import PageAboutSection from "@/components/PageAboutSection";
-import ConnectionAreasSection from "@/components/ConnectionAreasSection";
-import ServiceDetailSection from "@/components/ServiceDetailSection";
-import OurServicesSection from "@/components/OurServicesSection";
-import FAQSection from "@/components/FAQSection";
+import OfferSection from "@/components/ui/offer-section";
+import HeroSection2 from "@/components/ui/hero-section-2";
+import ImageTextSection from "@/components/ui/image-text-section";
+import PageBanner from "@/components/page-banner";
+import PageAboutSection from "@/components/page-about-section";
+import ConnectionAreasSection from "@/components/connection-areas-section";
+import ServiceDetailSection from "@/components/service-detail-section";
+import OurServicesSection from "@/components/our-services-section";
+import FAQSection from "@/components/faq-section";
 import {
   FaClock,
   FaMapMarkedAlt,
@@ -18,7 +18,7 @@ import {
 } from "react-icons/fa";
 import { Check } from "lucide-react";
 import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateServiceSchema } from "@/lib/seo";
-import StructuredData from "@/components/StructuredData";
+import StructuredData from "@/components/structured-data";
 import ReviewsSection from "@/components/Sections/reviews";
 
 export const metadata: Metadata = generateSEOMetadata({

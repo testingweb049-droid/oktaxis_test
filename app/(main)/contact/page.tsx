@@ -1,7 +1,7 @@
 "use client";
 
-import ContactForm from "@/components/ContactForm/ContactForm";
-import ContactTeamSection from "@/components/ContactTeamSection";
+import ContactForm from "@/components/contact-form/contact-form";
+import ContactTeamSection from "@/components/contact-team-section";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 

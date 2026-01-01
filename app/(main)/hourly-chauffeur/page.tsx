@@ -1,15 +1,15 @@
 import { Metadata } from "next";
-import PageBanner from "@/components/PageBanner";
+import PageBanner from "@/components/page-banner";
 import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateServiceSchema } from "@/lib/seo";
-import StructuredData from "@/components/StructuredData";
-import PageAboutSection from "@/components/PageAboutSection";
-import OurServicesSection from "@/components/OurServicesSection";
-import ConnectionAreasSection from "@/components/ConnectionAreasSection";
-import AreaServeSection from "@/components/AreaServeSection";
-import PageFeatureSection from "@/components/PageFeatureSection";
+import StructuredData from "@/components/structured-data";
+import PageAboutSection from "@/components/page-about-section";
+import OurServicesSection from "@/components/our-services-section";
+import ConnectionAreasSection from "@/components/connection-areas-section";
+import AreaServeSection from "@/components/area-serve-section";
+import PageFeatureSection from "@/components/page-feature-section";
 import FleetClasses from "@/components/home/fleet";
 import Reviews from "@/components/Sections/reviews";
-import FAQSection from "@/components/FAQSection";
+import FAQSection from "@/components/faq-section";
 
 const AirportLocationIcon = ({ className }: { className?: string }) => (
   <svg

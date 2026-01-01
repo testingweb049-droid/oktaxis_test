@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import OfferSection from "@/components/ui/OfferSection";
-import HeroSection2 from "@/components/ui/HeroSection2";
+import OfferSection from "@/components/ui/offer-section";
+import HeroSection2 from "@/components/ui/hero-section-2";
 import BusImage from "@/assets/vehicles/xlvan.jpg";
 import {
   FaLandmark,
@@ -9,7 +9,7 @@ import {
   FaMountain,
   FaCarSide,
 } from "react-icons/fa";
-import ImageTextSection from "@/components/ui/ImageTextSection";
+import ImageTextSection from "@/components/ui/image-text-section";
 import FleetClasses from "@/components/home/fleet";
 import Image from "next/image";
 import { Check, Link } from "lucide-react";
@@ -18,13 +18,13 @@ import {
   generateWebPageSchema,
   generateServiceSchema,
 } from "@/lib/seo";
-import StructuredData from "@/components/StructuredData";
-import PageAboutSection from "@/components/PageAboutSection";
-import PageBanner from "@/components/PageBanner";
-import ConnectionAreasSection from "@/components/ConnectionAreasSection";
-import ServiceDetailSection from "@/components/ServiceDetailSection";
-import OurServicesSection from "@/components/OurServicesSection";
-import FAQSection from "@/components/FAQSection";
+import StructuredData from "@/components/structured-data";
+import PageAboutSection from "@/components/page-about-section";
+import PageBanner from "@/components/page-banner";
+import ConnectionAreasSection from "@/components/connection-areas-section";
+import ServiceDetailSection from "@/components/service-detail-section";
+import OurServicesSection from "@/components/our-services-section";
+import FAQSection from "@/components/faq-section";
 import ReviewsSection from "@/components/Sections/reviews";
 
 export const metadata: Metadata = generateSEOMetadata({

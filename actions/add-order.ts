@@ -3,9 +3,9 @@
 import { db } from '@/db/drizzle';
 import { orders } from '@/db/schema';
 import nodemailer from 'nodemailer';
-import { getEmailConfig } from '@/lib/emailConfig';
+import { getEmailConfig } from '@/lib/email-config';
 import { render } from '@react-email/components';
-import { TripOrderEmailTemplate } from '@/components/emails/BookingEmailTemplate';
+import { TripOrderEmailTemplate } from '@/components/emails/booking-email-template';
 
 export interface OrderDataType {
   fromLocation: string;

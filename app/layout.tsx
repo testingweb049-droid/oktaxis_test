@@ -7,7 +7,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import Footer from "@/components/Footer/Footer";
 import { generateMetadata as generateSEOMetadata, generateLocalBusinessSchema } from "@/lib/seo";
-import StructuredData from "@/components/StructuredData";
+import StructuredData from "@/components/structured-data";
 
 const roboto = Roboto({
   weight: ["100", "300", "400", "700", "900"],

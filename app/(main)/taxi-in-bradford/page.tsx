@@ -1,9 +1,9 @@
 import { Metadata } from "next";
-import FAQSection from '@/components/FAQSection';
-import FeatureCard from '@/components/FeatureCard';
-import MainBanner from '@/components/MainBanner';
+import FAQSection from '@/components/faq-section';
+import FeatureCard from '@/components/feature-card';
+import MainBanner from '@/components/main-banner';
 import FleetClasses from '@/components/home/fleet';
-import WhyChooseUs from '@/components/WhyChoose';
+import WhyChooseUs from '@/components/why-choose';
 import { DollarSign, Headphones, Plane, UserCheck } from 'lucide-react';
 import React from 'react';
 import { generateMetadata as generateSEOMetadata } from "@/lib/seo";

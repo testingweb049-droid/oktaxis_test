@@ -1,8 +1,8 @@
 "use client";
-import RegisterDriverForm from "@/components/DriverForm/RegisterDriverForm";
-import PartnerAboutSection from "@/components/Sections/PartnerAboutSection";
-import OurServicesSection from "@/components/OurServicesSection";
-import ChauffeurTestimonials from "@/components/Sections/ChauffeurTestimonials";
+import RegisterDriverForm from "@/components/driver-form/register-driver-form";
+import PartnerAboutSection from "@/components/Sections/partner-about-section";
+import OurServicesSection from "@/components/our-services-section";
+import ChauffeurTestimonials from "@/components/Sections/chauffeur-testimonials";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 

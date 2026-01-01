@@ -1,10 +1,10 @@
 import { Metadata } from "next";
-import FleetsOfferSection from "@/components/FleetsOfferSection";
-import StructuredData from "@/components/StructuredData";
-import MainBanner from "@/components/MainBanner";
-import PageAboutSection from "@/components/PageAboutSection";
-import OurServicesSection from "@/components/OurServicesSection";
-import LuxuryFleetSection from "@/components/LuxuryFleetSection";
+import FleetsOfferSection from "@/components/fleets-offer-section";
+import StructuredData from "@/components/structured-data";
+import MainBanner from "@/components/main-banner";
+import PageAboutSection from "@/components/page-about-section";
+import OurServicesSection from "@/components/our-services-section";
+import LuxuryFleetSection from "@/components/luxury-fleet-section";
 import {
   generateMetadata as generateSEOMetadata,
   generateWebPageSchema,

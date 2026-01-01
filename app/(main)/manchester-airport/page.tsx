@@ -10,20 +10,20 @@ import {
   } from "react-icons/fa";
   import { Check } from "lucide-react";
   import { Metadata } from "next";
-  import PageBanner from "@/components/PageBanner";
+  import PageBanner from "@/components/page-banner";
   import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateServiceSchema } from "@/lib/seo";
-  import StructuredData from "@/components/StructuredData";
-  import PageAboutSection from "@/components/PageAboutSection";
-  import PageFeatureSection from "@/components/PageFeatureSection";
-import InfoCards from "@/components/Sections/InfoCards";
-  import AreaServeSection from "@/components/AreaServeSection";
-  import LocationPinIcon from "@/components/LocationPinIcon";
-  import OurServicesSection from "@/components/OurServicesSection";
+  import StructuredData from "@/components/structured-data";
+  import PageAboutSection from "@/components/page-about-section";
+  import PageFeatureSection from "@/components/page-feature-section";
+import InfoCards from "@/components/Sections/info-cards";
+  import AreaServeSection from "@/components/area-serve-section";
+  import LocationPinIcon from "@/components/location-pin-icon";
+  import OurServicesSection from "@/components/our-services-section";
    import ReviewsSection from "@/components/Sections/reviews";
-import ConnectionAreasSection from "@/components/ConnectionAreasSection";
-import FAQSection from "@/components/FAQSection";
-import FleetShowcase from "@/components/FleetShowcase";
-import TransfersSection from "@/components/TransfersSection";
+import ConnectionAreasSection from "@/components/connection-areas-section";
+import FAQSection from "@/components/faq-section";
+import FleetShowcase from "@/components/fleet-showcase";
+import TransfersSection from "@/components/transfers-section";
 import FleetClasses from "@/components/home/fleet";
 
 export const metadata: Metadata = generateSEOMetadata({

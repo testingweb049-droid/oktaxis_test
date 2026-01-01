@@ -1,12 +1,12 @@
 import { Metadata } from "next";
 import Services from "@/components/home/services";
 import FleetClasses from "@/components/home/fleet";
-import NewHeroSection from "./book-ride/NewHeroSection";
-import WhyChoose from "@/components/Sections/WhyChoose";
-import TopThingsSection from "@/components/Sections/TopThingsSection";
+import NewHeroSection from "./book-ride/new-hero-section";
+import WhyChoose from "@/components/Sections/why-choose";
+import TopThingsSection from "@/components/Sections/top-things-section";
 import ReviewsSection from "@/components/Sections/reviews";
 import { generateMetadata as generateSEOMetadata, generateWebPageSchema } from "@/lib/seo";
-import StructuredData from "@/components/StructuredData";
+import StructuredData from "@/components/structured-data";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Chauffeur Services Manchester | Airport Transfers & Wedding Hire",
