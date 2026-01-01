@@ -65,7 +65,7 @@ const PhoneInput = React.forwardRef<HTMLDivElement, PhoneInputProps>(
     return (
       <div ref={ref} className={cn("w-full", containerClassName)}>
         {label && (
-          <label className="block text-sm font-medium text-text-gray mb-1">
+          <label className="block text-xs sm:text-sm font-medium text-text-gray mb-1">
             {label}
           </label>
         )}

@@ -28,7 +28,7 @@ const FeatureCard: React.FC<ContentBlockProps> = ({
                 {/* Text Content */}
                 <div className="flex-1 w-full pt-10">
                     <div className="space-y-1 md:space-y-4">
-                        <span className="inline-block text-yellow-500 text-sm font-semibold uppercase tracking-wide">
+                        <span className="inline-block text-yellow-500 text-xs sm:text-sm font-semibold uppercase tracking-wide">
                             {badge}
                         </span>
 

@@ -5,6 +5,8 @@ import { Autocomplete, useJsApiLoader } from '@react-google-maps/api'
 import { SlLocationPin } from 'react-icons/sl'
 import useFormStore, { FieldType, FormDataType } from '@/stores/FormStore'
 
+const libraries: ('places')[] = ['places']
+
 interface LocationInputProps {
   field: keyof FormDataType
   label: string
@@ -21,8 +23,9 @@ export default function LocationInput({ field, label, placeholder, index }: Loca
   const { formData, setFormData } = useFormStore()
 
   const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
-    libraries: ['places'],
+    libraries: libraries,
   })
 
   const handlePlaceChanged = () => {

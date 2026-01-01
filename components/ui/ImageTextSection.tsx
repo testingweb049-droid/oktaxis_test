@@ -74,7 +74,7 @@ export default function ImageTextSection({
           {/* Text */}
           <div className="lg:w-1/2">
             {eyebrow && (
-              <div className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700 mb-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-xs sm:text-sm font-medium text-gray-700 mb-4">
                 {eyebrow}
               </div>
             )}
@@ -87,9 +87,9 @@ export default function ImageTextSection({
             ) : null}
 
             {typeof text === "string" ? (
-              <p className="text-lg leading-relaxed text-gray-700">{text}</p>
+              <p className="text-base sm:text-lg md:text-xl leading-relaxed text-gray-700">{text}</p>
             ) : (
-              <div className="text-lg leading-relaxed text-gray-700">{text}</div>
+              <div className="text-base sm:text-lg md:text-xl leading-relaxed text-gray-700">{text}</div>
             )}
 
             {/* Features */}
@@ -106,7 +106,7 @@ export default function ImageTextSection({
                           <Check className="h-4 w-4" />
                         </span>
                       )}
-                      <p className="text-gray-800">{f}</p>
+                      <p className="text-sm sm:text-base text-gray-800">{f}</p>
                     </div>
                   ))}
                 </div>

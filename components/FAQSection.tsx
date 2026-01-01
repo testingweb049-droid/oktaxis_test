@@ -61,10 +61,10 @@ const FAQSection: React.FC<FAQSectionProps> = ({ title, faqs, className }) => {
                   aria-controls={answerId}
                 >
                   <div className="flex items-start gap-2 sm:gap-3">
-                    <span className="text-xl font-semibold text-primary-yellow sm:text-2xl">
+                    <span className="text-lg sm:text-xl md:text-2xl font-semibold text-primary-yellow">
                       Q:
                     </span>
-                    <p className="flex-1 text-lg sm:text-2xl font-semibold text-heading-black">
+                    <p className="flex-1 text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-heading-black">
                       {faq.question}
                     </p>
                   </div>
@@ -99,7 +99,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({ title, faqs, className }) => {
                     isOpen ? "block" : "hidden"
                   }`}
                 >
-                  <p className="text-base md:text-xl font-normal leading-relaxed text-text-gray">
+                  <p className="text-sm sm:text-base md:text-lg lg:text-xl font-normal leading-relaxed text-text-gray">
                     A: {faq.answer}
                   </p>
                 </div>

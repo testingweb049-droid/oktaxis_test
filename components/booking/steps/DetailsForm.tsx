@@ -8,6 +8,7 @@ import QuantityCheckbox from '@/components/booking/forms/QuantityCheckbox'
 import AddReturn from '@/components/booking/forms/AddReturn'
 import NewDateTimePicker from '@/components/booking/forms/NewDateTimePicker'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 
 function Step3() {
     const { formData, setFormData, changeStep, formLoading, category } = useFormStore();
@@ -186,7 +187,7 @@ function Step3() {
             </div>
 
             {/* Continue Button */}
-            <div 
+            <Button
                 onClick={async () => { 
                     if (formLoading || isProcessing) return;
                     const isValid = await changeStep(true, 3); 
@@ -253,18 +254,16 @@ function Step3() {
                             setIsProcessing(false);
                         }
                     }
-                }} 
-                className={cn(
-                  "p-2 rounded-lg w-full text-center font-bold cursor-pointer transition-colors flex justify-center items-center gap-2",
-                  "bg-primary-yellow hover:bg-primary-yellow/90 text-heading-black font-semibold transition-all duration-200",
-                  "px-6 py-3 text-base sm:text-lg rounded-lg"
-                )}
+                }}
+                disabled={formLoading || isProcessing}
+                className="w-full"
+                size="lg"
             >
                 {(formLoading || isProcessing) && (
                     <Loader className="animate-spin w-4 h-4" />
                 )}
                 <span>Continue to Payment - £{totalPrice}</span>
-            </div>
+            </Button>
         </div>
     )
 }

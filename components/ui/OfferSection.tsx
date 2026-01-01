@@ -323,7 +323,7 @@ const OfferSection: React.FC = () => {
         }}
       />
       <div className="mx-4 mb-12">
-        <h2 className="text-4xl  md:text-5xl font-bold mb-4 md:mt-7 ">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mt-7 ">
           {pathname === '/liverpool' ? (
             <>Why Choose <span className="text-brand">OK Taxis</span> for Premier Travel</>
           ) : pathname === '/services/hourly-chauffeur' ? (
@@ -343,9 +343,9 @@ const OfferSection: React.FC = () => {
           )}
         </h2>
 
-        <p className="text-lg text-gray-700 max-w-3xl mt-4">
+        <p className="text-sm sm:text-base md:text-lg text-gray-700 max-w-3xl mt-4">
           {pathname === '/liverpool' ? (
-            <div className="space-y-6 text-lg text-gray-700 max-w-3xl mt-4">
+            <div className="space-y-6 text-sm sm:text-base md:text-lg text-gray-700 max-w-3xl mt-4">
               <p>
                 Selecting the ideal chauffeur service in <strong>Liverpool</strong> truly elevates your premier travel
                 experience, and at <span className="text-brand">OK Taxis</span>, we excel with reliable luxury executive
@@ -372,7 +372,7 @@ const OfferSection: React.FC = () => {
                       <span className="mr-3 flex h-6 w-6 items-center justify-center rounded-full bg-brand text-white mt-1">
                         <Check className="h-4 w-4" />
                       </span>
-                      <p className="text-gray-700">{item}</p>
+                      <p className="text-sm sm:text-base text-gray-700">{item}</p>
                     </div>
                   ))}
                 </div>
@@ -392,10 +392,10 @@ const OfferSection: React.FC = () => {
 
         {pathname === '/fleet' && (
           <>
-            <h3 className="text-2xl font-semibold mt-8">
+            <h3 className="text-xl sm:text-2xl md:text-2xl font-semibold mt-8">
               Key Features of Our Premium Chauffeur Services
             </h3>
-            <p className="text-lg text-gray-700 mt-2">
+            <p className="text-sm sm:text-base md:text-lg text-gray-700 mt-2">
               We've designed our services to prioritize your comfort and peace of mind. Here's what sets OKTaxis apart:
             </p>
           </>
@@ -418,8 +418,8 @@ const OfferSection: React.FC = () => {
               />
             </div>
             <div>
-              <h2 className="text-xl font-semibold">{title}</h2>
-              <p className="mt-2 text-gray-600 text-lg">{description}</p>
+              <h2 className="text-lg sm:text-xl md:text-xl font-semibold">{title}</h2>
+              <p className="mt-2 text-gray-600 text-base sm:text-lg">{description}</p>
             </div>
           </div>
         ))}
