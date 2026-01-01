@@ -5,7 +5,6 @@ import { Roboto, Montserrat } from "next/font/google";
 import "./globals.css";
 
 import { Toaster } from "@/components/ui/toaster";
-import { CustomFormProvider } from "@/context/FormContext";
 import { OrderProvider } from '@/context/OrderContext';
 import Footer from "@/components/Footer/Footer";
 import { generateMetadata as generateSEOMetadata, generateLocalBusinessSchema } from "@/lib/seo";
@@ -71,11 +70,11 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
-        <OrderProvider><CustomFormProvider>
+        <OrderProvider>
           {children}
           <Toaster />
           <Footer />
-        </CustomFormProvider></OrderProvider>
+        </OrderProvider>
 
       </body>
     </html>

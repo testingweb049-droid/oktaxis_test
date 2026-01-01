@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import FAQSection from '@/components/FAQSection';
 import FeatureCard from '@/components/FeatureCard';
-import HeroBanner from '@/components/HeroBanner';
+import MainBanner from '@/components/MainBanner';
 import FleetClasses from '@/components/home/fleet';
 import WhyChooseUs from '@/components/WhyChoose';
 import { DollarSign, Headphones, Plane, UserCheck } from 'lucide-react';
@@ -25,12 +25,12 @@ export const metadata: Metadata = generateSEOMetadata({
 const page = () => {
     return (
         <>
-            <HeroBanner
-                title="Leeds Taxi Service | Leeds Bradford Airport Transfers | OK Taxis"
-                description="Your reliable Leeds taxi service for airport transfers & city journeys. We offer fixed fares to Leeds Bradford Airport, professional drivers & 24/7 service."
+            <MainBanner
+                heading="Leeds Taxi Service | Leeds Bradford Airport Transfers | OK Taxis"
+                text="Your reliable Leeds taxi service for airport transfers & city journeys. We offer fixed fares to Leeds Bradford Airport, professional drivers & 24/7 service."
                 buttonText="Get a Quote & Book Online"
-                buttonLink="/"
-                backgroundImage="/images/banner.jpg"
+                buttonHref="/"
+                image="/images/banner.jpg"
             />
             <div className="container mx-auto px-6 py-20">
                 <WhyChooseUs

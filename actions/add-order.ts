@@ -3,7 +3,7 @@
 import { db } from '@/db/drizzle';
 import { orders } from '@/db/schema';
 import nodemailer from 'nodemailer';
-import { emailConfig } from '@/lib/emailConfig';
+import { getEmailConfig } from '@/lib/emailConfig';
 import { render } from '@react-email/components';
 import { TripOrderEmailTemplate } from '@/components/emails/BookingEmailTemplate';
 
@@ -99,7 +99,7 @@ export async function createOrder(data: OrderDataType, skipEmail: boolean = fals
     if (!skipEmail) {
       const carImage = `https://oktaxis.co.uk/${data.carImage}`;
       const orderLink = `https://oktaxis.co.uk/order/${order.id}`;
-      const transporter = nodemailer.createTransport(emailConfig);
+      const transporter = nodemailer.createTransport(getEmailConfig());
       const stops = data.stops.map((item,index)=>({label:index===0? 'Pickup Location' : data.stops.length-1 === index ? data.category==='hourly' ? 'Duration' : 'Stop ' + index  : 'Dropoff Location' , value:data.stops.length-1 === index && data.category==='hourly' ? item + ' hours' : item}))
       const htmEmail = await render(TripOrderEmailTemplate({carImage, stops, viewOrderLink:orderLink}))
 
@@ -138,7 +138,7 @@ export async function sendOrderConfirmationEmail(orderId: string | number, carIm
 
     const imageUrl = carImage ? `https://oktaxis.co.uk/${carImage}` : null;
     const orderLink = `https://oktaxis.co.uk/order/${order.id}`;
-    const transporter = nodemailer.createTransport(emailConfig);
+    const transporter = nodemailer.createTransport(getEmailConfig());
     
     const stops = (order.stops || []).map((item: string, index: number) => ({
       label: index === 0 

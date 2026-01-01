@@ -79,7 +79,7 @@ export const blogData = [
     id: 1,
     title: "Best Car Services in Manchester",
     description: "Need help choosing a car service in Manchester? This guide explains everything from airport transfers to executive travel, vehicle types, and how to book smoothly online.",
-    image: "/blog1.png",
+    image: "/blog6.webp",
     date: "May 15, 2025",
     category: "Travel Tips",
     content: [
@@ -213,7 +213,7 @@ export const blogData = [
     id: 2,
     title: "A Complete Guide to Booking a Taxi Online: Tips, Tools & What to Expect",
     description: "Wondering how to book a taxi online with confidence? This guide walks you through the entire process, from choosing the right vehicle to avoiding common pitfalls.",
-    image: "/blog2.png",
+    image: "/blog10.jpg",
     date: "May 27, 2025",
     category: "Travel Tips",
     content: [
@@ -336,7 +336,7 @@ export const blogData = [
     id: 3,
     title: "How to Arrange Hassle-Free Transport from the Airport: A Complete Guide",
     description: "Need reliable transport from the airport? Learn how to plan ahead, choose the right vehicle, and make your post-flight journey smooth and stress-free.",
-    image: "/blog3.png",
+    image: "/blog6.webp",
     date: "June 5, 2025",
     category: "Airport Transfers",
     content: [
@@ -500,7 +500,7 @@ export const blogData = [
     id: 4,
     title: "Your Complete Guide to Airport Transfers in Manchester",
     description: "Planning a trip through Manchester Airport? Discover everything you need to know about smooth, stress-free airport transfers in Manchester—how to book, what to expect, and how to choose the right service.",
-    image: "/blog4.jpg",
+    image: "/blog10.jpg",
     date: "June 12, 2025",
     category: "Airport Transfers",
     content: [
@@ -650,7 +650,7 @@ export const blogData = [
     id: 5,
     title: "Taxi in Manchester City Centre",
     description: "Looking for a taxi in Manchester City Centre? Discover your best options, how to book easily, and what to expect from city centre taxi services—day or night.",
-    image: "/blog5.png",
+    image: "/blog6.webp",
     date: "June 13, 2025",
     category: "City Centre Taxis",
     content: [
@@ -1104,7 +1104,7 @@ export const blogData = [
     id: 8,
     title: "Stadium Transfers in Manchester",
     description: "Reliable stadium transfers in Manchester to Old Trafford and Etihad Stadium. Book your comfortable, punctual taxi service for hassle-free match day travel. Perfect for Manchester United and Manchester City fans!",
-    image: "/blog8.png",
+    image: "/blog10.jpg",
     date: "June 16, 2025",
     category: "Stadium Transfers",
     content: [
@@ -1275,7 +1275,7 @@ export const blogData = [
   "id": 10,
   "title": "City Centre Taxi Service Manchester",
   "description": "Navigating Manchester's bustling city centre can be tricky, but OK Taxis provides reliable and efficient taxi services to help you reach your destination comfortably and on time.",
-  "image": "/blog14.jpg",
+  "image": "/blog6.webp",
   "date": "June 16, 2025",
   "category": "City Centre Taxi Services",
   "content": [
@@ -1357,7 +1357,7 @@ export const blogData = [
   "id": 11,
   "title": "Football Stadium Taxi Service Manchester",
   "description": "Manchester is home to two legendary football clubs – Manchester United at Old Trafford and Manchester City at the Etihad Stadium. Match days at these venues bring excitement and massive crowds. OK Taxis ensures a smooth journey to and from the stadiums without the hassle of traffic or parking.",
-  "image": "/blog13.jpg",
+  "image": "/blog10.jpg",
   "date": "June 20, 2025",
   "category": "Football Stadium Taxi Service",
   "content": [
@@ -1446,7 +1446,7 @@ export const blogData = [
   "id": 12,
   "title": "Taxi Service for Football Fans in Manchester",
   "description": "Football isn’t just a sport in Manchester – it’s a way of life. OK Taxis offers a reliable taxi service for football fans to and from Old Trafford and the Etihad Stadium, ensuring you have a stress-free match-day experience. Whether you’re headed to the match or celebrating afterward, we’ve got you covered with flexible scheduling, group travel options, and a safe ride home.",
-  "image": "/blog12.jpg",
+  "image": "/blog6.webp",
   "date": "June 22, 2025",
   "category": "Football Taxi Service",
   "content": [
@@ -1540,7 +1540,7 @@ export const blogData = [
   "id": 13,
   "title": "Luxury Chauffeur Services Manchester",
   "description": "OK Taxis offers Luxury Chauffeur Services in Manchester that redefine your travel experience. Whether you're a business executive, VIP visitor, or just want to make a grand entrance, our premium vehicles and professional chauffeurs ensure a first-class journey. Enjoy the little luxuries like Wi-Fi, complimentary water, and quiet, smooth rides, all while arriving punctually and in style.",
-  "image": "/blog15.png",
+  "image": "/blog10.jpg",
   "date": "June 22, 2025",
   "category": "Luxury Chauffeur Service",
   "content": [
@@ -1637,7 +1637,7 @@ export const blogData = [
   "id": 14,
   "title": "Manchester Airport Transfer Services",
   "description": "OK Taxis offers hassle-free Manchester Airport Transfer Services for both business and leisure travelers. With 24/7 operations, flight tracking, and a variety of vehicle options, we ensure your airport journey is comfortable, punctual, and stress-free. From early morning departures to late-night arrivals, we’ve got you covered.",
-  "image": "/blog16.jpg",
+  "image": "/blog6.webp",
   "date": "June 22, 2025",
   "category": "Airport Transfer",
   "content": [
@@ -1727,7 +1727,7 @@ export const blogData = [
   "id": 15,
   "title": "Hourly Chauffeur Hire in Manchester",
   "description": "OK Taxis offers flexible Hourly Chauffeur Hire in Manchester, providing executive-level convenience for business, events, or day trips. Hire a professional chauffeur for a set number of hours or a full day to simplify your busy schedule, whether for corporate visits, city tours, or multiple stops.",
-  "image": "/blog11.jpg",
+  "image": "/blog10.jpg",
   "date": "June 22, 2025",
   "category": "Chauffeur Service",
   "content": [
@@ -1906,7 +1906,7 @@ export const blogData = [
   "id": 18,
   "title": "Chauffeur Service Manchester and Nearby Cities",
   "description": "OK Taxis offers Chauffeur Service Manchester and Nearby Cities, giving you a comfortable, customizable way to see the sights. Whether you want a guided tour of Manchester’s landmarks or a day trip to Liverpool or the Peak District, our professional drivers double as friendly guides.",
-  "image": "/blog15.png",
+  "image": "/blog10.jpg",
   "date": "July 5, 2025",
   "category": "Chauffeur Service Manchester",
   "content": [
@@ -1979,7 +1979,7 @@ export const blogData = [
   "id": 19,
   "title": "Stadium Transfer Services for Manchester United and Manchester City Matches",
   "description": "OK Taxis specializes in Stadium Transfer Services for Manchester United and Manchester City matches, ensuring fans get to the game and back home with minimum fuss. Our drivers have decades of experience moving crowds, so you can focus on the match, not the commute.",
-  "image": "/blog9.jpg",
+  "image": "/blog6.webp",
   "date": "July 5, 2025",
   "category": "Stadium Transfers",
   "content": [

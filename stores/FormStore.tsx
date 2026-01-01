@@ -2,16 +2,15 @@
 
 import { OrderDataType } from "@/actions/add-order";
 import { calculateDistance } from "@/actions/get-distance";
-import { fleets } from "@/components/booking/steps/fleets-data";
-import { fleetsLocal } from "@/lib/fleet-data";
+import { fleets } from "@/lib/fleet-data";
 import { hourlyInitialFormData, tripInitialFormData } from "@/constants/storeInitailObjects";
 import { create } from "zustand";
 
   export interface FieldType<T> {
   value: T;
   error: string;
-  coardinates: string;
-  coardinatesRequired: boolean;
+  coordinates: string;
+  coordinatesRequired: boolean;
   required: boolean;
   step: number;
   }
@@ -62,7 +61,7 @@ import { create } from "zustand";
   setFormData: (
     key: keyof FormDataType | "stops",
     value: string | boolean | number,
-    coardinates?: string,
+    coordinates?: string,
     index?: number
   ) => void;
   setFieldOptions: (
@@ -80,10 +79,10 @@ import { create } from "zustand";
 
   const makeStop = (required = false): FieldType<string> => ({
   value: "",
-  coardinates: "",
+  coordinates: "",
   error: "",
   required,
-  coardinatesRequired: required,
+  coordinatesRequired: required,
   step: 1,
   });
 
@@ -98,12 +97,12 @@ import { create } from "zustand";
   formData: tripInitialFormData,
   isOrderDone: false,
   orderId:'',
-  setFormData: (key, value, coardinates = "", index) => {
+  setFormData: (key, value, coordinates = "", index) => {
     if (key === "stops" && typeof index === "number") {
       set((state) => {
         const stops = [...state.formData.stops];
         if (index >= 0 && index < stops.length && stops[index]) {
-          stops[index] = { ...stops[index], value: value as string, coardinates, error:'' };
+          stops[index] = { ...stops[index], value: value as string, coordinates, error:'' };
         }
         return { formData: { ...state.formData, stops } };
       });
@@ -112,7 +111,7 @@ import { create } from "zustand";
     set((state) => ({
       formData: {
         ...state.formData,
-        [key]: { ...state.formData[key as keyof FormDataType], value, coardinates, error:''  },
+        [key]: { ...state.formData[key as keyof FormDataType], value, coordinates, error:''  },
       },
     }));
   },
@@ -137,19 +136,18 @@ import { create } from "zustand";
       if (k === "stops") return;
       const item = formData[k] as FieldType<string>;
       const hasErr = item.step === _step && item.required && !item.value;
-      const hasErr2 = item.step === _step && item.coardinatesRequired && !item.coardinates;
+      const hasErr2 = item.step === _step && item.coordinatesRequired && !item.coordinates;
       (updated[k] as FieldType<string>) = { ...item, error: hasErr ? `${k} is required` : hasErr2 ? `${k} coordinates required` : "" };
     });
 
     // validate stops
     const stopsUpdated = formData.stops.map((s) => {
       const hasErr = s.step === _step && s.required && !s.value;
-      const hasErr2 = s.step === _step && s.coardinatesRequired && !s.coardinates;
+      const hasErr2 = s.step === _step && s.coordinatesRequired && !s.coordinates;
       return { ...s, error: hasErr ? `stop is required` : hasErr2 ? `stop coordinates required` : "" };
     });
 
     updated.stops = stopsUpdated;
-    console.log("updated ",updated)
 
     set({ formData: updated  });
 
@@ -177,21 +175,18 @@ import { create } from "zustand";
     set((state) => ({ ...state, formError: "", formLoading: true }));
 
     if (validateData(_step)) {
-      console.log("not validate")
       set((state) => ({ ...state, formError: "", formLoading: false }));
       return false;
     }
     
-    console.log("validate")
     if (_step === 1 && category === "trip") {
       try {
-        const stopsCoords = formData.stops.map((s) => s.coardinates);
+        const stopsCoords = formData.stops.map((s) => s.coordinates);
         const distanceResponse = await calculateDistance({
-          from: formData.fromLocation.coardinates,
-          to: formData.toLocation.coardinates,
+          from: formData.fromLocation.coordinates,
+          to: formData.toLocation.coordinates,
           stops: stopsCoords, 
         } as any);
-        console.log("distanceResponse ",distanceResponse)
         if (distanceResponse.status !== 200) {
           set((state) => ({ ...state, formError: distanceResponse.error ?? "route not found", formLoading: false }));
           return false;
@@ -212,9 +207,7 @@ import { create } from "zustand";
 
     // Order creation is now handled in checkout-success route after payment confirmation
     // No order should be created here before payment
-    console.log("working fine : ",_step)
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log("working fine 2 : ",_step)
     set((state) => ({ ...state, formError: "", formLoading: false, step: isNext ? _step + 1 : Math.max(1, _step - 1) }));
     return true; 
   },

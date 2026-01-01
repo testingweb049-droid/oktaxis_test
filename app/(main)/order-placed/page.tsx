@@ -5,7 +5,7 @@ import React, { useEffect, useState, useRef, Suspense } from 'react';
 import { MdDone } from 'react-icons/md';
 import Link from 'next/link';
 import Image from 'next/image';
-import { fleets } from '@/components/booking/steps/fleets-data';
+import { fleets } from '@/lib/fleet-data';
 import { Button } from '@/components/ui/button';
 
 function OrderPlacedContent() {

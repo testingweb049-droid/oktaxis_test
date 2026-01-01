@@ -187,13 +187,11 @@ export default function Header() {
       // Handle desktop services dropdown click outside
       const width = window.innerWidth;
 
-      console.log("width : ", width);
       if (
         openDropdown &&
         !target.closest(".services-dropdown-full-width-section") &&
         width >= 786
       ) {
-        console.log("work");
         setOpenDropdown(null);
       }
     };

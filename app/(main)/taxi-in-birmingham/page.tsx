@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import FAQSection from '@/components/FAQSection'
 import FeatureCard from '@/components/FeatureCard'
-import HeroBanner from '@/components/HeroBanner'
+import MainBanner from '@/components/MainBanner'
 import FleetClasses from '@/components/home/fleet'
 import WhyChooseUs from '@/components/WhyChoose'
 import React from 'react';
@@ -24,12 +24,12 @@ export const metadata: Metadata = generateSEOMetadata({
 const page = () => {
     return (
         <>
-            <HeroBanner
-                title="How do I book a long-distance taxi from Birmingham?"
-                description="Reliable airport transfers, executive travel, and city journeys with professional drivers and fixed fares. Experience these in Birmingham with OK Taxis."
+            <MainBanner
+                heading="How do I book a long-distance taxi from Birmingham?"
+                text="Reliable airport transfers, executive travel, and city journeys with professional drivers and fixed fares. Experience these in Birmingham with OK Taxis."
                 buttonText="Get a Quote & Book Online"
-                buttonLink="/"
-                backgroundImage="/images/banner.jpg"
+                buttonHref="/"
+                image="/images/banner.jpg"
             />
             <div className="container mx-auto px-6 py-20">
                 <WhyChooseUs />

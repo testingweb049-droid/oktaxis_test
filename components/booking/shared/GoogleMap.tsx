@@ -41,10 +41,10 @@ export default function GoogleMapsRoute({
   // Use props if provided, otherwise use formStore
   const fromCoordsString = propsFromCoords 
     ? `${propsFromCoords.lat},${propsFromCoords.lng}` 
-    : formData.fromLocation?.coardinates;
+    : formData.fromLocation?.coordinates;
   const toCoordsString = propsToCoords 
     ? `${propsToCoords.lat},${propsToCoords.lng}` 
-    : formData.toLocation?.coardinates;
+    : formData.toLocation?.coordinates;
   const stops = formData.stops;
   const distance = formData.distance;
   const duration = formData.duration;
@@ -59,7 +59,7 @@ export default function GoogleMapsRoute({
         const from = propsFromCoords || parseCoords(fromCoordsString);
         const to = propsToCoords || parseCoords(toCoordsString);
         const waypointsList = (stops || [])
-          .map((s) => parseCoords(s.coardinates))
+          .map((s) => parseCoords(s.coordinates))
           .filter(Boolean);
 
         const map = new Map(mapRef.current as HTMLElement, {

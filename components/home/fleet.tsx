@@ -11,7 +11,7 @@ import type { Swiper as SwiperType } from "swiper"
 import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
-import { fleets } from "../booking/steps/fleets-data"
+import { fleets } from "@/lib/fleet-data"
 
 export default function FleetClasses() {
   const swiperRef = useRef<SwiperType>()
