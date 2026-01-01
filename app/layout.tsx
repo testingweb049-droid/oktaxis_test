@@ -5,10 +5,9 @@ import { Roboto, Montserrat } from "next/font/google";
 import "./globals.css";
 
 import { Toaster } from "@/components/ui/toaster";
-import { OrderProvider } from '@/context/OrderContext';
 import Footer from "@/components/Footer/Footer";
 import { generateMetadata as generateSEOMetadata, generateLocalBusinessSchema } from "@/lib/seo";
-import StructuredData from "@/components/StructuredData";
+import StructuredData from "@/components/structured-data";
 
 const roboto = Roboto({
   weight: ["100", "300", "400", "700", "900"],
@@ -44,7 +43,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        {/* ✅ Google Tag Manager (HEAD) */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -59,9 +57,7 @@ export default function RootLayout({
       </head>
 
       <body className={`${roboto.variable} ${montserrat.variable} antialiased`}>
-        {/* ✅ Structured Data - Local Business Schema */}
         <StructuredData data={generateLocalBusinessSchema()} id="local-business-schema" />
-        {/* ✅ Google Tag Manager (NOSCRIPT) */}
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-MF6HV3CB"
@@ -70,11 +66,9 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
-        <OrderProvider>
-          {children}
-          <Toaster />
-          <Footer />
-        </OrderProvider>
+        {children}
+        <Toaster />
+        <Footer />
 
       </body>
     </html>

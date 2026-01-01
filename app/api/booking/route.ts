@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import sendEmail from '@/lib/sendEmail';
+import sendEmail from '@/lib/send-email';
 import { format } from "date-fns";
 
 export async function POST(req: NextRequest) {

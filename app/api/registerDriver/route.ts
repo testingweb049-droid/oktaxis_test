@@ -1,11 +1,11 @@
-import sendEmail from "@/lib/sendEmail";
+import sendEmail from "@/lib/send-email";
 import { isValidEmail, sanitizeHtml } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db/drizzle";
 import { drivers } from "@/db/schema";
 import { render } from "@react-email/render";
-import { DriverRegistrationAdminEmail } from "@/components/emails/DriverRegistrationAdminEmail";
-import { DriverRegistrationConfirmationEmail } from "@/components/emails/DriverRegistrationConfirmationEmail";
+import { DriverRegistrationAdminEmail } from "@/components/emails/driver-registration-admin-email";
+import { DriverRegistrationConfirmationEmail } from "@/components/emails/driver-registration-confirmation-email";
 import { eq, or } from "drizzle-orm";
 
 export async function POST(req: NextRequest) {

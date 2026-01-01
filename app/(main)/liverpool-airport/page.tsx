@@ -1,11 +1,11 @@
 import { Metadata } from "next";
-import PageBanner from "@/components/PageBanner";
-import PageAboutSection from "@/components/PageAboutSection";
-import TransfersSection from "@/components/TransfersSection";
-import AboutServiceSection from "@/components/AboutServiceSection";
-import ServingCardsSection from "@/components/ServingCardsSection";
+import PageBanner from "@/components/page-banner";
+import PageAboutSection from "@/components/page-about-section";
+import TransfersSection from "@/components/transfers-section";
+import AboutServiceSection from "@/components/about-service-section";
+import ServingCardsSection from "@/components/serving-cards-section";
 import FleetClasses from "@/components/home/fleet";
-import FAQSection from "@/components/FAQSection";
+import FAQSection from "@/components/faq-section";
 import Reviews from "@/components/Sections/reviews";
 import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
 

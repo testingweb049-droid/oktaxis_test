@@ -1,20 +1,20 @@
 import { Metadata } from "next";
 import Services from "@/components/home/services";
 import FleetClasses from "@/components/home/fleet";
-import NewHeroSection from "./book-ride/NewHeroSection";
-import WhyChoose from "@/components/Sections/WhyChoose";
-import TopThingsSection from "@/components/Sections/TopThingsSection";
+import NewHeroSection from "./book-ride/new-hero-section";
+import WhyChoose from "@/components/Sections/why-choose";
+import TopThingsSection from "@/components/Sections/top-things-section";
 import ReviewsSection from "@/components/Sections/reviews";
 import { generateMetadata as generateSEOMetadata, generateWebPageSchema } from "@/lib/seo";
-import StructuredData from "@/components/StructuredData";
+import StructuredData from "@/components/structured-data";
 
 export const metadata: Metadata = generateSEOMetadata({
-  title: "Premium Chauffeur Services Manchester | Airport Transfers & Wedding Hire",
+  title: "Chauffeur Services Manchester | Airport Transfers & Wedding Hire",
   description:
-    "Book premium chauffeur services in Manchester with OKTaxis. Luxury airport transfers, hourly hire, city tours, wedding chauffeurs, and stadium transfers. 24/7 reliable service.",
+    "Book chauffeur services in Manchester with OKTaxis. Luxury airport transfers, hourly hire, city tours, wedding chauffeurs, and stadium transfers. 24/7 reliable service.",
   pageUrl: "/",
   keywords: [
-    "premium chauffeur manchester",
+    "chauffeur manchester",
     "airport transfer manchester",
     "wedding car hire",
     "luxury taxi service",
@@ -31,9 +31,9 @@ export default function Home() {
     <>
       <StructuredData
         data={generateWebPageSchema({
-          title: "Premium Chauffeur Services Manchester | Airport Transfers & Wedding Hire | OKTaxis",
+          title: "Chauffeur Services Manchester | Airport Transfers & Wedding Hire | OKTaxis",
           description:
-            "Book premium chauffeur services in Manchester with OKTaxis. Luxury airport transfers, hourly hire, city tours, wedding chauffeurs, and stadium transfers. 24/7 reliable service.",
+            "Book chauffeur services in Manchester with OKTaxis. Luxury airport transfers, hourly hire, city tours, wedding chauffeurs, and stadium transfers. 24/7 reliable service.",
           url: "https://oktaxis.co.uk/",
           breadcrumbs,
         })}

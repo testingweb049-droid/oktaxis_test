@@ -1,7 +1,7 @@
 "use client"
 import React, { useRef } from "react";
 import Image from "next/image";
-import Heading from "@/components/Heading";
+import Heading from "@/components/heading";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";

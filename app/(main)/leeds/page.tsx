@@ -1,10 +1,10 @@
 import { Metadata } from "next";
-import PageBanner from "@/components/PageBanner";
-import StructuredData from "@/components/StructuredData";
-import PageAboutSection from "@/components/PageAboutSection";
-import OurServicesSection from "@/components/OurServicesSection";
-import ConnectionAreasSection from "@/components/ConnectionAreasSection";
-import FAQSection from "@/components/FAQSection";
+import PageBanner from "@/components/page-banner";
+import StructuredData from "@/components/structured-data";
+import PageAboutSection from "@/components/page-about-section";
+import OurServicesSection from "@/components/our-services-section";
+import ConnectionAreasSection from "@/components/connection-areas-section";
+import FAQSection from "@/components/faq-section";
 import ReviewsSection from "@/components/Sections/reviews";
 import {
   generateMetadata as generateSEOMetadata,
