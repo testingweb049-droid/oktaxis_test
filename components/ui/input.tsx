@@ -21,7 +21,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         type={type}
         className={cn(
-            "w-full bg-transparent text-heading-black placeholder:text-text-gray outline-none focus:outline-none text-sm md:text-base",
+            "w-full bg-transparent text-heading-black placeholder:text-text-gray outline-none focus:outline-none text-base",
             Icon && "pl-6",
             error && "text-red-600 placeholder:text-red-400",
             "disabled:cursor-not-allowed disabled:opacity-50",
@@ -37,7 +37,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       return (
         <div className={cn("w-full", containerClassName)}>
           {label && (
-            <label className="block text-sm font-medium text-text-gray mb-1">
+            <label className="block text-sm sm:text-base font-medium text-text-gray mb-1">
               {label}
             </label>
           )}
@@ -80,7 +80,7 @@ const PhoneInput = React.forwardRef<HTMLDivElement, PhoneInputProps>(
               paddingBottom: "8px",
               paddingLeft: "50px",
               paddingRight: "8px",
-              fontSize: "15px",
+              fontSize: "16px",
               backgroundColor: "transparent",
               border: "none",
               borderRadius: "6px",

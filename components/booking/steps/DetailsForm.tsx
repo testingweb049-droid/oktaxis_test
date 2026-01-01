@@ -35,7 +35,7 @@ function Step3() {
     ).toFixed(2);
     return (
         <div className='flex flex-col gap-5 w-full'>
-            <div className='text-2xl text-heading-black font-semibold'>Add Details</div>
+            <div className='text-xl sm:text-2xl text-heading-black font-semibold'>Add Details</div>
             {/* max-lg:bg-gray-200 max-lg:px-2 max-lg:py-3 max-lg:rounded-md  */}
             <div className='flex flex-col gap-3 w-full'>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
@@ -65,7 +65,7 @@ function Step3() {
                 {/* Return Block - Show when return is checked - Hide for hourly */}
                 {category !== 'hourly' && formData.isReturn?.value && (
                     <div className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200 flex flex-col gap-2">
-                        <div className='font-bold text-heading-black'>Return Journey</div>
+                        <div className='font-bold text-base sm:text-lg text-heading-black'>Return Journey</div>
                         {/* Return Date and Time */}
                         <NewDateTimePicker
                             selectedDate={formData.returnDate?.value || ''}
@@ -82,7 +82,7 @@ function Step3() {
 
                       <div className='flex flex-col gap-2'>
                           {/* Return Equipment and Extras */}
-                          <div className='font-bold text-heading-black mt-3'>Return Equipment and Extras</div>
+                          <div className='font-bold text-base sm:text-lg text-heading-black mt-3'>Return Equipment and Extras</div>
                         <QuantityCheckbox 
                           fieldName='isReturnFlightTrack' 
                           label='Flight Track' 
@@ -116,7 +116,7 @@ function Step3() {
 
                 {/* Equipment and Extras Block */}
                 <div className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200 flex flex-col gap-4">
-                    <div className='font-bold text-heading-black'>Equipment and Extras</div>
+                    <div className='font-bold text-base sm:text-lg text-heading-black'>Equipment and Extras</div>
                     <QuantityCheckbox 
                       fieldName='isFlightTrack' 
                       label='Flight Track' 
@@ -163,7 +163,7 @@ function Step3() {
                                   "w-full rounded-lg bg-white px-4 py-3 border",
                                   instructionsHasError ? "border-red-500" : "border-gray-200"
                                 )}>
-                                    <label className="block text-sm font-medium text-text-gray mb-1">
+                                    <label className="block text-sm sm:text-base font-medium text-text-gray mb-1">
                                         Instructions
                                     </label>
                                     <textarea
@@ -172,7 +172,7 @@ function Step3() {
                                         placeholder="Enter your instructions here..."
                                         rows={4}
                                         className={cn(
-                                          "w-full bg-transparent text-heading-black placeholder:text-text-gray outline-none focus:outline-none text-sm md:text-base",
+                                          "w-full bg-transparent text-heading-black placeholder:text-text-gray outline-none focus:outline-none text-base",
                                           "resize-none",
                                           instructionsHasError && "text-red-600 placeholder:text-red-400"
                                         )}
@@ -257,7 +257,7 @@ function Step3() {
                 className={cn(
                   "p-2 rounded-lg w-full text-center font-bold cursor-pointer transition-colors flex justify-center items-center gap-2",
                   "bg-primary-yellow hover:bg-primary-yellow/90 text-heading-black font-semibold transition-all duration-200",
-                  "px-6 py-3 text-lg rounded-lg"
+                  "px-6 py-3 text-base sm:text-lg rounded-lg"
                 )}
             >
                 {(formLoading || isProcessing) && (
