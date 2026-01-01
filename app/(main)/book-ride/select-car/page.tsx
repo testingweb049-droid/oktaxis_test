@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import { ArrowDown, ArrowUp, ArrowLeft } from 'lucide-react'
 import { format } from 'date-fns'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 
 function Page() {
   const { category, formData } = useFormStore()
@@ -84,38 +85,29 @@ function Page() {
       <div className='max-w-screen-lg mx-auto flex flex-col gap-4 sm:gap-5 lg:gap-10 w-full py-4 sm:py-5 lg:py-16 px-3 sm:px-4 lg:px-6'>
         {/* Back Button - Mobile Full Width */}
         <div className="lg:hidden flex justify-start w-full">
-          <button
+          <Button
             onClick={() => router.push('/')}
-            className={cn(
-              "flex items-center justify-center gap-2 font-semibold px-4 py-2 rounded-lg transition-all shadow-sm hover:shadow-md active:scale-[0.98] w-full",
-              "bg-light-background",
-              "hover:bg-light-background",
-              "text-heading-black",
-              "border border-text-gray"
-            )}
+            variant="outline"
+            size="default"
+            className="w-full"
             aria-label="Go back"
           >
             <ArrowLeft size={18} />
             <span>Back</span>
-          </button>
+          </Button>
         </div>
 
         {/* Back Button - Desktop */}
         <div className="hidden lg:flex justify-start w-full">
-          <button
+          <Button
             onClick={() => router.push('/')}
-            className={cn(
-              "flex items-center justify-center gap-2 font-semibold px-4 py-2 rounded-lg transition-all shadow-sm hover:shadow-md active:scale-[0.98]",
-              "bg-light-background",
-              "hover:bg-light-background",
-              "text-heading-black",
-              "border border-text-gray"
-            )}
+            variant="outline"
+            size="default"
             aria-label="Go back"
           >
             <ArrowLeft size={18} />
             <span>Back</span>
-          </button>
+          </Button>
         </div>
 
         {/* Mobile Summary Card - Only for trip category */}

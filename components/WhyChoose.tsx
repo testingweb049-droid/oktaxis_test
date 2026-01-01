@@ -74,7 +74,7 @@ const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
 
                 {/* Header */}
                 <div className="text-center mb-10 md:mb-14">
-                    <p className={`${badgeColor} text-sm font-medium mb-3 uppercase tracking-wide`}>
+                    <p className={`${badgeColor} text-xs sm:text-sm font-medium mb-3 uppercase tracking-wide`}>
                         {badge}
                     </p>
                     <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 max-w-3xl mx-auto">
@@ -129,10 +129,10 @@ const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
                                             {feature.icon}
                                         </div>
                                     </div>
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                                    <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 mb-3">
                                         {feature.title}
                                     </h3>
-                                    <p className="text-gray-600 text-sm leading-relaxed">
+                                    <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
                                         {feature.description}
                                     </p>
                                 </div>
@@ -174,10 +174,10 @@ const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
                                     {feature.icon}
                                 </div>
                             </div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                            <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 mb-3">
                                 {feature.title}
                             </h3>
-                            <p className="text-gray-600 text-sm leading-relaxed">
+                            <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
                                 {feature.description}
                             </p>
                         </div>

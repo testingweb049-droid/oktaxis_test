@@ -57,8 +57,8 @@ export function OurServicesSection({
                 className={cn(defaultCardClasses, service.className)}
               >
                 {/* Icon Circle */}
-                <div className="flex items-center justify-center h-16 w-16 md:h-18 md:w-18 rounded-full border border-heading-black bg-heading-black">
-                  <div className="text-primary-yellow !text-xl sm:text-2xl">
+                <div className="flex items-center justify-center h-14 w-14 sm:h-16 sm:w-16 md:h-20 md:w-20 rounded-full border border-heading-black bg-heading-black">
+                  <div className="text-primary-yellow !text-lg sm:text-xl md:text-2xl">
                     {service.icon}
                   </div>
                 </div>
@@ -69,7 +69,7 @@ export function OurServicesSection({
                 </h3>
 
                 {/* Service Text */}
-                <p className="mt-4 text-lg text-text-gray leading-relaxed max-w-[27rem]">
+                <p className="mt-4 text-base sm:text-lg md:text-xl text-text-gray leading-relaxed max-w-[27rem]">
                   {service.description}
                 </p>
               </div>

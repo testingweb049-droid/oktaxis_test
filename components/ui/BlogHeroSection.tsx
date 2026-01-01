@@ -83,10 +83,10 @@ export default function BlogHeroSection({
       <div ref={overlayRef} className="absolute inset-0 bg-black" />
       <div className="container mx-auto relative z-10 flex h-full flex-col gap-10 items-center justify-center px-3 text-white lg:px-5">
         <div>
-          <h1 ref={titleRef} className="mb-2 sm:mb-4 text-4xl font-bold md:text-4xl lg:text-4xl lg:leading-[55px]">
+          <h1 ref={titleRef} className="mb-2 sm:mb-4 text-2xl sm:text-3xl md:text-4xl lg:text-4xl lg:leading-[55px] font-bold">
             {title}
           </h1>
-          <p ref={subtitleRef} className="text-lg md:text-xl max-w-6xl lg:text-xl">
+          <p ref={subtitleRef} className="text-base sm:text-lg md:text-xl max-w-6xl lg:text-xl">
             {description}
           </p>
         </div>

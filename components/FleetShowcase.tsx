@@ -123,20 +123,20 @@ const FleetShowcase: React.FC<FleetShowcaseProps> = ({
                                 <div className="bg-white rounded-3xl border p-8 text-center mx-auto max-w-sm transition-transform duration-300 hover:-translate-y-1">
                                     {/* Icon */}
                                     <div
-                                        className={`inline-flex items-center justify-center w-16 h-16 ${iconBgColor} rounded-full mb-5 shadow-md`}
+                                        className={`inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 ${iconBgColor} rounded-full mb-5 shadow-md`}
                                     >
                                         {item.icon || (
-                                            <CarFrontIcon className="w-8 h-8 text-white" />
+                                            <CarFrontIcon className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
                                         )}
                                     </div>
 
                                     {/* Title */}
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                                    <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 mb-3">
                                         {item.title}
                                     </h3>
 
                                     {/* Description */}
-                                    <p className="text-gray-600 text-sm leading-relaxed">
+                                    <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
                                         {item.description}
                                     </p>
                                 </div>
@@ -172,14 +172,14 @@ const FleetShowcase: React.FC<FleetShowcaseProps> = ({
                             className="bg-white rounded-3xl shadow-[0_6px_20px_rgba(0,0,0,0.08)] p-8 text-center hover:shadow-[0_8px_30px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-1"
                         >
                             <div
-                                className={`inline-flex items-center justify-center w-16 h-16 ${iconBgColor} rounded-full mb-5 shadow-md`}
+                                className={`inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 ${iconBgColor} rounded-full mb-5 shadow-md`}
                             >
-                                {item.icon || <CarFrontIcon className="w-8 h-8 text-white" />}
+                                {item.icon || <CarFrontIcon className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />}
                             </div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                            <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 mb-3">
                                 {item.title}
                             </h3>
-                            <p className="text-gray-600 text-sm leading-relaxed">
+                            <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
                                 {item.description}
                             </p>
                         </div>

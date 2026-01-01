@@ -36,7 +36,7 @@ export function AboutServiceSection({
           <Heading as="h2" className="!mb-8">
             {heading}
           </Heading>
-          <p className="text-xl text-text-gray leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-text-gray leading-relaxed">
             {description}
           </p>
         </div>
