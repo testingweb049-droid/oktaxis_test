@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react"
 import Image, { StaticImageData } from "next/image"
-import HeroSectionBookingForm from "../NewBookingForm/HeroBookingForm"
+// Form removed - this is a blog hero section
 
 interface HeroSectionProps {
    bgImage: string | StaticImageData
@@ -18,13 +18,11 @@ export default function BlogHeroSection({
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
-  const formFullWidthSectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const title = titleRef.current
     const subtitle = subtitleRef.current
     const overlay = overlayRef.current
-    const formFullWidthSection = formFullWidthSectionRef.current
 
     if (overlay) {
       overlay.style.opacity = "0.7"
@@ -54,17 +52,6 @@ export default function BlogHeroSection({
         subtitle.style.opacity = "1"
         subtitle.style.transform = "translateY(0)"
       }, 600)
-    }
-
-    if (formFullWidthSection) {
-      formFullWidthSection.style.opacity = "0"
-      formFullWidthSection.style.transform = "translateY(30px)"
-
-      setTimeout(() => {
-        formFullWidthSection.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out"
-        formFullWidthSection.style.opacity = "1"
-        formFullWidthSection.style.transform = "translateY(0)"
-      }, 900)
     }
 
     const handleScroll = () => {

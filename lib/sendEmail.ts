@@ -1,8 +1,9 @@
 import nodemailer from "nodemailer";
-import { sanitizeHtml } from "./utils"; // Create this utility function
+import { sanitizeHtml } from "./utils";
+import { getEmailConfig } from "./emailConfig";
 
 interface EmailParams {
-  to: string;
+  to: string | string[];
   subject: string;
   html: string;
 }
@@ -13,15 +14,24 @@ interface EmailResult {
   error?: string;
 }
 
+function isValidEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
 const sendEmail = async ({ to, subject, html }: EmailParams): Promise<EmailResult> => {
   try {
-    // Validate email address format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(to)) {
-      return {
-        success: false,
-        error: `Invalid email format: ${to}`,
-      };
+    // Convert to array for validation and processing
+    const recipients = Array.isArray(to) ? to : [to];
+    
+    // Validate all email addresses
+    for (const email of recipients) {
+      if (!isValidEmail(email)) {
+        return {
+          success: false,
+          error: `Invalid email format: ${email}`,
+        };
+      }
     }
 
     // Check if required environment variables are set
@@ -32,33 +42,18 @@ const sendEmail = async ({ to, subject, html }: EmailParams): Promise<EmailResul
       };
     }
 
-    // Sanitize HTML to prevent XSS attacks (implement sanitizeHtml utility)
+    // Sanitize HTML to prevent XSS attacks
     const sanitizedHtml = sanitizeHtml(html);
 
-    // Create transport with TLS
-    const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: parseInt(process.env.EMAIL_PORT || "587"),
-      secure: process.env.EMAIL_PORT === "465", // True for 465, false for other ports
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
-      },
-      tls: {
-        // Do not fail on invalid certs
-        rejectUnauthorized: process.env.NODE_ENV === "production",
-      },
-      connectionTimeout: 30000, // 30 seconds
-      greetingTimeout: 30000, // 30 seconds
-      socketTimeout: 30000, // 30 seconds
-    });
+    // Create transport using shared configuration
+    const transporter = nodemailer.createTransport(getEmailConfig());
 
     const mailOptions = {
       from: {
         name: "OkTaxis",
-        address: process.env.EMAIL_USER || "info@oktaxis.co.uk",
+        address: process.env.EMAIL_USER || "reservation@oktaxis.co.uk",
       },
-      to,
+      to: recipients, // Use validated recipients array
       subject,
       html: sanitizedHtml,
       headers: {

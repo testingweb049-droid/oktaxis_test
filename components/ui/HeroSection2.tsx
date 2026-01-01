@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react"
 import Image, { StaticImageData } from "next/image"
-import HeroSectionBookingForm from "../NewBookingForm/HeroBookingForm"
+import HeroForm from "@/app/(main)/book-ride/HeroForm"
 import { ReactNode } from "react";
 interface HeroSectionProps {
   bgImage: string | StaticImageData
@@ -115,7 +115,7 @@ export default function HeroSection2({
           className="absolute  top-[60%] sm:top-[50%] md:top-[45%] transform -translate-x-1/2 translate-y-[50%] w-full max-w-6xl mt-15 py-20 px-4 sm:px-6 lg:px-8 z-20"
 
         >
-          <HeroSectionBookingForm />
+          <HeroForm />
         </div>
       </div>
 

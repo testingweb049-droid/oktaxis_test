@@ -2,7 +2,7 @@
 import { db } from '@/db/drizzle';
 import { orders } from '@/db/schema';
 import nodemailer from 'nodemailer';
-import { emailConfig } from '@/lib/emailConfig';
+import { getEmailConfig } from '@/lib/emailConfig';
 import { eq } from 'drizzle-orm';
 
 export async function createOrderById({orderId,clientSecret}:{orderId:string | number,clientSecret:string}) {
@@ -18,25 +18,17 @@ export async function createOrderById({orderId,clientSecret}:{orderId:string | n
    }
 
    const alreadyDoneOrder = await db.select().from(orders).where(eq(orders.id, orderIdNum))
-   console.log("already : ",alreadyDoneOrder)
    if(alreadyDoneOrder[0]?.payment_id ){
-    console.log("already done ", alreadyDoneOrder)
       return { data:alreadyDoneOrder[0] , status: 201, error: '' };
    }
 
     const order = await db.update(orders).set({payment_id:clientSecret}).where(eq(orders.id, orderIdNum)).returning(); 
     if(!order[0] || !order[0].id){
-      console.log('order : ',order)
         return { error: 'order not found', status: 500 };
     }
   
-   console.log("one")
    const orderLink = `https://oktaxis.co.uk/order/${orderIdNum}`; 
-   console.log("two")
-   
-   const transporter = nodemailer.createTransport(emailConfig);
-   
-   console.log("three")
+   const transporter = nodemailer.createTransport(getEmailConfig());
    const mailOptions = {
      from: 'reservation@oktaxis.co.uk',
      to: ['reservation@oktaxis.co.uk',order[0].email,],
@@ -63,14 +55,10 @@ export async function createOrderById({orderId,clientSecret}:{orderId:string | n
      </html>
      `,
     };
-    console.log("four")
 
-    const {rejected, response} = await transporter.sendMail(mailOptions);
-    console.log("response ",response)
-    console.log("rejected ",rejected)
-    if(rejected.length>0){
-
-      return { order, status: 500, error: 'email not send' };
+    const {rejected} = await transporter.sendMail(mailOptions);
+    if(rejected && rejected.length > 0){
+      return { order, status: 500, error: 'email not sent' };
     }
     return { data:order[0], status: 201, error: '' };
   } catch (error) {

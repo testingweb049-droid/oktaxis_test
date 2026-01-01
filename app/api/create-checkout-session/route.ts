@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createOrder, OrderDataType } from '@/actions/add-order';
-import { fleetsLocal } from '@/lib/fleet-data';
+import { fleets } from '@/lib/fleet-data';
 
 function getStripe() {
   const apiKey = process.env.STRIPE_SECRET_KEY;
@@ -16,7 +16,7 @@ function getStripe() {
 // Transform orderData from DetailsForm to OrderDataType format
 function transformToOrderDataType(formData: any): OrderDataType {
   // Get car image from fleet data
-  const selectedFleet = fleetsLocal.find(fleet => fleet.name === formData.car);
+  const selectedFleet = fleets.find(fleet => fleet.name === formData.car);
   const carImage = selectedFleet?.image;
 
   return {

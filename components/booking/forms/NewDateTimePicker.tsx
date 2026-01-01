@@ -26,7 +26,7 @@ interface DateTimePickerProps {
   setFormData: (
     key: keyof FormDataType,
     value: string | number | boolean,
-    coardinates?: string,
+    coordinates?: string,
     index?: number
   ) => void
   dateFieldName: keyof FormDataType
