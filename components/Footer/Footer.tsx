@@ -2,11 +2,23 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 import { FaWhatsapp, FaInstagram } from "react-icons/fa";
 import Logo from "@/assets/logo-white.png";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  // Hide footer on admin routes
+  if (
+    pathname?.startsWith("/dashboard") ||
+    pathname?.startsWith("/bookings") ||
+    pathname?.startsWith("/drivers")
+  ) {
+    return null;
+  }
+
   const quickLinks = [
     { title: "About Us", href: "/about" },
     { title: "Our Fleet", href: "/fleet" },

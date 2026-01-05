@@ -5,7 +5,7 @@ import {
   integer,
   boolean,
   text,
-  serial
+  serial,
 } from "drizzle-orm/pg-core";
 
 export const orders = pgTable("okataxis_orders", {
@@ -55,6 +55,16 @@ export const drivers = pgTable("okataxis_drivers", {
   license_front_url: text("license_front_url"),
   license_back_url: text("license_back_url"),
   status: varchar("status").default("pending"), // pending, approved, rejected
+  created_at: timestamp("created_at").defaultNow().notNull(),
+  updated_at: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const admins = pgTable("okataxis_admins", {
+  id: serial("id").notNull().primaryKey(),
+  email: varchar("email").notNull().unique(),
+  password: text("password").notNull(),
+  name: varchar("name").notNull(),
+  role: varchar("role").default("admin"),
   created_at: timestamp("created_at").defaultNow().notNull(),
   updated_at: timestamp("updated_at").defaultNow().notNull(),
 });
