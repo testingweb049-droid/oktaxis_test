@@ -90,6 +90,16 @@ body {
     background-clip: padding-box !important;
     transition: background-color 5000s ease-in-out 0s;
   }
+
+  /* Make all semantic headings use a bold-ish weight by default */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold;
+  }
 }
 
 /* Swiper Pagination Styles - Consolidated */
