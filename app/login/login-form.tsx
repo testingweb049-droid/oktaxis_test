@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 
-export default function AdminLoginPage() {
+export function AdminLoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
@@ -113,6 +113,5 @@ export default function AdminLoginPage() {
     </div>
   );
 }
-
 
 
