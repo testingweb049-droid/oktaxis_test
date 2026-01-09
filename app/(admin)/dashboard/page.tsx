@@ -66,8 +66,8 @@ export default async function DashboardPage() {
         description="Overview of recent bookings and driver activity."
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <Card className="p-4 md:p-6">
+      <div className="grid gap-4 sm:gap-5 md:grid-cols-2 xl:grid-cols-4">
+        <Card className="p-4 sm:p-5 md:p-6">
           <div className="flex items-start justify-between mb-2">
             <p className="text-sm font-medium text-text-gray">
               Recent bookings
@@ -84,7 +84,7 @@ export default async function DashboardPage() {
           </p>
         </Card>
 
-        <Card className="p-4 md:p-6">
+        <Card className="p-4 sm:p-5 md:p-6">
           <div className="flex items-start justify-between mb-2">
             <p className="text-sm font-medium text-text-gray">
               Recent revenue
@@ -101,7 +101,7 @@ export default async function DashboardPage() {
           </p>
         </Card>
 
-        <Card className="p-4 md:p-6">
+        <Card className="p-4 sm:p-5 md:p-6">
           <div className="flex items-start justify-between mb-2">
             <p className="text-sm font-medium text-text-gray">
               Pending bookings
@@ -118,7 +118,7 @@ export default async function DashboardPage() {
           </p>
         </Card>
 
-        <Card className="p-4 md:p-6">
+        <Card className="p-4 sm:p-5 md:p-6">
           <div className="flex items-start justify-between mb-2">
             <p className="text-sm font-medium text-text-gray">
               Recent drivers
@@ -136,8 +136,8 @@ export default async function DashboardPage() {
         </Card>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <Card className="p-4 md:p-6 space-y-4">
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
+        <Card className="p-4 sm:p-5 md:p-6 space-y-4 min-w-0">
           <div className="flex items-center justify-between gap-2">
             <h2 className="text-xl font-semibold text-heading-black">
               Recent bookings
@@ -149,7 +149,7 @@ export default async function DashboardPage() {
           <RecentBookingsTable data={recentBookings} />
         </Card>
 
-        <Card className="p-4 md:p-6 space-y-4">
+        <Card className="p-4 sm:p-5 md:p-6 space-y-4 min-w-0">
           <div className="flex items-center justify-between gap-2">
             <h2 className="text-xl font-semibold text-heading-black">
               Recent drivers

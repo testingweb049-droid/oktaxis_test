@@ -2,12 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LogOut, Menu, LayoutDashboard, CalendarRange, Users } from "lucide-react";
+import Image from "next/image";
+import {
+  LogOut,
+  Menu,
+  LayoutDashboard,
+  CalendarRange,
+  Users,
+} from "lucide-react";
 import { useState } from "react";
 import { signOut } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import WhiteLogo from "@/assets/logo-white.png";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -21,10 +29,15 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   const SidebarContent = () => (
     <div className="flex h-full flex-col bg-heading-black text-white shadow-lg overflow-hidden px-8 py-6 w-full text-base md:text-lg">
-      <div className="py-4 border-b border-white/10">
-        <span className="text-lg font-semibold tracking-tight">
-          OKTaxis Admin
-        </span>
+      <div className="flex items-center py-4 border-b border-white/10">
+        <Image
+          src={WhiteLogo}
+          alt="OKTaxis Logo"
+          width={140}
+          height={70}
+          className="w-28 md:w-32 object-contain"
+          priority
+        />
       </div>
       <nav className="flex-1 space-y-1 py-4">
         {navItems.map((item) => {
@@ -61,45 +74,45 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <div className="min-h-screen bg-light-background font-montserrat text-lg md:text-xl md:flex md:gap-8">
-      {/* Desktop sidebar (20%) - sticky on scroll */}
-      <aside className="hidden md:flex md:basis-[20%] md:max-w-[20%] md:sticky md:top-0 md:self-start h-screen">
-        <SidebarContent />
-      </aside>
-
-      {/* Mobile sidebar */}
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetTrigger asChild>
-          <Button
-            variant="outline"
-            size="icon"
-            className="fixed left-4 top-4 z-30 md:hidden bg-heading-black text-white border-white/30"
-          >
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">Open admin navigation</span>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="p-0 w-64">
+    <div className="min-h-screen overflow-x-hidden bg-light-background font-montserrat text-base md:text-lg">
+      <div className="flex min-h-screen">
+        {/* Desktop sidebar - fixed, full viewport height on larger screens */}
+        <aside className="hidden md:block md:fixed md:inset-y-0 md:left-0 md:z-30 md:w-64">
           <SidebarContent />
-        </SheetContent>
-      </Sheet>
+        </aside>
 
-      {/* Main content (70%) */}
-      <div className="flex-1 flex flex-col min-w-0 py-4 md:py-6 md:basis-[75%] md:max-w-[75%]">
-        <header className="sticky top-0 z-20 flex items-center justify-between border-b bg-white/80 backdrop-blur px-4 py-3 md:px-6 rounded-t-2xl">
-          <div className="flex flex-col gap-0.5">
-            <span className="text-base uppercase tracking-wide text-text-gray">
-              Admin
-            </span>
-            <span className="text-xl font-semibold text-heading-black">
-              Management Dashboard
-            </span>
+        {/* Main content */}
+        <div className="flex-1 flex flex-col min-w-0 py-4 md:py-6 w-full md:ml-64">
+          <header className="sticky top-0 z-20 border-b bg-white/80 backdrop-blur px-4 py-3 md:px-6">
+          <div className="flex w-full items-center justify-between gap-3">
+            <div className="flex items-center">
+              <span className="text-xl font-semibold text-heading-black">
+                Admin Dashboard
+              </span>
+            </div>
+            {/* Mobile sidebar toggle inside header */}
+            <Sheet open={open} onOpenChange={setOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="md:hidden bg-heading-black text-white border-white/30"
+                >
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Open admin navigation</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="p-0 w-64">
+                <SidebarContent />
+              </SheetContent>
+            </Sheet>
           </div>
         </header>
 
         <main className="flex-1 px-4 py-4 md:px-6 md:py-6">
           <div className="w-full">{children}</div>
         </main>
+        </div>
       </div>
     </div>
   );
