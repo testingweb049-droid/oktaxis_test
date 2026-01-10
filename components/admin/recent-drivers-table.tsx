@@ -20,14 +20,14 @@ const columns: ColumnDef<RecentDriverRow>[] = [
     cell: ({ row }) => {
       const driver = row.original;
       return (
-        <div className="flex flex-col">
+        <div className="flex min-w-0 flex-col">
           <Link
             href={`/drivers/${driver.id}`}
             className="font-medium text-heading-black hover:underline truncate"
           >
             {driver.name}
           </Link>
-          <span className="text-sm text-text-gray truncate">
+          <span className="text-xs sm:text-sm text-text-gray truncate">
             {driver.email || "No email"}
           </span>
         </div>
@@ -49,7 +49,7 @@ const columns: ColumnDef<RecentDriverRow>[] = [
 
       return (
         <span
-          className={`inline-flex items-center rounded-full px-2 py-0.5 text-sm font-semibold uppercase ${classes}`}
+          className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs sm:text-sm font-semibold uppercase ${classes}`}
         >
           {status}
         </span>
@@ -63,7 +63,9 @@ const columns: ColumnDef<RecentDriverRow>[] = [
       const created = row.original.created_at
         ? new Date(row.original.created_at).toLocaleDateString()
         : "—";
-      return <span className="text-sm text-text-gray">{created}</span>;
+      return (
+        <span className="text-xs sm:text-sm text-text-gray">{created}</span>
+      );
     },
   },
 ];

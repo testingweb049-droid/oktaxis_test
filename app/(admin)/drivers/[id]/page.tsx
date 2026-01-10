@@ -56,7 +56,7 @@ export default async function DriverDetailPage({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-xl font-semibold text-heading-black">
             {driver.name}
@@ -73,7 +73,7 @@ export default async function DriverDetailPage({
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <Card className="p-4 space-y-3">
+        <Card className="p-4 sm:p-5 space-y-3">
           <h2 className="text-base font-semibold text-heading-black">
             Driver details
           </h2>
@@ -144,7 +144,7 @@ export default async function DriverDetailPage({
           </div>
         </Card>
 
-        <Card className="p-4 lg:col-span-2">
+        <Card className="p-4 sm:p-5 lg:col-span-2">
           <h2 className="text-base font-semibold text-heading-black mb-3">
             Documents
           </h2>

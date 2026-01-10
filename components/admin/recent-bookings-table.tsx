@@ -38,7 +38,9 @@ const columns: ColumnDef<RecentBookingRow>[] = [
         ? row.original.price
         : `£${value.toFixed(2)}`;
       return (
-        <span className="font-semibold text-heading-black">{amount}</span>
+        <span className="text-sm sm:text-base font-semibold text-heading-black">
+          {amount}
+        </span>
       );
     },
   },
@@ -49,7 +51,7 @@ const columns: ColumnDef<RecentBookingRow>[] = [
       const status = row.original.payment_id ? "Paid" : "Pending";
       return (
         <span
-          className={`inline-flex items-center rounded-full px-2 py-0.5 text-base font-semibold ${
+          className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs sm:text-sm font-semibold ${
             status === "Paid"
               ? "bg-green-50 text-green-700"
               : "bg-amber-50 text-amber-700"
@@ -67,7 +69,9 @@ const columns: ColumnDef<RecentBookingRow>[] = [
       const created = row.original.created_at
         ? new Date(row.original.created_at).toLocaleDateString()
         : "—";
-      return <span className="text-base text-text-gray">{created}</span>;
+      return (
+        <span className="text-xs sm:text-sm text-text-gray">{created}</span>
+      );
     },
   },
 ];

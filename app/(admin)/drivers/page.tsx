@@ -2,11 +2,8 @@ import { db } from "@/db/drizzle";
 import { drivers } from "@/db/schema";
 import { desc } from "drizzle-orm";
 
-import { AdminPageHeader } from "@/components/admin/page-header";
-import {
-  DriversTable,
-  type DriverRow,
-} from "@/components/admin/drivers-table";
+import type { DriverRow } from "@/components/admin/drivers-table";
+import { DriversPageClient } from "@/components/admin/drivers-page-client";
 
 export default async function DriversPage() {
   const driversData = (await db
@@ -17,20 +14,13 @@ export default async function DriversPage() {
       phone: drivers.phone,
       car_type: drivers.car_type,
       status: drivers.status,
+      created_at: drivers.created_at,
     })
     .from(drivers)
     .orderBy(desc(drivers.created_at))
     .limit(200)) as DriverRow[];
 
-  return (
-    <div className="space-y-6">
-      <AdminPageHeader
-        title="Drivers"
-        description="Review and manage registered drivers."
-      />
-      <DriversTable data={driversData} />
-    </div>
-  );
+  return <DriversPageClient drivers={driversData} />;
 }
 
 
