@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { GoPeople } from "react-icons/go"
 import { PiSuitcase } from "react-icons/pi"
@@ -11,10 +11,35 @@ import type { Swiper as SwiperType } from "swiper"
 import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
-import { fleets } from "@/lib/fleet-data"
+import type { FleetType } from "@/lib/fleet-data"
 
 export default function FleetClasses() {
   const swiperRef = useRef<SwiperType>()
+  const [fleets, setFleets] = useState<FleetType[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const loadFleets = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        const res = await fetch("/api/fleets")
+        if (!res.ok) {
+          throw new Error("Failed to load fleets")
+        }
+        const data = await res.json()
+        setFleets(data.fleets || [])
+      } catch (err: any) {
+        console.error("Error loading fleets on homepage:", err)
+        setError(err?.message || "Failed to load fleets")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadFleets()
+  }, [])
 
   return (
     <section className="bg-white py-12 sm:py-16 lg:py-20">
@@ -48,6 +73,21 @@ export default function FleetClasses() {
 
         {/* Swiper Slider - Mobile and Desktop */}
         <div className="relative">
+          {loading && (
+            <div className="text-center text-gray-600 py-4 w-full">
+              Loading fleet...
+            </div>
+          )}
+          {error && !loading && (
+            <div className="text-center text-red-600 py-4 w-full">
+              {error}
+            </div>
+          )}
+          {!loading && !error && fleets.length === 0 && (
+            <div className="text-center text-gray-600 py-4 w-full">
+              No fleet vehicles available.
+            </div>
+          )}
           <Swiper
             modules={[Pagination, Navigation]}
             spaceBetween={24}

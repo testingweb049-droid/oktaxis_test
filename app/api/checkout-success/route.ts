@@ -4,7 +4,7 @@ import { sendOrderConfirmationEmail } from '@/actions/add-order';
 import { db } from '@/db/drizzle';
 import { orders } from '@/db/schema';
 import { eq } from 'drizzle-orm';
-import { fleets } from '@/lib/fleet-data';
+import { getFleetByName } from '@/lib/fleet-service';
 
 function getStripe() {
   const apiKey = process.env.STRIPE_SECRET_KEY;
@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
     // ✅ Only send email if this is the first time processing (not already processed)
     if (!isAlreadyProcessed) {
       // Get car image for email
-      const selectedFleet = fleets.find(fleet => fleet.name === updatedOrder[0].car);
+      const selectedFleet = await getFleetByName(updatedOrder[0].car);
       const carImage = selectedFleet?.image || null;
 
       // Send confirmation email only on first successful payment processing

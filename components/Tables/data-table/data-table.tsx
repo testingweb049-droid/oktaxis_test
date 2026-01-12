@@ -96,16 +96,16 @@ export function DataTable<TData, TValue>({
         </div>
       )}
 
-      <div className="relative rounded-md border border-border bg-white">
-        <div className="w-full rounded-md overflow-x-auto">
-          <table className="w-full min-w-max border-collapse text-base">
-            <thead className="bg-muted/80">
+      <div className="relative overflow-hidden rounded-xl border border-border/60 bg-white shadow-sm">
+        <div className="w-full overflow-x-auto">
+          <table className="w-full min-w-max border-collapse text-xs sm:text-sm">
+            <thead className="bg-[#F9FAFB] border-b border-border/60">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
                     <th
                       key={header.id}
-                      className="px-3 py-2 text-left text-xs sm:text-sm font-medium text-text-gray"
+                      className="px-3 py-2 sm:px-4 sm:py-2.5 text-left text-[11px] sm:text-[13px] font-bold text-heading-black whitespace-nowrap"
                     >
                       {header.isPlaceholder
                         ? null
@@ -132,12 +132,12 @@ export function DataTable<TData, TValue>({
                 table.getRowModel().rows.map((row) => (
                   <tr
                     key={row.id}
-                    className="border-t border-border/60 hover:bg-muted/40"
+                    className="border-t border-border/60 odd:bg-white even:bg-muted/20 hover:bg-muted/40 transition-colors"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <td
                         key={cell.id}
-                        className="px-3 py-2 align-middle text-xs sm:text-sm"
+                        className="px-3 py-2 sm:px-4 sm:py-2.5 align-middle text-[11px] sm:text-[13px]"
                       >
                         {flexRender(
                           cell.column.columnDef.cell,

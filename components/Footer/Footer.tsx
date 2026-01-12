@@ -14,7 +14,10 @@ export default function Footer() {
   if (
     pathname?.startsWith("/dashboard") ||
     pathname?.startsWith("/bookings") ||
-    pathname?.startsWith("/drivers")
+    pathname?.startsWith("/drivers") ||
+    pathname?.startsWith("/car-category") ||
+    pathname?.startsWith("/fare-discount") ||
+    pathname === "/login"
   ) {
     return null;
   }

@@ -5,7 +5,7 @@ import React, { useEffect, useState, useRef, Suspense } from 'react';
 import { MdDone } from 'react-icons/md';
 import Link from 'next/link';
 import Image from 'next/image';
-import { fleets } from '@/lib/fleet-data';
+import type { FleetType } from '@/lib/fleet-data';
 import { Button } from '@/components/ui/button';
 
 function OrderPlacedContent() {
@@ -16,6 +16,8 @@ function OrderPlacedContent() {
   const [orderId, setOrderId] = useState<string | null>(null);
   const [email, setEmail] = useState<string>('');
   const [orderData, setOrderData] = useState<any>(null);
+  const [fleets, setFleets] = useState<FleetType[]>([]);
+  const [fleetsLoading, setFleetsLoading] = useState(true);
   const headerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -80,6 +82,26 @@ function OrderPlacedContent() {
 
     processCheckout();
   }, [sessionId, router]);
+
+  // Load fleets for car image/name
+  useEffect(() => {
+    const loadFleets = async () => {
+      try {
+        setFleetsLoading(true);
+        const res = await fetch('/api/fleets');
+        if (res.ok) {
+          const data = await res.json();
+          setFleets(data.fleets || []);
+        }
+      } catch (error) {
+        console.error('Error loading fleets on order-placed page:', error);
+      } finally {
+        setFleetsLoading(false);
+      }
+    };
+
+    loadFleets();
+  }, []);
 
   useEffect(() => {
     if (headerRef.current) {

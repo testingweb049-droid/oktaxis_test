@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createOrder, OrderDataType } from '@/actions/add-order';
-import { fleets } from '@/lib/fleet-data';
+import { getFleetByName } from '@/lib/fleet-service';
 
 function getStripe() {
   const apiKey = process.env.STRIPE_SECRET_KEY;
@@ -14,9 +14,9 @@ function getStripe() {
 }
 
 // Transform orderData from DetailsForm to OrderDataType format
-function transformToOrderDataType(formData: any): OrderDataType {
-  // Get car image from fleet data
-  const selectedFleet = fleets.find(fleet => fleet.name === formData.car);
+async function transformToOrderDataType(formData: any): Promise<OrderDataType> {
+  // Get car image from fleet data (DB)
+  const selectedFleet = await getFleetByName(formData.car);
   const carImage = selectedFleet?.image;
 
   return {
@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
 
     // Transform and create order with payment_id = null (pending payment)
     // Skip email - will send after payment confirmation
-    const orderDataType = transformToOrderDataType(orderData);
+    const orderDataType = await transformToOrderDataType(orderData);
     const orderResponse = await createOrder(orderDataType, true); // skipEmail = true
 
     if (orderResponse.status !== 201 || !orderResponse.order) {

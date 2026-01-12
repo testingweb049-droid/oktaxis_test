@@ -13,7 +13,7 @@ export default function AdminError({ error, reset }: AdminErrorProps) {
       </h1>
       <p className="max-w-md text-base text-text-gray">
         We couldn&apos;t load the admin page. You can try again, or go back to
-        the dashboard.
+        the bookings page.
       </p>
       <div className="flex gap-3">
         <button
@@ -24,10 +24,10 @@ export default function AdminError({ error, reset }: AdminErrorProps) {
           Try again
         </button>
         <a
-          href="/dashboard"
+          href="/bookings"
           className="inline-flex items-center justify-center rounded-md bg-heading-black px-4 py-2 text-base font-semibold text-white hover:bg-black"
         >
-          Go to dashboard
+          Go to bookings
         </a>
       </div>
       {process.env.NODE_ENV === "development" && (

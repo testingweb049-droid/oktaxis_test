@@ -26,86 +26,125 @@ export interface BookingRow {
 export function getBookingColumns(): ColumnDef<BookingRow>[] {
   return [
     {
-      accessorKey: "id",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="ID" />
-      ),
-      cell: ({ row }) => (
-        <span className="text-xs sm:text-sm text-text-gray">
-          #{row.original.id}
-        </span>
-      ),
-      enableSorting: true,
-    },
-    {
       accessorKey: "name",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Passenger" />
+        <DataTableColumnHeader column={column} title="Passengers" />
       ),
       cell: ({ row }) => (
-        <div className="flex flex-col">
-          <span className="font-medium text-sm sm:text-base">
+        <div className="flex flex-col gap-0.5">
+          <span className="font-medium text-xs sm:text-sm text-heading-black">
             {row.original.name}
           </span>
-          <span className="text-xs sm:text-sm text-text-gray truncate">
+          <span className="text-xs sm:text-[13px] text-text-gray truncate">
             {row.original.email}
           </span>
         </div>
       ),
     },
     {
-      accessorKey: "pickup_location",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Route" />
-      ),
-      cell: ({ row }) => (
-        <div className="text-xs sm:text-sm text-text-gray max-w-xs">
-          <p className="truncate">{row.original.pickup_location}</p>
-          {row.original.dropoff_location && (
-            <p className="truncate">→ {row.original.dropoff_location}</p>
-          )}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "pickup_date",
+      id: "pickup_location",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Pickup" />
       ),
-      cell: ({ row }) =>
-        row.original.pickup_date ? (
-          <div className="text-xs sm:text-sm text-text-gray">
-            {new Date(+(row.original.pickup_date)).toLocaleDateString()}
-          </div>
-        ) : (
-          <span className="text-xs sm:text-sm text-text-gray">—</span>
-        ),
+      cell: ({ row }) => (
+        <span className="block max-w-[150px] text-[11px] sm:text-xs text-text-gray truncate whitespace-nowrap">
+          {row.original.pickup_location}
+        </span>
+      ),
+    },
+    {
+      id: "dropoff_location",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Dropoff" />
+      ),
+      cell: ({ row }) => (
+        <span className="block max-w-[150px] text-[11px] sm:text-xs text-text-gray truncate whitespace-nowrap">
+          {row.original.dropoff_location ?? "—"}
+        </span>
+      ),
     },
     {
       accessorKey: "category",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Category" />
+        <DataTableColumnHeader column={column} title="Booking Type" />
       ),
       enableColumnFilter: true,
       cell: ({ row }) => (
-        <span className="text-xs sm:text-sm font-medium uppercase text-text-gray">
+        <span className="text-[11px] sm:text-xs font-medium uppercase text-text-gray">
           {row.original.category}
         </span>
       ),
     },
     {
-      accessorKey: "price",
+      accessorKey: "car",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Price" />
+        <DataTableColumnHeader column={column} title="Vehicle Type" />
+      ),
+      cell: ({ row }) => (
+        <span className="text-[11px] sm:text-xs text-text-gray">
+          {row.original.car}
+        </span>
+      ),
+    },
+    {
+      id: "time",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Time" />
       ),
       cell: ({ row }) => {
-        const value = Number(row.original.price) / 100;
-        const formatted = Number.isNaN(value)
-          ? row.original.price
-          : value.toFixed(2);
+        if (!row.original.pickup_date) {
+          return (
+            <span className="text-[11px] sm:text-xs text-text-gray">
+              —
+            </span>
+          );
+        }
+
+        const date = new Date(+(row.original.pickup_date));
+        if (Number.isNaN(date.getTime())) {
+          return (
+            <span className="text-[11px] sm:text-xs text-text-gray">
+              —
+            </span>
+          );
+        }
+
         return (
-          <span className="text-xs sm:text-sm font-medium text-heading-black">
-            £{formatted}
+          <span className="text-[11px] sm:text-xs text-text-gray">
+            {date.toLocaleTimeString(undefined, {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </span>
+        );
+      },
+    },
+    {
+      id: "date",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Date" />
+      ),
+      cell: ({ row }) => {
+        if (!row.original.pickup_date) {
+          return (
+            <span className="text-xs sm:text-sm text-text-gray">
+              —
+            </span>
+          );
+        }
+
+        const date = new Date(+(row.original.pickup_date));
+        if (Number.isNaN(date.getTime())) {
+          return (
+            <span className="text-xs sm:text-sm text-text-gray">
+              —
+            </span>
+          );
+        }
+
+        return (
+          <span className="text-[11px] sm:text-xs text-text-gray">
+            {date.toLocaleDateString()}
           </span>
         );
       },
@@ -117,17 +156,32 @@ export function getBookingColumns(): ColumnDef<BookingRow>[] {
       ),
       enableColumnFilter: true,
       cell: ({ row }) => {
-        const status = row.original.payment_id ? "Paid" : "Pending";
+        const hasPayment = !!row.original.payment_id;
+        const pickupDate = row.original.pickup_date
+          ? new Date(+(row.original.pickup_date))
+          : null;
+
+        let status: "Active" | "Pending" | "Completed";
+
+        if (!hasPayment) {
+          status = "Pending";
+        } else if (pickupDate && !Number.isNaN(pickupDate.getTime())) {
+          status = pickupDate.getTime() < Date.now() ? "Completed" : "Active";
+        } else {
+          status = "Active";
+        }
 
         const classes =
-          status === "Paid"
-            ? "bg-green-50 text-green-700"
-            : "bg-amber-50 text-amber-700";
+          status === "Active"
+            ? "bg-emerald-50 text-emerald-700"
+            : status === "Pending"
+              ? "bg-amber-50 text-amber-700"
+              : "bg-blue-50 text-blue-700";
 
         return (
           <Badge
             variant="outline"
-            className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] sm:text-xs font-semibold border-0 ${classes}`}
+            className={`inline-flex items-center rounded-full px-2 py-0.5 text-[9px] sm:text-[11px] font-semibold border-0 ${classes}`}
           >
             {status}
           </Badge>
@@ -137,27 +191,15 @@ export function getBookingColumns(): ColumnDef<BookingRow>[] {
     {
       id: "actions",
       header: ({ column }) => (
-        <DataTableColumnHeader
-          column={column}
-          title="Actions"
-          className="justify-end"
-        />
+        <DataTableColumnHeader column={column} title="Actions" />
       ),
       cell: ({ row }) => (
-        <div className="flex justify-end">
-          <DataTableRowActions
-            row={row}
-            actions={[
-              {
-                label: "View booking",
-                icon: <Eye className="h-4 w-4" />,
-                onClick: (booking) => {
-                  window.location.href = `/bookings/${booking.id}`;
-                },
-              },
-            ]}
-          />
-        </div>
+        <Link
+          href={`/bookings/${row.original.id}`}
+          className="text-[11px] sm:text-xs font-semibold text-primary-yellow hover:underline"
+        >
+          View Details
+        </Link>
       ),
     },
   ];
