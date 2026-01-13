@@ -2,7 +2,6 @@
 
 import { OrderDataType } from "@/actions/add-order";
 import { calculateDistance } from "@/actions/get-distance";
-import { fleets } from "@/lib/fleet-data";
 import { hourlyInitialFormData, tripInitialFormData } from "@/constants/store-initial-objects";
 import { create } from "zustand";
 

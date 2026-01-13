@@ -9,7 +9,6 @@ import { IoCarSportSharp } from 'react-icons/io5';
 import { BiUserCircle } from 'react-icons/bi';
 import Image from 'next/image';
 import { Timer } from 'lucide-react';
-import { fleets } from '@/lib/fleet-data';
 import WhiteLogo from '@/assets/logo-white.png';
 
 interface OrderPageProps {

@@ -43,7 +43,7 @@ body {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
-  
+
   /* Gradient text utility */
   .text-gradient-primary {
     background: var(--gradient-primary);
@@ -51,6 +51,28 @@ body {
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
+  }
+
+  /* Admin dashboard compact sizing helpers */
+  .admin-text-xs {
+    font-size: 0.7rem;
+    line-height: 1rem;
+  }
+
+  .admin-text-sm {
+    font-size: 0.8rem;
+    line-height: 1.1rem;
+  }
+
+  .admin-control-sm {
+    height: 2.25rem; /* 36px */
+    border-radius: 0.5rem;
+  }
+
+  .admin-pill-sm {
+    border-radius: 9999px;
+    padding-inline: 0.5rem;
+    padding-block: 0.125rem;
   }
 }
 

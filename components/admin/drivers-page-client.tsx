@@ -118,7 +118,11 @@ export function DriversPageClient({ drivers }: DriversPageClientProps) {
         </div>
       </div>
 
-      <DriversTable data={filteredDrivers} />
+      <div className="rounded-lg border border-input/60 bg-white shadow-sm">
+        <div className="px-3 py-2 md:px-4 md:py-3">
+          <DriversTable data={filteredDrivers} />
+        </div>
+      </div>
     </div>
   );
 }

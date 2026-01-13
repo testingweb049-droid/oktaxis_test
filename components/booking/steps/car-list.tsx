@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import useFormStore from "@/stores/form-store";
 import { ArrowRight, Loader, Building, CarFront, Ruler, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { fleets } from "@/lib/fleet-data";
+import type { FleetType } from "@/lib/fleet-data";
 import {
   Dialog,
   DialogContent,
@@ -27,6 +27,9 @@ function carList() {
   const { formData, category, setFormData, changeStep, formLoading } = useFormStore();
   const router = useRouter();
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [fleets, setFleets] = useState<FleetType[]>([]);
+  const [fleetsLoading, setFleetsLoading] = useState(true);
+  const [fleetsError, setFleetsError] = useState<string | null>(null);
 
   // Show dialog by default when component mounts and category is hourly
   useEffect(() => {
@@ -35,7 +38,30 @@ function carList() {
     }
   }, [category]);
 
-  const handleSelect = async (item: (typeof fleets)[0], price: number) => {
+  // Load fleets from backend
+  useEffect(() => {
+    const loadFleets = async () => {
+      try {
+        setFleetsLoading(true);
+        setFleetsError(null);
+        const res = await fetch("/api/fleets");
+        if (!res.ok) {
+          throw new Error("Failed to load fleets");
+        }
+        const data = await res.json();
+        setFleets(data.fleets || []);
+      } catch (error: any) {
+        console.error("Error loading fleets:", error);
+        setFleetsError(error?.message || "Failed to load fleets");
+      } finally {
+        setFleetsLoading(false);
+      }
+    };
+
+    loadFleets();
+  }, []);
+
+  const handleSelect = async (item: FleetType, price: number) => {
     setFormData("car", item.name, '');
     setFormData("price", price.toString(), '');
     const isValid = await changeStep(true, 2);
@@ -120,6 +146,19 @@ function carList() {
       </Dialog>
 
       <div className="w-full flex flex-col gap-3 sm:gap-4 md:gap-5">
+        {fleetsLoading && (
+          <div className="text-center text-gray-600 py-4">Loading vehicles...</div>
+        )}
+        {fleetsError && !fleetsLoading && (
+          <div className="text-center text-red-600 py-4">
+            {fleetsError}
+          </div>
+        )}
+        {!fleetsLoading && !fleetsError && filteredFleets.length === 0 && (
+          <div className="text-center text-gray-600 py-4">
+            No vehicles available for the selected passenger count.
+          </div>
+        )}
         {filteredFleets.map((item) => {
         let price = '0';
         if (category === 'hourly') {

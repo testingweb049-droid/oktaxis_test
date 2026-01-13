@@ -6,6 +6,7 @@ import {
   boolean,
   text,
   serial,
+  numeric,
 } from "drizzle-orm/pg-core";
 
 export const orders = pgTable("okataxis_orders", {
@@ -42,6 +43,29 @@ export const orders = pgTable("okataxis_orders", {
   instructions: text("instructions"),
   updated_at: timestamp("updated_at").defaultNow().notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const fleets = pgTable("okataxis_fleets", {
+  id: serial("id").notNull().primaryKey(),
+  name: varchar("name").notNull().unique(),
+  cars: text("cars").notNull(),
+  image_url: text("image_url").notNull(),
+  passengers: integer("passengers").notNull(),
+  suitcases: integer("suitcases").notNull(),
+  price_10_miles: numeric("price_10_miles").notNull(),
+  price_per_mile: numeric("price_per_mile").notNull(),
+  hourly_rate: numeric("hourly_rate").notNull(),
+  minimum_fare: numeric("minimum_fare"),
+  stops_included: integer("stops_included"),
+  one_way_discount_percent: numeric("one_way_discount_percent")
+    .notNull()
+    .default("0"),
+  return_discount_percent: numeric("return_discount_percent")
+    .notNull()
+    .default("0"),
+  is_active: boolean("is_active").notNull().default(true),
+  created_at: timestamp("created_at").defaultNow().notNull(),
+  updated_at: timestamp("updated_at").defaultNow().notNull(),
 });
 
 export const drivers = pgTable("okataxis_drivers", {

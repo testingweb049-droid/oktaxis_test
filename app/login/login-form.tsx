@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 export function AdminLoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+  const callbackUrl = searchParams.get("callbackUrl") || "/bookings";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
