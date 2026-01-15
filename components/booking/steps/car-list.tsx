@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, memo } from "react";
 import Image from "next/image";
 import { GoPeople } from "react-icons/go";
 import { PiSuitcase } from "react-icons/pi";
@@ -22,14 +22,16 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useFleets } from "@/lib/api/fleet";
+import { calculateTripPrice, calculateHourlyPrice, formatPriceInteger } from "@/lib/utils/pricing";
 
-function carList() {
+function CarList() {
   const { formData, category, setFormData, changeStep, formLoading } = useFormStore();
   const router = useRouter();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [fleets, setFleets] = useState<FleetType[]>([]);
-  const [fleetsLoading, setFleetsLoading] = useState(true);
-  const [fleetsError, setFleetsError] = useState<string | null>(null);
+  
+  // Use React Query hook for fleets
+  const { data: fleets = [], isLoading: fleetsLoading, error: fleetsError } = useFleets();
 
   // Show dialog by default when component mounts and category is hourly
   useEffect(() => {
@@ -37,29 +39,6 @@ function carList() {
       setDialogOpen(true);
     }
   }, [category]);
-
-  // Load fleets from backend
-  useEffect(() => {
-    const loadFleets = async () => {
-      try {
-        setFleetsLoading(true);
-        setFleetsError(null);
-        const res = await fetch("/api/fleets");
-        if (!res.ok) {
-          throw new Error("Failed to load fleets");
-        }
-        const data = await res.json();
-        setFleets(data.fleets || []);
-      } catch (error: any) {
-        console.error("Error loading fleets:", error);
-        setFleetsError(error?.message || "Failed to load fleets");
-      } finally {
-        setFleetsLoading(false);
-      }
-    };
-
-    loadFleets();
-  }, []);
 
   const handleSelect = async (item: FleetType, price: number) => {
     setFormData("car", item.name, '');
@@ -74,9 +53,11 @@ function carList() {
     setDialogOpen(false);
   };
 
-  // Filter vehicles based on passenger count
+  // Filter vehicles based on passenger count (memoized)
   const passengerCount = Number(formData.passengers.value) || 1;
-  const filteredFleets = fleets.filter((item) => item.passengers >= passengerCount);
+  const filteredFleets = useMemo(() => {
+    return fleets.filter((item) => item.passengers >= passengerCount);
+  }, [fleets, passengerCount]);
 
   return (
     <>
@@ -147,26 +128,39 @@ function carList() {
 
       <div className="w-full flex flex-col gap-3 sm:gap-4 md:gap-5">
         {fleetsLoading && (
-          <div className="text-center text-gray-600 py-4">Loading vehicles...</div>
+          <div className="text-center text-gray-600 py-8">
+            <Loader className="animate-spin w-6 h-6 mx-auto mb-2" />
+            <p>Loading vehicles...</p>
+          </div>
         )}
         {fleetsError && !fleetsLoading && (
-          <div className="text-center text-red-600 py-4">
-            {fleetsError}
+          <div className="text-center text-red-600 py-4 px-4 rounded-lg bg-red-50 border border-red-200">
+            <p className="font-medium">Failed to load vehicles</p>
+            <p className="text-sm mt-1">
+              {(fleetsError as any)?.message || "Please try refreshing the page or contact support if the problem persists."}
+            </p>
           </div>
         )}
         {!fleetsLoading && !fleetsError && filteredFleets.length === 0 && (
-          <div className="text-center text-gray-600 py-4">
-            No vehicles available for the selected passenger count.
+          <div className="text-center text-gray-600 py-8 px-4 rounded-lg bg-gray-50 border border-gray-200">
+            <p className="font-medium">No vehicles available</p>
+            <p className="text-sm mt-1">
+              No vehicles match your passenger count. Please adjust your selection.
+            </p>
           </div>
         )}
         {filteredFleets.map((item) => {
-        let price = '0';
+        // Calculate price using utility functions
+        let price = 0;
         if (category === 'hourly') {
-          price = (Number(formData.duration.value) * item.hourly).toFixed()
+          const duration = Number(formData.duration.value) || 0;
+          price = calculateHourlyPrice(duration, item);
         } else {
-          const distance = formData.distance.value - 10;
-          price = ((Number(distance) * item.price) + item.price10Miles).toFixed()
+          const distance = Number(formData.distance.value) || 0;
+          price = calculateTripPrice(distance, item);
         }
+        const priceString = formatPriceInteger(price);
+        
         return <div
           key={item.name}
           className={cn(
@@ -210,11 +204,11 @@ function carList() {
               </div>
               <div className="flex items-center gap-1.5 sm:gap-2 ml-auto">
                 <div className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-900">
-                  £{price}
+                  £{priceString}
                 </div>
                 {(item.name === "Business Class" || item.name === "First Class") && (
                   <div className="text-xs text-red-500 line-through">
-                    £{(Number(price) + (Number(price) / 10)).toFixed(2)}
+                    £{(price * 1.1).toFixed(2)}
                   </div>
                 )}
               </div>
@@ -265,14 +259,17 @@ function carList() {
               </div>
             ) : (
               <button
-                onClick={() => handleSelect(item, Number(price))}
+                onClick={() => handleSelect(item, price)}
+                disabled={formLoading}
+                aria-label={`Select ${item.name} vehicle`}
                 className={cn(
-                "w-full rounded-b-xl px-2 sm:px-2.5 md:px-3 py-3 sm:py-2 md:py-2 transition-all duration-200 flex justify-center items-center",
-                "bg-primary-yellow hover:bg-primary-yellow/90 text-heading-black font-semibold transition-all duration-200"
+                "w-full rounded-b-xl px-2 sm:px-2.5 md:px-3 py-3 sm:py-2 md:py-2 transition-all duration-200 flex justify-center items-center gap-2",
+                "bg-primary-yellow hover:bg-primary-yellow/90 text-heading-black font-semibold transition-all duration-200",
+                "disabled:opacity-50 disabled:cursor-not-allowed"
               )}
               >
                 <span className="text-sm sm:text-sm md:text-base">Select Vehicle</span>
-                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
               </button>
             )}
           </div>
@@ -283,5 +280,5 @@ function carList() {
   );
 }
 
-const CarList = carList;
-export default CarList;
+// Memoize component to prevent unnecessary re-renders
+export default memo(CarList);

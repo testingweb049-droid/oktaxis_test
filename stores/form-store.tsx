@@ -1,9 +1,9 @@
 'use client';
 
-import { OrderDataType } from "@/actions/add-order";
-import { calculateDistance } from "@/actions/get-distance";
+import { calculateDistance } from "@/lib/api/distance";
 import { hourlyInitialFormData, tripInitialFormData } from "@/constants/store-initial-objects";
 import { create } from "zustand";
+import { validateDistance, validateDuration, validateCoordinates } from "@/lib/utils/validation";
 
   export interface FieldType<T> {
   value: T;
@@ -101,31 +101,46 @@ import { create } from "zustand";
       set((state) => {
         const stops = [...state.formData.stops];
         if (index >= 0 && index < stops.length && stops[index]) {
-          stops[index] = { ...stops[index], value: value as string, coordinates, error:'' };
+          stops[index] = { ...stops[index], value: value as string, coordinates, error: '' };
         }
         return { formData: { ...state.formData, stops } };
       });
       return;
     }
-    set((state) => ({
-      formData: {
-        ...state.formData,
-        [key]: { ...state.formData[key as keyof FormDataType], value, coordinates, error:''  },
-      },
-    }));
+    
+    // Type-safe update for non-stop fields
+    set((state) => {
+      const currentField = state.formData[key as keyof FormDataType];
+      if (currentField && !Array.isArray(currentField)) {
+        return {
+          formData: {
+            ...state.formData,
+            [key]: { ...currentField, value, coordinates, error: '' },
+          },
+        };
+      }
+      return state;
+    });
   },
   setFieldOptions: (key, required) => {
-    if(key==='stops') return;
-    set((state) => ({
-      formData: {
-        ...state.formData,
-        [key]: { ...state.formData[key as keyof FormDataType], error:'', required  },
-      },
-    }));
+    if (key === 'stops') return;
+    
+    set((state) => {
+      const currentField = state.formData[key as keyof FormDataType];
+      if (currentField && !Array.isArray(currentField)) {
+        return {
+          formData: {
+            ...state.formData,
+            [key]: { ...currentField, error: '', required },
+          },
+        };
+      }
+      return state;
+    });
   },
 
   validateData: (_step:number) => {
-    const { formData } = get();
+    const { formData, category } = get();
 
     // Validate all fields (including dynamic stops)
     const updated: FormDataType = { ...formData };
@@ -133,27 +148,69 @@ import { create } from "zustand";
     // validate simple fields
     (Object.keys(formData) as (keyof FormDataType)[]).forEach((k) => {
       if (k === "stops") return;
-      const item = formData[k] as FieldType<string>;
-      const hasErr = item.step === _step && item.required && !item.value;
-      const hasErr2 = item.step === _step && item.coordinatesRequired && !item.coordinates;
-      (updated[k] as FieldType<string>) = { ...item, error: hasErr ? `${k} is required` : hasErr2 ? `${k} coordinates required` : "" };
+      const item = formData[k] as FieldType<string | number | boolean>;
+      
+      if (item.step === _step) {
+        let error = "";
+        
+        // Check required field
+        if (item.required) {
+          if (k === "distance") {
+            const distanceValidation = validateDistance(item.value as number);
+            if (!distanceValidation.isValid) {
+              error = distanceValidation.error || "Distance is required";
+            }
+          } else if (k === "duration" && category === "hourly") {
+            const durationValidation = validateDuration(item.value as string);
+            if (!durationValidation.isValid) {
+              error = durationValidation.error || "Duration is required";
+            }
+          } else if (typeof item.value === "string" && !item.value.trim()) {
+            error = `${k} is required`;
+          } else if (typeof item.value === "number" && (isNaN(item.value) || item.value < 0)) {
+            error = `${k} must be a valid positive number`;
+          }
+        }
+        
+        // Check coordinates if required
+        if (!error && item.coordinatesRequired) {
+          const coordValidation = validateCoordinates(item.coordinates);
+          if (!coordValidation.isValid) {
+            error = coordValidation.error || `${k} coordinates required`;
+          }
+        }
+        
+        (updated[k] as FieldType<string | number | boolean>) = { ...item, error };
+      }
     });
 
     // validate stops
     const stopsUpdated = formData.stops.map((s) => {
-      const hasErr = s.step === _step && s.required && !s.value;
-      const hasErr2 = s.step === _step && s.coordinatesRequired && !s.coordinates;
-      return { ...s, error: hasErr ? `stop is required` : hasErr2 ? `stop coordinates required` : "" };
+      if (s.step === _step) {
+        let error = "";
+        
+        if (s.required && !s.value.trim()) {
+          error = "Stop is required";
+        } else if (s.coordinatesRequired) {
+          const coordValidation = validateCoordinates(s.coordinates);
+          if (!coordValidation.isValid) {
+            error = coordValidation.error || "Stop coordinates required";
+          }
+        }
+        
+        return { ...s, error };
+      }
+      return s;
     });
 
     updated.stops = stopsUpdated;
 
     set({ formData: updated  });
 
-   
+    // Check if there are any errors
     const anyErrorField = Object.values(updated as FormDataType).some((v) => {
       if (Array.isArray(v)) {
-        return v.some((s) => s.error!=='');
+        return v.some((s) => s.error !== '');
       }
       return v.error !== '';
     });
@@ -180,24 +237,66 @@ import { create } from "zustand";
     
     if (_step === 1 && category === "trip") {
       try {
-        const stopsCoords = formData.stops.map((s) => s.coordinates);
+        // Validate coordinates before calculating distance
+        const fromCoordsValidation = validateCoordinates(formData.fromLocation.coordinates);
+        const toCoordsValidation = validateCoordinates(formData.toLocation.coordinates);
+        
+        if (!fromCoordsValidation.isValid || !toCoordsValidation.isValid) {
+          set((state) => ({ 
+            ...state, 
+            formError: "Please select valid pickup and drop-off locations", 
+            formLoading: false 
+          }));
+          return false;
+        }
+        
+        const stopsCoords = formData.stops
+          .map((s) => s.coordinates)
+          .filter((coord) => {
+            const validation = validateCoordinates(coord);
+            return validation.isValid;
+          });
+        
         const distanceResponse = await calculateDistance({
           from: formData.fromLocation.coordinates,
           to: formData.toLocation.coordinates,
           stops: stopsCoords, 
-        } as any);
+        });
+        
         if (distanceResponse.status !== 200) {
-          set((state) => ({ ...state, formError: distanceResponse.error ?? "route not found", formLoading: false }));
+          set((state) => ({ 
+            ...state, 
+            formError: distanceResponse.error ?? "Unable to calculate route. Please check your locations.", 
+            formLoading: false 
+          }));
           return false;
         }
+        
+        const mileDistance = distanceResponse.mileDistance ?? 0;
+        const distanceValidation = validateDistance(mileDistance);
+        
+        if (!distanceValidation.isValid) {
+          set((state) => ({ 
+            ...state, 
+            formError: distanceValidation.error ?? "Invalid distance calculated", 
+            formLoading: false 
+          }));
+          return false;
+        }
+        
         set((state) => ({
           ...state,
-          formData: { ...state.formData, distance: { ...state.formData.distance, value: distanceResponse?.mileDistance ?? 0 } },
+          formData: { 
+            ...state.formData, 
+            distance: { ...state.formData.distance, value: mileDistance } 
+          },
         }));
       } catch (error) {
         set((state) => ({
           ...state,
-          formError: error instanceof Error ? error.message : "route not found",
+          formError: error instanceof Error 
+            ? `Failed to calculate distance: ${error.message}` 
+            : "Unable to calculate route. Please try again.",
           formLoading: false,
         }));
         return false;
@@ -224,7 +323,18 @@ import { create } from "zustand";
   manageStops: (action, index) => {
     const { formData } = get();
     if (action === "add") {
-      set((state) => ({ ...state, formData: { ...state.formData, stops: [...state.formData.stops.slice(0,index), makeStop(true), ...state.formData.stops.slice(index,state.formData.stops.length ),] } }));
+      const insertIndex = typeof index === "number" && index >= 0 ? index : formData.stops.length;
+      set((state) => ({
+        ...state,
+        formData: {
+          ...state.formData,
+          stops: [
+            ...state.formData.stops.slice(0, insertIndex),
+            makeStop(true),
+            ...state.formData.stops.slice(insertIndex),
+          ],
+        },
+      }));
       return;
     }
     if (action === "remove" && typeof index === "number") {
@@ -237,11 +347,22 @@ import { create } from "zustand";
     }
   },
 
-  toggleMobileDropdown:()=>{
-    set((state)=>({...state, isMobileDropdownOpen:!state.isMobileDropdownOpen}))
+  toggleMobileDropdown: () => {
+    set((state) => ({ ...state, isMobileDropdownOpen: !state.isMobileDropdownOpen }));
   },
   
-  resetForm: () => set({ formData: tripInitialFormData, step: 1, category: "trip", formError: "", formLoading: false, isMobileDropdownOpen:false, isOrderDone:false, orderId:'' }),
+  resetForm: () => {
+    set({
+      formData: tripInitialFormData,
+      step: 1,
+      category: "trip",
+      formError: "",
+      formLoading: false,
+      isMobileDropdownOpen: false,
+      isOrderDone: false,
+      orderId: '',
+    });
+  },
   }));
 
 export default useFormStore;

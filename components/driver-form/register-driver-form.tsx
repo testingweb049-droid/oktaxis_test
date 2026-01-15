@@ -168,30 +168,17 @@ function registerDriverForm() {
         // Show success toast with email status
         const emailDetails = response.emailDetails || {};
         const driverEmailSent = response.userEmailSent || emailDetails.driver?.sent || false;
-        const adminEmailSent = response.adminEmailSent || emailDetails.admin?.sent || false;
         
-        if (driverEmailSent && adminEmailSent) {
+        if (driverEmailSent) {
           toast({
             title: "Registration Successful! ✅",
             description: "Your driver registration has been submitted successfully. Please check your email for confirmation.",
             variant: "default",
           });
-        } else if (adminEmailSent) {
+        } else {
           toast({
             title: "Registration Submitted! ✅",
             description: "Your driver registration has been submitted successfully. However, we couldn't send the confirmation email. Please contact us at reservation@oktaxis.co.uk if you have any questions.",
-            variant: "default",
-          });
-        } else if (driverEmailSent) {
-          toast({
-            title: "Registration Submitted! ✅",
-            description: "Your driver registration has been submitted successfully. However, there was an issue sending the admin notification. Our team will review your application soon.",
-            variant: "default",
-          });
-        } else {
-          toast({
-            title: "Registration Submitted! ⚠️",
-            description: "Your driver registration has been submitted successfully. However, there was an issue sending emails. Please contact us at reservation@oktaxis.co.uk to confirm receipt.",
             variant: "default",
           });
         }

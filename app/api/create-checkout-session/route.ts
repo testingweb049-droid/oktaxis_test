@@ -1,90 +1,80 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { createOrder, OrderDataType } from '@/actions/add-order';
-import { getFleetByName } from '@/lib/fleet-service';
 
-function getStripe() {
-  const apiKey = process.env.STRIPE_SECRET_KEY;
-  if (!apiKey) {
-    throw new Error('STRIPE_SECRET_KEY is not set');
-  }
-  return new Stripe(apiKey, {
-    apiVersion: '2025-08-27.basil',
-  });
-}
+// Initialize Stripe with secret key from environment variables
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+  apiVersion: '2024-11-20.acacia', // Use a stable API version
+});
 
-// Transform orderData from DetailsForm to OrderDataType format
-async function transformToOrderDataType(formData: any): Promise<OrderDataType> {
-  // Get car image from fleet data (DB)
-  const selectedFleet = await getFleetByName(formData.car);
-  const carImage = selectedFleet?.image;
-
-  return {
-    fromLocation: formData.fromLocation || '',
-    toLocation: formData.toLocation || '',
-    stops: Array.isArray(formData.stops) ? formData.stops : [],
-    duration: String(formData.duration || ''),
-    distance: Number(formData.distance || 0),
-    car: formData.car || '',
-    // Use totalAmount if available, otherwise use price (for backward compatibility)
-    price: String(formData.totalAmount || formData.price || '0'),
-    name: formData.name || '',
-    phone: formData.phone || '',
-    email: formData.email || '',
-    date: formData.date || '',
-    time: formData.time || '',
-    returnDate: formData.returnDate || '',
-    returnTime: formData.returnTime || '',
-    passengers: String(formData.passengers || '1'),
-    bags: String(formData.bags || '0'),
-    flightName: formData.flightName || '',
-    flightNumber: formData.flightNumber || '',
-    isAirportPickup: Boolean(formData.isAirportPickup || false),
-    paymentId: '', // Will be set after payment confirmation
-    paymentMethod: 'online',
-    isFlightTrack: Boolean(formData.isFlightTrack || false),
-    isMeetGreet: Boolean(formData.isMeetGreet || false),
-    isReturn: Boolean(formData.isReturn || false),
-    isReturnFlightTrack: Boolean(formData.isReturnFlightTrack || false),
-    isReturnMeetGreet: Boolean(formData.isReturnMeetGreet || false),
-    extraStopsCount: String(formData.extraStopsCount || '0'),
-    returnExtraStopsCount: String(formData.returnExtraStopsCount || '0'),
-    instructions: formData.instructions || '',
-    carImage: carImage,
-    category: (formData.category === 'hourly' ? 'hourly' : 'trip') as 'hourly' | 'trip',
+interface CreateCheckoutSessionRequest {
+  amount: number;
+  orderData: {
+    name: string;
+    email: string;
+    phone: string;
+    car: string;
+    price: string;
+    totalAmount: number;
+    distance: number;
+    fromLocation: string;
+    toLocation: string;
+    stops: string[];
+    date: string;
+    time: string;
+    duration: string;
+    passengers: string;
+    bags: string;
+    isReturn?: boolean;
+    returnDate?: string;
+    returnTime?: string;
+    isFlightTrack?: boolean;
+    isMeetGreet?: boolean;
+    extraStopsCount?: string;
+    isReturnFlightTrack?: boolean;
+    isReturnMeetGreet?: boolean;
+    returnExtraStopsCount?: string;
+    isAirportPickup?: boolean;
+    flightName?: string;
+    flightNumber?: string;
+    instructions?: string;
+    category: 'trip' | 'hourly';
   };
 }
 
 export async function POST(request: NextRequest) {
   try {
     if (!process.env.STRIPE_SECRET_KEY) {
+      console.error('Stripe secret key is not configured');
       return NextResponse.json(
-        { error: 'Payment service is not configured' },
-        { status: 503 }
+        { error: 'Stripe is not configured' },
+        { status: 500 }
       );
     }
 
-    const stripe = getStripe();
-    const { amount, orderData } = await request.json();
-    
-    // Convert amount to cents
-    const amountInCents = Math.round(amount * 100);
+    const body: CreateCheckoutSessionRequest = await request.json();
+    const { amount, orderData } = body;
 
-    // Transform and create order with payment_id = null (pending payment)
-    // Skip email - will send after payment confirmation
-    const orderDataType = await transformToOrderDataType(orderData);
-    const orderResponse = await createOrder(orderDataType, true); // skipEmail = true
-
-    if (orderResponse.status !== 201 || !orderResponse.order) {
+    if (!amount || amount <= 0) {
       return NextResponse.json(
-        { error: orderResponse.error || 'Failed to create pending order' },
-        { status: orderResponse.status || 500 }
+        { error: 'Invalid amount' },
+        { status: 400 }
       );
     }
 
-    const orderId = orderResponse.order.id;
+    if (!orderData.email || !orderData.name) {
+      return NextResponse.json(
+        { error: 'Email and name are required' },
+        { status: 400 }
+      );
+    }
 
-    // Create Stripe Checkout Session with only order ID in metadata
+    // Convert amount to pence (Stripe uses smallest currency unit)
+    const amountInPence = Math.round(amount * 100);
+
+    // Build line item description
+    const description = `Booking: ${orderData.car} - ${orderData.category === 'hourly' ? `${orderData.duration} hours` : `${orderData.distance} miles`}`;
+
+    // Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -92,31 +82,69 @@ export async function POST(request: NextRequest) {
           price_data: {
             currency: 'gbp',
             product_data: {
-              name: 'Taxi Booking',
-              description: 'OkTaxis Booking Payment',
+              name: `Taxi Booking - ${orderData.car}`,
+              description: description,
+              metadata: {
+                category: orderData.category,
+                car: orderData.car,
+                fromLocation: orderData.fromLocation,
+                toLocation: orderData.toLocation || 'N/A',
+              },
             },
-            unit_amount: amountInCents,
+            unit_amount: amountInPence,
           },
           quantity: 1,
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://oktaxis.co.uk'}/order-placed?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://oktaxis.co.uk'}/booking?canceled=true`,
+      customer_email: orderData.email,
       metadata: {
-        orderId: orderId, // Store only order ID (much smaller than full orderData)
+        // Store essential fields directly (each metadata value max 500 chars)
+        name: orderData.name.substring(0, 500),
+        email: orderData.email.substring(0, 500),
+        phone: orderData.phone.substring(0, 500),
+        car: orderData.car.substring(0, 500),
+        category: orderData.category.substring(0, 500),
+        price: orderData.price.toString().substring(0, 500),
+        totalAmount: orderData.totalAmount.toString().substring(0, 500),
+        distance: orderData.distance.toString().substring(0, 500),
+        fromLocation: orderData.fromLocation.substring(0, 500),
+        toLocation: (orderData.toLocation || '').substring(0, 500),
+        date: orderData.date.substring(0, 500),
+        time: orderData.time.substring(0, 500),
+        duration: (orderData.duration || '').substring(0, 500),
+        passengers: orderData.passengers.substring(0, 500),
+        bags: orderData.bags.substring(0, 500),
+        // Store complex data as separate fields
+        stops: JSON.stringify(orderData.stops || []).substring(0, 500),
+        isReturn: (orderData.isReturn || false).toString(),
+        returnDate: (orderData.returnDate || '').substring(0, 500),
+        returnTime: (orderData.returnTime || '').substring(0, 500),
+        isFlightTrack: (orderData.isFlightTrack || false).toString(),
+        isMeetGreet: (orderData.isMeetGreet || false).toString(),
+        extraStopsCount: (orderData.extraStopsCount || '0').substring(0, 500),
+        isReturnFlightTrack: (orderData.isReturnFlightTrack || false).toString(),
+        isReturnMeetGreet: (orderData.isReturnMeetGreet || false).toString(),
+        returnExtraStopsCount: (orderData.returnExtraStopsCount || '0').substring(0, 500),
+        isAirportPickup: (orderData.isAirportPickup || false).toString(),
+        flightName: (orderData.flightName || '').substring(0, 500),
+        flightNumber: (orderData.flightNumber || '').substring(0, 500),
+        instructions: (orderData.instructions || '').substring(0, 500),
       },
-      customer_email: orderData?.email,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/order-placed?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/book-ride/passenger-details`,
     });
 
-    return NextResponse.json({ 
+    return NextResponse.json({
+      url: session.url,
       sessionId: session.id,
-      url: session.url 
     });
   } catch (error: any) {
     console.error('Error creating checkout session:', error);
     return NextResponse.json(
-      { error: error.message || 'Error creating checkout session' },
+      {
+        error: error?.message || 'Failed to create checkout session',
+      },
       { status: 500 }
     );
   }

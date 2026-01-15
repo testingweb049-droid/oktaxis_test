@@ -1,32 +1,11 @@
 import useFormStore from "@/stores/form-store";
 import Image from "next/image";
 import { LuggageIcon, Users } from "lucide-react";
-import { useEffect, useState } from "react";
-import type { FleetType } from "@/lib/fleet-data";
+import { useFleets } from "@/lib/api/fleet";
  
 function selectedCar() {
   const { formData } = useFormStore();
-  const [fleets, setFleets] = useState<FleetType[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadFleets = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch("/api/fleets");
-        if (res.ok) {
-          const data = await res.json();
-          setFleets(data.fleets || []);
-        }
-      } catch (error) {
-        console.error("Failed to load fleets in SelectedCar:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadFleets();
-  }, []);
+  const { data: fleets = [], isLoading: loading } = useFleets();
 
   const selectedFleet = fleets.find((item) => item.name === formData.car.value);
   

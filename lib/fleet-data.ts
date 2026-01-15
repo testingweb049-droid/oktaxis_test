@@ -1,6 +1,3 @@
-// Consolidated fleet data - single source of truth for all fleet information
-// Can be used in both client and server components
-
 export interface FleetType {
   name: string;
   cars: string;

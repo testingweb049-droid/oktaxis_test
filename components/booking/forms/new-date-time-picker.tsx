@@ -380,7 +380,7 @@ export default function NewDateTimePicker({
                 size={16}
                 className="text-text-gray sm:w-[18px] sm:h-[18px]"
               />
-              <div className={`text-sm sm:text-base truncate ${selectedTime ? "text-heading-black" : "text-text-gray"
+              <div className={`text-base sm:text-lg truncate ${selectedTime ? "text-heading-black" : "text-text-gray"
                 }`}>
                 {selectedTime
                   ? formatTimeDisplay(selectedTime)
@@ -402,7 +402,7 @@ export default function NewDateTimePicker({
                 className={cn(
                   // Absolute positioning for both mobile and desktop
                   "absolute top-full mt-2 z-[110] bg-white rounded-xl shadow-2xl border border-gray-200",
-                  "w-full max-w-[320px] left-auto right-0",
+                  "w-full max-w-[420px] left-auto right-0",
                   "px-5 py-5 flex flex-col"
                 )}
                 onClick={(e) => e.stopPropagation()}
@@ -432,7 +432,7 @@ export default function NewDateTimePicker({
                             key={hourValue}
                             type="button"
                             className={cn(
-                              "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
+                              "w-full py-2 sm:py-2.5 text-sm sm:text-base font-medium transition-colors border-b border-gray-100 last:border-b-0",
                               hour === hourValue
                                 ? "bg-primary-yellow text-heading-black"
                                 : "bg-white text-heading-black hover:bg-light-background"
@@ -475,7 +475,7 @@ export default function NewDateTimePicker({
                             key={i}
                             type="button"
                             className={cn(
-                              "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
+                              "w-full py-2 sm:py-2.5 text-sm sm:text-base font-medium transition-colors border-b border-gray-100 last:border-b-0",
                               minute === i
                                 ? "bg-primary-yellow text-heading-black"
                                 : "bg-white text-heading-black hover:bg-light-background"
@@ -518,7 +518,7 @@ export default function NewDateTimePicker({
                             key={val}
                             type="button"
                             className={cn(
-                              "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
+                              "w-full py-2 sm:py-2.5 text-sm sm:text-base font-medium transition-colors border-b border-gray-100 last:border-b-0",
                               ampm === val
                                 ? "bg-primary-yellow text-heading-black"
                                 : "bg-white text-heading-black hover:bg-light-background"

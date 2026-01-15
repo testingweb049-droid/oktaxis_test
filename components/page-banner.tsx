@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import HeroForm from "@/app/(main)/book-ride/hero-form";
+import HeroForm from "@/app/book-ride/hero-form";
 
 interface PageBannerProps {
   heading: string;
