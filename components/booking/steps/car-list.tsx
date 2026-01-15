@@ -22,7 +22,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useFleets } from "@/lib/api/fleet";
+import { useFleets } from "@/hooks/useFleets";
 import { calculateTripPrice, calculateHourlyPrice, formatPriceInteger } from "@/lib/utils/pricing";
 
 function CarList() {

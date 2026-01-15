@@ -132,7 +132,8 @@ export default function FleetClasses() {
       try {
         setLoading(true);
         setError(null);
-        const res = await fetch("/api/fleets");
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
+        const res = await fetch(`${backendUrl}/api/fleets`);
         if (!res.ok) {
           throw new Error("Failed to load fleets");
         }

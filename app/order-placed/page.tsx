@@ -5,10 +5,9 @@ import React, { useEffect, useState, useRef, Suspense } from 'react';
 import { MdDone } from 'react-icons/md';
 import Link from 'next/link';
 import Image from 'next/image';
-import type { FleetType } from '@/lib/fleet-data';
 import { Button } from '@/components/ui/button';
-import { useProcessCheckoutSuccess } from '@/lib/api/checkout';
-import { useFleets } from '@/lib/api/fleet';
+import { useProcessCheckoutSuccess } from '@/hooks/useCheckout';
+import { useFleets } from '@/hooks/useFleets';
 
 function OrderPlacedContent() {
   const router = useRouter();

@@ -6,7 +6,7 @@ export const SITE_CONFIG = {
   title: "OKTaxis | Premium Chauffeur Services & Airport Transfers in Manchester",
   description:
     "OKTaxis provides premium chauffeur services, airport transfers, city rides, wedding cars, and executive transportation in Manchester, Liverpool, and across the UK. 24/7 reliable service.",
-  url: process.env.NEXT_PUBLIC_BASE_URL || "https://oktaxis.co.uk",
+  url:"https://oktaxis.co.uk",
   ogImage: "/premium-vehicles.jpg",
   logo: "/assets/favicon.png",
   twitterHandle: process.env.NEXT_PUBLIC_TWITTER_HANDLE || undefined,

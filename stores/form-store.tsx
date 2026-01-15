@@ -1,6 +1,6 @@
 'use client';
 
-import { calculateDistance } from "@/lib/api/distance";
+import { calculateDistance } from "@/hooks/useDistance";
 import { hourlyInitialFormData, tripInitialFormData } from "@/constants/store-initial-objects";
 import { create } from "zustand";
 import { validateDistance, validateDuration, validateCoordinates } from "@/lib/utils/validation";
