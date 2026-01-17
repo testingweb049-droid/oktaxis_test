@@ -1,5 +1,5 @@
-import { discounts } from '@/lib/fleet-data';
 import { MIN_PRICE, PRICE_DECIMAL_PLACES } from '@/constants/pricing';
+import { DEFAULT_PRICING } from '@/hooks/usePricing';
 
 // Price calculations have been moved to the backend
 // Fleets are now fetched with calculated prices from the backend API
@@ -7,23 +7,23 @@ import { MIN_PRICE, PRICE_DECIMAL_PLACES } from '@/constants/pricing';
 /**
  * Calculate return trip discount price
  * @param basePrice - Base price of the trip
- * @param carName - Name of the selected car/fleet
+ * @param discountPercent - Discount percentage (from pricing settings)
  * @returns Discounted price for return trip
  */
-export function calculateReturnPrice(basePrice: number, carName: string): number {
+export function calculateReturnPrice(basePrice: number, discountPercent?: number): number {
   if (!basePrice || basePrice <= 0) {
     return 0;
   }
   
-  // Get discount percentage from fleet data
-  const discountPercent = discounts[carName] || 0;
+  // Use provided discount or default from pricing settings
+  const discount = discountPercent ?? DEFAULT_PRICING.return.discount;
   
-  if (discountPercent <= 0) {
+  if (discount <= 0) {
     return basePrice; // No discount available
   }
   
   // Calculate discounted price
-  const discountAmount = (basePrice * discountPercent) / 100;
+  const discountAmount = (basePrice * discount) / 100;
   const discountedPrice = basePrice - discountAmount;
   
   return Math.max(MIN_PRICE, discountedPrice);

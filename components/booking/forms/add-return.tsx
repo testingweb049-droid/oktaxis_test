@@ -3,16 +3,20 @@
 import useFormStore from "@/stores/form-store"
 import { ArrowRightLeft } from "lucide-react"
 import React from "react"
+import { usePricing, DEFAULT_PRICING } from "@/hooks/usePricing"
 
 export default function AddReturn() {
   const { formData, setFormData, setFieldOptions } = useFormStore()
+  const { data: pricing = DEFAULT_PRICING } = usePricing()
 
   const basePrice = Number(formData.price?.value || 0)
   const from = formData.fromLocation?.value || ""
   const to = formData.toLocation?.value || ""
   const isReturn = formData.isReturn?.value || false
 
-  const discountedPrice = basePrice - (basePrice / 10)
+  const discountPercent = pricing.return.discount || 10
+  const discountAmount = (basePrice * discountPercent) / 100
+  const discountedPrice = basePrice - discountAmount
   const formattedPrice = discountedPrice.toFixed(2)
 
   const headingText = `Complete Your Journey`
@@ -29,9 +33,9 @@ export default function AddReturn() {
     <div
       className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200 flex items-center gap-3 relative transition-all duration-300 overflow-visible"
     >
-      {/* Save 10% Badge - Top Right Corner */}
+      {/* Save Discount Badge - Top Right Corner */}
       <div className="text-xs px-2 py-1 bg-heading-black text-white absolute right-4 -top-1 rounded-xl z-10 whitespace-nowrap shadow-sm font-medium">
-        Save 10%
+        Save {discountPercent}%
       </div>
 
       <div

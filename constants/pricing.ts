@@ -1,7 +1,3 @@
-/**
- * Pricing constants and configuration
- */
-
 // Base distance included in trip pricing (miles)
 export const BASE_DISTANCE_MILES = 10;
 

@@ -12,31 +12,30 @@ import { Button } from '@/components/ui/button'
 import { useCreateCheckoutSession } from '@/hooks/useCheckout'
 import { useToast } from '@/components/ui/use-toast'
 import { calculateReturnPrice, formatPrice } from '@/lib/utils/pricing'
-import { MEET_GREET_FEE, FLIGHT_TRACK_FEE, EXTRA_STOP_FEE } from '@/constants/pricing'
+import { usePricing, DEFAULT_PRICING } from '@/hooks/usePricing'
 import { validateReturnDate } from '@/lib/utils/validation'
 
 function Step3() {
     const { formData, setFormData, changeStep, formLoading, category } = useFormStore();
     const { toast } = useToast();
     const createCheckoutMutation = useCreateCheckoutSession();
-
-    // Calculate total price (memoized)
+    const { data: pricing = DEFAULT_PRICING } = usePricing();
+    
     const totalPrice = useMemo(() => {
         const basePrice = Number(formData.price.value ?? 0);
 
-        // Calculate return price with proper discount
         let returnPrice = 0;
         if (category !== 'hourly' && formData.isReturn?.value && basePrice > 0) {
-            const discountedPrice = calculateReturnPrice(basePrice, formData.car.value);
-            returnPrice = discountedPrice; // This is the discounted return trip price
+            const discountedPrice = calculateReturnPrice(basePrice, pricing.return.discount);
+            returnPrice = discountedPrice;
         }
 
-        const meetGreetFee = formData.isMeetGreet?.value ? MEET_GREET_FEE : 0;
-        const flightTrackFee = formData.isFlightTrack?.value ? FLIGHT_TRACK_FEE : 0;
-        const extraStopsFee = category !== 'hourly' ? Number(formData.extraStopsCount?.value || 0) * EXTRA_STOP_FEE : 0;
-        const returnMeetGreetFee = category !== 'hourly' && formData.isReturnMeetGreet?.value ? MEET_GREET_FEE : 0;
-        const returnFlightTrackFee = category !== 'hourly' && formData.isReturnFlightTrack?.value ? FLIGHT_TRACK_FEE : 0;
-        const returnExtraStopsFee = category !== 'hourly' ? Number(formData.returnExtraStopsCount?.value || 0) * EXTRA_STOP_FEE : 0;
+        const meetGreetFee = formData.isMeetGreet?.value ? pricing.outbound.meetGreet : 0;
+        const flightTrackFee = formData.isFlightTrack?.value ? pricing.outbound.flightTrack : 0;
+        const extraStopsFee = category !== 'hourly' ? Number(formData.extraStopsCount?.value || 0) * pricing.outbound.extraStop : 0;
+        const returnMeetGreetFee = category !== 'hourly' && formData.isReturnMeetGreet?.value ? pricing.return.meetGreet : 0;
+        const returnFlightTrackFee = category !== 'hourly' && formData.isReturnFlightTrack?.value ? pricing.return.flightTrack : 0;
+        const returnExtraStopsFee = category !== 'hourly' ? Number(formData.returnExtraStopsCount?.value || 0) * pricing.return.extraStop : 0;
 
         const total = (
             basePrice +
@@ -60,7 +59,8 @@ function Step3() {
         formData.isReturnMeetGreet?.value,
         formData.isReturnFlightTrack?.value,
         formData.returnExtraStopsCount?.value,
-        category
+        category,
+        pricing
     ]);
     const validateRequiredFields = useCallback((): boolean => {
         let hasErrors = false;
@@ -299,7 +299,7 @@ function Step3() {
                             <QuantityCheckbox
                                 fieldName='isReturnFlightTrack'
                                 label='Flight Track'
-                                subLabel='£ 7'
+                                subLabel={`£ ${pricing.return.flightTrack.toFixed(2)}`}
                                 description='Track your flight'
                                 maxQuantity={1}
                                 minQuantity={0}
@@ -309,7 +309,7 @@ function Step3() {
                             <QuantityCheckbox
                                 fieldName='isReturnMeetGreet'
                                 label='Meet & Greet'
-                                subLabel='£ 15'
+                                subLabel={`£ ${pricing.return.meetGreet.toFixed(2)}`}
                                 maxQuantity={1}
                                 minQuantity={0}
                                 getQuantity={() => formData.isReturnMeetGreet?.value ? 1 : 0}
@@ -318,7 +318,7 @@ function Step3() {
                             <QuantityCheckbox
                                 fieldName='isReturnExtraStops'
                                 label='Extra Stops'
-                                subLabel='£ 7'
+                                subLabel={`£ ${pricing.return.extraStop.toFixed(2)}`}
                                 maxQuantity={100}
                                 getQuantity={() => Number(formData.returnExtraStopsCount?.value || 0)}
                                 onQuantityChange={(qty) => setFormData('returnExtraStopsCount', qty.toString())}
@@ -333,7 +333,7 @@ function Step3() {
                     <QuantityCheckbox
                         fieldName='isFlightTrack'
                         label='Flight Track'
-                        subLabel='£ 7'
+                        subLabel={`£ ${pricing.outbound.flightTrack.toFixed(2)}`}
                         description='Track your flight'
                         maxQuantity={1}
                         minQuantity={0}
@@ -343,7 +343,7 @@ function Step3() {
                     <QuantityCheckbox
                         fieldName='isMeetGreet'
                         label='Meet & Greet'
-                        subLabel='£ 15'
+                        subLabel={`£ ${pricing.outbound.meetGreet.toFixed(2)}`}
                         maxQuantity={1}
                         minQuantity={0}
                         getQuantity={() => formData.isMeetGreet?.value ? 1 : 0}
@@ -354,7 +354,7 @@ function Step3() {
                         <QuantityCheckbox
                             fieldName='isExtraStops'
                             label='Extra Stops'
-                            subLabel='£ 7'
+                            subLabel={`£ ${pricing.outbound.extraStop.toFixed(2)}`}
                             maxQuantity={999}
                             getQuantity={() => Number(formData.extraStopsCount?.value || 0)}
                             onQuantityChange={(qty) => setFormData('extraStopsCount', qty.toString())}
