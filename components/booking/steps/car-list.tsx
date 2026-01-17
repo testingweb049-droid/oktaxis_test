@@ -1,65 +1,36 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, memo } from "react";
 import Image from "next/image";
 import { GoPeople } from "react-icons/go";
 import { PiSuitcase } from "react-icons/pi";
 import { cn } from "@/lib/utils";
 import useFormStore from "@/stores/form-store";
-import { ArrowRight, Loader, Building, CarFront, Ruler, Users } from "lucide-react";
+import { ArrowRight, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
-import type { FleetType } from "@/lib/fleet-data";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import type { FleetType } from "@/types/fleet.types";
+import { useFleets } from "@/hooks/useFleets";
+import { formatPrice } from "@/lib/utils/pricing";
+import { HourlyInfoDialog } from "./hourly-info-dialog";
+import { FleetFeaturesAccordion } from "./fleet-features-accordion";
 
-function carList() {
+function CarList() {
   const { formData, category, setFormData, changeStep, formLoading } = useFormStore();
   const router = useRouter();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [fleets, setFleets] = useState<FleetType[]>([]);
-  const [fleetsLoading, setFleetsLoading] = useState(true);
-  const [fleetsError, setFleetsError] = useState<string | null>(null);
+  const distance = category === 'trip' ? Number(formData.distance.value) || 0 : undefined;
+  const duration = category === 'hourly' ? Number(formData.duration.value) || 0 : undefined;
+  const { data: fleets = [], isLoading: fleetsLoading, error: fleetsError } = useFleets({
+    distance,
+    duration,
+  });
 
-  // Show dialog by default when component mounts and category is hourly
   useEffect(() => {
     if (category === 'hourly') {
       setDialogOpen(true);
     }
   }, [category]);
-
-  // Load fleets from backend
-  useEffect(() => {
-    const loadFleets = async () => {
-      try {
-        setFleetsLoading(true);
-        setFleetsError(null);
-        const res = await fetch("/api/fleets");
-        if (!res.ok) {
-          throw new Error("Failed to load fleets");
-        }
-        const data = await res.json();
-        setFleets(data.fleets || []);
-      } catch (error: any) {
-        console.error("Error loading fleets:", error);
-        setFleetsError(error?.message || "Failed to load fleets");
-      } finally {
-        setFleetsLoading(false);
-      }
-    };
-
-    loadFleets();
-  }, []);
+  const fleetList: FleetType[] = Array.isArray(fleets) ? fleets : [];
 
   const handleSelect = async (item: FleetType, price: number) => {
     setFormData("car", item.name, '');
@@ -74,99 +45,48 @@ function carList() {
     setDialogOpen(false);
   };
 
-  // Filter vehicles based on passenger count
   const passengerCount = Number(formData.passengers.value) || 1;
-  const filteredFleets = fleets.filter((item) => item.passengers >= passengerCount);
+  const filteredFleets = useMemo<FleetType[]>(() => {
+    return fleetList
+      .filter((item: FleetType) => item.passengers >= passengerCount)
+      .reverse();
+  }, [fleetList, passengerCount]);
 
   return (
     <>
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-lg p-6">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-semibold">Important Information</DialogTitle>
-          </DialogHeader>
-
-          <div className="space-y-5 mt-4">
-            {/* Distance Included */}
-            <div className="flex gap-3">
-              <Ruler className="text-gray-700 mt-1 flex-shrink-0" />
-              <div>
-                <h3 className="font-medium text-lg">Distance Included</h3>
-                <p className="text-gray-600 text-base">
-                  Your ride includes <strong>15 miles/hour</strong> booked. Extra distance or time will result in extra charges.
-                </p>
-              </div>
-            </div>
-
-            {/* Return Location */}
-            <div className="flex gap-3">
-              <Building className="text-gray-700 mt-1 flex-shrink-0" />
-              <div>
-                <h3 className="font-medium text-lg">Return Location</h3>
-                <p className="text-gray-600 text-base">
-                  Bookings must end in the same city or metropolitan area as the pickup location, or a vehicle-return fee will apply. For inter-city travel, choose one-way.
-                </p>
-              </div>
-            </div>
-
-            {/* Capacity Limits */}
-            <div className="flex gap-3">
-              <Users className="text-gray-700 mt-1 flex-shrink-0" />
-              <div>
-                <h3 className="font-medium text-lg">Capacity Limits</h3>
-                <p className="text-gray-600 text-base">
-                  Respect guest/luggage capacity for safety. Choose a larger class if unsure—chauffeurs may decline if limits are exceeded.
-                </p>
-              </div>
-            </div>
-
-            {/* Vehicle Assignment */}
-            <div className="flex gap-3">
-              <CarFront className="text-gray-700 mt-1 flex-shrink-0" />
-              <div>
-                <h3 className="font-medium text-lg">Vehicle Assignment</h3>
-                <p className="text-gray-600 text-base">
-                  Vehicle images are examples. A similar-quality vehicle may be assigned.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <Button
-            onClick={handleDialogConfirm}
-            className={cn(
-              "w-full mt-6 font-semibold",
-              "bg-primary-yellow hover:bg-primary-yellow/90 text-heading-black font-semibold transition-all duration-200",
-              "px-4 py-2.5 text-base rounded-lg"
-            )}
-          >
-            GOT IT
-          </Button>
-        </DialogContent>
-      </Dialog>
+      <HourlyInfoDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        onConfirm={handleDialogConfirm}
+      />
 
       <div className="w-full flex flex-col gap-3 sm:gap-4 md:gap-5">
         {fleetsLoading && (
-          <div className="text-center text-gray-600 py-4">Loading vehicles...</div>
+          <div className="text-center text-gray-600 py-8">
+            <Loader className="animate-spin w-6 h-6 mx-auto mb-2" />
+            <p>Loading vehicles...</p>
+          </div>
         )}
         {fleetsError && !fleetsLoading && (
-          <div className="text-center text-red-600 py-4">
-            {fleetsError}
+          <div className="text-center text-red-600 py-4 px-4 rounded-lg bg-red-50 border border-red-200">
+            <p className="font-medium">Failed to load vehicles</p>
+            <p className="text-sm mt-1">
+              {(fleetsError as any)?.message || "Please try refreshing the page or contact support if the problem persists."}
+            </p>
           </div>
         )}
         {!fleetsLoading && !fleetsError && filteredFleets.length === 0 && (
-          <div className="text-center text-gray-600 py-4">
-            No vehicles available for the selected passenger count.
+          <div className="text-center text-gray-600 py-8 px-4 rounded-lg bg-gray-50 border border-gray-200">
+            <p className="font-medium">No vehicles available</p>
+            <p className="text-sm mt-1">
+              No vehicles match your passenger count. Please adjust your selection.
+            </p>
           </div>
         )}
         {filteredFleets.map((item) => {
-        let price = '0';
-        if (category === 'hourly') {
-          price = (Number(formData.duration.value) * item.hourly).toFixed()
-        } else {
-          const distance = formData.distance.value - 10;
-          price = ((Number(distance) * item.price) + item.price10Miles).toFixed()
-        }
+        const price = (item as any).calculatedPrice || 0;
+        const priceString = formatPrice(price);
+        
         return <div
           key={item.name}
           className={cn(
@@ -174,11 +94,8 @@ function carList() {
             "hover:shadow-md transition-shadow duration-200"
           )}
         >
-          {/* Content Section */}
           <div className="flex flex-col gap-1.5 sm:gap-2 p-2.5 sm:p-3 md:p-3.5">
-            {/* Row 1: Image, Title and Car Description */}
             <div className="flex flex-row items-center gap-2 sm:gap-3 md:gap-4">
-              {/* Image Section */}
               <div className="flex-shrink-0 w-32 sm:w-40 md:w-48 lg:w-56 flex justify-center items-center">
                 <Image
                   src={item.image}
@@ -189,7 +106,6 @@ function carList() {
                 />
               </div>
               
-              {/* Title and Description */}
               <div className="flex flex-col items-start justify-center gap-0.5 flex-1 min-w-0 flex-wrap">
                 <h2 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 uppercase leading-tight">
                   {item.name}
@@ -198,7 +114,6 @@ function carList() {
               </div>
             </div>
 
-            {/* Row 2: Capacity Icons and Price */}
             <div className="flex items-center gap-2 sm:gap-3 md:gap-4 text-gray-700 text-sm sm:text-sm md:text-base">
               <div className="flex items-center gap-1">
                 <GoPeople size={14} className="sm:w-3.5 sm:h-3.5 text-primary-yellow" />
@@ -210,48 +125,17 @@ function carList() {
               </div>
               <div className="flex items-center gap-1.5 sm:gap-2 ml-auto">
                 <div className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-900">
-                  £{price}
+                  £{priceString}
                 </div>
                 {(item.name === "Business Class" || item.name === "First Class") && (
                   <div className="text-xs text-red-500 line-through">
-                    £{(Number(price) + (Number(price) / 10)).toFixed(2)}
+                    £{(price * 1.1).toFixed(2)}
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Features Accordion */}
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value={`features-${item.name}`} className="border-0">
-                <AccordionTrigger className="py-1 text-sm font-medium text-gray-700 hover:no-underline [&>svg]:text-gray-900 [&>svg]:font-bold [&>svg]:w-5 [&>svg]:h-5">
-                  <span>Included Features</span>
-                </AccordionTrigger>
-                <AccordionContent className="pt-2 pb-3">
-                  <div className="space-y-2 text-sm text-gray-600">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2.5 h-2.5 rounded-full bg-brand flex-shrink-0"></div>
-                      <span>Free 30 minutes of wait time</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2.5 h-2.5 rounded-full bg-brand flex-shrink-0"></div>
-                      <span>Complimentary bottle of water</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2.5 h-2.5 rounded-full bg-brand flex-shrink-0"></div>
-                      <span>Complimentary in-vehicle WiFi</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2.5 h-2.5 rounded-full bg-brand flex-shrink-0"></div>
-                      <span>Tissues and sanitizer</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2.5 h-2.5 rounded-full bg-brand flex-shrink-0"></div>
-                      <span>Android and iPhone chargers</span>
-                    </div>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+            <FleetFeaturesAccordion fleetName={item.name} />
           </div>
           <div className="w-full border-t border-gray-200">
             {formLoading && formData.car.value === item.name ? (
@@ -265,14 +149,17 @@ function carList() {
               </div>
             ) : (
               <button
-                onClick={() => handleSelect(item, Number(price))}
+                onClick={() => handleSelect(item, price)}
+                disabled={formLoading}
+                aria-label={`Select ${item.name} vehicle`}
                 className={cn(
-                "w-full rounded-b-xl px-2 sm:px-2.5 md:px-3 py-3 sm:py-2 md:py-2 transition-all duration-200 flex justify-center items-center",
-                "bg-primary-yellow hover:bg-primary-yellow/90 text-heading-black font-semibold transition-all duration-200"
+                "w-full rounded-b-xl px-2 sm:px-2.5 md:px-3 py-3 sm:py-2 md:py-2 transition-all duration-200 flex justify-center items-center gap-2",
+                "bg-primary-yellow hover:bg-primary-yellow/90 text-heading-black font-semibold transition-all duration-200",
+                "disabled:opacity-50 disabled:cursor-not-allowed"
               )}
               >
                 <span className="text-sm sm:text-sm md:text-base">Select Vehicle</span>
-                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
               </button>
             )}
           </div>
@@ -283,5 +170,4 @@ function carList() {
   );
 }
 
-const CarList = carList;
-export default CarList;
+export default memo(CarList);

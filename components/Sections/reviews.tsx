@@ -1,13 +1,14 @@
-"use client"
-import React, { useRef } from "react";
+"use client";
+
+import { useRef } from "react";
 import Image from "next/image";
-import Heading from "@/components/heading";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 
+// Types
 interface Review {
   name: string;
   date: string;
@@ -17,7 +18,8 @@ interface Review {
   image?: string;
 }
 
-const reviews: Review[] = [
+// Constants
+const REVIEWS: Review[] = [
   {
     name: "Marvin McKinney",
     date: "12/15/2024",
@@ -53,11 +55,13 @@ const reviews: Review[] = [
   },
 ];
 
-// Star SVG Component
+const SWIPER_SPACE_BETWEEN = 24;
+
+// Reusable Components
 const StarIcon = ({ className }: { className?: string }) => (
   <svg
-    width="16"
-    height="16"
+    width="18"
+    height="18"
     viewBox="0 0 16 16"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -80,8 +84,13 @@ const PlatformLogo = ({
     switch (platform) {
       case "google":
         return (
-          <div className="w-5 h-5 bg-white rounded-full flex items-center justify-center shadow-sm">
-            <svg width="12" height="12" viewBox="0 0 24 24" className="flex-shrink-0 text-primary-yellow">
+          <div className="w-6 h-6 sm:w-7 sm:h-7 bg-white rounded-full flex items-center justify-center shadow-sm">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              className="flex-shrink-0 text-primary-yellow"
+            >
               <path
                 fill="currentColor"
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -103,14 +112,20 @@ const PlatformLogo = ({
         );
       case "facebook":
         return (
-          <div className="w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center shadow-sm">
-            <span className="text-xs font-bold text-white">f</span>
+          <div className="w-6 h-6 sm:w-7 sm:h-7 bg-blue-600 rounded-full flex items-center justify-center shadow-sm">
+            <span className="text-sm sm:text-base font-bold text-white">f</span>
           </div>
         );
       case "spotify":
         return (
-          <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center shadow-sm">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="white" className="flex-shrink-0">
+          <div className="w-6 h-6 sm:w-7 sm:h-7 bg-green-500 rounded-full flex items-center justify-center shadow-sm">
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="white"
+              className="flex-shrink-0"
+            >
               <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z" />
             </svg>
           </div>
@@ -130,8 +145,8 @@ const PlatformLogo = ({
 // Verification Checkmark Component
 const VerifiedBadge = () => (
   <svg
-    width="16"
-    height="16"
+    width="18"
+    height="18"
     viewBox="0 0 16 16"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -148,51 +163,108 @@ const VerifiedBadge = () => (
   </svg>
 );
 
+const ReviewCard = ({ review }: { review: Review }) => (
+  <div className="bg-white rounded-lg p-5 sm:p-6 md:p-7 shadow-sm border border-gray-100 flex flex-col h-[280px] sm:h-[300px] md:h-[320px] lg:h-[340px]">
+    {/* User Info */}
+    <div className="flex items-start gap-3 sm:gap-4 mb-4 sm:mb-5">
+      {/* Avatar with Platform Logo */}
+      <div className="relative flex-shrink-0">
+        <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+          {review.image ? (
+            <Image
+              src={review.image}
+              alt={review.name}
+              width={120}
+              height={120}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <span className="text-xl sm:text-2xl font-semibold text-gray-600">
+              {review.name.charAt(0)}
+            </span>
+          )}
+        </div>
+        <PlatformLogo platform={review.platform} />
+      </div>
+
+      {/* Name and Date */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 mb-1 sm:mb-1.5">
+          <h3 className="text-base sm:text-lg md:text-xl font-semibold text-black truncate">
+            {review.name}
+          </h3>
+          <VerifiedBadge />
+        </div>
+        <p className="text-sm sm:text-base text-gray-600">{review.date}</p>
+      </div>
+    </div>
+
+    {/* Review Text */}
+    <p className="text-sm sm:text-base md:text-lg text-black mb-4 sm:mb-5 flex-1 leading-relaxed">
+      {review.review}
+    </p>
+
+    {/* Star Rating */}
+    <div className="flex items-center gap-1 sm:gap-1.5">
+      {Array.from({ length: review.rating }).map((_, i) => (
+        <StarIcon key={i} />
+      ))}
+    </div>
+  </div>
+);
+
+const NavigationButtons = ({
+  prevRef,
+  nextRef,
+}: {
+  prevRef: React.RefObject<HTMLDivElement>;
+  nextRef: React.RefObject<HTMLDivElement>;
+}) => (
+  <div className="flex items-center justify-end gap-3 sm:gap-4">
+    <div
+      ref={prevRef}
+      className="reviews-prev inline-flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm cursor-pointer transition hover:bg-gray-100 hover:border-gray-300"
+      aria-label="Previous reviews"
+    >
+      <ArrowLeft className="h-5 w-5 sm:h-6 sm:w-6" />
+    </div>
+    <div
+      ref={nextRef}
+      className="reviews-next inline-flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm cursor-pointer transition hover:bg-gray-100 hover:border-gray-300"
+      aria-label="Next reviews"
+    >
+      <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6" />
+    </div>
+  </div>
+);
+
 export default function Reviews() {
   const prevRef = useRef<HTMLDivElement | null>(null);
   const nextRef = useRef<HTMLDivElement | null>(null);
 
   return (
-    <section className="font-montserrat py-12 lg:py-24 bg-white">
-      <div className="container mx-auto px-4 md:px-6">
+    <section className="font-montserrat py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8">
         {/* Header with navigation arrows */}
-        <div className="mb-8 lg:mb-14 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div className="mb-8 sm:mb-10 md:mb-12 lg:mb-14 flex flex-col gap-4 sm:gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div className="text-center lg:text-left">
-            <Heading
-              as="h2"
-              align="left"
-              className="text-2xl md:text-3xl lg:text-4xl font-bold text-black mb-2"
-            >
-              Latest reviews from our customers
-            </Heading>
-            <p className="text-base md:text-lg text-black text-left">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-black mb-3 sm:mb-4">
+              Latest reviews from <span className="text-brand">our</span>{" "}
+              customers
+            </h2>
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-black text-left">
               Hear what our clients say about their experience.
             </p>
           </div>
 
           {/* Navigation arrows */}
-          <div className="flex items-center justify-end gap-3">
-            <div
-              ref={prevRef}
-              className="reviews-prev inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm cursor-pointer transition hover:bg-gray-100"
-              aria-label="Previous reviews"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </div>
-            <div
-              ref={nextRef}
-              className="reviews-next inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm cursor-pointer transition hover:bg-gray-100"
-              aria-label="Next reviews"
-            >
-              <ArrowRight className="h-5 w-5" />
-            </div>
-          </div>
+          <NavigationButtons prevRef={prevRef} nextRef={nextRef} />
         </div>
 
         {/* Reviews Slider */}
         <Swiper
           modules={[Navigation]}
-          spaceBetween={24}
+          spaceBetween={SWIPER_SPACE_BETWEEN}
           slidesPerView={1}
           breakpoints={{
             640: {
@@ -211,55 +283,9 @@ export default function Reviews() {
             swiper.navigation.update();
           }}
         >
-          {reviews.map((review, index) => (
+          {REVIEWS.map((review, index) => (
             <SwiperSlide key={index}>
-              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 flex flex-col h-[260px] md:h-[280px] lg:h-[300px]">
-                {/* User Info */}
-                <div className="flex items-start gap-3 mb-4">
-                  {/* Avatar with Platform Logo */}
-                  <div className="relative flex-shrink-0">
-                    <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
-                      {review.image ? (
-                        <Image
-                          src={review.image}
-                          alt={review.name}
-                          width={120}
-                          height={120}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <span className="text-lg font-semibold text-gray-600">
-                          {review.name.charAt(0)}
-                        </span>
-                      )}
-                    </div>
-                    <PlatformLogo platform={review.platform} />
-                  </div>
-
-                  {/* Name and Date */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="text-base font-semibold text-black truncate">
-                        {review.name}
-                      </h3>
-                      <VerifiedBadge />
-                    </div>
-                    <p className="text-sm text-gray-600">{review.date}</p>
-                  </div>
-                </div>
-
-                {/* Review Text */}
-                <p className="text-sm md:text-base text-black mb-4 flex-1 leading-relaxed">
-                  {review.review}
-                </p>
-
-                {/* Star Rating */}
-                <div className="flex items-center gap-1">
-                  {Array.from({ length: review.rating }).map((_, i) => (
-                    <StarIcon key={i} />
-                  ))}
-                </div>
-              </div>
+              <ReviewCard review={review} />
             </SwiperSlide>
           ))}
         </Swiper>

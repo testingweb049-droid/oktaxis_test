@@ -2,10 +2,8 @@ module.exports = {
   siteUrl: 'https://oktaxis.co.uk/',
   generateRobotsTxt: true,
   
-  // Exclude booking flow pages, order pages, and admin pages (these should be noindex)
+  // Exclude booking flow pages and order pages (these should be noindex)
   exclude: [
-    '/admin', 
-    '/login',
     '/book-ride/select-car',
     '/book-ride/passenger-details',
     '/booking',

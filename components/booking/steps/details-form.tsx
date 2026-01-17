@@ -1,39 +1,251 @@
 'use client'
 import { User, Mail, Plane, Loader } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useMemo, memo, useCallback } from 'react'
 import { DetailsInput, PhoneInput } from '@/components/booking/forms/user-detail-input'
-import useFormStore from '@/stores/form-store'
+import useFormStore, { FormDataType } from '@/stores/form-store'
 import SelectableCheckbox from '@/components/booking/forms/selectable-checkbox'
 import QuantityCheckbox from '@/components/booking/forms/quantity-checkbox'
 import AddReturn from '@/components/booking/forms/add-return'
 import NewDateTimePicker from '@/components/booking/forms/new-date-time-picker'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { useCreateCheckoutSession } from '@/hooks/useCheckout'
+import { useToast } from '@/components/ui/use-toast'
+import { calculateReturnPrice, formatPrice } from '@/lib/utils/pricing'
+import { MEET_GREET_FEE, FLIGHT_TRACK_FEE, EXTRA_STOP_FEE } from '@/constants/pricing'
+import { validateReturnDate } from '@/lib/utils/validation'
 
-function step3() {
+function Step3() {
     const { formData, setFormData, changeStep, formLoading, category } = useFormStore();
-    const [isProcessing, setIsProcessing] = useState(false);
+    const { toast } = useToast();
+    const createCheckoutMutation = useCreateCheckoutSession();
 
-    // Calculate total price
-    const basePrice = Number(formData.price.value ?? 0);
-    const returnPrice = category !== 'hourly' && formData.isReturn?.value ? basePrice - (basePrice / 10) : 0;
-    const meetGreetFee = formData.isMeetGreet?.value ? 15 : 0;
-    const flightTrackFee = formData.isFlightTrack?.value ? 7 : 0;
-    const extraStopsFee = category !== 'hourly' ? Number(formData.extraStopsCount?.value || 0) * 7 : 0;
-    const returnMeetGreetFee = category !== 'hourly' && formData.isReturnMeetGreet?.value ? 15 : 0;
-    const returnFlightTrackFee = category !== 'hourly' && formData.isReturnFlightTrack?.value ? 7 : 0;
-    const returnExtraStopsFee = category !== 'hourly' ? Number(formData.returnExtraStopsCount?.value || 0) * 7 : 0;
-    
-    const totalPrice = (
-        basePrice + 
-        returnPrice + 
-        meetGreetFee + 
-        flightTrackFee + 
-        extraStopsFee + 
-        returnMeetGreetFee + 
-        returnFlightTrackFee + 
-        returnExtraStopsFee
-    ).toFixed(2);
+    // Calculate total price (memoized)
+    const totalPrice = useMemo(() => {
+        const basePrice = Number(formData.price.value ?? 0);
+
+        // Calculate return price with proper discount
+        let returnPrice = 0;
+        if (category !== 'hourly' && formData.isReturn?.value && basePrice > 0) {
+            const discountedPrice = calculateReturnPrice(basePrice, formData.car.value);
+            returnPrice = discountedPrice; // This is the discounted return trip price
+        }
+
+        const meetGreetFee = formData.isMeetGreet?.value ? MEET_GREET_FEE : 0;
+        const flightTrackFee = formData.isFlightTrack?.value ? FLIGHT_TRACK_FEE : 0;
+        const extraStopsFee = category !== 'hourly' ? Number(formData.extraStopsCount?.value || 0) * EXTRA_STOP_FEE : 0;
+        const returnMeetGreetFee = category !== 'hourly' && formData.isReturnMeetGreet?.value ? MEET_GREET_FEE : 0;
+        const returnFlightTrackFee = category !== 'hourly' && formData.isReturnFlightTrack?.value ? FLIGHT_TRACK_FEE : 0;
+        const returnExtraStopsFee = category !== 'hourly' ? Number(formData.returnExtraStopsCount?.value || 0) * EXTRA_STOP_FEE : 0;
+
+        const total = (
+            basePrice +
+            returnPrice +
+            meetGreetFee +
+            flightTrackFee +
+            extraStopsFee +
+            returnMeetGreetFee +
+            returnFlightTrackFee +
+            returnExtraStopsFee
+        );
+
+        return formatPrice(total);
+    }, [
+        formData.price.value,
+        formData.isReturn?.value,
+        formData.car.value,
+        formData.isMeetGreet?.value,
+        formData.isFlightTrack?.value,
+        formData.extraStopsCount?.value,
+        formData.isReturnMeetGreet?.value,
+        formData.isReturnFlightTrack?.value,
+        formData.returnExtraStopsCount?.value,
+        category
+    ]);
+    const validateRequiredFields = useCallback((): boolean => {
+        let hasErrors = false;
+
+        // Set errors on empty required fields
+        useFormStore.setState((state) => {
+            const updatedFormData = { ...state.formData };
+
+            if (!state.formData.name.value || !state.formData.name.value.trim()) {
+                updatedFormData.name = { ...updatedFormData.name, error: 'Name is required' };
+                hasErrors = true;
+            } else {
+                // Clear error if field is valid
+                updatedFormData.name = { ...updatedFormData.name, error: '' };
+            }
+
+            if (!state.formData.email.value || !state.formData.email.value.trim()) {
+                updatedFormData.email = { ...updatedFormData.email, error: 'Email is required' };
+                hasErrors = true;
+            } else {
+                // Clear error if field is valid
+                updatedFormData.email = { ...updatedFormData.email, error: '' };
+            }
+
+            if (!state.formData.phone.value || !state.formData.phone.value.trim()) {
+                updatedFormData.phone = { ...updatedFormData.phone, error: 'Phone is required' };
+                hasErrors = true;
+            } else {
+                // Clear error if field is valid
+                updatedFormData.phone = { ...updatedFormData.phone, error: '' };
+            }
+
+            return { formData: updatedFormData };
+        });
+
+        return !hasErrors;
+    }, []);
+
+    const validateReturnJourney = useCallback((): boolean => {
+        const state = useFormStore.getState();
+
+        // Skip validation for hourly category
+        if (state.category === 'hourly') {
+            return true;
+        }
+
+        // Skip validation if return is not selected
+        if (!state.formData.isReturn?.value) {
+            return true;
+        }
+
+        const returnValidation = validateReturnDate(
+            state.formData.date.value,
+            state.formData.time.value,
+            state.formData.returnDate?.value || '',
+            state.formData.returnTime?.value || ''
+        );
+
+        if (!returnValidation.isValid) {
+            // Set errors on return date and time fields
+            const errorMessage = returnValidation.error || "Return date must be after pickup date";
+            useFormStore.setState((currentState) => {
+                const updatedFormData = { ...currentState.formData };
+
+                if (updatedFormData.returnDate) {
+                    updatedFormData.returnDate = { ...updatedFormData.returnDate, error: errorMessage };
+                }
+
+                if (updatedFormData.returnTime) {
+                    updatedFormData.returnTime = { ...updatedFormData.returnTime, error: errorMessage };
+                }
+
+                return { formData: updatedFormData };
+            });
+            return false;
+        }
+
+        // Clear errors if validation passes
+        useFormStore.setState((currentState) => {
+            const updatedFormData = { ...currentState.formData };
+            if (updatedFormData.returnDate) {
+                updatedFormData.returnDate = { ...updatedFormData.returnDate, error: '' };
+            }
+            if (updatedFormData.returnTime) {
+                updatedFormData.returnTime = { ...updatedFormData.returnTime, error: '' };
+            }
+            return { formData: updatedFormData };
+        });
+
+        return true;
+    }, []);
+
+    const prepareOrderData = useCallback((price: string) => {
+        const stops = formData.stops?.map(stop => stop.value).filter(Boolean) || [];
+
+        return {
+            name: formData.name.value,
+            email: formData.email.value,
+            phone: formData.phone.value,
+            car: formData.car.value,
+            price: price,
+            totalAmount: parseFloat(price),
+            distance: formData.distance.value || 0,
+            fromLocation: formData.fromLocation.value,
+            toLocation: formData.toLocation.value || '',
+            stops: stops,
+            date: formData.date.value,
+            time: formData.time.value,
+            duration: formData.duration.value || '',
+            passengers: formData.passengers.value,
+            bags: formData.bags.value,
+            isReturn: formData.isReturn?.value || false,
+            returnDate: formData.returnDate?.value || '',
+            returnTime: formData.returnTime?.value || '',
+            isFlightTrack: formData.isFlightTrack?.value || false,
+            isMeetGreet: formData.isMeetGreet?.value || false,
+            extraStopsCount: formData.extraStopsCount?.value || '0',
+            isReturnFlightTrack: formData.isReturnFlightTrack?.value || false,
+            isReturnMeetGreet: formData.isReturnMeetGreet?.value || false,
+            returnExtraStopsCount: formData.returnExtraStopsCount?.value || '0',
+            isAirportPickup: formData.isAirportPickup?.value || false,
+            flightName: formData.flightName?.value || '',
+            flightNumber: formData.flightNumber?.value || '',
+            instructions: formData.instructions?.value || '',
+            category: category || 'trip',
+        };
+    }, [formData, category]);
+
+    const getErrorMessage = useCallback((error: any): string => {
+        if (error?.response?.status === 400) {
+            return 'Invalid booking information. Please check your details and try again.';
+        }
+        if (error?.response?.status === 500) {
+            return 'Server error. Please try again in a few moments or contact support.';
+        }
+        if (error?.message) {
+            return error.message;
+        }
+        return 'Failed to proceed to payment. Please try again.';
+    }, []);
+
+    const handleCheckout = useCallback(async () => {
+        try {
+            const orderData = prepareOrderData(totalPrice);
+
+            const result = await createCheckoutMutation.mutateAsync({
+                amount: parseFloat(totalPrice),
+                orderData,
+            });
+
+            if (!result.url) {
+                throw new Error(result.error || 'Failed to create checkout session');
+            }
+
+            // Redirect to Stripe Checkout
+            window.location.href = result.url;
+        } catch (error: any) {
+            console.error('Error creating checkout session:', error);
+
+            toast({
+                title: "Payment Error",
+                description: getErrorMessage(error),
+                variant: "destructive",
+                duration: 5000,
+            });
+        }
+    }, [totalPrice, prepareOrderData, createCheckoutMutation, toast, getErrorMessage]);
+
+
+    const handleContinueToPayment = useCallback(async () => {
+        if (formLoading || createCheckoutMutation.isPending) return;
+        if (!validateRequiredFields()) return;
+        if (!validateReturnJourney()) return;
+        const isValid = await changeStep(true, 3);
+        if (!isValid) return;
+        await handleCheckout();
+    }, [
+        formLoading,
+        createCheckoutMutation.isPending,
+        validateRequiredFields,
+        validateReturnJourney,
+        changeStep,
+        handleCheckout
+    ]);
+
     return (
         <div className='flex flex-col gap-5 w-full'>
             <div className='text-xl sm:text-2xl text-heading-black font-semibold'>Add Details</div>
@@ -47,17 +259,17 @@ function step3() {
 
                 {/* Airport Pickup Details - After Phone Number - Hide for hourly */}
                 {category !== 'hourly' && (
-                <div className="w-full rounded-lg bg-white border border-gray-200 flex flex-col overflow-hidden">
-                    <SelectableCheckbox fieldName='isAirportPickup' label='Airport Pickup Details' noBorder />
+                    <div className="w-full rounded-lg bg-white border border-gray-200 flex flex-col overflow-hidden">
+                        <SelectableCheckbox fieldName='isAirportPickup' label='Airport Pickup Details' noBorder />
 
-                    <div className="w-full overflow-hidden transition-all duration-500 px-4"
-                        style={{ maxHeight: formData.isAirportPickup.value ? '300px' : '0' }}>
-                        <div className={`flex flex-col gap-3 pb-4 pt-2 opacity-${formData.isAirportPickup.value ? '100' : '0'} transition-opacity duration-500`}>
-                            <DetailsInput field='flightName' placeholder='Airline Name' Icon={Plane} type='text' />
-                            <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
+                        <div className="w-full overflow-hidden transition-all duration-500 px-4"
+                            style={{ maxHeight: formData.isAirportPickup.value ? '300px' : '0' }}>
+                            <div className={`flex flex-col gap-3 pb-4 pt-2 opacity-${formData.isAirportPickup.value ? '100' : '0'} transition-opacity duration-500`}>
+                                <DetailsInput field='flightName' placeholder='Airline Name' Icon={Plane} type='text' />
+                                <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
+                            </div>
                         </div>
                     </div>
-                </div>
                 )}
 
                 {/* Add Return - Hide for hourly */}
@@ -81,72 +293,72 @@ function step3() {
                             timeLabel="Return time"
                         />
 
-                      <div className='flex flex-col gap-2'>
-                          {/* Return Equipment and Extras */}
-                          <div className='font-bold text-base sm:text-lg text-heading-black mt-3'>Return Equipment and Extras</div>
-                        <QuantityCheckbox 
-                          fieldName='isReturnFlightTrack' 
-                          label='Flight Track' 
-                          subLabel='£ 7'
-                          description='Track your flight'
-                          maxQuantity={1}
-                          minQuantity={0}
-                          getQuantity={() => formData.isReturnFlightTrack?.value ? 1 : 0}
-                          onQuantityChange={(qty) => setFormData('isReturnFlightTrack', qty === 1)}
-                        />
-                        <QuantityCheckbox 
-                          fieldName='isReturnMeetGreet' 
-                          label='Meet & Greet' 
-                          subLabel='£ 15'
-                          maxQuantity={1}
-                          minQuantity={0}
-                          getQuantity={() => formData.isReturnMeetGreet?.value ? 1 : 0}
-                          onQuantityChange={(qty) => setFormData('isReturnMeetGreet', qty === 1)}
-                        />
-                        <QuantityCheckbox 
-                          fieldName='isReturnExtraStops' 
-                          label='Extra Stops' 
-                          subLabel='£ 7'
-                          maxQuantity={100}
-                          getQuantity={() => Number(formData.returnExtraStopsCount?.value || 0)}
-                          onQuantityChange={(qty) => setFormData('returnExtraStopsCount', qty.toString())}
-                        />
-                      </div>
+                        <div className='flex flex-col gap-2'>
+                            {/* Return Equipment and Extras */}
+                            <div className='font-bold text-base sm:text-lg text-heading-black mt-3'>Return Equipment and Extras</div>
+                            <QuantityCheckbox
+                                fieldName='isReturnFlightTrack'
+                                label='Flight Track'
+                                subLabel='£ 7'
+                                description='Track your flight'
+                                maxQuantity={1}
+                                minQuantity={0}
+                                getQuantity={() => formData.isReturnFlightTrack?.value ? 1 : 0}
+                                onQuantityChange={(qty) => setFormData('isReturnFlightTrack', qty === 1)}
+                            />
+                            <QuantityCheckbox
+                                fieldName='isReturnMeetGreet'
+                                label='Meet & Greet'
+                                subLabel='£ 15'
+                                maxQuantity={1}
+                                minQuantity={0}
+                                getQuantity={() => formData.isReturnMeetGreet?.value ? 1 : 0}
+                                onQuantityChange={(qty) => setFormData('isReturnMeetGreet', qty === 1)}
+                            />
+                            <QuantityCheckbox
+                                fieldName='isReturnExtraStops'
+                                label='Extra Stops'
+                                subLabel='£ 7'
+                                maxQuantity={100}
+                                getQuantity={() => Number(formData.returnExtraStopsCount?.value || 0)}
+                                onQuantityChange={(qty) => setFormData('returnExtraStopsCount', qty.toString())}
+                            />
+                        </div>
                     </div>
                 )}
 
                 {/* Equipment and Extras Block */}
                 <div className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200 flex flex-col gap-4">
                     <div className='font-bold text-base sm:text-lg text-heading-black'>Equipment and Extras</div>
-                    <QuantityCheckbox 
-                      fieldName='isFlightTrack' 
-                      label='Flight Track' 
-                      subLabel='£ 7'
-                      description='Track your flight'
-                      maxQuantity={1}
-                      minQuantity={0}
-                      getQuantity={() => formData.isFlightTrack?.value ? 1 : 0}
-                      onQuantityChange={(qty) => setFormData('isFlightTrack', qty === 1)}
+                    <QuantityCheckbox
+                        fieldName='isFlightTrack'
+                        label='Flight Track'
+                        subLabel='£ 7'
+                        description='Track your flight'
+                        maxQuantity={1}
+                        minQuantity={0}
+                        getQuantity={() => formData.isFlightTrack?.value ? 1 : 0}
+                        onQuantityChange={(qty) => setFormData('isFlightTrack', qty === 1)}
                     />
-                    <QuantityCheckbox 
-                      fieldName='isMeetGreet' 
-                      label='Meet & Greet' 
-                      subLabel='£ 15'
-                      maxQuantity={1}
-                      minQuantity={0}
-                      getQuantity={() => formData.isMeetGreet?.value ? 1 : 0}
-                      onQuantityChange={(qty) => setFormData('isMeetGreet', qty === 1)}
+                    <QuantityCheckbox
+                        fieldName='isMeetGreet'
+                        label='Meet & Greet'
+                        subLabel='£ 15'
+                        maxQuantity={1}
+                        minQuantity={0}
+                        getQuantity={() => formData.isMeetGreet?.value ? 1 : 0}
+                        onQuantityChange={(qty) => setFormData('isMeetGreet', qty === 1)}
                     />
                     {/* Extra Stops - Hide for hourly */}
                     {category !== 'hourly' && (
-                    <QuantityCheckbox 
-                      fieldName='isExtraStops' 
-                      label='Extra Stops' 
-                      subLabel='£ 7'
-                      maxQuantity={999}
-                      getQuantity={() => Number(formData.extraStopsCount?.value || 0)}
-                      onQuantityChange={(qty) => setFormData('extraStopsCount', qty.toString())}
-                    />
+                        <QuantityCheckbox
+                            fieldName='isExtraStops'
+                            label='Extra Stops'
+                            subLabel='£ 7'
+                            maxQuantity={999}
+                            getQuantity={() => Number(formData.extraStopsCount?.value || 0)}
+                            onQuantityChange={(qty) => setFormData('extraStopsCount', qty.toString())}
+                        />
                     )}
                 </div>
 
@@ -158,28 +370,28 @@ function step3() {
                         style={{ maxHeight: formData.isAddInstructions?.value ? '300px' : '0' }}>
                         <div className={`flex flex-col gap-3 pb-4 pt-2 opacity-${formData.isAddInstructions?.value ? '100' : '0'} transition-opacity duration-500`}>
                             {(() => {
-                              const instructionsHasError = !!formData.instructions?.error
-                              return (
-                                <div className={cn(
-                                  "w-full rounded-lg bg-white px-4 py-3 border",
-                                  instructionsHasError ? "border-red-500" : "border-gray-200"
-                                )}>
-                                    <label className="block text-sm sm:text-base font-medium text-text-gray mb-1">
-                                        Instructions
-                                    </label>
-                                    <textarea
-                                        value={formData.instructions?.value || ''}
-                                        onChange={(e) => setFormData('instructions', e.target.value)}
-                                        placeholder="Enter your instructions here..."
-                                        rows={4}
-                                        className={cn(
-                                          "w-full bg-transparent text-heading-black placeholder:text-text-gray outline-none focus:outline-none text-base",
-                                          "resize-none",
-                                          instructionsHasError && "text-red-600 placeholder:text-red-400"
-                                        )}
-                                    />
-                                </div>
-                              )
+                                const instructionsHasError = !!formData.instructions?.error
+                                return (
+                                    <div className={cn(
+                                        "w-full rounded-lg bg-white px-4 py-3 border",
+                                        instructionsHasError ? "border-red-500" : "border-gray-200"
+                                    )}>
+                                        <label className="block text-sm sm:text-base font-medium text-text-gray mb-1">
+                                            Instructions
+                                        </label>
+                                        <textarea
+                                            value={formData.instructions?.value || ''}
+                                            onChange={(e) => setFormData('instructions', e.target.value)}
+                                            placeholder="Enter your instructions here..."
+                                            rows={4}
+                                            className={cn(
+                                                "w-full bg-transparent text-heading-black placeholder:text-text-gray outline-none focus:outline-none text-base",
+                                                "resize-none",
+                                                instructionsHasError && "text-red-600 placeholder:text-red-400"
+                                            )}
+                                        />
+                                    </div>
+                                )
                             })()}
                         </div>
                     </div>
@@ -188,79 +400,14 @@ function step3() {
 
             {/* Continue Button */}
             <Button
-                onClick={async () => { 
-                    if (formLoading || isProcessing) return;
-                    const isValid = await changeStep(true, 3); 
-                    if (isValid) {
-                        setIsProcessing(true);
-                        try {
-                            // Prepare order data
-                            const stops = formData.stops?.map(stop => stop.value).filter(Boolean) || [];
-                            const orderData = {
-                                name: formData.name.value,
-                                email: formData.email.value,
-                                phone: formData.phone.value,
-                                car: formData.car.value,
-                                price: totalPrice, // Use total price (includes all extras), not base price
-                                totalAmount: parseFloat(totalPrice), // Also include as totalAmount for compatibility
-                                distance: formData.distance.value || 0,
-                                fromLocation: formData.fromLocation.value,
-                                toLocation: formData.toLocation.value || '',
-                                stops: stops,
-                                date: formData.date.value,
-                                time: formData.time.value,
-                                duration: formData.duration.value || '',
-                                passengers: formData.passengers.value,
-                                bags: formData.bags.value,
-                                isReturn: formData.isReturn?.value || false,
-                                returnDate: formData.returnDate?.value || '',
-                                returnTime: formData.returnTime?.value || '',
-                                isFlightTrack: formData.isFlightTrack?.value || false,
-                                isMeetGreet: formData.isMeetGreet?.value || false,
-                                extraStopsCount: formData.extraStopsCount?.value || '0',
-                                isReturnFlightTrack: formData.isReturnFlightTrack?.value || false,
-                                isReturnMeetGreet: formData.isReturnMeetGreet?.value || false,
-                                returnExtraStopsCount: formData.returnExtraStopsCount?.value || '0',
-                                isAirportPickup: formData.isAirportPickup?.value || false,
-                                flightName: formData.flightName?.value || '',
-                                flightNumber: formData.flightNumber?.value || '',
-                                instructions: formData.instructions?.value || '',
-                                category: category || 'trip',
-                            };
-
-                            // Create Stripe Checkout Session
-                            const response = await fetch('/api/create-checkout-session', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({
-                                    amount: parseFloat(totalPrice),
-                                    orderData,
-                                }),
-                            });
-
-                            const data = await response.json();
-
-                            if (!response.ok || !data.url) {
-                                throw new Error(data.error || 'Failed to create checkout session');
-                            }
-
-                            // Redirect to Stripe Checkout
-                            window.location.href = data.url;
-                        } catch (error) {
-                            console.error('Error creating checkout session:', error);
-                            alert('Failed to proceed to payment. Please try again.');
-                            setIsProcessing(false);
-                        }
-                    }
-                }}
-                disabled={formLoading || isProcessing}
+                onClick={handleContinueToPayment}
+                disabled={formLoading || createCheckoutMutation.isPending}
                 className="w-full"
                 size="lg"
+                aria-label="Continue to payment"
             >
-                {(formLoading || isProcessing) && (
-                    <Loader className="animate-spin w-4 h-4" />
+                {(formLoading || createCheckoutMutation.isPending) && (
+                    <Loader className="animate-spin w-4 h-4 mr-2" aria-hidden="true" />
                 )}
                 <span>Continue to Payment - £{totalPrice}</span>
             </Button>
@@ -268,5 +415,5 @@ function step3() {
     )
 }
 
-const Step3 = step3;
-export default Step3;
+// Memoize component to prevent unnecessary re-renders
+export default memo(Step3);

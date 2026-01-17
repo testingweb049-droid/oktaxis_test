@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react"
 import Image, { StaticImageData } from "next/image"
-import HeroForm from "@/app/(main)/book-ride/hero-form"
+import HeroForm from "@/app/book-ride/hero-form"
 import { ReactNode } from "react";
 interface HeroSectionProps {
   bgImage: string | StaticImageData
