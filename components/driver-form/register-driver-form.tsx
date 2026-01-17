@@ -11,6 +11,8 @@ import Image from "next/image";
 import { useToast } from "@/components/ui/use-toast";
 import apiClient from "@/lib/api/axios";
 import { API_ENDPOINTS } from "@/lib/api/api-endpoints";
+import { useFleets } from "@/hooks/useFleets";
+import type { FleetType } from "@/types/fleet.types";
 
 // Validation schema
 const validationSchema = Yup.object({
@@ -56,6 +58,10 @@ function registerDriverForm() {
   const carImageRef = useRef<HTMLInputElement>(null);
   const licenseFrontRef = useRef<HTMLInputElement>(null);
   const licenseBackRef = useRef<HTMLInputElement>(null);
+  
+  // Fetch fleet vehicles for dropdown
+  const { data: fleetsData, isLoading: fleetsLoading } = useFleets();
+  const fleets: FleetType[] = Array.isArray(fleetsData) ? fleetsData : [];
 
   // Clean up preview URLs when they change or on unmount
   useEffect(() => {
@@ -207,6 +213,45 @@ function registerDriverForm() {
     setFieldValue: any,
     previewKey: "carImage" | "licenseFront" | "licenseBack"
   ) => {
+    // Validate file size (10MB = 10 * 1024 * 1024 bytes)
+    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+    
+    if (file && file.size > MAX_FILE_SIZE) {
+      const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+      toast({
+        title: "File Too Large",
+        description: `The ${fieldName === "carImage" ? "car image" : "license"} file is ${fileSizeMB}MB. Maximum file size is 10MB. Please compress or choose a smaller file.`,
+        variant: "destructive",
+      });
+      // Clear the file input
+      if (fieldName === "carImage" && carImageRef.current) {
+        carImageRef.current.value = "";
+      } else if (fieldName === "licenseFront" && licenseFrontRef.current) {
+        licenseFrontRef.current.value = "";
+      } else if (fieldName === "licenseBack" && licenseBackRef.current) {
+        licenseBackRef.current.value = "";
+      }
+      return;
+    }
+    
+    // Validate file type
+    if (file && !file.type.match(/^image\/(jpeg|jpg|png)$/i)) {
+      toast({
+        title: "Invalid File Type",
+        description: "Please upload a JPEG, JPG, or PNG image file.",
+        variant: "destructive",
+      });
+      // Clear the file input
+      if (fieldName === "carImage" && carImageRef.current) {
+        carImageRef.current.value = "";
+      } else if (fieldName === "licenseFront" && licenseFrontRef.current) {
+        licenseFrontRef.current.value = "";
+      } else if (fieldName === "licenseBack" && licenseBackRef.current) {
+        licenseBackRef.current.value = "";
+      }
+      return;
+    }
+    
     setFieldValue(fieldName, file);
     
     // Clean up previous preview URL
@@ -314,17 +359,49 @@ function registerDriverForm() {
               touched={touched}
             />
 
-            {/* Car Type */}
-            <FormField
-              name="carType"
-              label="Car Type"
-              placeholder="Enter car type (e.g., Sedan, SUV, Van, Luxury)"
-              type="text"
-              Icon={Car}
-              required
-              errors={errors}
-              touched={touched}
-            />
+            {/* Car Type - Dropdown */}
+            <div className={`w-full rounded-lg bg-white px-4 py-3 border ${
+              errors.carType && touched.carType ? "border-red-500" : "border-gray-200"
+            }`}>
+              <Field name="carType">
+                {({ field }: any) => (
+                  <div className="relative">
+                    {Car && (
+                      <Car className="absolute left-0 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    )}
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Vehicle Type <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      {...field}
+                      className={`w-full pl-8 pr-10 py-2 bg-transparent border-none outline-none text-heading-black appearance-none cursor-pointer ${
+                        fleetsLoading ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                      disabled={fleetsLoading}
+                      style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E")`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'right 0.5rem center',
+                        backgroundSize: '12px',
+                      }}
+                    >
+                      <option value="" className="text-text-gray">Select a vehicle</option>
+                      {fleets.map((fleet) => (
+                        <option key={fleet._id || fleet.id} value={fleet.name} className="text-heading-black">
+                          {fleet.name} {fleet.passengers ? `(${fleet.passengers} passengers)` : ""}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.carType && touched.carType && (
+                      <p className="text-xs text-red-500 mt-1">{errors.carType}</p>
+                    )}
+                    {fleetsLoading && (
+                      <p className="text-xs text-gray-500 mt-1">Loading vehicles...</p>
+                    )}
+                  </div>
+                )}
+              </Field>
+            </div>
           </div>
 
           {/* Address */}
@@ -357,6 +434,7 @@ function registerDriverForm() {
                 className="hidden"
                 id="carImage"
               />
+              <p className="text-xs text-gray-500 mt-1">Max file size: 10MB</p>
               {previews.carImage ? (
                 <div className="relative w-full mt-2">
                   <div className="relative w-full h-48 border border-gray-300 rounded-lg overflow-hidden bg-gray-50">
@@ -413,6 +491,7 @@ function registerDriverForm() {
                 className="hidden"
                 id="licenseFront"
               />
+              <p className="text-xs text-gray-500 mt-1">Max file size: 10MB</p>
               {previews.licenseFront ? (
                 <div className="relative w-full mt-2">
                   <div className="relative w-full h-48 border border-gray-300 rounded-lg overflow-hidden bg-gray-50">
@@ -466,6 +545,7 @@ function registerDriverForm() {
                 className="hidden"
                 id="licenseBack"
               />
+              <p className="text-xs text-gray-500 mt-1">Max file size: 10MB</p>
               {previews.licenseBack ? (
                 <div className="relative w-full mt-2">
                   <div className="relative w-full h-48 border border-gray-300 rounded-lg overflow-hidden bg-gray-50">
