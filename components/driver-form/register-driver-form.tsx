@@ -3,13 +3,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import FormField from "@/components/ui/form-field";
-import { registerDriverEmail } from "@/lib/utils";
 import { Field, Form, Formik } from "formik";
 import { useState, useRef, useEffect } from "react";
 import * as Yup from "yup";
 import { User, Mail, Phone, MapPin, Car, ArrowUp, FileText, X, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useToast } from "@/components/ui/use-toast";
+import apiClient from "@/lib/api/axios";
+import { API_ENDPOINTS } from "@/lib/api/api-endpoints";
 
 // Validation schema
 const validationSchema = Yup.object({
@@ -74,41 +75,49 @@ function registerDriverForm() {
       formData.append("file", file);
       formData.append("folder", folder);
 
+      // Get backend URL from environment or use default
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const uploadUrl = `${backendUrl}/api/upload-image`;
+
       // Create an AbortController for timeout
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 55000); // 55 seconds timeout
 
       try {
-        const response = await fetch("/api/upload-image", {
+        const response = await fetch(uploadUrl, {
           method: "POST",
           body: formData,
           signal: controller.signal,
+          // Don't set Content-Type header - let browser set it with boundary for multipart/form-data
         });
 
         clearTimeout(timeoutId);
 
         if (!response.ok) {
-          throw new Error(`Upload failed with status: ${response.status}`);
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || errorData.message || `Upload failed with status: ${response.status}`);
         }
 
         const result = await response.json();
 
-        if (result.success && result.url) {
-          return result.url;
+        // Handle response format: { success: true, url: string, data: { url, public_id } }
+        const imageUrl = result.url || result.data?.url;
+        if (result.success && imageUrl) {
+          return imageUrl;
         } else {
-          return null;
+          throw new Error(result.error || result.message || "Upload failed");
         }
       } catch (fetchError: any) {
         clearTimeout(timeoutId);
         if (fetchError.name === "AbortError") {
-          // Upload timed out
+          throw new Error("Upload timed out. Please try again.");
         } else {
           throw fetchError;
         }
-        return null;
       }
-    } catch (err) {
-      return null;
+    } catch (err: any) {
+      console.error("Image upload error:", err);
+      throw err; // Re-throw to handle in handleSubmit
     }
   };
 
@@ -120,80 +129,70 @@ function registerDriverForm() {
       setError("");
       setSubmitting(true);
 
-      // Upload images to Cloudinary first - use allSettled so failures don't block submission
-      const uploadResults = await Promise.allSettled([
-        uploadImage(values.carImage, "oktaxis-drivers/car-images"),
-        uploadImage(values.licenseFront, "oktaxis-drivers/licenses"),
-        uploadImage(values.licenseBack, "oktaxis-drivers/licenses"),
-      ]);
+      // Upload images in parallel
+      let carImageUrl: string | null = null;
+      let licenseFrontUrl: string | null = null;
+      let licenseBackUrl: string | null = null;
 
-      const carImageUrl = uploadResults[0].status === "fulfilled" ? uploadResults[0].value : null;
-      const licenseFrontUrl = uploadResults[1].status === "fulfilled" ? uploadResults[1].value : null;
-      const licenseBackUrl = uploadResults[2].status === "fulfilled" ? uploadResults[2].value : null;
+      try {
+        [carImageUrl, licenseFrontUrl, licenseBackUrl] = await Promise.all([
+          uploadImage(values.carImage, "oktaxis-drivers/cars"),
+          uploadImage(values.licenseFront, "oktaxis-drivers/licenses"),
+          uploadImage(values.licenseBack, "oktaxis-drivers/licenses"),
+        ]);
+      } catch (uploadError: any) {
+        throw new Error(uploadError.message || "Failed to upload images. Please try again.");
+      }
 
-      // Upload failures are handled gracefully - form submission continues
+      // Check if all images were uploaded successfully
+      if (!carImageUrl || !licenseFrontUrl || !licenseBackUrl) {
+        throw new Error("Failed to upload one or more images. Please try again.");
+      }
 
-      // Convert form values to match API expectations
-      const apiValues = {
+      // Prepare driver data - map carType to vehicleType
+      const driverData = {
         name: values.name,
         email: values.email,
         phone: values.phone,
-        vehicleType: values.carType,
-        preferredContact: "WhatsApp",
-        carMake: "",
-        carModel: "",
-        licenseNumber: "",
         address: values.address,
-        carImageUrl: carImageUrl || "",
-        licenseFrontUrl: licenseFrontUrl || "",
-        licenseBackUrl: licenseBackUrl || "",
+        vehicleType: values.carType, // Map carType to vehicleType
+        carImageUrl,
+        licenseFrontUrl,
+        licenseBackUrl,
       };
 
-      const response = await registerDriverEmail(apiValues);
-      
-      // Check if registration was successful
-      if (response && response.success) {
+      // Submit driver registration
+      const response = await apiClient.post(API_ENDPOINTS.DRIVERS, driverData);
+
+      if (response.data.success) {
         setFormSubmitted(true);
+        toast({
+          title: "Application Submitted",
+          description: "Your driver application has been submitted successfully. We'll review it and get back to you soon.",
+          variant: "default",
+        });
+
+        // Reset form after successful submission
         resetForm();
-        // Reset file inputs and previews
+        setPreviews({
+          carImage: null,
+          licenseFront: null,
+          licenseBack: null,
+        });
         if (carImageRef.current) carImageRef.current.value = "";
         if (licenseFrontRef.current) licenseFrontRef.current.value = "";
         if (licenseBackRef.current) licenseBackRef.current.value = "";
-        // Clean up preview URLs
-        if (previews.carImage) URL.revokeObjectURL(previews.carImage);
-        if (previews.licenseFront) URL.revokeObjectURL(previews.licenseFront);
-        if (previews.licenseBack) URL.revokeObjectURL(previews.licenseBack);
-        setPreviews({ carImage: null, licenseFront: null, licenseBack: null });
-        
-        // Show success toast with email status
-        const emailDetails = response.emailDetails || {};
-        const driverEmailSent = response.userEmailSent || emailDetails.driver?.sent || false;
-        
-        if (driverEmailSent) {
-          toast({
-            title: "Registration Successful! ✅",
-            description: "Your driver registration has been submitted successfully. Please check your email for confirmation.",
-            variant: "default",
-          });
-        } else {
-          toast({
-            title: "Registration Submitted! ✅",
-            description: "Your driver registration has been submitted successfully. However, we couldn't send the confirmation email. Please contact us at reservation@oktaxis.co.uk if you have any questions.",
-            variant: "default",
-          });
-        }
-        
-        setTimeout(() => setFormSubmitted(false), 5000);
       } else {
-        throw new Error(response?.message || "Registration failed");
+        throw new Error(response.data.message || "Failed to submit application");
       }
     } catch (err: any) {
-      const errorMessage = err?.message || "Failed to submit form. Please try again.";
+      const errorMessage =
+        err?.response?.data?.message ||
+        err?.message ||
+        "An error occurred while submitting your application. Please try again.";
       setError(errorMessage);
-      
-      // Show error toast
       toast({
-        title: "Registration Failed",
+        title: "Submission Failed",
         description: errorMessage,
         variant: "destructive",
       });
@@ -504,6 +503,13 @@ function registerDriverForm() {
               )}
             </div>
           </div>
+
+          {/* Error Message */}
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+              <p className="text-sm font-medium">{error}</p>
+            </div>
+          )}
 
           {/* Submit */}
           <div>

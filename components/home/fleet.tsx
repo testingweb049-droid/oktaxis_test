@@ -11,7 +11,7 @@ import type { Swiper as SwiperType } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import type { FleetType } from "@/lib/fleet-data";
+import type { FleetType } from "@/types/fleet.types";
 
 // Constants
 const SWIPER_SPACE_BETWEEN = 24;
