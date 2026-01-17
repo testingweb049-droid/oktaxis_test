@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { Timer } from 'lucide-react';
 import WhiteLogo from '@/assets/logo-white.png';
 import { useOrder, type OrderData } from '@/hooks/useOrder';
+import { usePricing, DEFAULT_PRICING } from '@/hooks/usePricing';
 
 interface OrderPageProps {
   id: string;
@@ -24,6 +25,8 @@ function orderPage({ id }: OrderPageProps) {
   
   // Fetch order data using the hook
   const { data: order, isLoading: loading, error: queryError, refetch } = useOrder(id);
+  // Fetch pricing data
+  const { data: pricing = DEFAULT_PRICING } = usePricing();
 
   useEffect(() => {
     if (isOrderDone) resetForm();
@@ -118,17 +121,13 @@ function orderPage({ id }: OrderPageProps) {
   // The stored price is the TOTAL price including all extras
   const totalPrice = Number(order.price) || 0;
   
-  // Calculate all extras fees using constants
-  const MEET_GREET_FEE = 15;
-  const FLIGHT_TRACK_FEE = 7;
-  const EXTRA_STOP_FEE = 7;
-  
-  const meetGreetPrice = order.meet_greet ? MEET_GREET_FEE : 0;
-  const flightTrackPrice = order.flight_track ? FLIGHT_TRACK_FEE : 0;
-  const extraStopsPrice = (order.extra_stops_count || 0) * EXTRA_STOP_FEE;
-  const returnMeetGreetPrice = order.return_meet_greet ? MEET_GREET_FEE : 0;
-  const returnFlightTrackPrice = order.return_flight_track ? FLIGHT_TRACK_FEE : 0;
-  const returnExtraStopsPrice = (order.return_extra_stops_count || 0) * EXTRA_STOP_FEE;
+  // Calculate all extras fees using dynamic pricing
+  const meetGreetPrice = order.meet_greet ? pricing.outbound.meetGreet : 0;
+  const flightTrackPrice = order.flight_track ? pricing.outbound.flightTrack : 0;
+  const extraStopsPrice = (order.extra_stops_count || 0) * pricing.outbound.extraStop;
+  const returnMeetGreetPrice = order.return_meet_greet ? pricing.return.meetGreet : 0;
+  const returnFlightTrackPrice = order.return_flight_track ? pricing.return.flightTrack : 0;
+  const returnExtraStopsPrice = (order.return_extra_stops_count || 0) * pricing.return.extraStop;
   
   // Total of all extras
   const totalExtras = meetGreetPrice + flightTrackPrice + extraStopsPrice + 

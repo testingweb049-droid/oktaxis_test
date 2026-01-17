@@ -41,5 +41,11 @@ export const queryKeys = {
     details: () => [...queryKeys.orders.all, 'detail'] as const,
     detail: (identifier: string) => [...queryKeys.orders.details(), identifier] as const,
   },
+
+  // Pricing queries
+  pricing: {
+    all: ['pricing'] as const,
+    current: () => [...queryKeys.pricing.all, 'current'] as const,
+  },
 } as const;
 
