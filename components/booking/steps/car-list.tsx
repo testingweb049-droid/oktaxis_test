@@ -20,7 +20,7 @@ function CarList() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const distance = category === 'trip' ? Number(formData.distance.value) || 0 : undefined;
   const duration = category === 'hourly' ? Number(formData.duration.value) || 0 : undefined;
-  const { data: fleets = [], isLoading: fleetsLoading, error: fleetsError } = useFleets({
+  const { data: fleetsData, isLoading: fleetsLoading, error: fleetsError } = useFleets({
     distance,
     duration,
   });
@@ -30,7 +30,7 @@ function CarList() {
       setDialogOpen(true);
     }
   }, [category]);
-  const fleetList: FleetType[] = Array.isArray(fleets) ? fleets : [];
+  const fleetList: FleetType[] = (fleetsData as FleetType[] | undefined) || [];
 
   const handleSelect = async (item: FleetType, price: number) => {
     setFormData("car", item.name, '');

@@ -59,7 +59,7 @@ const FleetCard = ({ vehicle }: { vehicle: FleetType }) => (
       <div className="relative w-full aspect-[4/2] flex items-center justify-center">
         <Image
           src={vehicle.image || "/placeholder.svg"}
-          alt={vehicle.name || vehicle.cars}
+          alt={vehicle.name || vehicle.cars || "Vehicle"}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-contain object-center"
