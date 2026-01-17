@@ -34,5 +34,12 @@ export const queryKeys = {
     all: ['checkout'] as const,
     session: (sessionId?: string) => [...queryKeys.checkout.all, 'session', sessionId] as const,
   },
+
+  // Order queries
+  orders: {
+    all: ['orders'] as const,
+    details: () => [...queryKeys.orders.all, 'detail'] as const,
+    detail: (identifier: string) => [...queryKeys.orders.details(), identifier] as const,
+  },
 } as const;
 
