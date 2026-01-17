@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { getOrderById } from '@/actions/get-order';
 import useFormStore from '@/stores/form-store';
 import { TbCopy } from 'react-icons/tb';
 import { MdOutlineFlight, MdOutlineEmail, MdOutlinePhone, MdOutlinePayment, MdAirlines } from 'react-icons/md';
@@ -10,112 +9,32 @@ import { BiUserCircle } from 'react-icons/bi';
 import Image from 'next/image';
 import { Timer } from 'lucide-react';
 import WhiteLogo from '@/assets/logo-white.png';
+import { useOrder, type OrderData } from '@/hooks/useOrder';
 
 interface OrderPageProps {
   id: string;
 }
 
-export interface OrderProps {
-  id: number;
-  category: string;
-  price: string;
-  car: string;
-  distance?: string | null;
-  stops?: string[] | null;
-  pickup_date?: string | null;
-  pickup_time?: string | null;
-  return_date?: string | null;
-  return_time?: string | null;
-  is_return?: boolean | null;
-  pickup_location: string;
-  dropoff_location?: string | null;
-  passengers: number;
-  bags: number;
-  name: string;
-  email: string;
-  phone: string;
-  flight_name?: string | null;
-  flight_number?: string | null;
-  payment_id?: string | null;
-  payment_method?: string | null;
-  duration?: number | null;
-  flight_track?: boolean | null;
-  meet_greet?: boolean | null;
-  extra_stops_count?: number | null;
-  return_flight_track?: boolean | null;
-  return_meet_greet?: boolean | null;
-  return_extra_stops_count?: number | null;
-  instructions?: string | null;
-  updated_at: string;
-  created_at: string;
-}
+// Use OrderData from the hook instead of defining a separate interface
+export type OrderProps = OrderData;
 
 function orderPage({ id }: OrderPageProps) {
-  const [order, setOrder] = useState<OrderProps | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const { resetForm, isOrderDone } = useFormStore();
-
-  useEffect(() => {
-    if (!id || id === 'undefined' || id === 'null') {
-      setError('Invalid order ID');
-      setLoading(false);
-      return;
-    }
-
-    const fetchOrder = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const result = await getOrderById(id);
-
-        if (result.status === 200 && result.order) {
-          const orderData = result.order;
-
-          // Verify payment was confirmed before showing order
-          if (!orderData.payment_id) {
-            setError('Payment not confirmed for this order. Please contact support.');
-            setLoading(false);
-            return;
-          }
-
-          // Convert Date fields to string (handle both Date objects and strings)
-          const formatDateField = (date: any): string | null => {
-            if (!date) return null;
-            if (typeof date === 'string') return date;
-            if (date instanceof Date) return date.toISOString();
-            return null;
-          };
-
-          const formattedOrder: OrderProps = {
-            ...orderData,
-            pickup_date: formatDateField(orderData.pickup_date),
-            return_date: formatDateField(orderData.return_date),
-            updated_at: formatDateField(orderData.updated_at) || '',
-            created_at: formatDateField(orderData.created_at) || '',
-          };
-
-          setOrder(formattedOrder);
-        } else {
-          setError(result.error || 'Order not found.');
-        }
-      } catch (err: unknown) {
-        console.error('Error in OrderPage:', err);
-        const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred';
-        setError(errorMessage);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchOrder();
-  }, [id]);
+  
+  // Fetch order data using the hook
+  const { data: order, isLoading: loading, error: queryError, refetch } = useOrder(id);
 
   useEffect(() => {
     if (isOrderDone) resetForm();
   }, [isOrderDone, resetForm]);
+  
+  // Extract error message from query error
+  const error = queryError?.message || (queryError ? 'Failed to load order' : null);
+  
+  const handleRetry = () => {
+    refetch();
+  };
 
   const formatMiles = (miles?: string | number | null): string => {
     if (!miles && miles !== 0) return '0';
@@ -137,6 +56,9 @@ function orderPage({ id }: OrderPageProps) {
       console.error('Failed to copy text:', copyError);
     });
   };
+  
+  // Convert order.id (string) to number for display (if needed)
+  const orderIdDisplay = order?.id || '';
 
   // Loading state
   if (loading) {
@@ -161,7 +83,7 @@ function orderPage({ id }: OrderPageProps) {
           <p className="text-gray-600 mb-6">{error}</p>
           <div className="flex gap-4 justify-center">
             <button
-              onClick={() => window.location.reload()}
+              onClick={handleRetry}
               className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Try Again
@@ -248,9 +170,9 @@ function orderPage({ id }: OrderPageProps) {
           <div className="text-center sm:text-right">
             <p className="text-sm text-gray-300 mb-1">Order ID</p>
             <div className="flex items-center gap-2 justify-center sm:justify-end">
-              <p className="text-white font-medium text-sm sm:text-base">#{order.id}</p>
+              <p className="text-white font-medium text-sm sm:text-base">#{orderIdDisplay}</p>
               <button
-                onClick={() => handleCopy(order.id.toString(), 'orderId')}
+                onClick={() => handleCopy(orderIdDisplay, 'orderId')}
                 className="flex items-center gap-1 text-gray-400 hover:text-gray-200 transition-colors"
                 title="Copy Order ID"
               >
