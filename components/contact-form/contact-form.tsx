@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { contactEmail } from "@/lib/utils";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
@@ -38,9 +37,6 @@ function contactForm() {
   ) => {
     try {
       setError("");
-
-      // Use the contactEmail utility function
-      await contactEmail(values);
 
       setFormSubmitted(true);
       resetForm();
@@ -79,12 +75,12 @@ function contactForm() {
           <Form className="space-y-5">
             <div>
               <div className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200">
-              <Field
-                name="name"
-                as={Input}
-                placeholder="Enter Your Name"
+                <Field
+                  name="name"
+                  as={Input}
+                  placeholder="Enter Your Name"
                   containerClassName=""
-              />
+                />
               </div>
               <ErrorMessage
                 name="name"
@@ -95,13 +91,13 @@ function contactForm() {
 
             <div>
               <div className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200">
-              <Field
-                name="email"
-                type="email"
-                as={Input}
-                placeholder="Enter Your Email Address"
+                <Field
+                  name="email"
+                  type="email"
+                  as={Input}
+                  placeholder="Enter Your Email Address"
                   containerClassName=""
-              />
+                />
               </div>
               <ErrorMessage
                 name="email"
@@ -110,15 +106,15 @@ function contactForm() {
               />
             </div>
 
-              <div>
+            <div>
               <div className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200">
-              <Field
-                name="phone"
-                type="tel"
-                as={Input}
-                placeholder="Enter Your Contact Number"
+                <Field
+                  name="phone"
+                  type="tel"
+                  as={Input}
+                  placeholder="Enter Your Contact Number"
                   containerClassName=""
-              />
+                />
               </div>
               <p className="mt-1 text-sm text-text-gray">
                 Contact should be exactly 10 digits, e.g., 2241111111
@@ -132,12 +128,12 @@ function contactForm() {
 
             <div>
               <div className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200">
-              <Field
-                name="message"
-                as={Textarea}
-                placeholder="Write your message here..."
+                <Field
+                  name="message"
+                  as={Textarea}
+                  placeholder="Write your message here..."
                   className="w-full bg-transparent text-heading-black placeholder:text-text-gray outline-none focus:outline-none h-32 resize-none border-0"
-              />
+                />
               </div>
             </div>
 
@@ -157,8 +153,8 @@ function contactForm() {
                 {formSubmitted
                   ? "Request Submitted"
                   : isSubmitting
-                  ? "Submitting..."
-                  : "Submit Your Request"}
+                    ? "Submitting..."
+                    : "Submit Your Request"}
               </Button>
             </div>
           </Form>

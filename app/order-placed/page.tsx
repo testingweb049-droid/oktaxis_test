@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { useProcessCheckoutSuccess } from '@/hooks/useCheckout';
 import { useFleets } from '@/hooks/useFleets';
+import type { FleetType } from '@/types/fleet.types';
 
 function OrderPlacedContent() {
   const router = useRouter();
@@ -21,7 +22,8 @@ function OrderPlacedContent() {
   
   // Use React Query hooks
   const processCheckoutMutation = useProcessCheckoutSuccess();
-  const { data: fleets = [], isLoading: fleetsLoading } = useFleets();
+  const { data: fleetsData, isLoading: fleetsLoading } = useFleets();
+  const fleets: FleetType[] = (fleetsData as FleetType[] | undefined) || [];
 
   useEffect(() => {
     const processCheckout = async () => {
@@ -61,12 +63,12 @@ function OrderPlacedContent() {
           sessionStorage.setItem(processedKey, JSON.stringify({
             orderId: data.orderId,
             order: data.order,
-            email: data.order?.email || ''
+            email: typeof data.order?.email === 'string' ? data.order.email : ''
           }));
 
           setOrderId(data.orderId);
           setOrderData(data.order);
-          setEmail(data.order?.email || '');
+          setEmail(typeof data.order?.email === 'string' ? data.order.email : '');
         } else {
           console.error('Failed to process checkout:', data.error);
           router.replace('/book-ride?error=payment_failed');

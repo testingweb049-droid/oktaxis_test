@@ -4,6 +4,7 @@
  */
 
 import { useQuery, type UseQueryOptions } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import type { ApiError } from '@/lib/api/types';
 import { defaultQueryOptions, defaultErrorHandler } from '@/lib/api/config';
 
@@ -23,16 +24,22 @@ export function useApiQuery<TData, TError = ApiError>(
 ) {
   const { onError, ...queryOptions } = options;
 
-  return useQuery<TData, TError>({
+  const queryResult = useQuery<TData, TError>({
     ...defaultQueryOptions,
     ...queryOptions,
-    onError: (error) => {
-      if (onError) {
-        onError(error);
-      } else {
-        defaultErrorHandler(error);
-      }
-    },
   });
+
+  // Handle errors using useEffect (React Query v5 removed onError from options)
+  useEffect(() => {
+    if (queryResult.error) {
+      if (onError) {
+        onError(queryResult.error);
+      } else {
+        defaultErrorHandler(queryResult.error);
+      }
+    }
+  }, [queryResult.error, onError]);
+
+  return queryResult;
 }
 

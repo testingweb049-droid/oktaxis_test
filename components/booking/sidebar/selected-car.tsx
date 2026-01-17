@@ -2,10 +2,12 @@ import useFormStore from "@/stores/form-store";
 import Image from "next/image";
 import { LuggageIcon, Users } from "lucide-react";
 import { useFleets } from "@/hooks/useFleets";
+import type { FleetType } from "@/types/fleet.types";
  
 function selectedCar() {
   const { formData } = useFormStore();
-  const { data: fleets = [], isLoading: loading } = useFleets();
+  const { data: fleetsData, isLoading: loading } = useFleets();
+  const fleets: FleetType[] = (fleetsData as FleetType[] | undefined) || [];
 
   const selectedFleet = fleets.find((item) => item.name === formData.car.value);
   
