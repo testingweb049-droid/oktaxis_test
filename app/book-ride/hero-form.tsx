@@ -11,11 +11,15 @@ import NewDateTimePicker from '@/components/booking/forms/new-date-time-picker'
 import { isAirportLocation, validateBookingTime } from '@/lib/utils'
 import { heroFormValidationSchema } from '@/types/form-interfaces'
 import { useToast } from '@/components/ui/use-toast'
+import { usePricing } from '@/hooks/usePricing'
 
 function HeroForm() {
   const { category, changeCategory, formError, formLoading, changeStep, formData, setFormData, manageStops, isOrderDone, step, resetForm, setFieldOptions } = useFormStore()
   const router = useRouter()
   const { toast } = useToast()
+  const { data: pricing } = usePricing()
+  const minimumBookingHours = pricing?.minimumBookingHours ?? 0
+  const timezone = pricing?.timezone ?? ""
   
   // Memoize duration array to prevent recreation on every render
   const durationArray = useMemo(() => {
@@ -138,13 +142,13 @@ function HeroForm() {
       return
     }
 
-    // Check 5-hour requirement separately and show toast if invalid
+    // Check minimum booking hours requirement separately and show toast if invalid
     if (formData.date.value && formData.time.value) {
       const timeValidation = validateBookingTime(
         formData.date.value,
         formData.time.value,
-        5,
-        "Europe/London"
+        minimumBookingHours,
+        timezone
       )
 
       if (!timeValidation.isValid) {
@@ -175,9 +179,9 @@ function HeroForm() {
         
         toast({
           title: "Booking Too Soon",
-          description: timeValidation.error || "Booking can't be added within 5 hours of pickup time, choose another time.",
+          description: timeValidation.error || `Booking can't be added within ${minimumBookingHours} hours of pickup time, choose another time.`,
           variant: "destructive",
-          duration: 3000, // 3 seconds
+          duration: 3000,
         })
         return
       }
@@ -205,6 +209,8 @@ function HeroForm() {
     changeStep,
     router,
     toast,
+    minimumBookingHours,
+    timezone,
   ])
 
 

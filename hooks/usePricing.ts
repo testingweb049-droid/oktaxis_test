@@ -15,27 +15,37 @@ export interface PricingData {
     meetGreet: number;
     flightTrack: number;
     extraStop: number;
-    discount: number; // Return discount percentage
   };
+  vehicle: Record<string, number>; // Vehicle display discount percentages by vehicle name
+  returnDiscount: Record<string, number>; // Return discount percentages per vehicle
+  hourlyRanges: Array<{ minHours: number; maxHours: number; percent: number }>; // Hourly pricing ranges: [{minHours, maxHours, percent}, ...] - Used for both hourly bookings and last-minute pricing
+  dateRanges: Array<{ startDate: string; endDate: string; percent: number }>; // Date-based pricing ranges: [{startDate, endDate, percent}, ...] - Used for seasonal/peak pricing
+  minimumBookingHours: number; // Minimum hours before booking can be made
+  timezone: string; // Timezone for booking validation (e.g., "America/New_York")
 }
 
 interface PricingResponse extends ApiResponse<PricingData> {
   data: PricingData;
 }
 
-// Default fallback pricing values
+// Empty fallback pricing - all values must come from backend
 export const DEFAULT_PRICING: PricingData = {
   outbound: {
-    meetGreet: 15,
-    flightTrack: 7,
-    extraStop: 7,
+    meetGreet: 0,
+    flightTrack: 0,
+    extraStop: 0,
   },
   return: {
-    meetGreet: 15,
-    flightTrack: 7,
-    extraStop: 7,
-    discount: 10, // Return discount percentage (default 10%)
+    meetGreet: 0,
+    flightTrack: 0,
+    extraStop: 0,
   },
+  vehicle: {},
+  returnDiscount: {},
+  hourlyRanges: [],
+  dateRanges: [],
+  minimumBookingHours: 0,
+  timezone: "",
 };
 
 const fetchPricing = async (): Promise<PricingData> => {

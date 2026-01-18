@@ -26,7 +26,9 @@ function Step3() {
 
         let returnPrice = 0;
         if (category !== 'hourly' && formData.isReturn?.value && basePrice > 0) {
-            const discountedPrice = calculateReturnPrice(basePrice, pricing.return.discount);
+            // Get vehicle-specific return discount from backend pricing settings
+            const vehicleReturnDiscount = pricing.returnDiscount[formData.car.value] ?? 0;
+            const discountedPrice = calculateReturnPrice(basePrice, vehicleReturnDiscount);
             returnPrice = discountedPrice;
         }
 

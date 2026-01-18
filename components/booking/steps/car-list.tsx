@@ -11,13 +11,16 @@ import { useRouter } from "next/navigation";
 import type { FleetType } from "@/types/fleet.types";
 import { useFleets } from "@/hooks/useFleets";
 import { formatPrice } from "@/lib/utils/pricing";
+import { fromZonedTime, toZonedTime } from "date-fns-tz";
 import { HourlyInfoDialog } from "./hourly-info-dialog";
 import { FleetFeaturesAccordion } from "./fleet-features-accordion";
+import { usePricing, DEFAULT_PRICING } from "@/hooks/usePricing";
 
 function CarList() {
   const { formData, category, setFormData, changeStep, formLoading } = useFormStore();
   const router = useRouter();
   const [dialogOpen, setDialogOpen] = useState(false);
+  const { data: pricing = DEFAULT_PRICING } = usePricing();
   const distance = category === 'trip' ? Number(formData.distance.value) || 0 : undefined;
   const duration = category === 'hourly' ? Number(formData.duration.value) || 0 : undefined;
   const { data: fleetsData, isLoading: fleetsLoading, error: fleetsError } = useFleets({
@@ -84,8 +87,89 @@ function CarList() {
           </div>
         )}
         {filteredFleets.map((item) => {
-        const price = (item as any).calculatedPrice || 0;
-        const priceString = formatPrice(price);
+        let basePrice = (item as any).calculatedPrice || 0;
+        
+        let finalPrice = basePrice;
+        let isLastMinute = false;
+        let lastMinutePercent = 0;
+        let isDateBased = false;
+        let dateBasedPercent = 0;
+        
+        // Check for date-based pricing (seasonal/peak pricing)
+        if (formData.date?.value && pricing.dateRanges.length > 0) {
+          try {
+            const bookingDate = new Date(formData.date.value);
+            // Set to start of day for comparison
+            bookingDate.setHours(0, 0, 0, 0);
+            
+            // Find matching date range
+            const matchingDateRange = pricing.dateRanges.find((range) => {
+              const startDate = new Date(range.startDate);
+              startDate.setHours(0, 0, 0, 0);
+              const endDate = new Date(range.endDate);
+              endDate.setHours(23, 59, 59, 999); // Include entire end date
+              
+              return bookingDate >= startDate && bookingDate <= endDate;
+            });
+            
+            if (matchingDateRange && matchingDateRange.percent > 0) {
+              isDateBased = true;
+              dateBasedPercent = matchingDateRange.percent;
+              // Apply the percentage increase from date range
+              const increaseAmount = (finalPrice * matchingDateRange.percent) / 100;
+              finalPrice = finalPrice + increaseAmount;
+            }
+          } catch (error) {
+            console.error('Error calculating date-based pricing:', error);
+          }
+        }
+        
+        // Check for last-minute pricing using hourly ranges (based on hours until booking)
+        // Hourly ranges represent: if booking is made within minHours-maxHours from now, apply percent increase
+        if (formData.date?.value && formData.time?.value && pricing.hourlyRanges.length > 0 && pricing.timezone) {
+          try {
+            // Get current UTC time
+            const nowUTC = new Date();
+            
+            // Parse selected date and time
+            const [year, month, day] = formData.date.value.split('-').map(Number);
+            const [hours, minutes] = formData.time.value.split(':').map(Number);
+            
+            // Create pickup datetime in timezone (treating the input as if it's in the specified timezone)
+            const pickupDateTimeLocal = new Date(year, month - 1, day, hours, minutes);
+            
+            // Convert local time to UTC (treating pickupDateTimeLocal as if it's in pricing.timezone)
+            const pickupDateTimeUTC = fromZonedTime(pickupDateTimeLocal, pricing.timezone);
+            
+            // Calculate hours until booking (comparing UTC times)
+            const hoursUntilBooking = Math.max(0, (pickupDateTimeUTC.getTime() - nowUTC.getTime()) / (1000 * 60 * 60));
+            
+            // Find matching hourly range for the hours until booking (range represents hours threshold for last-minute)
+            const matchingRange = pricing.hourlyRanges.find(
+              (range) => hoursUntilBooking >= range.minHours && hoursUntilBooking <= range.maxHours
+            );
+            
+            if (matchingRange && matchingRange.percent > 0) {
+              isLastMinute = true;
+              lastMinutePercent = matchingRange.percent;
+              // Apply the percentage increase from hourly range (percent represents price increase)
+              const increaseAmount = (finalPrice * matchingRange.percent) / 100;
+              finalPrice = finalPrice + increaseAmount;
+            }
+          } catch (error) {
+            console.error('Error calculating last-minute pricing:', error);
+          }
+        }
+        
+        const priceString = formatPrice(finalPrice);
+        const vehicleDiscount = pricing.vehicle[item.name] || 0;
+        const showDiscount = vehicleDiscount > 0;
+        
+        // Calculate original price (before display discount)
+        let originalPrice = showDiscount ? finalPrice / (1 - vehicleDiscount / 100) : finalPrice;
+        
+        // If last-minute pricing is applied, show the base price as well
+        const showLastMinutePrice = isLastMinute && lastMinutePercent > 0;
         
         return <div
           key={item.name}
@@ -124,12 +208,24 @@ function CarList() {
                 <span>{item.suitcases}</span>
               </div>
               <div className="flex items-center gap-1.5 sm:gap-2 ml-auto">
-                <div className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-900">
-                  £{priceString}
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <div className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-900">
+                    £{priceString}
+                  </div>
+                  {showDiscount && (
+                    <div className="text-xs text-red-500 line-through">
+                      £{originalPrice.toFixed(2)}
+                    </div>
+                  )}
+                  {showLastMinutePrice && (
+                    <div className="text-xs text-red-500 line-through">
+                      £{basePrice.toFixed(2)}
+                    </div>
+                  )}
                 </div>
-                {(item.name === "Business Class" || item.name === "First Class") && (
-                  <div className="text-xs text-red-500 line-through">
-                    £{(price * 1.1).toFixed(2)}
+                {showLastMinutePrice && (
+                  <div className="text-xs text-orange-600 font-semibold">
+                    Last-minute +{lastMinutePercent}%
                   </div>
                 )}
               </div>
@@ -149,7 +245,7 @@ function CarList() {
               </div>
             ) : (
               <button
-                onClick={() => handleSelect(item, price)}
+                onClick={() => handleSelect(item, finalPrice)}
                 disabled={formLoading}
                 aria-label={`Select ${item.name} vehicle`}
                 className={cn(
