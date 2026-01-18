@@ -13,8 +13,10 @@ export default function AddReturn() {
   const from = formData.fromLocation?.value || ""
   const to = formData.toLocation?.value || ""
   const isReturn = formData.isReturn?.value || false
+  const vehicleName = formData.car?.value || ""
 
-  const discountPercent = pricing.return.discount || 10
+  // Get vehicle-specific return discount from backend pricing settings
+  const discountPercent = vehicleName ? (pricing.returnDiscount[vehicleName] ?? 0) : 0
   const discountAmount = (basePrice * discountPercent) / 100
   const discountedPrice = basePrice - discountAmount
   const formattedPrice = discountedPrice.toFixed(2)
