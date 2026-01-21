@@ -10,6 +10,7 @@ import NewDateTimePicker from '@/components/booking/forms/new-date-time-picker'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { useCreateCheckoutSession } from '@/hooks/useCheckout'
+import { useCreatePendingBooking } from '@/hooks/useBooking'
 import { useToast } from '@/components/ui/use-toast'
 import { calculateReturnPrice, formatPrice } from '@/lib/utils/pricing'
 import { usePricing, DEFAULT_PRICING } from '@/hooks/usePricing'
@@ -18,6 +19,7 @@ import { validateReturnDate } from '@/lib/utils/validation'
 function Step3DetailsForm() {
     const { formData, setFormData, changeStep, formLoading, category } = useFormStore();
     const { toast } = useToast();
+    const createPendingBookingMutation = useCreatePendingBooking();
     const createCheckoutMutation = useCreateCheckoutSession();
     const { data: pricing = DEFAULT_PRICING } = usePricing();
     
@@ -26,7 +28,6 @@ function Step3DetailsForm() {
 
         let returnPrice = 0;
         if (category !== 'hourly' && formData.isReturn?.value && basePrice > 0) {
-            // Get vehicle-specific return discount from backend pricing settings
             const vehicleReturnDiscount = pricing.returnDiscount[formData.car.value] ?? 0;
             const discountedPrice = calculateReturnPrice(basePrice, vehicleReturnDiscount);
             returnPrice = discountedPrice;
@@ -152,7 +153,14 @@ function Step3DetailsForm() {
 
     const getErrorMessage = useCallback((error: any): string => {
         if (error?.response?.status === 400) {
+            const errorMessage = error?.response?.data?.message || error?.response?.data?.error;
+            if (errorMessage) {
+                return errorMessage;
+            }
             return 'Invalid booking information. Please check your details and try again.';
+        }
+        if (error?.response?.status === 404) {
+            return 'Booking not found. Please start over.';
         }
         if (error?.response?.status === 500) {
             return 'Server error. Please try again in a few moments or contact support.';
@@ -165,20 +173,35 @@ function Step3DetailsForm() {
 
     const handleCheckout = useCallback(async () => {
         try {
+            // Step 1: Create pending booking
             const orderData = prepareOrderData(totalPrice);
-
-            const result = await createCheckoutMutation.mutateAsync({
-                amount: parseFloat(totalPrice),
-                orderData,
-            });
-
-            if (!result.url) {
-                throw new Error(result.error || 'Failed to create checkout session');
+            
+            const bookingResult = await createPendingBookingMutation.mutateAsync(orderData);
+            
+            if (!bookingResult.data?.bookingId) {
+                throw new Error('Failed to create booking');
             }
 
-            window.location.href = result.url;
+            const bookingId = bookingResult.data.bookingId;
+
+            // Step 2: Create checkout session with bookingId
+            const checkoutResult = await createCheckoutMutation.mutateAsync({
+                amount: parseFloat(totalPrice),
+                bookingId,
+            });
+
+            if (!checkoutResult.url && !checkoutResult.data?.url) {
+                throw new Error(checkoutResult.error || 'Failed to create checkout session');
+            }
+
+            const checkoutUrl = checkoutResult.url || checkoutResult.data?.url;
+            if (checkoutUrl) {
+                window.location.href = checkoutUrl;
+            } else {
+                throw new Error('No checkout URL received');
+            }
         } catch (error: any) {
-            console.error('Error creating checkout session:', error);
+            console.error('Error in checkout flow:', error);
 
             toast({
                 title: "Payment Error",
@@ -187,10 +210,10 @@ function Step3DetailsForm() {
                 duration: 5000,
             });
         }
-    }, [totalPrice, prepareOrderData, createCheckoutMutation, toast, getErrorMessage]);
+    }, [totalPrice, prepareOrderData, createPendingBookingMutation, createCheckoutMutation, toast, getErrorMessage]);
 
     const handleContinueToPayment = useCallback(async () => {
-        if (formLoading || createCheckoutMutation.isPending) return;
+        if (formLoading || createCheckoutMutation.isPending || createPendingBookingMutation.isPending) return;
         if (!validateReturnJourney()) return;
         const isValid = await changeStep(true, 3);
         if (!isValid) return;
@@ -198,6 +221,7 @@ function Step3DetailsForm() {
     }, [
         formLoading,
         createCheckoutMutation.isPending,
+        createPendingBookingMutation.isPending,
         validateReturnJourney,
         changeStep,
         handleCheckout
@@ -353,12 +377,12 @@ function Step3DetailsForm() {
 
             <Button
                 onClick={handleContinueToPayment}
-                disabled={formLoading || createCheckoutMutation.isPending}
+                disabled={formLoading || createCheckoutMutation.isPending || createPendingBookingMutation.isPending}
                 className="w-full"
                 size="lg"
                 aria-label="Continue to payment"
             >
-                {(formLoading || createCheckoutMutation.isPending) && (
+                {(formLoading || createCheckoutMutation.isPending || createPendingBookingMutation.isPending) && (
                     <Loader className="animate-spin w-4 h-4 mr-2" aria-hidden="true" />
                 )}
                 <span>Continue to Payment - £{totalPrice}</span>

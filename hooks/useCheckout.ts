@@ -6,37 +6,7 @@ import { useApiMutation } from './api/useApiMutation';
 
 export interface CreateCheckoutSessionRequest {
   amount: number;
-  orderData: {
-    name: string;
-    email: string;
-    phone: string;
-    car: string;
-    price: string;
-    totalAmount: number;
-    distance: number;
-    fromLocation: string;
-    toLocation: string;
-    stops: string[];
-    date: string;
-    time: string;
-    duration: string;
-    passengers: string;
-    bags: string;
-    isReturn?: boolean;
-    returnDate?: string;
-    returnTime?: string;
-    isFlightTrack?: boolean;
-    isMeetGreet?: boolean;
-    extraStopsCount?: string;
-    isReturnFlightTrack?: boolean;
-    isReturnMeetGreet?: boolean;
-    returnExtraStopsCount?: string;
-    isAirportPickup?: boolean;
-    flightName?: string;
-    flightNumber?: string;
-    instructions?: string;
-    category: 'trip' | 'hourly';
-  };
+  bookingId: string;
 }
 
 export interface CheckoutSessionData {
