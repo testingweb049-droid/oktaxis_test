@@ -2,7 +2,7 @@
 import { User, Mail, Plane, Loader } from 'lucide-react'
 import React, { useMemo, memo, useCallback } from 'react'
 import { DetailsInput, PhoneInput } from '@/components/booking/forms/user-detail-input'
-import useFormStore, { FormDataType } from '@/stores/form-store'
+import useFormStore from '@/stores/form-store'
 import SelectableCheckbox from '@/components/booking/forms/selectable-checkbox'
 import QuantityCheckbox from '@/components/booking/forms/quantity-checkbox'
 import AddReturn from '@/components/booking/forms/add-return'
@@ -15,7 +15,7 @@ import { calculateReturnPrice, formatPrice } from '@/lib/utils/pricing'
 import { usePricing, DEFAULT_PRICING } from '@/hooks/usePricing'
 import { validateReturnDate } from '@/lib/utils/validation'
 
-function Step3() {
+function Step3DetailsForm() {
     const { formData, setFormData, changeStep, formLoading, category } = useFormStore();
     const { toast } = useToast();
     const createCheckoutMutation = useCreateCheckoutSession();
@@ -64,52 +64,13 @@ function Step3() {
         category,
         pricing
     ]);
-    const validateRequiredFields = useCallback((): boolean => {
-        let hasErrors = false;
 
-        // Set errors on empty required fields
-        useFormStore.setState((state) => {
-            const updatedFormData = { ...state.formData };
-
-            if (!state.formData.name.value || !state.formData.name.value.trim()) {
-                updatedFormData.name = { ...updatedFormData.name, error: 'Name is required' };
-                hasErrors = true;
-            } else {
-                // Clear error if field is valid
-                updatedFormData.name = { ...updatedFormData.name, error: '' };
-            }
-
-            if (!state.formData.email.value || !state.formData.email.value.trim()) {
-                updatedFormData.email = { ...updatedFormData.email, error: 'Email is required' };
-                hasErrors = true;
-            } else {
-                // Clear error if field is valid
-                updatedFormData.email = { ...updatedFormData.email, error: '' };
-            }
-
-            if (!state.formData.phone.value || !state.formData.phone.value.trim()) {
-                updatedFormData.phone = { ...updatedFormData.phone, error: 'Phone is required' };
-                hasErrors = true;
-            } else {
-                // Clear error if field is valid
-                updatedFormData.phone = { ...updatedFormData.phone, error: '' };
-            }
-
-            return { formData: updatedFormData };
-        });
-
-        return !hasErrors;
-    }, []);
 
     const validateReturnJourney = useCallback((): boolean => {
         const state = useFormStore.getState();
-
-        // Skip validation for hourly category
         if (state.category === 'hourly') {
             return true;
         }
-
-        // Skip validation if return is not selected
         if (!state.formData.isReturn?.value) {
             return true;
         }
@@ -122,7 +83,6 @@ function Step3() {
         );
 
         if (!returnValidation.isValid) {
-            // Set errors on return date and time fields
             const errorMessage = returnValidation.error || "Return date must be after pickup date";
             useFormStore.setState((currentState) => {
                 const updatedFormData = { ...currentState.formData };
@@ -140,7 +100,6 @@ function Step3() {
             return false;
         }
 
-        // Clear errors if validation passes
         useFormStore.setState((currentState) => {
             const updatedFormData = { ...currentState.formData };
             if (updatedFormData.returnDate) {
@@ -217,7 +176,6 @@ function Step3() {
                 throw new Error(result.error || 'Failed to create checkout session');
             }
 
-            // Redirect to Stripe Checkout
             window.location.href = result.url;
         } catch (error: any) {
             console.error('Error creating checkout session:', error);
@@ -231,10 +189,8 @@ function Step3() {
         }
     }, [totalPrice, prepareOrderData, createCheckoutMutation, toast, getErrorMessage]);
 
-
     const handleContinueToPayment = useCallback(async () => {
         if (formLoading || createCheckoutMutation.isPending) return;
-        if (!validateRequiredFields()) return;
         if (!validateReturnJourney()) return;
         const isValid = await changeStep(true, 3);
         if (!isValid) return;
@@ -242,7 +198,6 @@ function Step3() {
     }, [
         formLoading,
         createCheckoutMutation.isPending,
-        validateRequiredFields,
         validateReturnJourney,
         changeStep,
         handleCheckout
@@ -251,7 +206,6 @@ function Step3() {
     return (
         <div className='flex flex-col gap-5 w-full'>
             <div className='text-xl sm:text-2xl text-heading-black font-semibold'>Add Details</div>
-            {/* max-lg:bg-gray-200 max-lg:px-2 max-lg:py-3 max-lg:rounded-md  */}
             <div className='flex flex-col gap-3 w-full'>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
                     <DetailsInput field='name' placeholder='Full Name' Icon={User} type='text' />
@@ -259,7 +213,6 @@ function Step3() {
                 </div>
                 <PhoneInput />
 
-                {/* Airport Pickup Details - After Phone Number - Hide for hourly */}
                 {category !== 'hourly' && (
                     <div className="w-full rounded-lg bg-white border border-gray-200 flex flex-col overflow-hidden">
                         <SelectableCheckbox fieldName='isAirportPickup' label='Airport Pickup Details' noBorder />
@@ -274,10 +227,8 @@ function Step3() {
                     </div>
                 )}
 
-                {/* Add Return - Hide for hourly */}
                 {category !== 'hourly' && <AddReturn />}
 
-                {/* Return Block - Show when return is checked - Hide for hourly */}
                 {category !== 'hourly' && formData.isReturn?.value && (
                     <div className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200 flex flex-col gap-2">
                         <div className='font-bold text-base sm:text-lg text-heading-black'>Return Journey</div>
@@ -400,7 +351,6 @@ function Step3() {
                 </div>
             </div>
 
-            {/* Continue Button */}
             <Button
                 onClick={handleContinueToPayment}
                 disabled={formLoading || createCheckoutMutation.isPending}
@@ -417,5 +367,5 @@ function Step3() {
     )
 }
 
-// Memoize component to prevent unnecessary re-renders
-export default memo(Step3);
+export default memo(Step3DetailsForm);
+

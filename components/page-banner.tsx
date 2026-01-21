@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import HeroForm from "@/app/book-ride/hero-form";
+import Step1Form from "@/components/booking/steps/step1-form";
 
 interface PageBannerProps {
   heading: string;
@@ -57,7 +57,7 @@ export default function PageBanner({
             {/* Right Content: Booking Form */}
             <div className="flex items-center justify-center h-full w-full mt-6 sm:mt-8 lg:mt-0 max-lg:col-span-full max-lg:mb-0">
               <div className="w-full max-w-xl">
-                <HeroForm />
+                <Step1Form />
               </div>
             </div>
           </div>

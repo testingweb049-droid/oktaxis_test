@@ -2,12 +2,14 @@
  * Validation utilities for booking form
  */
 
+import { parseTimeString } from '@/lib/utils';
+
 /**
  * Validate that return date is after pickup date
  * @param pickupDate - Pickup date string (YYYY-MM-DD)
- * @param pickupTime - Pickup time string (HH:MM)
+ * @param pickupTime - Pickup time string in 12-hour format (e.g., "2:30 PM") or 24-hour format (e.g., "14:30")
  * @param returnDate - Return date string (YYYY-MM-DD)
- * @param returnTime - Return time string (HH:MM)
+ * @param returnTime - Return time string in 12-hour format (e.g., "2:30 PM") or 24-hour format (e.g., "14:30")
  * @returns Object with isValid boolean and error message
  */
 export function validateReturnDate(
@@ -21,15 +23,21 @@ export function validateReturnDate(
   }
 
   try {
-    // Parse pickup datetime
+    // Parse pickup datetime (supports both 12h and 24h formats)
     const [pickupYear, pickupMonth, pickupDay] = pickupDate.split('-').map(Number);
-    const [pickupHour, pickupMinute] = pickupTime.split(':').map(Number);
-    const pickupDateTime = new Date(pickupYear, pickupMonth - 1, pickupDay, pickupHour, pickupMinute);
+    const pickupTimeParsed = parseTimeString(pickupTime);
+    if (!pickupTimeParsed) {
+      return { isValid: false, error: 'Invalid pickup time format' };
+    }
+    const pickupDateTime = new Date(pickupYear, pickupMonth - 1, pickupDay, pickupTimeParsed.hours, pickupTimeParsed.minutes);
 
-    // Parse return datetime
+    // Parse return datetime (supports both 12h and 24h formats)
     const [returnYear, returnMonth, returnDay] = returnDate.split('-').map(Number);
-    const [returnHour, returnMinute] = returnTime.split(':').map(Number);
-    const returnDateTime = new Date(returnYear, returnMonth - 1, returnDay, returnHour, returnMinute);
+    const returnTimeParsed = parseTimeString(returnTime);
+    if (!returnTimeParsed) {
+      return { isValid: false, error: 'Invalid return time format' };
+    }
+    const returnDateTime = new Date(returnYear, returnMonth - 1, returnDay, returnTimeParsed.hours, returnTimeParsed.minutes);
 
     if (returnDateTime <= pickupDateTime) {
       return {

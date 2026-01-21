@@ -1,12 +1,11 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect, useState, useRef, Suspense } from 'react';
+import React, { useEffect, useRef, Suspense } from 'react';
 import { MdDone } from 'react-icons/md';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { useProcessCheckoutSuccess } from '@/hooks/useCheckout';
+import { useOrder } from '@/hooks/useOrder';
 import { useFleets } from '@/hooks/useFleets';
 import type { FleetType } from '@/types/fleet.types';
 
@@ -14,75 +13,39 @@ function OrderPlacedContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
-  const [loading, setLoading] = useState(true);
-  const [orderId, setOrderId] = useState<string | null>(null);
-  const [email, setEmail] = useState<string>('');
-  const [orderData, setOrderData] = useState<any>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
   
-  // Use React Query hooks
-  const processCheckoutMutation = useProcessCheckoutSuccess();
-  const { data: fleetsData, isLoading: fleetsLoading } = useFleets();
+  // Fetch order data from API using session_id
+  // Webhook processes payment in background, so we poll if order not immediately available
+  const { data: order, isLoading: loading, error: queryError, refetch } = useOrder(sessionId || null);
+  const { data: fleetsData } = useFleets();
   const fleets: FleetType[] = (fleetsData as FleetType[] | undefined) || [];
 
+  // Polling logic: if order not found and we have session_id, retry fetching
   useEffect(() => {
-    const processCheckout = async () => {
-      if (!sessionId) {
-        router.replace('/');
-        return;
-      }
+    if (!sessionId) {
+      router.replace('/');
+      return;
+    }
 
-      // Check if this session was already processed (prevent duplicate processing on refresh)
-      const processedKey = `checkout_processed_${sessionId}`;
-      const alreadyProcessed = sessionStorage.getItem(processedKey);
-      
-      if (alreadyProcessed) {
-        // Already processed - just load the data without calling API
-        try {
-          const savedData = JSON.parse(alreadyProcessed);
-          setOrderId(savedData.orderId);
-          setOrderData(savedData.order);
-          setEmail(savedData.email || '');
-          setLoading(false);
-          return;
-        } catch (e) {
-          // If parsing fails, continue with API call
-          console.error('Error parsing saved data:', e);
-        }
-      }
+    // If order not found, poll for up to 10 seconds (webhook may take 1-2 seconds)
+    if (!loading && !order && sessionId) {
+      let pollCount = 0;
+      const maxPolls = 10; // Poll 10 times
+      const pollInterval = 1000; // 1 second between polls
 
-      try {
-        // Process checkout success using React Query mutation
-        const data = await processCheckoutMutation.mutateAsync({ sessionId });
-
-        if (data.success && data.orderId && data.order) {
-          // Booking is already created in backend by checkout-success route
-          // Just save the data and display success page
-          
-          // Save to sessionStorage to prevent re-processing on refresh
-          sessionStorage.setItem(processedKey, JSON.stringify({
-            orderId: data.orderId,
-            order: data.order,
-            email: typeof data.order?.email === 'string' ? data.order.email : ''
-          }));
-
-          setOrderId(data.orderId);
-          setOrderData(data.order);
-          setEmail(typeof data.order?.email === 'string' ? data.order.email : '');
+      const pollTimer = setInterval(() => {
+        pollCount++;
+        if (pollCount <= maxPolls) {
+          refetch();
         } else {
-          console.error('Failed to process checkout:', data.error);
-          router.replace('/book-ride?error=payment_failed');
+          clearInterval(pollTimer);
         }
-      } catch (error) {
-        console.error('Error processing checkout:', error);
-        router.replace('/booking?error=payment_failed');
-      } finally {
-        setLoading(false);
-      }
-    };
+      }, pollInterval);
 
-    processCheckout();
-  }, [sessionId, router]);
+      return () => clearInterval(pollTimer);
+    }
+  }, [sessionId, loading, order, refetch, router]);
 
 
   useEffect(() => {
@@ -91,44 +54,60 @@ function OrderPlacedContent() {
     }
   }, []);
 
+  // Loading state
   if (loading) {
     return (
       <div className="w-full min-h-screen flex items-center justify-center bg-light-background">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-yellow mx-auto mb-4"></div>
-          <p className="text-text-gray font-medium">Processing your order...</p>
+          <p className="text-text-gray font-medium">Loading your order...</p>
         </div>
       </div>
     );
   }
 
-  if (!orderId) {
+  // Error state or order not found
+  if (queryError || !order) {
     return (
       <div className="w-full min-h-screen flex items-center justify-center bg-light-background">
         <div className="text-center">
-          <p className="text-red-600 mb-4 font-semibold">Failed to process your order</p>
-          <Button asChild variant="secondary">
-            <Link href="/booking">Try Again</Link>
-          </Button>
+          <p className="text-red-600 mb-4 font-semibold">
+            {queryError ? 'Failed to load your order' : 'Order not found'}
+          </p>
+          <p className="text-text-gray mb-4 text-sm">
+            {sessionId ? 'Your payment was successful. The order may still be processing. Please check back in a moment.' : 'No session ID provided.'}
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Button onClick={() => refetch()} variant="default">
+              Retry
+            </Button>
+            <Button asChild variant="secondary">
+              <Link href="/">Home</Link>
+            </Button>
+          </div>
         </div>
       </div>
     );
   }
 
+  // Extract order data
+  const orderId = order.id;
+  const email = order.email || '';
+  const orderData = order;
+
   const selectedFleet = fleets.find((item) => item.name === orderData?.car);
   
-  // Build locations array from order data
   const locations: any[] = [];
-  if (orderData?.fromLocation || orderData?.pickup_location) {
-    locations.push(orderData.fromLocation || orderData.pickup_location);
+  if (orderData?.pickup_location) {
+    locations.push(orderData.pickup_location);
   }
   if (orderData?.stops && Array.isArray(orderData.stops)) {
     locations.push(...orderData.stops);
   }
   if (orderData?.category === 'hourly' && orderData?.duration) {
     locations.push({ value: `${orderData.duration} Hours` });
-  } else if (orderData?.toLocation || orderData?.dropoff_location) {
-    locations.push(orderData.toLocation || orderData.dropoff_location);
+  } else if (orderData?.dropoff_location) {
+    locations.push(orderData.dropoff_location);
   }
 
   return (
@@ -177,14 +156,14 @@ function OrderPlacedContent() {
             <div className="flex flex-col gap-1">
               <div className="text-text-gray text-sm font-medium">Pickup Date & Time</div>
               <div className="text-heading-black font-semibold">
-                {orderData?.date || orderData?.pickup_date
-                  ? new Date(orderData.date || orderData.pickup_date).toLocaleDateString('en-GB', {
+                {orderData?.pickup_date
+                  ? new Date(orderData.pickup_date).toLocaleDateString('en-GB', {
                       day: '2-digit',
                       month: 'short',
                       year: 'numeric',
                     })
                   : 'N/A'}{' '}
-                {orderData?.time || orderData?.pickup_time || ''}
+                {orderData?.pickup_time || ''}
               </div>
             </div>
 

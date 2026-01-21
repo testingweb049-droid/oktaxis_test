@@ -17,11 +17,11 @@ export function FleetFeaturesAccordion({
   return (
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem value={`features-${fleetName}`} className="border-0">
-        <AccordionTrigger className="py-1 text-sm font-medium text-gray-700 hover:no-underline [&>svg]:text-gray-900 [&>svg]:font-bold [&>svg]:w-5 [&>svg]:h-5">
+        <AccordionTrigger className="py-1 text-xs sm:text-sm font-medium text-gray-700 hover:no-underline [&>svg]:text-gray-900 [&>svg]:font-bold [&>svg]:w-4 [&>svg]:h-4 sm:[&>svg]:w-5 sm:[&>svg]:h-5">
           <span>Included Features</span>
         </AccordionTrigger>
         <AccordionContent className="pt-2 pb-3">
-          <div className="space-y-2 text-sm text-gray-600">
+          <div className="space-y-2 text-xs sm:text-sm text-gray-600">
             <div className="flex items-center gap-2">
               <div className="w-2.5 h-2.5 rounded-full bg-brand flex-shrink-0"></div>
               <span>Free 30 minutes of wait time</span>

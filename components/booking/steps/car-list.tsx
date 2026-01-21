@@ -4,14 +4,14 @@ import { useState, useEffect, useMemo, memo } from "react";
 import Image from "next/image";
 import { GoPeople } from "react-icons/go";
 import { PiSuitcase } from "react-icons/pi";
-import { cn } from "@/lib/utils";
+import { cn, parseTimeString } from "@/lib/utils";
 import useFormStore from "@/stores/form-store";
 import { ArrowRight, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { FleetType } from "@/types/fleet.types";
 import { useFleets } from "@/hooks/useFleets";
 import { formatPrice } from "@/lib/utils/pricing";
-import { fromZonedTime, toZonedTime } from "date-fns-tz";
+import { fromZonedTime } from "date-fns-tz";
 import { HourlyInfoDialog } from "./hourly-info-dialog";
 import { FleetFeaturesAccordion } from "./fleet-features-accordion";
 import { usePricing, DEFAULT_PRICING } from "@/hooks/usePricing";
@@ -94,20 +94,17 @@ function CarList() {
         let lastMinutePercent = 0;
         let isDateBased = false;
         let dateBasedPercent = 0;
-        
-        // Check for date-based pricing (seasonal/peak pricing)
+      
         if (formData.date?.value && pricing.dateRanges.length > 0) {
           try {
             const bookingDate = new Date(formData.date.value);
-            // Set to start of day for comparison
             bookingDate.setHours(0, 0, 0, 0);
             
-            // Find matching date range
             const matchingDateRange = pricing.dateRanges.find((range) => {
               const startDate = new Date(range.startDate);
               startDate.setHours(0, 0, 0, 0);
               const endDate = new Date(range.endDate);
-              endDate.setHours(23, 59, 59, 999); // Include entire end date
+              endDate.setHours(23, 59, 59, 999);
               
               return bookingDate >= startDate && bookingDate <= endDate;
             });
@@ -115,7 +112,6 @@ function CarList() {
             if (matchingDateRange && matchingDateRange.percent > 0) {
               isDateBased = true;
               dateBasedPercent = matchingDateRange.percent;
-              // Apply the percentage increase from date range
               const increaseAmount = (finalPrice * matchingDateRange.percent) / 100;
               finalPrice = finalPrice + increaseAmount;
             }
@@ -124,37 +120,27 @@ function CarList() {
           }
         }
         
-        // Check for last-minute pricing using hourly ranges (based on hours until booking)
-        // Hourly ranges represent: if booking is made within minHours-maxHours from now, apply percent increase
         if (formData.date?.value && formData.time?.value && pricing.hourlyRanges.length > 0 && pricing.timezone) {
           try {
-            // Get current UTC time
             const nowUTC = new Date();
             
-            // Parse selected date and time
             const [year, month, day] = formData.date.value.split('-').map(Number);
-            const [hours, minutes] = formData.time.value.split(':').map(Number);
-            
-            // Create pickup datetime in timezone (treating the input as if it's in the specified timezone)
-            const pickupDateTimeLocal = new Date(year, month - 1, day, hours, minutes);
-            
-            // Convert local time to UTC (treating pickupDateTimeLocal as if it's in pricing.timezone)
-            const pickupDateTimeUTC = fromZonedTime(pickupDateTimeLocal, pricing.timezone);
-            
-            // Calculate hours until booking (comparing UTC times)
-            const hoursUntilBooking = Math.max(0, (pickupDateTimeUTC.getTime() - nowUTC.getTime()) / (1000 * 60 * 60));
-            
-            // Find matching hourly range for the hours until booking (range represents hours threshold for last-minute)
-            const matchingRange = pricing.hourlyRanges.find(
-              (range) => hoursUntilBooking >= range.minHours && hoursUntilBooking <= range.maxHours
-            );
-            
-            if (matchingRange && matchingRange.percent > 0) {
-              isLastMinute = true;
-              lastMinutePercent = matchingRange.percent;
-              // Apply the percentage increase from hourly range (percent represents price increase)
-              const increaseAmount = (finalPrice * matchingRange.percent) / 100;
-              finalPrice = finalPrice + increaseAmount;
+            const timeParsed = parseTimeString(formData.time.value);
+            if (timeParsed) {
+              const { hours, minutes } = timeParsed;
+              const pickupDateTimeLocal = new Date(year, month - 1, day, hours, minutes);
+              const pickupDateTimeUTC = fromZonedTime(pickupDateTimeLocal, pricing.timezone);
+              const hoursUntilBooking = Math.max(0, (pickupDateTimeUTC.getTime() - nowUTC.getTime()) / (1000 * 60 * 60));
+              const matchingRange = pricing.hourlyRanges.find(
+                (range) => hoursUntilBooking >= range.minHours && hoursUntilBooking <= range.maxHours
+              );
+              
+              if (matchingRange && matchingRange.percent > 0) {
+                isLastMinute = true;
+                lastMinutePercent = matchingRange.percent;
+                const increaseAmount = (finalPrice * matchingRange.percent) / 100;
+                finalPrice = finalPrice + increaseAmount;
+              }
             }
           } catch (error) {
             console.error('Error calculating last-minute pricing:', error);
@@ -164,11 +150,7 @@ function CarList() {
         const priceString = formatPrice(finalPrice);
         const vehicleDiscount = pricing.vehicle[item.name] || 0;
         const showDiscount = vehicleDiscount > 0;
-        
-        // Calculate original price (before display discount)
         let originalPrice = showDiscount ? finalPrice / (1 - vehicleDiscount / 100) : finalPrice;
-        
-        // If last-minute pricing is applied, show the base price as well
         const showLastMinutePrice = isLastMinute && lastMinutePercent > 0;
         
         return <div

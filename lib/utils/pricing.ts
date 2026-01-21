@@ -1,4 +1,5 @@
 import { MIN_PRICE, PRICE_DECIMAL_PLACES } from '@/constants/pricing';
+import { parseTimeString } from '@/lib/utils';
 
 // Price calculations have been moved to the backend
 // Fleets are now fetched with calculated prices from the backend API
@@ -40,7 +41,7 @@ export function formatPrice(price: number): string {
 /**
  * Check if booking is within specified hours from now
  * @param dateValue - Date string in format "YYYY-MM-DD"
- * @param timeValue - Time string in format "HH:MM"
+ * @param timeValue - Time string in 12-hour format (e.g., "2:30 PM") or 24-hour format (e.g., "14:30")
  * @param hoursThreshold - Number of hours threshold (e.g., 24 for 24 hours)
  * @returns true if booking is within the specified hours, false otherwise
  */
@@ -52,10 +53,12 @@ export function isBookingWithinHours(dateValue: string | undefined, timeValue: s
   try {
     const now = new Date();
     
-    // Parse selected date and time
+    // Parse selected date and time (supports both 12h and 24h formats)
     const [year, month, day] = dateValue.split('-').map(Number);
-    const [hours, minutes] = timeValue.split(':').map(Number);
+    const timeParsed = parseTimeString(timeValue);
+    if (!timeParsed) return false;
     
+    const { hours, minutes } = timeParsed;
     // Create pickup datetime (treating as local time)
     const pickupDateTime = new Date(year, month - 1, day, hours, minutes);
     

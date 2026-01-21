@@ -14,10 +14,10 @@ import {
 } from "date-fns"
 import { fromZonedTime, toZonedTime, format as formatTz } from "date-fns-tz"
 import { ChevronRight, Calendar, Clock, ChevronUp, ChevronDown, X } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn, parseTimeString } from "@/lib/utils"
 import useFormStore, { FieldType, FormDataType } from "@/stores/form-store"
 
-const UK_TIMEZONE = "Europe/London"
+const NEW_YORK_TIMEZONE = "America/New_York"
 
 interface DateTimePickerProps {
   selectedDate: string
@@ -51,9 +51,9 @@ export default function NewDateTimePicker({
   timeLabel = "Pickup time",
   className = "bg-white",
 }: DateTimePickerProps) {
-  // Get current time in UK timezone
-  const getUKTime = () => toZonedTime(new Date(), UK_TIMEZONE)
-  const [currentMonth, setCurrentMonth] = useState(getUKTime())
+  // Get current time in New York timezone
+  const getNYTime = () => toZonedTime(new Date(), NEW_YORK_TIMEZONE)
+  const [currentMonth, setCurrentMonth] = useState(getNYTime())
   const [dateOpen, setDateOpen] = useState(false)
   const [timeOpen, setTimeOpen] = useState(false)
   const [hour, setHour] = useState<number | null>(null)
@@ -67,19 +67,25 @@ export default function NewDateTimePicker({
 
   useEffect(() => {
     if (timeOpen && selectedTime) {
-      const [hours, minutes] = selectedTime.split(":")
-      const hour24 = parseInt(hours)
-      const minuteVal = parseInt(minutes)
-
-      const hour12 = hour24 % 12 || 12
-      setHour(hour12)
-      setAmPm(hour24 >= 12 ? "PM" : "AM")
-      setMinute(minuteVal)
+      // Parse time - supports both 12h and 24h formats for backward compatibility
+      const timeParsed = parseTimeString(selectedTime)
+      if (timeParsed) {
+        const { hours: hour24, minutes: minuteVal } = timeParsed
+        const hour12 = hour24 % 12 || 12
+        setHour(hour12)
+        setAmPm(hour24 >= 12 ? "PM" : "AM")
+        setMinute(minuteVal)
+      }
     } else if (timeOpen && !selectedTime) {
-      // Reset when opening without a selected time
-      setHour(null)
-      setMinute(null)
-      setAmPm("AM")
+      // Set to current time in New York timezone when opening without a selected time
+      const nowNY = getNYTime()
+      const hour24 = nowNY.getHours()
+      const minuteVal = nowNY.getMinutes()
+      const hour12 = hour24 % 12 || 12
+      
+      setHour(hour12)
+      setMinute(minuteVal)
+      setAmPm(hour24 >= 12 ? "PM" : "AM")
     }
   }, [timeOpen, selectedTime])
 
@@ -99,42 +105,38 @@ export default function NewDateTimePicker({
     return days
   }
   
-  // Helper to get UK timezone date from string
-  const getUKDateFromString = (dateString: string): Date => {
-    if (!dateString) return getUKTime()
+  // Helper to get New York timezone date from string
+  const getNYDateFromString = (dateString: string): Date => {
+    if (!dateString) return getNYTime()
     // Parse the date string (format: yyyy-MM-dd)
-    // Create date at midnight in UK timezone
+    // Create date at midnight in New York timezone
     const [year, month, day] = dateString.split('-').map(Number)
-    // Create a date representing midnight in UK timezone
-    // We use fromZonedTime to treat the date as if it's in UK timezone
-    const ukDate = new Date(year, month - 1, day, 0, 0, 0, 0)
-    // Convert from UK timezone perspective to actual Date object
-    return fromZonedTime(ukDate, UK_TIMEZONE)
+    // Create a date representing midnight in New York timezone
+    // We use fromZonedTime to treat the date as if it's in New York timezone
+    const nyDate = new Date(year, month - 1, day, 0, 0, 0, 0)
+    // Convert from New York timezone perspective to actual Date object
+    return fromZonedTime(nyDate, NEW_YORK_TIMEZONE)
   }
   
-  // Helper to get today's date in UK timezone
-  const getTodayUK = () => {
-    const now = getUKTime()
+  // Helper to get today's date in New York timezone
+  const getTodayNY = () => {
+    const now = getNYTime()
     return startOfDay(now)
   }
 
   const handleDateSelect = (date: Date) => {
-    // Convert the selected date to UK timezone and format it
-    // The date from calendar is in local time, convert to UK timezone first
-    const ukDate = toZonedTime(date, UK_TIMEZONE)
-    const formatted = format(ukDate, "yyyy-MM-dd")
+    // Convert the selected date to New York timezone and format it
+    // The date from calendar is in local time, convert to New York timezone first
+    const nyDate = toZonedTime(date, NEW_YORK_TIMEZONE)
+    const formatted = format(nyDate, "yyyy-MM-dd")
     setFormData(dateFieldName, formatted)
     setDateOpen(false)
   }
 
   const handleSaveTime = () => {
     if (hour !== null && minute !== null) {
-      let hours24 = ampm === "PM" && hour < 12 ? hour + 12 : hour
-      if (ampm === "AM" && hour === 12) hours24 = 0
-
-      const timeStr = `${hours24.toString().padStart(2, "0")}:${minute
-        .toString()
-        .padStart(2, "0")}`
+      // Save time in 12-hour format (e.g., "2:30 PM")
+      const timeStr = `${hour}:${minute.toString().padStart(2, "0")} ${ampm}`
       setFormData(timeFieldName, timeStr)
       setTimeOpen(false)
     }
@@ -142,11 +144,29 @@ export default function NewDateTimePicker({
 
   const formatTimeDisplay = (time: string) => {
     if (!time) return ""
-    const [hours, minutes] = time.split(":")
-    const hour = parseInt(hours)
-    const ampm = hour >= 12 ? "PM" : "AM"
-    const displayHour = hour % 12 || 12
-    return `${displayHour}:${minutes} ${ampm}`
+    
+    // If already in 12-hour format, return as is
+    if (/\d{1,2}:\d{2}\s*(AM|PM)$/i.test(time)) {
+      // Normalize format (ensure proper spacing and case)
+      const match = time.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i)
+      if (match) {
+        const hour = parseInt(match[1], 10)
+        const minutes = match[2]
+        const period = match[3].toUpperCase()
+        return `${hour}:${minutes} ${period}`
+      }
+    }
+    
+    // If in 24-hour format, convert to 12-hour format
+    const timeParsed = parseTimeString(time)
+    if (timeParsed) {
+      const { hours: hour24, minutes } = timeParsed
+      const period = hour24 >= 12 ? "PM" : "AM"
+      const displayHour = hour24 % 12 || 12
+      return `${displayHour}:${minutes.toString().padStart(2, "0")} ${period}`
+    }
+    
+    return time // Fallback: return original if parsing fails
   }
 
   const getHours = () => {
@@ -235,7 +255,7 @@ export default function NewDateTimePicker({
               <div className={`text-sm sm:text-base truncate ${selectedDate ? "text-heading-black" : "text-text-gray"
                 }`}>
                 {selectedDate
-                  ? format(getUKDateFromString(selectedDate), "dd MMM yyyy")
+                  ? format(getNYDateFromString(selectedDate), "dd MMM yyyy")
                   : "Select date"}
               </div>
             </div>
@@ -311,28 +331,28 @@ export default function NewDateTimePicker({
                 <div className="grid grid-cols-7 text-center text-sm gap-1">
                   {getCalendarDays().map((date, idx) => {
                     const inactive = date.getMonth() !== currentMonth.getMonth()
-                    const today = getTodayUK()
-                    // Convert calendar date to UK timezone for proper comparison
-                    const dateUK = toZonedTime(date, UK_TIMEZONE)
-                    const dateStartOfDay = startOfDay(dateUK)
+                    const today = getTodayNY()
+                    // Convert calendar date to New York timezone for proper comparison
+                    const dateNY = toZonedTime(date, NEW_YORK_TIMEZONE)
+                    const dateStartOfDay = startOfDay(dateNY)
                     
-                    // Convert minSelectableDate to UK timezone if provided
-                    const minDateUK = minSelectableDate 
-                      ? toZonedTime(minSelectableDate, UK_TIMEZONE)
+                    // Convert minSelectableDate to New York timezone if provided
+                    const minDateNY = minSelectableDate 
+                      ? toZonedTime(minSelectableDate, NEW_YORK_TIMEZONE)
                       : null
-                    const minDateStartOfDay = minDateUK ? startOfDay(minDateUK) : null
+                    const minDateStartOfDay = minDateNY ? startOfDay(minDateNY) : null
                     
                     const disabled =
                       (minDateStartOfDay && isBefore(dateStartOfDay, minDateStartOfDay)) ||
                       isBefore(dateStartOfDay, today)
 
                     const isSelected =
-                      selectedDate && isSameDay(dateUK, getUKDateFromString(selectedDate))
+                      selectedDate && isSameDay(dateNY, getNYDateFromString(selectedDate))
 
                     return (
                       <div
                         key={idx}
-                        onClick={() => !disabled && handleDateSelect(dateUK)}
+                        onClick={() => !disabled && handleDateSelect(dateNY)}
                         className={cn(
                           "py-1.5 sm:py-2 cursor-pointer transition-all text-sm sm:text-base flex items-center justify-center font-bold",
                           disabled
@@ -345,7 +365,7 @@ export default function NewDateTimePicker({
                             : ""
                         )}
                       >
-                        {dateUK.getDate()}
+                        {dateNY.getDate()}
                       </div>
                     )
                   })}

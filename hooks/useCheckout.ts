@@ -101,6 +101,9 @@ const createCheckoutSession = async (
 
 /**
  * Process checkout success
+ * @deprecated This endpoint is deprecated. Payment processing is now handled automatically via Stripe webhooks.
+ * The webhook creates bookings and sends emails automatically when payment is confirmed.
+ * Use the useOrder hook with session_id to fetch order data instead.
  */
 const processCheckoutSuccess = async (
   data: CheckoutSuccessRequest
@@ -135,6 +138,11 @@ export const useCreateCheckoutSession = () => {
   });
 };
 
+/**
+ * @deprecated This hook is deprecated. Payment processing is now handled automatically via Stripe webhooks.
+ * Use the useOrder hook with session_id to fetch order data instead.
+ * Example: const { data: order } = useOrder(sessionId);
+ */
 export const useProcessCheckoutSuccess = () => {
   return useApiMutation<CheckoutSuccessResponse, CheckoutSuccessRequest>({
     mutationFn: processCheckoutSuccess,
