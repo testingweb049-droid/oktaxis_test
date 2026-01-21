@@ -3,18 +3,24 @@
 import { calculateDistance } from "@/hooks/useDistance";
 import { hourlyInitialFormData, tripInitialFormData } from "@/constants/store-initial-objects";
 import { create } from "zustand";
-import { validateDistance, validateDuration, validateCoordinates } from "@/lib/utils/validation";
+import { validateDistance, validateCoordinates } from "@/lib/utils/validation";
+import { validateBookingTime } from "@/lib/utils";
+import { 
+  step1TripValidationSchema, 
+  step1HourlyValidationSchema,
+  step3ValidationSchema 
+} from "@/types/form-interfaces";
 
-  export interface FieldType<T> {
+export interface FieldType<T> {
   value: T;
   error: string;
   coordinates: string;
   coordinatesRequired: boolean;
   required: boolean;
   step: number;
-  }
+}
 
-  export interface FormDataType {
+export interface FormDataType {
   fromLocation: FieldType<string>;
   toLocation: FieldType<string>;
   stops: FieldType<string>[];        
@@ -46,9 +52,9 @@ import { validateDistance, validateDuration, validateCoordinates } from "@/lib/u
   returnExtraStopsCount: FieldType<string>;
   isAddInstructions: FieldType<boolean>;
   instructions: FieldType<string>;
-  }
+}
 
-  interface FormStoreType {
+interface FormStoreType {
   step: number;
   isMobileDropdownOpen: boolean;
   category: "trip" | "hourly";
@@ -65,29 +71,48 @@ import { validateDistance, validateDuration, validateCoordinates } from "@/lib/u
   ) => void;
   setFieldOptions: (
     key: keyof FormDataType | "stops",
-    required:  boolean ,
-   
+    required: boolean,
   ) => void;
-  validateData: ( _step:number) => boolean;
-  changeStep: (isNext: boolean, _step:number) => Promise<boolean>;
+  validateData: (_step: number, pricingData?: { minimumBookingHours?: number; timezone?: string }) => { hasErrors: boolean; errorMessage?: string; errorType?: 'time_validation' | 'form_validation' };
+  changeStep: (isNext: boolean, _step: number, pricingData?: { minimumBookingHours?: number; timezone?: string }) => Promise<boolean | { success: false; errorMessage?: string; errorType?: 'time_validation' | 'form_validation' }>;
   changeCategory: (newCategory: "trip" | "hourly") => void;
+  cleanupCategoryData: (category: "trip" | "hourly") => void;
   manageStops: (action: "add" | "remove", index?: number) => void;
   toggleMobileDropdown: () => void;
   resetForm: () => void;
-  }
+}
 
-  const makeStop = (required = false): FieldType<string> => ({
+const makeStop = (required = false): FieldType<string> => ({
   value: "",
   coordinates: "",
   error: "",
   required,
   coordinatesRequired: required,
   step: 1,
-  });
+});
 
+/**
+ * Clean up category-specific data when switching categories
+ * - Trip → Hourly: clear toLocation, stops, distance
+ * - Hourly → Trip: clear duration
+ */
+const cleanupCategoryDataHelper = (category: "trip" | "hourly", currentFormData: FormDataType): FormDataType => {
+  const cleaned = { ...currentFormData };
 
+  if (category === "hourly") {
+    // Clear trip-specific fields
+    cleaned.toLocation = { ...cleaned.toLocation, value: "", coordinates: "", error: "" };
+    cleaned.stops = [];
+    cleaned.distance = { ...cleaned.distance, value: 0, error: "" };
+  } else {
+    // Clear hourly-specific fields
+    cleaned.duration = { ...cleaned.duration, value: "", error: "" };
+  }
 
-  const useFormStore = create<FormStoreType>((set, get) => ({
+  return cleaned;
+};
+
+const useFormStore = create<FormStoreType>((set, get) => ({
   step: 1,
   isMobileDropdownOpen: false,
   category: "trip",
@@ -95,7 +120,8 @@ import { validateDistance, validateDuration, validateCoordinates } from "@/lib/u
   formLoading: false,
   formData: tripInitialFormData,
   isOrderDone: false,
-  orderId:'',
+  orderId: '',
+  
   setFormData: (key, value, coordinates = "", index) => {
     if (key === "stops" && typeof index === "number") {
       set((state) => {
@@ -122,6 +148,7 @@ import { validateDistance, validateDuration, validateCoordinates } from "@/lib/u
       return state;
     });
   },
+  
   setFieldOptions: (key, required) => {
     if (key === 'stops') return;
     
@@ -139,86 +166,172 @@ import { validateDistance, validateDuration, validateCoordinates } from "@/lib/u
     });
   },
 
-  validateData: (_step:number) => {
+  /**
+   * Validate form data using Zod schemas based on step and category
+   * Returns object with hasErrors boolean and optional error message/type
+   */
+  validateData: (_step: number, pricingData?: { minimumBookingHours?: number; timezone?: string }) => {
     const { formData, category } = get();
-
-    // Validate all fields (including dynamic stops)
     const updated: FormDataType = { ...formData };
+    let hasErrors = false;
+    let errorMessage: string | undefined;
+    let errorType: 'time_validation' | 'form_validation' | undefined;
 
-    // validate simple fields
-    (Object.keys(formData) as (keyof FormDataType)[]).forEach((k) => {
-      if (k === "stops") return;
-      const item = formData[k] as FieldType<string | number | boolean>;
-      
-      if (item.step === _step) {
-        let error = "";
-        
-        // Check required field
-        if (item.required) {
-          if (k === "distance") {
-            const distanceValidation = validateDistance(item.value as number);
-            if (!distanceValidation.isValid) {
-              error = distanceValidation.error || "Distance is required";
-            }
-          } else if (k === "duration" && category === "hourly") {
-            const durationValidation = validateDuration(item.value as string);
-            if (!durationValidation.isValid) {
-              error = durationValidation.error || "Duration is required";
-            }
-          } else if (typeof item.value === "string" && !item.value.trim()) {
-            error = `${k} is required`;
-          } else if (typeof item.value === "number" && (isNaN(item.value) || item.value < 0)) {
-            error = `${k} must be a valid positive number`;
+    // Step 1 validation using Zod
+    if (_step === 1) {
+      const validationData = {
+        category,
+        date: formData.date.value,
+        time: formData.time.value,
+        fromLocation: formData.fromLocation.value,
+        toLocation: formData.toLocation.value,
+        duration: formData.duration.value,
+        passengers: formData.passengers.value,
+        bags: formData.bags.value,
+      };
+
+      const schema = category === "trip" ? step1TripValidationSchema : step1HourlyValidationSchema;
+      const result = schema.safeParse(validationData);
+
+      if (!result.success) {
+        hasErrors = true;
+        // Map Zod errors to form fields
+        const fieldMap: Record<string, keyof FormDataType> = {
+          'date': 'date',
+          'time': 'time',
+          'fromLocation': 'fromLocation',
+          'toLocation': 'toLocation',
+          'duration': 'duration',
+          'passengers': 'passengers',
+          'bags': 'bags',
+        };
+
+        result.error.errors.forEach((error) => {
+          const fieldPath = error.path[0] ? String(error.path[0]) : '';
+          const fieldKey = fieldMap[fieldPath];
+          if (fieldKey && updated[fieldKey] && !Array.isArray(updated[fieldKey])) {
+            const currentField = updated[fieldKey] as FieldType<string | number | boolean>;
+            (updated[fieldKey] as FieldType<string | number | boolean>) = {
+              ...currentField,
+              error: error.message,
+            };
           }
-        }
-        
-        // Check coordinates if required
-        if (!error && item.coordinatesRequired) {
-          const coordValidation = validateCoordinates(item.coordinates);
-          if (!coordValidation.isValid) {
-            error = coordValidation.error || `${k} coordinates required`;
-          }
-        }
-        
-        (updated[k] as FieldType<string | number | boolean>) = { ...item, error };
+        });
       }
-    });
 
-    // validate stops
-    const stopsUpdated = formData.stops.map((s) => {
-      if (s.step === _step) {
+      // Validate minimum booking hours from backend (business rule validation)
+      if (formData.date.value && formData.time.value && pricingData?.minimumBookingHours && pricingData.minimumBookingHours > 0) {
+        const timezone = pricingData.timezone || "America/New_York"
+        const timeValidation = validateBookingTime(
+          formData.date.value,
+          formData.time.value,
+          pricingData.minimumBookingHours,
+          timezone
+        )
+
+        if (!timeValidation.isValid) {
+          hasErrors = true
+          errorType = 'time_validation'
+          errorMessage = timeValidation.error || `Booking can't be added within ${pricingData.minimumBookingHours} hours of pickup time, choose another time.`
+          // Don't set field errors - only show toast notification
+        }
+      }
+
+      // Validate coordinates for location fields (not in Zod schema)
+      const locationFields = category === "trip" 
+        ? ['fromLocation', 'toLocation'] as const
+        : ['fromLocation'] as const;
+
+      for (const fieldKey of locationFields) {
+        const field = updated[fieldKey];
+        if (field && field.coordinatesRequired && !field.error) {
+          const coordValidation = validateCoordinates(field.coordinates);
+          if (!coordValidation.isValid) {
+            hasErrors = true;
+            (updated[fieldKey] as FieldType<string>) = {
+              ...field,
+              error: coordValidation.error || `${fieldKey} coordinates required`,
+            };
+          }
+        }
+      }
+    }
+
+    // Step 3 validation using Zod
+    if (_step === 3) {
+      const validationData = {
+        name: formData.name.value,
+        email: formData.email.value,
+        phone: formData.phone.value,
+        isReturn: formData.isReturn?.value || false,
+        returnDate: formData.returnDate?.value || '',
+        returnTime: formData.returnTime?.value || '',
+        isAirportPickup: formData.isAirportPickup?.value || false,
+        flightName: formData.flightName?.value || '',
+        flightNumber: formData.flightNumber?.value || '',
+        isFlightTrack: formData.isFlightTrack?.value || false,
+        isMeetGreet: formData.isMeetGreet?.value || false,
+        extraStopsCount: formData.extraStopsCount?.value || '0',
+        isReturnFlightTrack: formData.isReturnFlightTrack?.value || false,
+        isReturnMeetGreet: formData.isReturnMeetGreet?.value || false,
+        returnExtraStopsCount: formData.returnExtraStopsCount?.value || '0',
+        isAddInstructions: formData.isAddInstructions?.value || false,
+        instructions: formData.instructions?.value || '',
+      };
+
+      const result = step3ValidationSchema.safeParse(validationData);
+
+      if (!result.success) {
+        hasErrors = true;
+        // Map Zod errors to form fields
+        const fieldMap: Record<string, keyof FormDataType> = {
+          'name': 'name',
+          'email': 'email',
+          'phone': 'phone',
+          'returnDate': 'returnDate',
+          'returnTime': 'returnTime',
+        };
+
+        result.error.errors.forEach((error) => {
+          const fieldPath = error.path[0] ? String(error.path[0]) : '';
+          const fieldKey = fieldMap[fieldPath];
+          if (fieldKey && updated[fieldKey] && !Array.isArray(updated[fieldKey])) {
+            const currentField = updated[fieldKey] as FieldType<string | number | boolean>;
+            (updated[fieldKey] as FieldType<string | number | boolean>) = {
+              ...currentField,
+              error: error.message,
+            };
+          }
+        });
+      }
+    }
+
+    // Validate stops (coordinates validation)
+    if (_step === 1 && category === "trip") {
+      const stopsUpdated = formData.stops.map((s) => {
         let error = "";
         
         if (s.required && !s.value.trim()) {
           error = "Stop is required";
+          hasErrors = true;
         } else if (s.coordinatesRequired) {
           const coordValidation = validateCoordinates(s.coordinates);
           if (!coordValidation.isValid) {
             error = coordValidation.error || "Stop coordinates required";
+            hasErrors = true;
           }
         }
         
         return { ...s, error };
-      }
-      return s;
-    });
+      });
+      updated.stops = stopsUpdated;
+    }
 
-    updated.stops = stopsUpdated;
-
-    set({ formData: updated  });
-
-    // Check if there are any errors
-    const anyErrorField = Object.values(updated as FormDataType).some((v) => {
-      if (Array.isArray(v)) {
-        return v.some((s) => s.error !== '');
-      }
-      return v.error !== '';
-    });
-
-    return anyErrorField;
+    set({ formData: updated });
+    return { hasErrors, errorMessage, errorType };
   },
 
-  changeStep: async (isNext: boolean, _step:number) => {
+  changeStep: async (isNext: boolean, _step: number, pricingData?: { minimumBookingHours?: number; timezone?: string }) => {
     const { formData, category, validateData } = get();
     if (!isNext) {
       set((state) => ({
@@ -230,11 +343,15 @@ import { validateDistance, validateDuration, validateCoordinates } from "@/lib/u
 
     set((state) => ({ ...state, formError: "", formLoading: true }));
 
-    if (validateData(_step)) {
-      set((state) => ({ ...state, formError: "", formLoading: false }));
-      return false;
+    const validationResult = validateData(_step, pricingData);
+    if (validationResult.hasErrors) {
+      // Don't set formError for time validation - only show toast
+      const shouldSetFormError = validationResult.errorType !== 'time_validation';
+      set((state) => ({ ...state, formError: shouldSetFormError ? (validationResult.errorMessage || "") : "", formLoading: false }));
+      return { success: false, errorMessage: validationResult.errorMessage, errorType: validationResult.errorType } as any;
     }
     
+    // For trip category, calculate distance on step 1
     if (_step === 1 && category === "trip") {
       try {
         // Validate coordinates before calculating distance
@@ -310,14 +427,35 @@ import { validateDistance, validateDuration, validateCoordinates } from "@/lib/u
     return true; 
   },
 
+  /**
+   * Clean up category-specific data
+   */
+  cleanupCategoryData: (category) => {
+    const { formData } = get();
+    const cleaned = cleanupCategoryDataHelper(category, formData);
+    set({ formData: cleaned });
+  },
+
+  /**
+   * Change category and clean up irrelevant data
+   */
   changeCategory: (newCategory) => {
     const { category } = get();
     if (category === newCategory) return;
-    if (newCategory === "trip") {
-      set({ formData: tripInitialFormData, step: 1, category: "trip", formError: "", formLoading: false });
-    } else {
-      set({ formData: hourlyInitialFormData, step: 1, category: "hourly", formError: "", formLoading: false });
-    }
+    
+    // Get initial data for new category
+    const initialData = newCategory === "trip" ? tripInitialFormData : hourlyInitialFormData;
+    
+    // Clean up category-specific data from current form before switching
+    const cleaned = cleanupCategoryDataHelper(newCategory, initialData);
+    
+    set({ 
+      formData: cleaned, 
+      step: 1, 
+      category: newCategory, 
+      formError: "", 
+      formLoading: false 
+    });
   },
 
   manageStops: (action, index) => {
@@ -363,6 +501,6 @@ import { validateDistance, validateDuration, validateCoordinates } from "@/lib/u
       orderId: '',
     });
   },
-  }));
+}));
 
 export default useFormStore;

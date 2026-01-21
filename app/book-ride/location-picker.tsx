@@ -12,10 +12,6 @@ interface LocationInputProps {
   label: string
   placeholder: string
   index?: number
-  isStop?: boolean
-  onAddStop?: () => void
-  onRemoveStop?: () => void
-  showAddButton?: boolean
 }
 
 function LocationInput({ field, label, placeholder, index }: LocationInputProps) {
@@ -105,10 +101,7 @@ function LocationInput({ field, label, placeholder, index }: LocationInputProps)
     setFormData(field, value, '', index)
   }
   
-  const fieldData =
-     field === "stops" 
-      ? formData.stops[index!]
-      : (formData[field as keyof FormDataType] as FieldType<string>)
+  const fieldData = formData[field as keyof FormDataType] as FieldType<string>
 
   return (
     <div className={`w-full rounded-lg bg-gray-200 px-4 py-3 border ${fieldData?.error ? 'border-red-500' : 'border-gray-200'} `}>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, Phone } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import WhiteLogo from "@/assets/logo-white.png";
@@ -123,12 +123,19 @@ const BLACK_HEADER_ROUTES = [
   "/driver",
 ];
 
+const LIGHT_BACKGROUND_ROUTES = [
+  "/book-ride/select-car",
+  "/book-ride/passenger-details",
+  "/order-placed",
+];
+
 const SCROLL_THRESHOLD = 50;
 const MOBILE_BREAKPOINT = 786;
+const PHONE_NUMBER = "+44 7788 710290";
 
 // Reusable Components
 const SocialIcons = ({ onClick }: { onClick?: () => void }) => (
-  <div className="flex items-center gap-3 mr-10">
+  <div className="flex items-center gap-3">
     <a
       href="https://wa.me/+447788710290"
       target="_blank"
@@ -184,12 +191,16 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement>(null);
 
   const shouldHaveBlackHeader =
     BLACK_HEADER_ROUTES.includes(pathname) || pathname.startsWith("/order/");
-  const isHeaderBlack = shouldHaveBlackHeader || scrolled;
+  const hasLightBackground = LIGHT_BACKGROUND_ROUTES.some(route => 
+    pathname.startsWith(route)
+  );
+  const isHeaderBlack = shouldHaveBlackHeader || scrolled || hasLightBackground;
 
   // Handle scroll detection
   useEffect(() => {
@@ -205,7 +216,20 @@ export default function Header() {
   useEffect(() => {
     setIsOpen(false);
     setOpenDropdown(null);
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+      setHoverTimeout(null);
+    }
   }, [pathname]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimeout) {
+        clearTimeout(hoverTimeout);
+      }
+    };
+  }, [hoverTimeout]);
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
@@ -269,15 +293,26 @@ export default function Header() {
         ref={headerRef}
         className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
           isHeaderBlack
-            ? "bg-heading-black shadow-md py-3 sm:py-4 md:py-5 text-white"
-            : "py-3 sm:py-4 md:py-5 text-white"
+            ? "bg-heading-black shadow-md text-white"
+            : "text-white"
         }`}
       >
-        <div className="max-w-screen-2xl mx-auto px-3 sm:px-4 md:px-6 relative">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center justify-between w-full md:w-auto">
-              <div className="relative w-28 h-8 sm:w-32 sm:h-10 md:w-40 md:h-14 cursor-default">
+        <div className="max-w-screen-2xl mx-auto px-3 sm:px-4 md:px-6 relative pt-3 sm:pt-4 md:pt-5">
+          {/* Top Row: Phone | Logo | Social Icons */}
+          <div className="flex items-center justify-between py-0 sm:py-4 md:border-b md:border-white/10">
+            <div className="hidden md:flex items-center gap-2">
+              <Phone className="h-4 w-4" />
+              <a
+                href={`tel:${PHONE_NUMBER.replace(/\s/g, "")}`}
+                className="text-sm md:text-base font-medium hover:text-primary-yellow transition-colors"
+              >
+                {PHONE_NUMBER}
+              </a>
+            </div>
+
+            {/* Logo - Left on Mobile, Center on Desktop */}
+            <div className="flex md:absolute md:left-1/2 md:transform md:-translate-x-1/2 items-center">
+              <Link href="/" className="relative w-32 h-14 md:w-40 md:h-14 cursor-pointer transition-transform duration-300 hover:scale-105">
                 <Image
                   src={WhiteLogo}
                   alt="OKTaxis"
@@ -285,95 +320,168 @@ export default function Header() {
                   className="object-contain transition-opacity"
                   priority
                 />
-              </div>
+              </Link>
             </div>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden items-center space-x-1 sm:space-x-2 md:flex">
-              {NAV_LINKS.map((link) => (
-                <div
-                  key={link.id}
-                  className="relative services-dropdown-full-width-section"
-                >
-                  {link.submenu ? (
-                    <>
-                      <button
-                        onClick={() => toggleDropdown(link.id)}
-                        className={`flex items-center px-3 py-2 sm:px-4 md:px-5 text-sm sm:text-base md:text-lg font-medium transition-colors ${getFontWeight(
-                          openDropdown === link.id
-                        )}`}
-                        aria-expanded={openDropdown === link.id}
-                        aria-haspopup="true"
-                      >
+            {/* Social Icons & Mobile Menu - Right */}
+            <div className="flex items-center gap-3 md:gap-4">
+              {/* Social Icons - Hidden on mobile */}
+              <div className="hidden md:flex">
+                <SocialIcons onClick={() => setIsOpen(false)} />
+              </div>
+              
+              {/* Mobile Menu Button */}
+              <MobileMenuButton isOpen={isOpen} onClick={toggleMobileMenu} />
+            </div>
+          </div>
+
+          {/* Bottom Row: Desktop Navigation Menu */}
+          <nav className="hidden md:flex items-center justify-center space-x-1 lg:space-x-2 py-2 sm:py-3">
+            {NAV_LINKS.map((link) => (
+              <div
+                key={link.id}
+                className="relative services-dropdown-full-width-section"
+              >
+                {link.submenu ? (
+                  <div
+                    className="relative services-dropdown-full-width-section group"
+                    onMouseEnter={() => {
+                      if (hoverTimeout) {
+                        clearTimeout(hoverTimeout);
+                        setHoverTimeout(null);
+                      }
+                      setOpenDropdown(link.id);
+                    }}
+                    onMouseLeave={() => {
+                      const timeout = setTimeout(() => {
+                        setOpenDropdown(null);
+                      }, 100);
+                      setHoverTimeout(timeout);
+                    }}
+                  >
+                    <Link
+                      href={link.path || "#"}
+                      className={`relative flex items-center px-3 py-1.5 lg:px-4 text-sm lg:text-base font-medium transition-colors hover:text-primary-yellow ${getFontWeight(
+                        openDropdown === link.id
+                      )}`}
+                      aria-haspopup="true"
+                    >
+                      <span className={`relative pb-0.8 before:absolute before:bottom-0 before:left-0 before:h-0.5 before:bg-primary-yellow before:transition-all before:duration-300 ${
+                        openDropdown === link.id
+                          ? "text-primary-yellow before:w-full"
+                          : "before:w-0 hover:before:w-full"
+                      }`}>
                         {link.title}
-                        <ChevronDown
-                          className={`ml-1 h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 transition-transform duration-200 ${
-                            openDropdown === link.id ? "rotate-180" : ""
-                          }`}
-                        />
-                      </button>
-                      {openDropdown === link.id && (
-                        <div className="absolute left-0 top-full mt-2 w-48 sm:w-56 md:w-64 rounded-md bg-white shadow-lg border animate-in slide-in-from-top-2 duration-200">
-                          <div className="p-2">
+                      </span>
+                      <ChevronDown
+                        className={`ml-1 h-3.5 w-3.5 lg:h-4 lg:w-4 transition-transform duration-200 ${
+                          openDropdown === link.id ? "rotate-180" : ""
+                        }`}
+                      />
+                    </Link>
+                    {openDropdown === link.id && (
+                      <div 
+                        className="absolute left-0 top-full w-48 lg:w-64"
+                        style={{ paddingTop: '8px' }}
+                        onMouseEnter={() => {
+                          if (hoverTimeout) {
+                            clearTimeout(hoverTimeout);
+                            setHoverTimeout(null);
+                          }
+                          setOpenDropdown(link.id);
+                        }}
+                        onMouseLeave={() => {
+                          const timeout = setTimeout(() => {
+                            setOpenDropdown(null);
+                          }, 100);
+                          setHoverTimeout(timeout);
+                        }}
+                      >
+                        <div className="relative rounded-md bg-heading-black shadow-lg border border-gray-700 animate-in slide-in-from-top-2 duration-200">
+                          {/* Arrow pointing up */}
+                          <div className="absolute -top-2 left-6 w-4 h-4">
+                            <div className="w-full h-full bg-heading-black border-l-2 border-t-2 border-gray-700 transform rotate-45"></div>
+                          </div>
+                          <div className="p-2 relative z-10 bg-heading-black rounded-md">
                             {link.sublinks?.map((sublink) => (
                               <Link
                                 key={sublink.id}
                                 href={sublink.path}
-                                className="block px-3 py-2 sm:px-4 text-sm sm:text-base md:text-lg text-gray-800 hover:bg-gray-100 rounded transition-colors"
+                                className="block px-3 py-2 text-sm lg:text-base text-white hover:text-primary-yellow hover:bg-gray-800 rounded transition-colors"
                               >
                                 {sublink.title}
                               </Link>
                             ))}
                           </div>
                         </div>
-                      )}
-                    </>
-                  ) : (
-                    <Link
-                      href={link.path || "#"}
-                      className={`px-3 py-2 sm:px-4 md:px-5 text-sm sm:text-base md:text-lg font-medium transition-colors ${getFontWeight(
-                        pathname === link.path
-                      )}`}
-                    >
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link
+                    href={link.path || "#"}
+                    className={`relative px-3 py-1.5 lg:px-4 text-sm lg:text-base font-medium transition-colors hover:text-primary-yellow ${getFontWeight(
+                      pathname === link.path
+                    )}`}
+                  >
+                    <span className={`relative pb-0.5 before:absolute before:bottom-0 before:left-0 before:h-0.5 before:bg-primary-yellow before:transition-all before:duration-300 ${
+                      pathname === link.path
+                        ? "text-primary-yellow before:w-full"
+                        : "before:w-0 hover:before:w-full"
+                    }`}>
                       {link.title}
-                    </Link>
-                  )}
-                </div>
-              ))}
-            </nav>
-
-            {/* Social Icons */}
-            <SocialIcons onClick={() => setIsOpen(false)} />
-
-            {/* Mobile Menu Button */}
-            <MobileMenuButton isOpen={isOpen} onClick={toggleMobileMenu} />
-          </div>
+                    </span>
+                  </Link>
+                )}
+              </div>
+            ))}
+          </nav>
         </div>
       </header>
 
       {/* Mobile Menu Dropdown */}
       <div
-        className={`mobile-menu-full-width-section fixed top-0 left-0 right-0 z-40 md:hidden transition-all duration-300 ease-in-out ${
+        className={`mobile-menu-full-width-section fixed top-0 left-0 right-0 bottom-0 z-[60] md:hidden transition-all duration-300 ease-in-out ${
           isOpen
-            ? "opacity-100 translate-y-0 pointer-events-auto"
-            : "opacity-0 -translate-y-full pointer-events-none"
+            ? "opacity-100 translate-x-0 pointer-events-auto"
+            : "opacity-0 -translate-x-full pointer-events-none"
         }`}
-        style={{
-          paddingTop: headerRef.current?.offsetHeight || 80,
-        }}
       >
-        <div className="bg-black/95 backdrop-blur-sm shadow-lg border-t border-gray-700">
-          <nav className="px-4 sm:px-6 py-4 sm:py-6 space-y-1 max-h-[calc(100vh-80px)] overflow-y-auto">
+        <div className="bg-heading-black h-full flex flex-col overflow-hidden">
+          {/* Header Section - Logo and Close Button */}
+          <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-gray-700">
+            <div className="flex items-center gap-3">
+              <Link href="/" onClick={handleCloseMobileMenu} className="relative w-40 h-14 cursor-pointer transition-transform duration-300 hover:scale-105 -ml-4">
+                <Image
+                  src={WhiteLogo}
+                  alt="OKTaxis"
+                  fill
+                  className="object-contain transition-opacity"
+                  priority
+                />
+              </Link>
+            </div>
+            <button
+              onClick={handleCloseMobileMenu}
+              className="text-white hover:text-primary-yellow transition-colors"
+              aria-label="Close menu"
+            >
+              <X className="h-8 w-8" />
+            </button>
+          </div>
+
+          {/* Navigation Links */}
+          <nav className="flex-1 overflow-y-auto px-4 sm:px-6">
             {NAV_LINKS.map((link) => (
               <div
                 key={link.id}
-                className="border-b border-gray-700 last:border-b-0 pb-2 sm:pb-3 last:pb-0"
+                className="border-b border-gray-700"
               >
                 {link.submenu ? (
                   <div>
                     <button
                       onClick={() => toggleDropdown(link.id)}
-                      className={`flex items-center justify-between w-full text-left py-2 sm:py-3 text-base sm:text-lg md:text-xl font-medium transition-colors ${
+                      className={`flex items-center justify-between w-full text-left py-4 text-base font-medium uppercase transition-colors ${
                         pathname.startsWith("/services")
                           ? "text-amber-500"
                           : "text-white hover:text-amber-500"
@@ -383,7 +491,7 @@ export default function Header() {
                     >
                       {link.title}
                       <ChevronDown
-                        className={`h-5 w-5 sm:h-6 sm:w-6 transition-transform duration-300 ${
+                        className={`h-5 w-5 transition-transform duration-300 ${
                           openDropdown === link.id ? "rotate-180" : ""
                         }`}
                       />
@@ -395,12 +503,13 @@ export default function Header() {
                           : "max-h-0 opacity-0 transform -translate-y-2"
                       }`}
                     >
-                      <div className="pl-4 sm:pl-6 pt-2 sm:pt-3 space-y-2 sm:space-y-3">
+                      <div className="pl-4 pb-3 space-y-2">
                         {link.sublinks?.map((sublink, index) => (
                           <Link
                             key={sublink.id}
                             href={sublink.path}
-                            className={`block py-2 sm:py-2.5 text-sm sm:text-base md:text-lg transition-all duration-200 ${
+                            onClick={handleCloseMobileMenu}
+                            className={`block py-2 text-sm transition-all duration-200 ${
                               pathname === sublink.path
                                 ? "text-amber-500"
                                 : "text-gray-300 hover:text-amber-500"
@@ -421,7 +530,8 @@ export default function Header() {
                 ) : (
                   <Link
                     href={link.path || "#"}
-                    className={`block py-2 sm:py-3 text-base sm:text-lg md:text-xl font-medium transition-colors ${
+                    onClick={handleCloseMobileMenu}
+                    className={`block py-4 text-base font-medium uppercase transition-colors ${
                       pathname === link.path
                         ? "text-amber-500"
                         : "text-white hover:text-amber-500"

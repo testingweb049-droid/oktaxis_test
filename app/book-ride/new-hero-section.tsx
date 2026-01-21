@@ -1,9 +1,8 @@
-import React from 'react'
-import HeroForm from './hero-form'
+import Step1Form from '@/components/booking/steps/step1-form'
 import Image from 'next/image'
 import { Star } from 'lucide-react'
 
-function newHeroSection() {
+function NewHeroSection() {
   return (
     <div className='relative'>
 
@@ -35,8 +34,8 @@ function newHeroSection() {
               </div>
             </div>
 
-            <div className='flex items-center justify-center h-full w-full  max-lg:col-span-full max-lg:mb-0'>
-              <HeroForm />
+            <div className='flex items-start md:items-center justify-center h-full w-full max-lg:col-span-full max-lg:mb-0 pt-12 md:pt-20 lg:pt-24'>
+              <Step1Form />
             </div>
           </div>
         </div>
@@ -44,9 +43,6 @@ function newHeroSection() {
       </div>
     </div>
   )
-
-
 }
 
-const NewHeroSection = newHeroSection;
 export default NewHeroSection;

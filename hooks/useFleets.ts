@@ -13,6 +13,9 @@ interface FleetResponse extends ApiResponse<FleetType[]> {
 interface UseFleetsOptions {
   distance?: number;
   duration?: number;
+  date?: string; // YYYY-MM-DD format
+  time?: string; // HH:MM format (12-hour or 24-hour)
+  category?: "trip" | "hourly";
 }
 
 const fetchFleets = async (options?: UseFleetsOptions): Promise<FleetType[]> => {
@@ -24,6 +27,18 @@ const fetchFleets = async (options?: UseFleetsOptions): Promise<FleetType[]> => 
   
   if (options?.duration && options.duration > 0) {
     params.duration = options.duration.toString();
+  }
+
+  if (options?.date) {
+    params.date = options.date;
+  }
+
+  if (options?.time) {
+    params.time = options.time;
+  }
+
+  if (options?.category) {
+    params.category = options.category;
   }
 
   const response = await apiClient.get<FleetResponse>(API_ENDPOINTS.FLEETS, {

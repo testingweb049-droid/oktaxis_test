@@ -1,196 +1,115 @@
 import z from "zod";
-import { validateBookingTime } from "@/lib/utils";
 
-const timeSchema = z.object({
-  hour: z.number({
-    required_error: "Please Choose an Hour",
-  }).min(1, "Hour must be between 1 and 12").max(23, "Hour must be between 1 and 23"),
-
-  minute: z.number({
-    required_error: "Please Choose Minutes",
-  }).min(0, "Minutes must be between 0 and 59").max(59, "Minutes must be between 0 and 59"),
-});
-
-export const hourlyFormValidation = z.object({
-  pickup_date: z.date().optional().nullable(),
-  pickup_time: timeSchema.optional().nullable(),
-
-  return_date: z.date().optional(),
-  return_time: timeSchema.optional(),
-  is_return: z.boolean().default(false),
-
-  pickup_location_lag_alt: z.string({ required_error: "Please Chose Pickup Location" }),
-  pickup_location: z.string({ required_error: "Please Chose Pickup Location" }),
-  dropoff_location_lag_alt: z.string().optional(),
-  dropoff_location: z.string().optional(),
-
-  stops: z.number({ required_error: "Please Enter Stops" }).min(0).max(3).default(0),
-  stop_1: z.string().optional(),
-  stop_1_lag_alt: z.string().optional(),
-  stop_2: z.string().optional(),
-  stop_2_lag_alt: z.string().optional(),
-  stop_3: z.string().optional(),
-  stop_3_lag_alt: z.string().optional(),
-
-  passengers: z.number({ required_error: "Please Enter Passengers" }).min(1).max(6),
-  bags: z.number({ required_error: "Please Enter Bags" }).min(0).max(6),
-  car: z.string({ required_error: "Please select fleet" }),
-  price: z.number({ required_error: "Please select fleet" }),
-  name: z.string({ required_error: "Please Enter Your Name" }),
-  email: z.string({ required_error: "Please Enter Email" }).email(),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
-  flight: z.string().optional(),
-  payment_id: z.string().optional(),
-  duration: z.number({ required_error: "Please Enter duration" }).min(1),
-  payment_method: z.string({ required_error: "Please Select Payment Method" }),
-  distance: z.string().optional(),
-  instructions: z.string().optional(),
-  flight_track: z.boolean().default(false),
-  meet_greet: z.boolean().default(false),
-  airport_pickup: z.boolean().default(false),
-  flight_number: z.string().optional(),
+/**
+ * Step 1: Booking Details - Trip Category
+ * Validates date, time, locations, passengers, bags for trip bookings
+ */
+export const step1TripValidationSchema = z.object({
+  category: z.literal("trip"),
+  date: z.string().min(1, "Please select pickup date"),
+  time: z.string().min(1, "Please select pickup time"),
+  fromLocation: z.string().min(1, "Please select pickup location"),
+  toLocation: z.string().min(1, "Please select drop off location"),
+  passengers: z.string().min(1, "Please select number of passengers"),
+  bags: z.string().min(1, "Please select number of bags"),
 }).superRefine((data, ctx) => {
-  // return checks
-  if (data.is_return) {
-    if (!data.return_date) {
-      ctx.addIssue({ path: ['return_date'], code: z.ZodIssueCode.custom, message: "Return date is required when return is selected" });
+  // Check if start and end locations are different
+  if (data.fromLocation && data.toLocation) {
+    const fromLocation = data.fromLocation.trim().toLowerCase();
+    const toLocation = data.toLocation.trim().toLowerCase();
+    
+    if (fromLocation === toLocation || 
+        (fromLocation.includes(toLocation) && toLocation.length > 10) ||
+        (toLocation.includes(fromLocation) && fromLocation.length > 10)) {
+      ctx.addIssue({
+        path: ['toLocation'],
+        code: z.ZodIssueCode.custom,
+        message: "Start and end locations cannot be the same. Please choose different locations."
+      });
     }
-    if (!data.return_time) {
-      ctx.addIssue({ path: ['return_time'], code: z.ZodIssueCode.custom, message: "Return time is required when return is selected" });
-    }
-  }
-
-  // stops checks
-  if (data.stops >= 1) {
-    if (!data.stop_1) ctx.addIssue({ path: ['stop_1'], code: z.ZodIssueCode.custom, message: "Stop 1 is required" });
-    if (!data.stop_1_lag_alt) ctx.addIssue({ path: ['stop_1_lag_alt'], code: z.ZodIssueCode.custom, message: "Stop 1 lag/lat is required" });
-  }
-  if (data.stops >= 2) {
-    if (!data.stop_2) ctx.addIssue({ path: ['stop_2'], code: z.ZodIssueCode.custom, message: "Stop 2 is required" });
-    if (!data.stop_2_lag_alt) ctx.addIssue({ path: ['stop_2_lag_alt'], code: z.ZodIssueCode.custom, message: "Stop 2 lag/lat is required" });
-  }
-  if (data.stops === 3) {
-    if (!data.stop_3) ctx.addIssue({ path: ['stop_3'], code: z.ZodIssueCode.custom, message: "Stop 3 is required" });
-    if (!data.stop_3_lag_alt) ctx.addIssue({ path: ['stop_3_lag_alt'], code: z.ZodIssueCode.custom, message: "Stop 3 lag/lat is required" });
   }
 });
 
 /**
- * Schema for HeroForm validation (step 1 of booking)
+ * Step 1: Booking Details - Hourly Category
+ * Validates date, time, from location, duration, passengers, bags for hourly bookings
  */
-export const heroFormValidationSchema = z.object({
-  category: z.enum(["trip", "hourly"]),
+export const step1HourlyValidationSchema = z.object({
+  category: z.literal("hourly"),
   date: z.string().min(1, "Please select pickup date"),
   time: z.string().min(1, "Please select pickup time"),
   fromLocation: z.string().min(1, "Please select pickup location"),
-  toLocation: z.string().optional(),
-  duration: z.string().optional(),
+  duration: z.string().min(1, "Please select duration"),
   passengers: z.string().min(1, "Please select number of passengers"),
   bags: z.string().min(1, "Please select number of bags"),
+});
+
+/**
+ * Step 1: Combined schema for both categories
+ * Uses union to support both trip and hourly categories
+ */
+export const step1ValidationSchema = z.union([
+  step1TripValidationSchema,
+  step1HourlyValidationSchema,
+]);
+
+/**
+ * Step 3: Passenger Details Validation Schema
+ * Validates passenger information and optional return journey/extras
+ */
+export const step3ValidationSchema = z.object({
+  name: z.string().min(1, "Name is required").trim(),
+  email: z.string().min(1, "Email is required").email("Please enter a valid email address"),
+  phone: z.string().min(1, "Phone is required").min(10, "Phone number must be at least 10 digits"),
+  
+  // Return journey fields (optional, conditional)
+  isReturn: z.boolean().optional().default(false),
+  returnDate: z.string().optional(),
+  returnTime: z.string().optional(),
+  
+  // Airport pickup fields (optional, conditional)
+  isAirportPickup: z.boolean().optional().default(false),
+  flightName: z.string().optional(),
+  flightNumber: z.string().optional(),
+  
+  // Equipment and extras (optional)
+  isFlightTrack: z.boolean().optional().default(false),
+  isMeetGreet: z.boolean().optional().default(false),
+  extraStopsCount: z.string().optional().default("0"),
+  
+  // Return extras (optional, conditional)
+  isReturnFlightTrack: z.boolean().optional().default(false),
+  isReturnMeetGreet: z.boolean().optional().default(false),
+  returnExtraStopsCount: z.string().optional().default("0"),
+  
+  // Instructions (optional)
+  isAddInstructions: z.boolean().optional().default(false),
+  instructions: z.string().optional().default(""),
 }).superRefine((data, ctx) => {
-  // For trip category, toLocation is required
-  if (data.category === "trip") {
-    if (!data.toLocation || data.toLocation.trim() === "") {
+  // If return is selected, return date and time are required
+  if (data.isReturn) {
+    if (!data.returnDate || data.returnDate.trim() === "") {
       ctx.addIssue({
-        path: ['toLocation'],
+        path: ['returnDate'],
         code: z.ZodIssueCode.custom,
-        message: "Please select drop off location"
+        message: "Return date is required when return is selected"
       });
     }
-    
-    // Check if start and end locations are different
-    if (data.fromLocation && data.toLocation) {
-      const fromLocation = data.fromLocation.trim().toLowerCase();
-      const toLocation = data.toLocation.trim().toLowerCase();
-      
-      if (fromLocation === toLocation || 
-          (fromLocation.includes(toLocation) && toLocation.length > 10) ||
-          (toLocation.includes(fromLocation) && fromLocation.length > 10)) {
-        ctx.addIssue({
-          path: ['toLocation'],
-          code: z.ZodIssueCode.custom,
-          message: "Start and end locations cannot be the same. Please choose different locations."
-        });
-      }
+    if (!data.returnTime || data.returnTime.trim() === "") {
+      ctx.addIssue({
+        path: ['returnTime'],
+        code: z.ZodIssueCode.custom,
+        message: "Return time is required when return is selected"
+      });
     }
   }
   
-  // For hourly category, duration is required
-  if (data.category === "hourly") {
-    if (!data.duration || data.duration.trim() === "") {
-      ctx.addIssue({
-        path: ['duration'],
-        code: z.ZodIssueCode.custom,
-        message: "Please select duration"
-      });
-    }
-  }
-  
-  // Note: 5-hour validation is handled separately in the component to show toast instead of field error
+  // If airport pickup is selected, flight name and number should be provided (optional but recommended)
+  // Note: We're not making these required as it's conditional based on user selection
 });
 
-
-export const simpleFormValidation = z.object({
-  pickup_date: z.date().optional().nullable(),
-  pickup_time: timeSchema.optional().nullable(),
-
-  return_date: z.date().optional(),
-  return_time: timeSchema.optional(),
-  is_return: z.boolean().default(false),
-
-  pickup_location_lag_alt: z.string({ required_error: "Please Chose Pickup Location" }),
-  pickup_location: z.string({ required_error: "Please Chose Pickup Location" }),
-  dropoff_location_lag_alt: z.string({ required_error: "Please Chose Pickup Location" }),
-  dropoff_location: z.string({ required_error: "Please Chose Dropoff Location" }),
-
-  stops: z.number({ required_error: "Please Enter Stops" }).min(0).max(3).default(0),
-  stop_1: z.string().optional(),
-  stop_1_lag_alt: z.string().optional(),
-  stop_2: z.string().optional(),
-  stop_2_lag_alt: z.string().optional(),
-  stop_3: z.string().optional(),
-  stop_3_lag_alt: z.string().optional(),
-
-  passengers: z.number({ required_error: "Please Enter Passengers" }).min(1).max(6),
-  bags: z.number({ required_error: "Please Enter Bags" }).min(0).max(6),
-
-  car: z.string({ required_error: "Please select fleet" }),
-  price: z.number({ required_error: "Please select fleet" }),
-  name: z.string({ required_error: "Please Enter Your Name" }),
-  email: z.string({ required_error: "Please Enter Email" }).email(),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
-  flight: z.string().optional(),
-  payment_method: z.string({ required_error: "Please Select Payment Method" }),
-  payment_id: z.string().optional(),
-  distance: z.string({ required_error: "distance not calculated" }).min(0),
-  instructions: z.string().optional(),
-  duration: z.number(),
-  flight_track: z.boolean().default(false),
-  meet_greet: z.boolean().default(false),
-  airport_pickup: z.boolean().default(false),
-  flight_number: z.string().optional(),
-}).superRefine((data, ctx) => {
-  // return checks
-  if (data.is_return) {
-    if (!data.return_date) {
-      ctx.addIssue({ path: ['return_date'], code: z.ZodIssueCode.custom, message: "Return date is required when return is selected" });
-    }
-    if (!data.return_time) {
-      ctx.addIssue({ path: ['return_time'], code: z.ZodIssueCode.custom, message: "Return time is required when return is selected" });
-    }
-  }
-
-  // stops checks
-  if (data.stops >= 1) {
-    if (!data.stop_1) ctx.addIssue({ path: ['stop_1'], code: z.ZodIssueCode.custom, message: "Stop 1 is required" });
-    if (!data.stop_1_lag_alt) ctx.addIssue({ path: ['stop_1_lag_alt'], code: z.ZodIssueCode.custom, message: "Stop 1 lag/lat is required" });
-  }
-  if (data.stops >= 2) {
-    if (!data.stop_2) ctx.addIssue({ path: ['stop_2'], code: z.ZodIssueCode.custom, message: "Stop 2 is required" });
-    if (!data.stop_2_lag_alt) ctx.addIssue({ path: ['stop_2_lag_alt'], code: z.ZodIssueCode.custom, message: "Stop 2 lag/lat is required" });
-  }
-  if (data.stops === 3) {
-    if (!data.stop_3) ctx.addIssue({ path: ['stop_3'], code: z.ZodIssueCode.custom, message: "Stop 3 is required" });
-    if (!data.stop_3_lag_alt) ctx.addIssue({ path: ['stop_3_lag_alt'], code: z.ZodIssueCode.custom, message: "Stop 3 lag/lat is required" });
-  }
-});
+/**
+ * Legacy schema alias - kept for backward compatibility during migration
+ * @deprecated Use step1ValidationSchema instead
+ */
+export const heroFormValidationSchema = step1ValidationSchema;
