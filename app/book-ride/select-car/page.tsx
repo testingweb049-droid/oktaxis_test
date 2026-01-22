@@ -25,7 +25,7 @@ function Page() {
             {category !== 'hourly' && (
               <AnimatedRouteMap />
             )}
-            <PickupTripDetails showMap={false}/>
+            <PickupTripDetails showMap={false} showVehicle={true}/>
           </div>
         </div>
       </div>

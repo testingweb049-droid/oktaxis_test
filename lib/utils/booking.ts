@@ -66,12 +66,14 @@ export function formatDuration(durationValue: string | number): { minutes: numbe
 }
 
 
-export function formatDistance(distanceValue: number | string): { km: number; miles: number } {
+export function formatDistance(distanceValue: number | string): { km: number; miles: number; milesFormatted: string } {
   const distance = typeof distanceValue === 'string' ? parseFloat(distanceValue) : distanceValue;
-  if (isNaN(distance) || distance === 0) return { km: 0, miles: 0 };
+  if (isNaN(distance) || distance === 0) return { km: 0, miles: 0, milesFormatted: '0' };
   const miles = distance;
   const km = miles * 1.60934;
-  return { km: Math.round(km), miles: Math.round(miles) };
+  // Show actual miles without rounding - format to 1 decimal place for display
+  const milesFormatted = miles.toFixed(1);
+  return { km: Math.round(km), miles: Math.round(miles), milesFormatted };
 }
 
 export function getLocationName(location: string): { name: string; city: string; code?: string } {
