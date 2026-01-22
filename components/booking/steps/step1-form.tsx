@@ -11,38 +11,128 @@ import CategoryTabs from '@/components/booking/category-tabs'
 import { isAirportLocation, getDurationArray } from '@/lib/utils'
 import { usePricing } from '@/hooks/usePricing'
 import { useToast } from '@/components/ui/use-toast'
+import { usePrepareQuote } from '@/hooks/usePrepareQuote'
 
 function Step1Form() {
-  const { category, formLoading, changeStep, formData, setFormData } = useFormStore()
+  const { category, formLoading, changeStep, formData, setFormData, setCachedFleets, setCachedQuoteData } = useFormStore()
   const router = useRouter()
   const { toast } = useToast()
   const { data: pricing } = usePricing()
+  const { mutate: prepareQuote, isPending: isPreparingQuote } = usePrepareQuote()
   const durationArray = getDurationArray()
+  
   const handleSubmit = async () => {
+    // Validate form first
+    const pricingData = pricing ? {
+      minimumBookingHours: pricing.minimumBookingHours,
+      timezone: pricing.timezone
+    } : undefined
+    
+    const validationResult = await changeStep(true, 1, pricingData)
+    
+    if (typeof validationResult === 'object' && validationResult !== null && 'errorType' in validationResult) {
+      if (validationResult.errorType === 'time_validation') {
+        toast({
+          title: "Booking Too Soon",
+          description: validationResult.errorMessage || `Booking can't be added within ${pricingData?.minimumBookingHours || 0} hours of pickup time, choose another time.`,
+          variant: "destructive",
+          duration: 1000,
+        })
+      }
+      return
+    }
+    
+    if (validationResult !== true) {
+      return
+    }
+
+    // Check for airport locations
     const fromIsAirport = isAirportLocation(formData.fromLocation.value)
     const toIsAirport = category === 'trip' ? isAirportLocation(formData.toLocation.value) : false
     
     if (fromIsAirport || toIsAirport) {
       setFormData('isAirportPickup', true)
     }
-    const pricingData = pricing ? {
-      minimumBookingHours: pricing.minimumBookingHours,
-      timezone: pricing.timezone
-    } : undefined
-    const result = await changeStep(true, 1, pricingData)
-    if (typeof result === 'object' && result !== null && 'errorType' in result && result.errorType === 'time_validation') {
-      toast({
-        title: "Booking Too Soon",
-        description: result.errorMessage || `Booking can't be added within ${pricingData?.minimumBookingHours || 0} hours of pickup time, choose another time.`,
-        variant: "destructive",
-        duration: 1000,
-      })
-      return
+
+    // Prepare quote data
+    const quoteRequest: any = {
+      category,
+      fromLocation: {
+        address: formData.fromLocation.value,
+        coordinates: formData.fromLocation.coordinates,
+      },
+      date: formData.date.value,
+      time: formData.time.value,
+      passengers: Number(formData.passengers.value) || 1,
+      bags: Number(formData.bags.value) || 0,
     }
-    
-    if (result === true) {
-      router.replace('/book-ride/select-car')
+
+    if (category === 'trip') {
+      if (!formData.toLocation.value || !formData.toLocation.coordinates) {
+        toast({
+          title: "Missing Location",
+          description: "Please select a drop-off location",
+          variant: "destructive",
+        })
+        return
+      }
+      quoteRequest.toLocation = {
+        address: formData.toLocation.value,
+        coordinates: formData.toLocation.coordinates,
+      }
+      // Include stops if any
+      const stops = formData.stops
+        .map((stop) => stop.coordinates)
+        .filter((coord) => coord && coord.trim())
+      if (stops.length > 0) {
+        quoteRequest.stops = stops
+      }
+    } else if (category === 'hourly') {
+      if (!formData.duration.value) {
+        toast({
+          title: "Missing Duration",
+          description: "Please select a duration",
+          variant: "destructive",
+        })
+        return
+      }
+      quoteRequest.duration = Number(formData.duration.value)
     }
+
+    // Call prepare-quote endpoint
+    prepareQuote(quoteRequest, {
+      onSuccess: (response) => {
+        if (response.success && response.data) {
+          const { distance, duration, fleets, pricing: quotePricing } = response.data
+
+          // Store distance/duration in formData
+          if (category === 'trip' && distance !== undefined) {
+            setFormData('distance', distance)
+          } else if (category === 'hourly' && duration !== undefined) {
+            setFormData('duration', duration.toString())
+          }
+
+          // Store fleets and quote data in cache
+          setCachedFleets(fleets)
+          setCachedQuoteData({
+            distance,
+            duration,
+            fleets,
+            pricing: quotePricing,
+          })
+
+          // Navigate to step 2
+          router.replace('/book-ride/select-car')
+        }
+      },
+      onError: (error: any) => {
+        toast({
+          title: "Failed to Get Prices",
+          description: error?.message || "Unable to calculate prices. Please try again.",
+          variant: "destructive",
+        })
+      },
+    })
   }
 
   return (
@@ -80,10 +170,10 @@ function Step1Form() {
             onClick={handleSubmit}
             variant="brand"
             size="default"
-            disabled={formLoading}
+            disabled={formLoading || isPreparingQuote}
             className="w-full py-2 px-3 gap-2"
           >
-            {formLoading ? (
+            {(formLoading || isPreparingQuote) ? (
               <>
                 <Loader className='animate-spin' size={20} />
                 <span>Loading...</span>

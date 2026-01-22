@@ -1,15 +1,16 @@
 'use client';
 
-import { calculateDistance } from "@/hooks/useDistance";
+// Distance calculation moved to prepare-quote endpoint
 import { hourlyInitialFormData, tripInitialFormData } from "@/constants/store-initial-objects";
 import { create } from "zustand";
-import { validateDistance, validateCoordinates } from "@/lib/utils/validation";
+import { validateCoordinates } from "@/lib/utils/validation";
 import { validateBookingTime } from "@/lib/utils";
 import { 
   step1TripValidationSchema, 
   step1HourlyValidationSchema,
   step3ValidationSchema 
 } from "@/types/form-interfaces";
+import type { FleetType } from "@/types/fleet.types";
 
 export interface FieldType<T> {
   value: T;
@@ -54,6 +55,30 @@ export interface FormDataType {
   instructions: FieldType<string>;
 }
 
+interface QuoteData {
+  distance?: number;
+  duration?: number;
+  fleets: FleetType[];
+  pricing: {
+    outbound: {
+      meetGreet: number;
+      flightTrack: number;
+      extraStop: number;
+    };
+    return: {
+      meetGreet: number;
+      flightTrack: number;
+      extraStop: number;
+    };
+    vehicle: Record<string, number>;
+    returnDiscount: Record<string, number>;
+    hourlyRanges: Array<{ minHours: number; maxHours: number; percent: number }>;
+    dateRanges: Array<{ startDate: string; endDate: string; percent: number }>;
+    minimumBookingHours: number;
+    timezone: string;
+  };
+}
+
 interface FormStoreType {
   step: number;
   isMobileDropdownOpen: boolean;
@@ -63,6 +88,8 @@ interface FormStoreType {
   isOrderDone: boolean;
   formLoading: boolean;
   formData: FormDataType;
+  cachedFleets: FleetType[] | null;
+  cachedQuoteData: QuoteData | null;
   setFormData: (
     key: keyof FormDataType | "stops",
     value: string | boolean | number,
@@ -80,6 +107,11 @@ interface FormStoreType {
   manageStops: (action: "add" | "remove", index?: number) => void;
   toggleMobileDropdown: () => void;
   resetForm: () => void;
+  setCachedFleets: (fleets: FleetType[]) => void;
+  setCachedQuoteData: (quoteData: QuoteData) => void;
+  clearCachedFleets: () => void;
+  clearCachedQuoteData: () => void;
+  isCacheValid: () => boolean;
 }
 
 const makeStop = (required = false): FieldType<string> => ({
@@ -121,8 +153,17 @@ const useFormStore = create<FormStoreType>((set, get) => ({
   formData: tripInitialFormData,
   isOrderDone: false,
   orderId: '',
+  cachedFleets: null,
+  cachedQuoteData: null,
   
   setFormData: (key, value, coordinates = "", index) => {
+    // Clear cache when critical fields change
+    const cacheInvalidatingFields: (keyof FormDataType)[] = ['date', 'time', 'fromLocation', 'toLocation', 'duration', 'distance'];
+    if (cacheInvalidatingFields.includes(key as keyof FormDataType)) {
+      get().clearCachedFleets();
+      get().clearCachedQuoteData();
+    }
+
     if (key === "stops" && typeof index === "number") {
       set((state) => {
         const stops = [...state.formData.stops];
@@ -351,79 +392,12 @@ const useFormStore = create<FormStoreType>((set, get) => ({
       return { success: false, errorMessage: validationResult.errorMessage, errorType: validationResult.errorType } as any;
     }
     
-    // For trip category, calculate distance on step 1
-    if (_step === 1 && category === "trip") {
-      try {
-        // Validate coordinates before calculating distance
-        const fromCoordsValidation = validateCoordinates(formData.fromLocation.coordinates);
-        const toCoordsValidation = validateCoordinates(formData.toLocation.coordinates);
-        
-        if (!fromCoordsValidation.isValid || !toCoordsValidation.isValid) {
-          set((state) => ({ 
-            ...state, 
-            formError: "Please select valid pickup and drop-off locations", 
-            formLoading: false 
-          }));
-          return false;
-        }
-        
-        const stopsCoords = formData.stops
-          .map((s) => s.coordinates)
-          .filter((coord) => {
-            const validation = validateCoordinates(coord);
-            return validation.isValid;
-          });
-        
-        const distanceResponse = await calculateDistance({
-          from: formData.fromLocation.coordinates,
-          to: formData.toLocation.coordinates,
-          stops: stopsCoords, 
-        });
-        
-        if (distanceResponse.status !== 200) {
-          set((state) => ({ 
-            ...state, 
-            formError: distanceResponse.error ?? "Unable to calculate route. Please check your locations.", 
-            formLoading: false 
-          }));
-          return false;
-        }
-        
-        const mileDistance = distanceResponse.mileDistance ?? 0;
-        const distanceValidation = validateDistance(mileDistance);
-        
-        if (!distanceValidation.isValid) {
-          set((state) => ({ 
-            ...state, 
-            formError: distanceValidation.error ?? "Invalid distance calculated", 
-            formLoading: false 
-          }));
-          return false;
-        }
-        
-        set((state) => ({
-          ...state,
-          formData: { 
-            ...state.formData, 
-            distance: { ...state.formData.distance, value: mileDistance } 
-          },
-        }));
-      } catch (error) {
-        set((state) => ({
-          ...state,
-          formError: error instanceof Error 
-            ? `Failed to calculate distance: ${error.message}` 
-            : "Unable to calculate route. Please try again.",
-          formLoading: false,
-        }));
-        return false;
-      }
-    }
-
+    // Distance calculation is now handled by prepare-quote endpoint in step1-form.tsx
+    // No need to calculate distance here anymore
+    
     // Order creation is now handled in checkout-success route after payment confirmation
     // No order should be created here before payment
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    set((state) => ({ ...state, formError: "", formLoading: false, step: isNext ? _step + 1 : Math.max(1, _step - 1) }));
+    set((state) => ({ ...state, formError: "", formLoading: false }));
     return true; 
   },
 
@@ -442,6 +416,10 @@ const useFormStore = create<FormStoreType>((set, get) => ({
   changeCategory: (newCategory) => {
     const { category } = get();
     if (category === newCategory) return;
+    
+    // Clear cache when category changes
+    get().clearCachedFleets();
+    get().clearCachedQuoteData();
     
     // Get initial data for new category
     const initialData = newCategory === "trip" ? tripInitialFormData : hourlyInitialFormData;
@@ -499,7 +477,63 @@ const useFormStore = create<FormStoreType>((set, get) => ({
       isMobileDropdownOpen: false,
       isOrderDone: false,
       orderId: '',
+      cachedFleets: null,
+      cachedQuoteData: null,
     });
+  },
+
+  setCachedFleets: (fleets) => {
+    set({ cachedFleets: fleets });
+  },
+
+  setCachedQuoteData: (quoteData) => {
+    set({ cachedQuoteData: quoteData });
+  },
+
+  clearCachedFleets: () => {
+    set({ cachedFleets: null });
+  },
+
+  clearCachedQuoteData: () => {
+    set({ cachedQuoteData: null });
+  },
+
+  isCacheValid: () => {
+    const { cachedQuoteData, formData, category } = get();
+    if (!cachedQuoteData || !cachedQuoteData.fleets || cachedQuoteData.fleets.length === 0) {
+      return false;
+    }
+
+    // Check if cached data matches current form inputs
+    const currentDate = formData.date.value;
+    const currentTime = formData.time.value;
+    const currentFromLocation = formData.fromLocation.value;
+    const currentToLocation = category === 'trip' ? formData.toLocation.value : undefined;
+    const currentDuration = category === 'hourly' ? formData.duration.value : undefined;
+    const currentDistance = category === 'trip' ? formData.distance.value : undefined;
+
+    // For trip: check distance and locations match
+    if (category === 'trip') {
+      if (cachedQuoteData.distance !== currentDistance) {
+        return false;
+      }
+      if (currentFromLocation !== formData.fromLocation.value || currentToLocation !== formData.toLocation.value) {
+        return false;
+      }
+    }
+
+    // For hourly: check duration matches
+    if (category === 'hourly') {
+      if (cachedQuoteData.duration !== Number(currentDuration)) {
+        return false;
+      }
+    }
+
+    // Check date and time match
+    // Note: We don't store date/time in quote data, so we'll assume cache is valid if other fields match
+    // The cache will be cleared when date/time changes via setFormData
+
+    return true;
   },
 }));
 

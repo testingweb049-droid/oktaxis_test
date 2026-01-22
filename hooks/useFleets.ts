@@ -7,14 +7,14 @@ import { staticDataQueryOptions } from '@/lib/api/config';
 import { useApiQuery } from './api/useApiQuery';
 
 interface FleetResponse extends ApiResponse<FleetType[]> {
-  fleets?: FleetType[]; // Legacy support
+  fleets?: FleetType[];   
 }
 
 interface UseFleetsOptions {
   distance?: number;
   duration?: number;
-  date?: string; // YYYY-MM-DD format
-  time?: string; // HH:MM format (12-hour or 24-hour)
+  date?: string;
+  time?: string;
   category?: "trip" | "hourly";
 }
 
@@ -48,10 +48,11 @@ const fetchFleets = async (options?: UseFleetsOptions): Promise<FleetType[]> => 
   return response.data.fleets || response.data.data || [];
 };
 
-export const useFleets = (options?: UseFleetsOptions) => {
+export const useFleets = (options?: UseFleetsOptions, queryOptions?: { enabled?: boolean }) => {
   return useApiQuery<FleetType[]>({
     queryKey: [...queryKeys.fleets.lists(), options],
     queryFn: () => fetchFleets(options),
+    enabled: queryOptions?.enabled !== false, // Default to true, but allow disabling
     ...staticDataQueryOptions,
   });
 };

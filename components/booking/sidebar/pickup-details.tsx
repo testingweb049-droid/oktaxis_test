@@ -6,9 +6,8 @@ import { User, Pencil, Check, Users, Luggage } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useFleets } from "@/hooks/useFleets";
 import type { FleetType } from "@/types/fleet.types";
-import { usePricing, DEFAULT_PRICING } from "@/hooks/usePricing";
+// Pricing data comes from cached quote data in store - no API call needed
 import { calculateReturnPrice, formatPrice } from "@/lib/utils/pricing";
 import {
   calculateArrivalTime,
@@ -26,26 +25,35 @@ interface PickupTripDetailsProps {
 }
 
 function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDetailsProps) {
-  const { formData, category } = useFormStore();
+  const { formData, category, cachedFleets, cachedQuoteData } = useFormStore();
   const router = useRouter();
-  const { data: fleetsData, isLoading: fleetsLoading } = useFleets();
-  const fleets: FleetType[] = (fleetsData as FleetType[] | undefined) || [];
-  const selectedFleet = fleets.find((item) => item.name === formData.car?.value);
-  const { data: pricing = DEFAULT_PRICING } = usePricing();
+  // Use cached fleet data from store - no API call needed
+  const selectedFleet = cachedFleets?.find((item) => item.name === formData.car?.value) || null;
+  // Use pricing data from cached quote - no API call needed
+  const pricing = cachedQuoteData?.pricing || {
+    outbound: { meetGreet: 0, flightTrack: 0, extraStop: 0 },
+    return: { meetGreet: 0, flightTrack: 0, extraStop: 0 },
+    vehicle: {},
+    returnDiscount: {},
+    hourlyRanges: [],
+    dateRanges: [],
+    minimumBookingHours: 0,
+    timezone: '',
+  };
 
   const fromLocation = formData.fromLocation?.value || '';
   const toLocation = formData.toLocation?.value || '';
   const date = formData.date?.value || '';
   const time = formData.time?.value || '';
   const passengers = formData.passengers?.value || '1';
-  const basePrice = Number(formData.price?.value || 0);
+  const outwardPrice = Number(formData.price?.value || 0);
   const distance = formData.distance?.value || 0;
   const duration = formData.duration?.value || '';
   const displayDate = date;
   const displayTime = time;
   let durationData = formatDuration(duration);
   if (category === 'trip' && durationData.minutes === 0 && distance > 0) {
-    const estimatedHours = distance / 31; // distance in miles
+    const estimatedHours = Number(distance) / 31; // distance in miles
     durationData = { hours: estimatedHours, minutes: Math.round(estimatedHours * 60) };
   }
   const arrivalTime = durationData.minutes > 0 ? calculateArrivalTime(time, durationData.minutes) : '';
@@ -55,11 +63,11 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
 
   // Calculate return price and discount separately
   const returnPriceData = useMemo(() => {
-    if (category !== 'hourly' && formData.isReturn?.value && basePrice > 0) {
+    if (category !== 'hourly' && formData.isReturn?.value && outwardPrice > 0) {
       // Get vehicle-specific return discount from backend pricing settings
       const vehicleReturnDiscount = pricing.returnDiscount[formData.car.value] ?? 0;
-      const discountedPrice = calculateReturnPrice(basePrice, vehicleReturnDiscount);
-      const discountAmount = basePrice - discountedPrice;
+      const discountedPrice = calculateReturnPrice(outwardPrice, vehicleReturnDiscount);
+      const discountAmount = outwardPrice - discountedPrice;
       return {
         price: discountedPrice,
         discountPercent: vehicleReturnDiscount,
@@ -67,7 +75,7 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
       };
     }
     return { price: 0, discountPercent: 0, discountAmount: 0 };
-  }, [basePrice, formData.isReturn?.value, formData.car.value, category, pricing]);
+  }, [outwardPrice, formData.isReturn?.value, formData.car.value, category, pricing]);
 
   const returnPrice = returnPriceData.price;
   const returnDiscountPercent = returnPriceData.discountPercent;
@@ -83,7 +91,7 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
     const returnExtraStopsFee = category !== 'hourly' ? Number(formData.returnExtraStopsCount?.value || 0) * pricing.return.extraStop : 0;
 
     const total = (
-      basePrice +
+      outwardPrice +
       returnPrice +
       meetGreetFee +
       flightTrackFee +
@@ -95,7 +103,7 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
 
     return formatPrice(total);
   }, [
-    basePrice,
+    outwardPrice,
     returnPrice,
     formData.isMeetGreet?.value,
     formData.isFlightTrack?.value,
@@ -194,7 +202,7 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
                   ~ {durationData.minutes} min
                 </span>
                 <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-text-gray">
-                  ~ {distanceData.km} Km / {distanceData.miles} Mi
+                  ~ {distanceData.km} Km / {distanceData.milesFormatted} Mi
                 </span>
               </div>
 
@@ -285,7 +293,7 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
                       ~ {durationData.minutes} min
                     </span>
                     <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-text-gray">
-                      ~ {distanceData.km} Km / {distanceData.miles} Mi
+                      ~ {distanceData.km} Km / {distanceData.milesFormatted} Mi
                     </span>
                   </div>
 
@@ -407,7 +415,7 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
                     ~ {durationData.minutes} min
                   </span>
                   <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-text-gray">
-                    ~ {distanceData.km} Km / {distanceData.miles} Mi
+                    ~ {distanceData.km} Km / {distanceData.milesFormatted} Mi
                   </span>
                 </div>
 
@@ -520,7 +528,7 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
           )}
 
           {/* Selected Vehicle Section - Only on passenger-details page */}
-          {showVehicle && selectedFleet && !fleetsLoading && (
+          {showVehicle && selectedFleet && (
             <div className="mb-4">
               <h3 className="font-semibold text-base text-heading-black mb-3">Selected Vehicle</h3>
               <div className="bg-white rounded-lg border border-gray-200 p-3 flex items-center gap-3">
@@ -537,7 +545,6 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
                   <h4 className="font-bold text-base text-heading-black mb-1">{selectedFleet.name}</h4>
                   <div className="flex items-center gap-4 text-sm text-text-gray">
                     <div className="flex items-center gap-1">
-                    Up to
                       <Users size={14} />
                       <span> {selectedFleet.passengers} passengers</span>
                     </div>
@@ -560,7 +567,7 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
             </div>
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm text-text-gray">Outward</span>
-              <span className="text-base font-semibold text-heading-black">€ {formatPriceValue(basePrice.toString())}</span>
+              <span className="text-base font-semibold text-heading-black">€ {formatPriceValue(outwardPrice.toString())}</span>
             </div>
             {category !== 'hourly' && formData.isReturn?.value && returnPrice > 0 && (
               <>

@@ -30,6 +30,7 @@ export function VehicleCard({
   const showDiscount = pricingBreakdown?.displayDiscount && pricingBreakdown.displayDiscount > 0;
   const originalPrice = item.totalCalculatedPrice || pricingBreakdown?.originalPrice || finalPrice;
   const isSelected = selectedCarName === item.name;
+  // Show loader when formLoading is true AND vehicle is selected (or being selected)
   const isLoading = formLoading && isSelected;
 
   const handleCardClick = () => {
