@@ -1,60 +1,38 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect, useRef, Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
 import { MdDone } from 'react-icons/md';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useOrder } from '@/hooks/useOrder';
-import { useFleets } from '@/hooks/useFleets';
-import type { FleetType } from '@/types/fleet.types';
 
 function OrderPlacedContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const [countdown, setCountdown] = useState(10);
+
   const sessionId = searchParams.get('session_id');
-  const headerRef = useRef<HTMLDivElement | null>(null);
-  
-  // Fetch order data from API using session_id
-  // Webhook processes payment in background, so we poll if order not immediately available
-  const { data: order, isLoading: loading, error: queryError, refetch } = useOrder(sessionId || null);
-  const { data: fleetsData } = useFleets();
-  const fleets: FleetType[] = (fleetsData as FleetType[] | undefined) || [];
-
-  // Polling logic: if order not found and we have session_id, retry fetching
-  useEffect(() => {
-    if (!sessionId) {
-      router.replace('/');
-      return;
-    }
-
-    // If order not found, poll for up to 10 seconds (webhook may take 1-2 seconds)
-    if (!loading && !order && sessionId) {
-      let pollCount = 0;
-      const maxPolls = 10; // Poll 10 times
-      const pollInterval = 1000; // 1 second between polls
-
-      const pollTimer = setInterval(() => {
-        pollCount++;
-        if (pollCount <= maxPolls) {
-          refetch();
-        } else {
-          clearInterval(pollTimer);
-        }
-      }, pollInterval);
-
-      return () => clearInterval(pollTimer);
-    }
-  }, [sessionId, loading, order, refetch, router]);
-
+  const { data: order, isLoading: loading, error: queryError, refetch } = useOrder(sessionId);
 
   useEffect(() => {
-    if (headerRef.current) {
-      headerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }, []);
+    if (order) {
+      const interval = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            router.push('/');
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
 
-  // Loading state
+      return () => clearInterval(interval);
+    }
+  }, [order, router]);
+
+
   if (loading) {
     return (
       <div className="w-full min-h-screen flex items-center justify-center bg-light-background">
@@ -66,7 +44,6 @@ function OrderPlacedContent() {
     );
   }
 
-  // Error state or order not found
   if (queryError || !order) {
     return (
       <div className="w-full min-h-screen flex items-center justify-center bg-light-background">
@@ -75,44 +52,27 @@ function OrderPlacedContent() {
             {queryError ? 'Failed to load your order' : 'Order not found'}
           </p>
           <p className="text-text-gray mb-4 text-sm">
-            {sessionId ? 'Your payment was successful. The order may still be processing. Please check back in a moment.' : 'No session ID provided.'}
+            {sessionId 
+              ? 'Your payment was successful. The order may still be processing. Please check back in a moment.' 
+              : 'No session ID provided. Please check your booking confirmation email.'}
           </p>
           <div className="flex gap-4 justify-center">
-            <Button onClick={() => refetch()} variant="default">
-              Retry
-            </Button>
-            <Button asChild variant="secondary">
-              <Link href="/">Home</Link>
-            </Button>
+            {sessionId && (
+              <Button onClick={() => refetch()} variant="default">
+                Retry
+              </Button>
+            )}
           </div>
         </div>
       </div>
     );
   }
 
-  // Extract order data
-  const orderId = order.id;
-  const email = order.email || '';
-  const orderData = order;
-
-  const selectedFleet = fleets.find((item) => item.name === orderData?.car);
-  
-  const locations: any[] = [];
-  if (orderData?.pickup_location) {
-    locations.push(orderData.pickup_location);
-  }
-  if (orderData?.stops && Array.isArray(orderData.stops)) {
-    locations.push(...orderData.stops);
-  }
-  if (orderData?.category === 'hourly' && orderData?.duration) {
-    locations.push({ value: `${orderData.duration} Hours` });
-  } else if (orderData?.dropoff_location) {
-    locations.push(orderData.dropoff_location);
-  }
+  if (!order) return null;
 
   return (
     <div className="w-full bg-light-background flex flex-col min-h-screen">
-      <div ref={headerRef} className="h-24 w-full bg-heading-black"></div>
+      <div className="h-24 w-full bg-heading-black"></div>
 
       <div className="max-w-5xl mx-auto py-16 lg:py-24 w-full flex items-center justify-center flex-col gap-6 lg:gap-12 text-center p-3">
         <div className="w-full flex items-center justify-center flex-col gap-3 lg:gap-5">
@@ -120,16 +80,19 @@ function OrderPlacedContent() {
             <MdDone className="text-heading-black" size={45} />
           </div>
           <div className="text-heading-black text-lg font-medium">
-            Great choice{orderData?.name ? `, ${orderData.name}` : ''}!
+            Great choice{order.name ? `, ${order.name}` : ''}!
           </div>
           <div className="text-heading-black text-2xl lg:text-4xl font-bold">
             YOUR RESERVATION IS CONFIRMED
           </div>
-          {email && (
+          {order.email && (
             <div className="text-heading-black text-lg">
-              We&apos;ve sent a confirmation email to {email}
+              We&apos;ve sent a confirmation email to {order.email}
             </div>
           )}
+          <div className="text-text-gray text-sm mt-2">
+            Redirecting to home in {countdown} second{countdown !== 1 ? 's' : ''}...
+          </div>
         </div>
 
         <div className="w-full grid md:grid-cols-3 lg:gap-5">
@@ -143,56 +106,62 @@ function OrderPlacedContent() {
                 <div className="w-full h-full bg-gradient-to-b from-primary-yellow to-primary-yellow/80 rounded-full"></div>
               </div>
               <div className="flex flex-col gap-3 w-full">
-                {locations.map((item: any, index: number) => (
+                {order.pickup_location && (
+                  <div className="flex items-start gap-3 md:gap-5">
+                    <div className="max-lg:text-sm text-heading-black">{order.pickup_location}</div>
+                  </div>
+                )}
+                {order.stops && order.stops.length > 0 && order.stops.map((stop, index) => (
                   <div key={index} className="flex items-start gap-3 md:gap-5">
-                    <div className="max-lg:text-sm text-heading-black">
-                      {typeof item === 'string' ? item : item.value}
-                    </div>
+                    <div className="max-lg:text-sm text-heading-black">{stop}</div>
                   </div>
                 ))}
+                {order.category === 'hourly' && order.duration && (
+                  <div className="flex items-start gap-3 md:gap-5">
+                    <div className="max-lg:text-sm text-heading-black">{order.duration} Hours</div>
+                  </div>
+                )}
+                {order.category !== 'hourly' && order.dropoff_location && (
+                  <div className="flex items-start gap-3 md:gap-5">
+                    <div className="max-lg:text-sm text-heading-black">{order.dropoff_location}</div>
+                  </div>
+                )}
               </div>
             </div>
 
             <div className="flex flex-col gap-1">
               <div className="text-text-gray text-sm font-medium">Pickup Date & Time</div>
               <div className="text-heading-black font-semibold">
-                {orderData?.pickup_date
-                  ? new Date(orderData.pickup_date).toLocaleDateString('en-GB', {
+                {order.pickup_date 
+                  ? new Date(order.pickup_date).toLocaleDateString('en-GB', {
                       day: '2-digit',
                       month: 'short',
                       year: 'numeric',
                     })
                   : 'N/A'}{' '}
-                {orderData?.pickup_time || ''}
-              </div>
-            </div>
-
-            <div className="flex items-center justify-end w-full pt-4">
-              <div className="flex items-center gap-5">
-                <Button asChild variant="ghost">
-                  <Link href="/">Home</Link>
-                </Button>
-                <Button asChild variant="default" size="lg" className="shadow-lg">
-                  <Link href={`/order/${orderId}`}>View Order Details</Link>
-                </Button>
+                {order.pickup_time || ''}
               </div>
             </div>
           </div>
 
-          {selectedFleet && (
-            <div className="max-lg:rounded-t-xl lg:rounded-r-xl border-2 border border-text-gray shadow-lg p-4 gap-5 flex flex-col items-center justify-center bg-light-background max-lg:order-1">
-              <div className="relative w-full h-64 flex items-center justify-center bg-white rounded-lg">
-                <img
-                  src={selectedFleet.image}
-                  alt={selectedFleet.name}
-                  className="w-full h-full object-contain"
-                  onError={(e) => {
-                    console.error('Image failed to load:', selectedFleet.image);
-                    e.currentTarget.style.display = 'none';
-                  }}
-                />
-              </div>
-              <div className="font-bold text-heading-black text-lg">{selectedFleet.name}</div>
+          {order.fleet && (
+            <div className="max-lg:rounded-t-xl lg:rounded-r-xl border-2 border border-text-gray shadow-lg p-4 gap-1 flex flex-col items-center justify-center bg-light-background max-lg:order-1">
+              {order.fleet.image && (
+                <div className="relative w-full h-64 flex items-center justify-center bg-white rounded-lg">
+                  <img
+                    src={order.fleet.image}
+                    alt={order.fleet.name}
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
+              <div className="font-bold text-heading-black text-lg">{order.fleet.name}</div>
+              {order.fleet.cars && (
+                <div className="text-text-gray text-sm text-center">{order.fleet.cars}</div>
+              )}
             </div>
           )}
         </div>

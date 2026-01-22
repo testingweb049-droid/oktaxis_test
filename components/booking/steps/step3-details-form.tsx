@@ -9,19 +9,15 @@ import AddReturn from '@/components/booking/forms/add-return'
 import NewDateTimePicker from '@/components/booking/forms/new-date-time-picker'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { useCreateCheckoutSession } from '@/hooks/useCheckout'
-import { useCreatePendingBooking } from '@/hooks/useBooking'
-import { useToast } from '@/components/ui/use-toast'
+import { useCheckoutFlow } from '@/hooks/useCheckoutFlow'
 import { calculateReturnPrice, formatPrice } from '@/lib/utils/pricing'
 import { usePricing, DEFAULT_PRICING } from '@/hooks/usePricing'
 import { validateReturnDate } from '@/lib/utils/validation'
 
 function Step3DetailsForm() {
     const { formData, setFormData, changeStep, formLoading, category } = useFormStore();
-    const { toast } = useToast();
-    const createPendingBookingMutation = useCreatePendingBooking();
-    const createCheckoutMutation = useCreateCheckoutSession();
     const { data: pricing = DEFAULT_PRICING } = usePricing();
+    const { initiateCheckout, isLoading: checkoutLoading } = useCheckoutFlow();
     
     const totalPrice = useMemo(() => {
         const basePrice = Number(formData.price.value ?? 0);
@@ -115,116 +111,21 @@ function Step3DetailsForm() {
         return true;
     }, []);
 
-    const prepareOrderData = useCallback((price: string) => {
-        const stops = formData.stops?.map(stop => stop.value).filter(Boolean) || [];
-
-        return {
-            name: formData.name.value,
-            email: formData.email.value,
-            phone: formData.phone.value,
-            car: formData.car.value,
-            price: price,
-            totalAmount: parseFloat(price),
-            distance: formData.distance.value || 0,
-            fromLocation: formData.fromLocation.value,
-            toLocation: formData.toLocation.value || '',
-            stops: stops,
-            date: formData.date.value,
-            time: formData.time.value,
-            duration: formData.duration.value || '',
-            passengers: formData.passengers.value,
-            bags: formData.bags.value,
-            isReturn: formData.isReturn?.value || false,
-            returnDate: formData.returnDate?.value || '',
-            returnTime: formData.returnTime?.value || '',
-            isFlightTrack: formData.isFlightTrack?.value || false,
-            isMeetGreet: formData.isMeetGreet?.value || false,
-            extraStopsCount: formData.extraStopsCount?.value || '0',
-            isReturnFlightTrack: formData.isReturnFlightTrack?.value || false,
-            isReturnMeetGreet: formData.isReturnMeetGreet?.value || false,
-            returnExtraStopsCount: formData.returnExtraStopsCount?.value || '0',
-            isAirportPickup: formData.isAirportPickup?.value || false,
-            flightName: formData.flightName?.value || '',
-            flightNumber: formData.flightNumber?.value || '',
-            instructions: formData.instructions?.value || '',
-            category: category || 'trip',
-        };
-    }, [formData, category]);
-
-    const getErrorMessage = useCallback((error: any): string => {
-        if (error?.response?.status === 400) {
-            const errorMessage = error?.response?.data?.message || error?.response?.data?.error;
-            if (errorMessage) {
-                return errorMessage;
-            }
-            return 'Invalid booking information. Please check your details and try again.';
-        }
-        if (error?.response?.status === 404) {
-            return 'Booking not found. Please start over.';
-        }
-        if (error?.response?.status === 500) {
-            return 'Server error. Please try again in a few moments or contact support.';
-        }
-        if (error?.message) {
-            return error.message;
-        }
-        return 'Failed to proceed to payment. Please try again.';
-    }, []);
-
-    const handleCheckout = useCallback(async () => {
-        try {
-            // Step 1: Create pending booking
-            const orderData = prepareOrderData(totalPrice);
-            
-            const bookingResult = await createPendingBookingMutation.mutateAsync(orderData);
-            
-            if (!bookingResult.data?.bookingId) {
-                throw new Error('Failed to create booking');
-            }
-
-            const bookingId = bookingResult.data.bookingId;
-
-            // Step 2: Create checkout session with bookingId
-            const checkoutResult = await createCheckoutMutation.mutateAsync({
-                amount: parseFloat(totalPrice),
-                bookingId,
-            });
-
-            if (!checkoutResult.url && !checkoutResult.data?.url) {
-                throw new Error(checkoutResult.error || 'Failed to create checkout session');
-            }
-
-            const checkoutUrl = checkoutResult.url || checkoutResult.data?.url;
-            if (checkoutUrl) {
-                window.location.href = checkoutUrl;
-            } else {
-                throw new Error('No checkout URL received');
-            }
-        } catch (error: any) {
-            console.error('Error in checkout flow:', error);
-
-            toast({
-                title: "Payment Error",
-                description: getErrorMessage(error),
-                variant: "destructive",
-                duration: 5000,
-            });
-        }
-    }, [totalPrice, prepareOrderData, createPendingBookingMutation, createCheckoutMutation, toast, getErrorMessage]);
-
     const handleContinueToPayment = useCallback(async () => {
-        if (formLoading || createCheckoutMutation.isPending || createPendingBookingMutation.isPending) return;
+        if (formLoading || checkoutLoading) return;
         if (!validateReturnJourney()) return;
+        
         const isValid = await changeStep(true, 3);
         if (!isValid) return;
-        await handleCheckout();
+        
+        await initiateCheckout(totalPrice);
     }, [
         formLoading,
-        createCheckoutMutation.isPending,
-        createPendingBookingMutation.isPending,
+        checkoutLoading,
         validateReturnJourney,
         changeStep,
-        handleCheckout
+        initiateCheckout,
+        totalPrice
     ]);
 
     return (
@@ -377,12 +278,12 @@ function Step3DetailsForm() {
 
             <Button
                 onClick={handleContinueToPayment}
-                disabled={formLoading || createCheckoutMutation.isPending || createPendingBookingMutation.isPending}
+                disabled={formLoading || checkoutLoading}
                 className="w-full"
                 size="lg"
                 aria-label="Continue to payment"
             >
-                {(formLoading || createCheckoutMutation.isPending || createPendingBookingMutation.isPending) && (
+                {(formLoading || checkoutLoading) && (
                     <Loader className="animate-spin w-4 h-4 mr-2" aria-hidden="true" />
                 )}
                 <span>Continue to Payment - £{totalPrice}</span>
