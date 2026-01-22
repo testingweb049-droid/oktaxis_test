@@ -37,6 +37,14 @@ export interface OrderData {
   instructions?: string | null;
   updated_at: string;
   created_at: string;
+  fleet?: {
+    name: string;
+    cars?: string | null;
+    passengers: number;
+    suitcases: number;
+    image?: string | null;
+    description?: string | null;
+  } | null;
 }
 
 // Backend response structure (uses 'order' instead of 'data')
@@ -46,18 +54,33 @@ interface OrderResponse {
   order: OrderData;
 }
 
-const getOrderByIdentifier = async (identifier: string): Promise<OrderData> => {
+const getOrderBySessionId = async (sessionId: string): Promise<OrderData> => {
   const response = await apiClient.get<OrderResponse>(
-    API_ENDPOINTS.ORDER_BY_IDENTIFIER(identifier)
+    API_ENDPOINTS.ORDER_BY_SESSION_ID(sessionId)
   );
   return response.data.order;
 };
 
-export const useOrder = (identifier: string | null) => {
+const getOrderByBookingId = async (bookingId: string): Promise<OrderData> => {
+  const response = await apiClient.get<OrderResponse>(
+    API_ENDPOINTS.ORDER_BY_BOOKING_ID(bookingId)
+  );
+  return response.data.order;
+};
+
+export const useOrder = (sessionId: string | null) => {
   return useApiQuery<OrderData>({
-    queryKey: queryKeys.orders.detail(identifier || ''),
-    queryFn: () => getOrderByIdentifier(identifier!),
-    enabled: !!identifier,
+    queryKey: queryKeys.orders.detail(sessionId || ''),
+    queryFn: () => getOrderBySessionId(sessionId!),
+    enabled: !!sessionId,
+  });
+};
+
+export const useOrderByBookingId = (bookingId: string | null) => {
+  return useApiQuery<OrderData>({
+    queryKey: queryKeys.orders.detail(bookingId || ''),
+    queryFn: () => getOrderByBookingId(bookingId!),
+    enabled: !!bookingId,
   });
 };
 
