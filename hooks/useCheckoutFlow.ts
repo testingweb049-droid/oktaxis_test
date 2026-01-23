@@ -44,7 +44,7 @@ export const useCheckoutFlow = (options: CheckoutFlowOptions = {}) => {
       isReturnMeetGreet: formData.isReturnMeetGreet?.value || false,
       returnExtraStopsCount: formData.returnExtraStopsCount?.value || '0',
       isAirportPickup: formData.isAirportPickup?.value || false,
-      flightName: formData.flightName?.value || '',
+      flightArrivalTime: formData.flightArrivalTime?.value || '',
       flightNumber: formData.flightNumber?.value || '',
       instructions: formData.instructions?.value || '',
       category: category || 'trip',

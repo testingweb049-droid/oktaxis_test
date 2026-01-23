@@ -58,7 +58,7 @@ export interface CreatePendingBookingRequest {
   isReturnMeetGreet?: boolean;
   returnExtraStopsCount?: string;
   isAirportPickup?: boolean;
-  flightName?: string;
+  flightArrivalTime?: string;
   flightNumber?: string;
   instructions?: string;
   category: 'trip' | 'hourly';

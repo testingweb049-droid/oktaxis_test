@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { MdDone } from 'react-icons/md';
 import { useOrder } from '@/hooks/useOrder';
 
@@ -12,6 +12,24 @@ function OrderPlacedContent() {
 
   const sessionId = searchParams.get('session_id');
   const { data: order} = useOrder(sessionId);
+
+  // Countdown timer and redirect
+  useEffect(() => {
+    if (!order) return;
+
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          router.push('/');
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [order, router]);
 
   if (!order) return null;
 

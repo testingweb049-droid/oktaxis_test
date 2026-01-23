@@ -26,7 +26,7 @@ export default function SelectableCheckbox({
   const handleChange = (checked: boolean) => {
     setFormData(fieldName, checked)
     if(fieldName==='isAirportPickup'){
-      setFieldOptions('flightName',checked)
+      setFieldOptions('flightArrivalTime',checked)
       setFieldOptions('flightNumber',checked)
     }
     if(fieldName==='isAddInstructions'){

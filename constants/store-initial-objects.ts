@@ -46,7 +46,7 @@ const commonFormDataFields = {
   returnTime: { value: "", error: "", required: false, step: 3, coordinates: "", coordinatesRequired: false },
   passengers: { value: "1", error: "", required: true, step: 1, coordinates: "", coordinatesRequired: false },
   bags: { value: "0", error: "", required: true, step: 1, coordinates: "", coordinatesRequired: false },
-  flightName: { value: "", error: "", required: false, step: 3, coordinates: "", coordinatesRequired: false },
+  flightArrivalTime: { value: "", error: "", required: false, step: 3, coordinates: "", coordinatesRequired: false },
   flightNumber: { value: "", error: "", required: false, step: 3, coordinates: "", coordinatesRequired: false },
   isAirportPickup: { value: false, error: "", required: false, step: 3, coordinates: "", coordinatesRequired: false },
   isFlightTrack: { value: false, error: "", required: false, step: 3, coordinates: "", coordinatesRequired: false },
