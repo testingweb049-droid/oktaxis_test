@@ -1,10 +1,8 @@
 'use client';
 
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useState } from 'react';
 import { MdDone } from 'react-icons/md';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { useOrder } from '@/hooks/useOrder';
 
 function OrderPlacedContent() {
@@ -13,60 +11,7 @@ function OrderPlacedContent() {
   const [countdown, setCountdown] = useState(10);
 
   const sessionId = searchParams.get('session_id');
-  const { data: order, isLoading: loading, error: queryError, refetch } = useOrder(sessionId);
-
-  useEffect(() => {
-    if (order) {
-      const interval = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev <= 1) {
-            clearInterval(interval);
-            router.push('/');
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }
-  }, [order, router]);
-
-
-  if (loading) {
-    return (
-      <div className="w-full min-h-screen flex items-center justify-center bg-light-background">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-yellow mx-auto mb-4"></div>
-          <p className="text-text-gray font-medium">Loading your order...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (queryError || !order) {
-    return (
-      <div className="w-full min-h-screen flex items-center justify-center bg-light-background">
-        <div className="text-center">
-          <p className="text-red-600 mb-4 font-semibold">
-            {queryError ? 'Failed to load your order' : 'Order not found'}
-          </p>
-          <p className="text-text-gray mb-4 text-sm">
-            {sessionId 
-              ? 'Your payment was successful. The order may still be processing. Please check back in a moment.' 
-              : 'No session ID provided. Please check your booking confirmation email.'}
-          </p>
-          <div className="flex gap-4 justify-center">
-            {sessionId && (
-              <Button onClick={() => refetch()} variant="default">
-                Retry
-              </Button>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const { data: order} = useOrder(sessionId);
 
   if (!order) return null;
 
