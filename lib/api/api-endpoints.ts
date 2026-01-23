@@ -10,6 +10,7 @@ export const API_ENDPOINTS = {
   BOOKING_BY_ID: (id: string) => `/bookings/${id}`,
   CALCULATE_FLEET_PRICE: '/fleet-pricing/calculate',
   PRICING: '/pricing',
+  CONTACT: '/contact',
 } as const;
 
 export type ApiEndpointKey = keyof typeof API_ENDPOINTS;

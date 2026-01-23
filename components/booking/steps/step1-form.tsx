@@ -25,6 +25,7 @@ function Step1Form() {
     // Validate form first
     const pricingData = pricing ? {
       minimumBookingHours: pricing.minimumBookingHours,
+      minimumBookingHoursActive: pricing.minimumBookingHoursActive,
       timezone: pricing.timezone
     } : undefined
     
@@ -111,8 +112,6 @@ function Step1Form() {
           } else if (category === 'hourly' && duration !== undefined) {
             setFormData('duration', duration.toString())
           }
-
-          // Store fleets and quote data in cache
           setCachedFleets(fleets)
           setCachedQuoteData({
             distance,
@@ -171,20 +170,25 @@ function Step1Form() {
             variant="brand"
             size="default"
             disabled={formLoading || isPreparingQuote}
-            className="w-full py-2 px-3 gap-2"
+            className="w-full py-2 px-3 gap-2 relative overflow-hidden group before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-heading-black before:scale-x-0 before:origin-left before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-x-100 before:z-0 disabled:before:hidden"
           >
-            {(formLoading || isPreparingQuote) ? (
-              <>
-                <Loader className='animate-spin' size={20} />
-                <span>Loading...</span>
-              </>
-            ) : (
-              <>
-                <Search size={20} />
-                <span>See Prices</span>
-              </>
-            )}
+            <div className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
+              {(formLoading || isPreparingQuote) ? (
+                <>
+                  <Loader className='animate-spin' size={20} />
+                  <span>Loading...</span>
+                </>
+              ) : (
+                <>
+                  <Search size={20} />
+                  <span>See Prices</span>
+                </>
+              )}
+            </div>
           </Button>
+          <p className="text-sm sm:text-base text-text-gray text-center mt-1">
+            Chauffeur waits up to 30 minutes free at the airport.
+          </p>
         </div>
       </div>
     </div>

@@ -31,13 +31,28 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
   const selectedFleet = cachedFleets?.find((item) => item.name === formData.car?.value) || null;
   // Use pricing data from cached quote - no API call needed
   const pricing = cachedQuoteData?.pricing || {
-    outbound: { meetGreet: 0, flightTrack: 0, extraStop: 0 },
-    return: { meetGreet: 0, flightTrack: 0, extraStop: 0 },
+    outbound: {
+      meetGreet: 0,
+      meetGreetActive: false,
+      flightTrack: 0,
+      flightTrackActive: false,
+      extraStop: 0,
+      extraStopActive: false,
+    },
+    return: {
+      meetGreet: 0,
+      meetGreetActive: false,
+      flightTrack: 0,
+      flightTrackActive: false,
+      extraStop: 0,
+      extraStopActive: false,
+    },
     vehicle: {},
     returnDiscount: {},
     hourlyRanges: [],
     dateRanges: [],
     minimumBookingHours: 0,
+    minimumBookingHoursActive: false,
     timezone: '',
   };
 
@@ -65,7 +80,9 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
   const returnPriceData = useMemo(() => {
     if (category !== 'hourly' && formData.isReturn?.value && outwardPrice > 0) {
       // Get vehicle-specific return discount from backend pricing settings
-      const vehicleReturnDiscount = pricing.returnDiscount[formData.car.value] ?? 0;
+      const carValue = formData.car.value;
+      const returnDiscount = pricing.returnDiscount as Record<string, number>;
+      const vehicleReturnDiscount = carValue ? (returnDiscount[carValue] ?? 0) : 0;
       const discountedPrice = calculateReturnPrice(outwardPrice, vehicleReturnDiscount);
       const discountAmount = outwardPrice - discountedPrice;
       return {
@@ -83,12 +100,12 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
 
   // Calculate total price with all extras (same logic as step3-details-form)
   const totalPrice = useMemo(() => {
-    const meetGreetFee = formData.isMeetGreet?.value ? pricing.outbound.meetGreet : 0;
-    const flightTrackFee = formData.isFlightTrack?.value ? pricing.outbound.flightTrack : 0;
-    const extraStopsFee = category !== 'hourly' ? Number(formData.extraStopsCount?.value || 0) * pricing.outbound.extraStop : 0;
-    const returnMeetGreetFee = category !== 'hourly' && formData.isReturnMeetGreet?.value ? pricing.return.meetGreet : 0;
-    const returnFlightTrackFee = category !== 'hourly' && formData.isReturnFlightTrack?.value ? pricing.return.flightTrack : 0;
-    const returnExtraStopsFee = category !== 'hourly' ? Number(formData.returnExtraStopsCount?.value || 0) * pricing.return.extraStop : 0;
+    const meetGreetFee = formData.isMeetGreet?.value && pricing.outbound.meetGreetActive ? pricing.outbound.meetGreet : 0;
+    const flightTrackFee = formData.isFlightTrack?.value && pricing.outbound.flightTrackActive ? pricing.outbound.flightTrack : 0;
+    const extraStopsFee = category !== 'hourly' && pricing.outbound.extraStopActive ? Number(formData.extraStopsCount?.value || 0) * pricing.outbound.extraStop : 0;
+    const returnMeetGreetFee = category !== 'hourly' && formData.isReturnMeetGreet?.value && pricing.return.meetGreetActive ? pricing.return.meetGreet : 0;
+    const returnFlightTrackFee = category !== 'hourly' && formData.isReturnFlightTrack?.value && pricing.return.flightTrackActive ? pricing.return.flightTrack : 0;
+    const returnExtraStopsFee = category !== 'hourly' && pricing.return.extraStopActive ? Number(formData.returnExtraStopsCount?.value || 0) * pricing.return.extraStop : 0;
 
     const total = (
       outwardPrice +

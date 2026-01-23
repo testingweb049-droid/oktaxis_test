@@ -18,7 +18,7 @@ function Step3DetailsForm() {
     const { formData, setFormData, changeStep, formLoading, category } = useFormStore();
     const { data: pricing = DEFAULT_PRICING } = usePricing();
     const { initiateCheckout, isLoading: checkoutLoading } = useCheckoutFlow();
-    
+
     const totalPrice = useMemo(() => {
         const basePrice = Number(formData.price.value ?? 0);
 
@@ -29,12 +29,12 @@ function Step3DetailsForm() {
             returnPrice = discountedPrice;
         }
 
-        const meetGreetFee = formData.isMeetGreet?.value ? pricing.outbound.meetGreet : 0;
-        const flightTrackFee = formData.isFlightTrack?.value ? pricing.outbound.flightTrack : 0;
-        const extraStopsFee = category !== 'hourly' ? Number(formData.extraStopsCount?.value || 0) * pricing.outbound.extraStop : 0;
-        const returnMeetGreetFee = category !== 'hourly' && formData.isReturnMeetGreet?.value ? pricing.return.meetGreet : 0;
-        const returnFlightTrackFee = category !== 'hourly' && formData.isReturnFlightTrack?.value ? pricing.return.flightTrack : 0;
-        const returnExtraStopsFee = category !== 'hourly' ? Number(formData.returnExtraStopsCount?.value || 0) * pricing.return.extraStop : 0;
+        const meetGreetFee = formData.isMeetGreet?.value && pricing.outbound.meetGreetActive ? pricing.outbound.meetGreet : 0;
+        const flightTrackFee = formData.isFlightTrack?.value && pricing.outbound.flightTrackActive ? pricing.outbound.flightTrack : 0;
+        const extraStopsFee = category !== 'hourly' && pricing.outbound.extraStopActive ? Number(formData.extraStopsCount?.value || 0) * pricing.outbound.extraStop : 0;
+        const returnMeetGreetFee = category !== 'hourly' && formData.isReturnMeetGreet?.value && pricing.return.meetGreetActive ? pricing.return.meetGreet : 0;
+        const returnFlightTrackFee = category !== 'hourly' && formData.isReturnFlightTrack?.value && pricing.return.flightTrackActive ? pricing.return.flightTrack : 0;
+        const returnExtraStopsFee = category !== 'hourly' && pricing.return.extraStopActive ? Number(formData.returnExtraStopsCount?.value || 0) * pricing.return.extraStop : 0;
 
         const total = (
             basePrice +
@@ -114,10 +114,10 @@ function Step3DetailsForm() {
     const handleContinueToPayment = useCallback(async () => {
         if (formLoading || checkoutLoading) return;
         if (!validateReturnJourney()) return;
-        
+
         const isValid = await changeStep(true, 3);
         if (!isValid) return;
-        
+
         await initiateCheckout(totalPrice);
     }, [
         formLoading,
@@ -145,8 +145,9 @@ function Step3DetailsForm() {
                         <div className="w-full overflow-hidden transition-all duration-500 px-4"
                             style={{ maxHeight: formData.isAirportPickup.value ? '300px' : '0' }}>
                             <div className={`flex flex-col gap-3 pb-4 pt-2 opacity-${formData.isAirportPickup.value ? '100' : '0'} transition-opacity duration-500`}>
-                                <DetailsInput field='flightArrivalTime' placeholder='Flight arrival time' Icon={Plane} type='text' />
                                 <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
+                                <DetailsInput field='flightArrivalTime' placeholder='Flight arrival time' Icon={Plane} type='text' />
+
                             </div>
                         </div>
                     </div>
@@ -174,33 +175,39 @@ function Step3DetailsForm() {
                         <div className='flex flex-col gap-2'>
                             {/* Return Equipment and Extras */}
                             <div className='font-bold text-base sm:text-lg text-heading-black mt-3'>Return Equipment and Extras</div>
-                            <QuantityCheckbox
-                                fieldName='isReturnFlightTrack'
-                                label='Flight Track'
-                                subLabel={`£ ${pricing.return.flightTrack.toFixed(2)}`}
-                                description='Track your flight'
-                                maxQuantity={1}
-                                minQuantity={0}
-                                getQuantity={() => formData.isReturnFlightTrack?.value ? 1 : 0}
-                                onQuantityChange={(qty) => setFormData('isReturnFlightTrack', qty === 1)}
-                            />
-                            <QuantityCheckbox
-                                fieldName='isReturnMeetGreet'
-                                label='Meet & Greet'
-                                subLabel={`£ ${pricing.return.meetGreet.toFixed(2)}`}
-                                maxQuantity={1}
-                                minQuantity={0}
-                                getQuantity={() => formData.isReturnMeetGreet?.value ? 1 : 0}
-                                onQuantityChange={(qty) => setFormData('isReturnMeetGreet', qty === 1)}
-                            />
-                            <QuantityCheckbox
-                                fieldName='isReturnExtraStops'
-                                label='Extra Stops'
-                                subLabel={`£ ${pricing.return.extraStop.toFixed(2)}`}
-                                maxQuantity={100}
-                                getQuantity={() => Number(formData.returnExtraStopsCount?.value || 0)}
-                                onQuantityChange={(qty) => setFormData('returnExtraStopsCount', qty.toString())}
-                            />
+                            {pricing.return.flightTrackActive && (
+                                <QuantityCheckbox
+                                    fieldName='isReturnFlightTrack'
+                                    label='Flight Track'
+                                    subLabel={`£ ${pricing.return.flightTrack.toFixed(2)}`}
+                                    description='Track your flight'
+                                    maxQuantity={1}
+                                    minQuantity={0}
+                                    getQuantity={() => formData.isReturnFlightTrack?.value ? 1 : 0}
+                                    onQuantityChange={(qty) => setFormData('isReturnFlightTrack', qty === 1)}
+                                />
+                            )}
+                            {pricing.return.meetGreetActive && (
+                                <QuantityCheckbox
+                                    fieldName='isReturnMeetGreet'
+                                    label='Meet & Greet'
+                                    subLabel={`£ ${pricing.return.meetGreet.toFixed(2)}`}
+                                    maxQuantity={1}
+                                    minQuantity={0}
+                                    getQuantity={() => formData.isReturnMeetGreet?.value ? 1 : 0}
+                                    onQuantityChange={(qty) => setFormData('isReturnMeetGreet', qty === 1)}
+                                />
+                            )}
+                            {pricing.return.extraStopActive && (
+                                <QuantityCheckbox
+                                    fieldName='isReturnExtraStops'
+                                    label='Extra Stops'
+                                    subLabel={`£ ${pricing.return.extraStop.toFixed(2)}`}
+                                    maxQuantity={100}
+                                    getQuantity={() => Number(formData.returnExtraStopsCount?.value || 0)}
+                                    onQuantityChange={(qty) => setFormData('returnExtraStopsCount', qty.toString())}
+                                />
+                            )}
                         </div>
                     </div>
                 )}
@@ -208,27 +215,31 @@ function Step3DetailsForm() {
                 {/* Equipment and Extras Block */}
                 <div className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200 flex flex-col gap-4">
                     <div className='font-bold text-base sm:text-lg text-heading-black'>Equipment and Extras</div>
-                    <QuantityCheckbox
-                        fieldName='isFlightTrack'
-                        label='Flight Track'
-                        subLabel={`£ ${pricing.outbound.flightTrack.toFixed(2)}`}
-                        description='Track your flight'
-                        maxQuantity={1}
-                        minQuantity={0}
-                        getQuantity={() => formData.isFlightTrack?.value ? 1 : 0}
-                        onQuantityChange={(qty) => setFormData('isFlightTrack', qty === 1)}
-                    />
-                    <QuantityCheckbox
-                        fieldName='isMeetGreet'
-                        label='Meet & Greet'
-                        subLabel={`£ ${pricing.outbound.meetGreet.toFixed(2)}`}
-                        maxQuantity={1}
-                        minQuantity={0}
-                        getQuantity={() => formData.isMeetGreet?.value ? 1 : 0}
-                        onQuantityChange={(qty) => setFormData('isMeetGreet', qty === 1)}
-                    />
-                    {/* Extra Stops - Hide for hourly */}
-                    {category !== 'hourly' && (
+                    {pricing.outbound.flightTrackActive && (
+                        <QuantityCheckbox
+                            fieldName='isFlightTrack'
+                            label='Flight Track'
+                            subLabel={`£ ${pricing.outbound.flightTrack.toFixed(2)}`}
+                            description='Track your flight'
+                            maxQuantity={1}
+                            minQuantity={0}
+                            getQuantity={() => formData.isFlightTrack?.value ? 1 : 0}
+                            onQuantityChange={(qty) => setFormData('isFlightTrack', qty === 1)}
+                        />
+                    )}
+                    {pricing.outbound.meetGreetActive && (
+                        <QuantityCheckbox
+                            fieldName='isMeetGreet'
+                            label='Meet & Greet'
+                            subLabel={`£ ${pricing.outbound.meetGreet.toFixed(2)}`}
+                            maxQuantity={1}
+                            minQuantity={0}
+                            getQuantity={() => formData.isMeetGreet?.value ? 1 : 0}
+                            onQuantityChange={(qty) => setFormData('isMeetGreet', qty === 1)}
+                        />
+                    )}
+                    {/* Extra Stops - Hide for hourly and if inactive */}
+                    {category !== 'hourly' && pricing.outbound.extraStopActive && (
                         <QuantityCheckbox
                             fieldName='isExtraStops'
                             label='Extra Stops'
@@ -279,14 +290,16 @@ function Step3DetailsForm() {
             <Button
                 onClick={handleContinueToPayment}
                 disabled={formLoading || checkoutLoading}
-                className="w-full"
+                className="w-full relative overflow-hidden group before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-heading-black before:scale-x-0 before:origin-left before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-x-100 before:z-0 disabled:before:hidden"
                 size="lg"
                 aria-label="Continue to payment"
             >
-                {(formLoading || checkoutLoading) && (
-                    <Loader className="animate-spin w-4 h-4 mr-2" aria-hidden="true" />
-                )}
-                <span>Continue to Payment - £{totalPrice}</span>
+                <div className="relative z-10 flex items-center justify-center gap-2 group-hover:text-white transition-colors duration-300">
+                    {(formLoading || checkoutLoading) && (
+                        <Loader className="animate-spin w-4 h-4" aria-hidden="true" />
+                    )}
+                    <span>Continue to Payment - £{totalPrice}</span>
+                </div>
             </Button>
         </div>
     )

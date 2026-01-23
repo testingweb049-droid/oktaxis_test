@@ -204,11 +204,8 @@ export default function RegisterDriverPage() {
           </div>
         </div>
       </section>
-
-      {/* About / Why Section */}
       <PartnerAboutSection onApplyClick={() => setIsModalOpen(true)} />
 
-      {/* Benefits Section */}
       <OurServicesSection
         headline="The Benefits"
         services={driverBenefitsServices}
@@ -216,7 +213,6 @@ export default function RegisterDriverPage() {
       />
       <ChauffeurTestimonials />
 
-      {/* Modal with RegisterDriverForm */}
       {isModalOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 "
