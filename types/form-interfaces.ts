@@ -69,7 +69,7 @@ export const step3ValidationSchema = z.object({
   
   // Airport pickup fields (optional, conditional)
   isAirportPickup: z.boolean().optional().default(false),
-  flightName: z.string().optional(),
+  flightArrivalTime: z.string().optional(),
   flightNumber: z.string().optional(),
   
   // Equipment and extras (optional)

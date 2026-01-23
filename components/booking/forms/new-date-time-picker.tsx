@@ -411,22 +411,36 @@ export default function NewDateTimePicker({
 
           {timeOpen && (
             <>
-              {/* Backdrop */}
+              {/* Mobile Backdrop */}
               <div
-                className="fixed inset-0 bg-black/20 z-[100]"
+                className="fixed inset-0 bg-black/50 z-[100] sm:hidden"
                 onClick={() => setTimeOpen(false)}
               />
 
               {/* Time Picker Popup */}
               <div
                 className={cn(
-                  // Absolute positioning for both mobile and desktop
-                  "absolute top-full mt-2 z-[110] bg-white rounded-xl shadow-2xl border border-gray-200",
-                  "w-full max-w-[420px] left-auto right-0",
-                  "px-5 py-5 flex flex-col"
+                  // Mobile: Fixed bottom sheet modal
+                  "fixed inset-x-0 bottom-0 z-[110] bg-white rounded-t-xl shadow-2xl",
+                  "max-h-[85vh] overflow-y-auto",
+                  // Desktop: Absolute positioning
+                  "sm:absolute sm:top-full sm:mt-2 sm:bottom-auto sm:rounded-xl sm:shadow-2xl sm:border sm:border-gray-200",
+                  "sm:w-full sm:max-w-[420px] sm:left-auto sm:right-0 sm:max-h-none sm:z-[110]",
+                  "px-6 py-4 sm:px-5 sm:py-5 flex flex-col"
                 )}
                 onClick={(e) => e.stopPropagation()}
               >
+                {/* Cancel Header - Mobile Only */}
+                <div className="bg-primary-yellow text-heading-black py-3 px-4 -mx-6 -mt-4 mb-4 sm:hidden relative z-10 rounded-t-xl flex items-center justify-between">
+                  <span className="text-base font-medium">Select Time</span>
+                  <button
+                    type="button"
+                    onClick={() => setTimeOpen(false)}
+                    className="p-1 hover:bg-heading-black/10 rounded-full transition-colors"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
 
                 {/* Time Columns */}
                 <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-4 sm:mb-5">

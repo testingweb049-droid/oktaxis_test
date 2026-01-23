@@ -18,7 +18,7 @@ export interface OrderProps {
   name: string;
   email: string;
   phone: string;
-  flight_name?: string | null;
+  flight_arrival_time?: string | null;
   flight_number?: string | null;
   payment_id?: string | null;
   payment_method: string | null;

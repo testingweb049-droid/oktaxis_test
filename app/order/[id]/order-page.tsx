@@ -339,10 +339,10 @@ function orderPage({ id }: OrderPageProps) {
                   icon={<MdOutlineFlight className="text-orange-600" />}
                 />
               )}
-              {order.flight_name && (
+              {order.flight_arrival_time && (
                 <InfoField
-                  label="Airline"
-                  value={order.flight_name}
+                  label="Flight arrival time"
+                  value={order.flight_arrival_time}
                   icon={<MdAirlines className="text-red-600" />}
                 />
               )}

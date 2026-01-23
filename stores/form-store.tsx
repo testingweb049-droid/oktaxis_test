@@ -38,7 +38,7 @@ export interface FormDataType {
   returnTime: FieldType<string>;
   passengers: FieldType<string>;
   bags: FieldType<string>;
-  flightName: FieldType<string>;
+  flightArrivalTime: FieldType<string>;
   flightNumber: FieldType<string>;
   paymentId: FieldType<string>;
   isAirportPickup: FieldType<boolean>;
@@ -308,7 +308,7 @@ const useFormStore = create<FormStoreType>((set, get) => ({
         returnDate: formData.returnDate?.value || '',
         returnTime: formData.returnTime?.value || '',
         isAirportPickup: formData.isAirportPickup?.value || false,
-        flightName: formData.flightName?.value || '',
+        flightArrivalTime: formData.flightArrivalTime?.value || '',
         flightNumber: formData.flightNumber?.value || '',
         isFlightTrack: formData.isFlightTrack?.value || false,
         isMeetGreet: formData.isMeetGreet?.value || false,

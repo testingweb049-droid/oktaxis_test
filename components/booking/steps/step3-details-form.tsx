@@ -145,7 +145,7 @@ function Step3DetailsForm() {
                         <div className="w-full overflow-hidden transition-all duration-500 px-4"
                             style={{ maxHeight: formData.isAirportPickup.value ? '300px' : '0' }}>
                             <div className={`flex flex-col gap-3 pb-4 pt-2 opacity-${formData.isAirportPickup.value ? '100' : '0'} transition-opacity duration-500`}>
-                                <DetailsInput field='flightName' placeholder='Airline Name' Icon={Plane} type='text' />
+                                <DetailsInput field='flightArrivalTime' placeholder='Flight arrival time' Icon={Plane} type='text' />
                                 <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
                             </div>
                         </div>
