@@ -17,3 +17,6 @@ export * from './query-keys';
 // API Endpoints
 export * from './api-endpoints';
 
+// API Functions
+export * from './contact';
+

@@ -62,13 +62,19 @@ interface QuoteData {
   pricing: {
     outbound: {
       meetGreet: number;
+      meetGreetActive: boolean;
       flightTrack: number;
+      flightTrackActive: boolean;
       extraStop: number;
+      extraStopActive: boolean;
     };
     return: {
       meetGreet: number;
+      meetGreetActive: boolean;
       flightTrack: number;
+      flightTrackActive: boolean;
       extraStop: number;
+      extraStopActive: boolean;
     };
     vehicle: Record<string, number>;
     returnDiscount: Record<string, number>;
@@ -100,8 +106,8 @@ interface FormStoreType {
     key: keyof FormDataType | "stops",
     required: boolean,
   ) => void;
-  validateData: (_step: number, pricingData?: { minimumBookingHours?: number; timezone?: string }) => { hasErrors: boolean; errorMessage?: string; errorType?: 'time_validation' | 'form_validation' };
-  changeStep: (isNext: boolean, _step: number, pricingData?: { minimumBookingHours?: number; timezone?: string }) => Promise<boolean | { success: false; errorMessage?: string; errorType?: 'time_validation' | 'form_validation' }>;
+  validateData: (_step: number, pricingData?: { minimumBookingHours?: number; minimumBookingHoursActive?: boolean; timezone?: string }) => { hasErrors: boolean; errorMessage?: string; errorType?: 'time_validation' | 'form_validation' };
+  changeStep: (isNext: boolean, _step: number, pricingData?: { minimumBookingHours?: number; minimumBookingHoursActive?: boolean; timezone?: string }) => Promise<boolean | { success: false; errorMessage?: string; errorType?: 'time_validation' | 'form_validation' }>;
   changeCategory: (newCategory: "trip" | "hourly") => void;
   cleanupCategoryData: (category: "trip" | "hourly") => void;
   manageStops: (action: "add" | "remove", index?: number) => void;
@@ -211,7 +217,7 @@ const useFormStore = create<FormStoreType>((set, get) => ({
    * Validate form data using Zod schemas based on step and category
    * Returns object with hasErrors boolean and optional error message/type
    */
-  validateData: (_step: number, pricingData?: { minimumBookingHours?: number; timezone?: string }) => {
+  validateData: (_step: number, pricingData?: { minimumBookingHours?: number; minimumBookingHoursActive?: boolean; timezone?: string }) => {
     const { formData, category } = get();
     const updated: FormDataType = { ...formData };
     let hasErrors = false;
@@ -260,8 +266,8 @@ const useFormStore = create<FormStoreType>((set, get) => ({
         });
       }
 
-      // Validate minimum booking hours from backend (business rule validation)
-      if (formData.date.value && formData.time.value && pricingData?.minimumBookingHours && pricingData.minimumBookingHours > 0) {
+      // Validate minimum booking hours from backend (business rule validation) - only if active
+      if (formData.date.value && formData.time.value && pricingData?.minimumBookingHours && pricingData.minimumBookingHours > 0 && pricingData.minimumBookingHoursActive) {
         const timezone = pricingData.timezone || "America/New_York"
         const timeValidation = validateBookingTime(
           formData.date.value,
@@ -372,7 +378,7 @@ const useFormStore = create<FormStoreType>((set, get) => ({
     return { hasErrors, errorMessage, errorType };
   },
 
-  changeStep: async (isNext: boolean, _step: number, pricingData?: { minimumBookingHours?: number; timezone?: string }) => {
+  changeStep: async (isNext: boolean, _step: number, pricingData?: { minimumBookingHours?: number; minimumBookingHoursActive?: boolean; timezone?: string }) => {
     const { formData, category, validateData } = get();
     if (!isNext) {
       set((state) => ({

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import { GoPeople } from "react-icons/go";
 import { PiSuitcase } from "react-icons/pi";
@@ -12,6 +12,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import type { FleetType } from "@/types/fleet.types";
+import { useFleets } from "@/hooks/useFleets";
 
 // Constants
 const SWIPER_SPACE_BETWEEN = 24;
@@ -103,53 +104,10 @@ const FleetCard = ({ vehicle }: { vehicle: FleetType }) => (
   </div>
 );
 
-const LoadingState = () => (
-  <div className="text-center text-base sm:text-lg md:text-xl text-gray-600 py-8 sm:py-12 w-full">
-    Loading fleet...
-  </div>
-);
-
-const ErrorState = ({ message }: { message: string }) => (
-  <div className="text-center text-base sm:text-lg md:text-xl text-red-600 py-8 sm:py-12 w-full">
-    {message}
-  </div>
-);
-
-const EmptyState = () => (
-  <div className="text-center text-base sm:text-lg md:text-xl text-gray-600 py-8 sm:py-12 w-full">
-    No fleet vehicles available.
-  </div>
-);
 
 export default function FleetClasses() {
   const swiperRef = useRef<SwiperType>();
-  const [fleets, setFleets] = useState<FleetType[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const loadFleets = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
-        const res = await fetch(`${backendUrl}/api/fleets`);
-        if (!res.ok) {
-          throw new Error("Failed to load fleets");
-        }
-        const data = await res.json();
-        setFleets(data.fleets || []);
-      } catch (err: unknown) {
-        const errorMessage =
-          err instanceof Error ? err.message : "Failed to load fleets";
-        setError(errorMessage);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadFleets();
-  }, []);
+  const { data: fleets = [], isLoading, error } = useFleets();
 
   return (
     <section className="bg-white py-12 sm:py-16 md:py-20 lg:py-24">
@@ -163,19 +121,32 @@ export default function FleetClasses() {
             </h2>
           </div>
 
-          {/* Navigation Arrows - Top Right (Visible on all screens) */}
           <NavigationButtons
             onPrev={() => swiperRef.current?.slidePrev()}
             onNext={() => swiperRef.current?.slideNext()}
           />
         </div>
 
-        {/* Swiper Slider - Mobile and Desktop */}
         <div className="relative">
-          {loading && <LoadingState />}
-          {error && !loading && <ErrorState message={error} />}
-          {!loading && !error && fleets.length === 0 && <EmptyState />}
-          {!loading && !error && fleets.length > 0 && (
+          {isLoading && (
+            <div className="text-center text-base sm:text-lg md:text-xl text-gray-600 py-8 sm:py-12 w-full">
+              Loading fleet...
+            </div>
+          )}
+
+          {error && !isLoading && (
+            <div className="text-center text-base sm:text-lg md:text-xl text-red-600 py-8 sm:py-12 w-full">
+              {error instanceof Error ? error.message : "Failed to load fleets"}
+            </div>
+          )}
+
+          {!isLoading && !error && fleets.length === 0 && (
+            <div className="text-center text-base sm:text-lg md:text-xl text-gray-600 py-8 sm:py-12 w-full">
+              No fleet vehicles available.
+            </div>
+          )}
+
+          {!isLoading && !error && fleets.length > 0 && (
             <Swiper
               modules={[Pagination, Navigation]}
               spaceBetween={SWIPER_SPACE_BETWEEN}

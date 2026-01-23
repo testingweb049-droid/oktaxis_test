@@ -7,6 +7,8 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
 import { cn } from "@/lib/utils";
+import { submitContactForm } from "@/lib/api/contact";
+import { useToast } from "@/components/ui/use-toast";
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
@@ -27,6 +29,7 @@ export interface ContactFormValues {
 function contactForm() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const { toast } = useToast();
 
   const handleSubmit = async (
     values: ContactFormValues,
@@ -37,13 +40,35 @@ function contactForm() {
   ) => {
     try {
       setError("");
+      setSubmitting(true);
+
+      const response = await submitContactForm({
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        message: values.message || undefined,
+      });
+
+      // Show success toast
+      toast({
+        title: "Message Sent Successfully!",
+        description: response.message || "We'll get back to you soon.",
+      });
 
       setFormSubmitted(true);
       resetForm();
       setTimeout(() => setFormSubmitted(false), 5000);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error submitting form:", err);
-      setError("Failed to submit form. Please try again.");
+      const errorMessage = err?.message || "Failed to submit form. Please try again.";
+      setError(errorMessage);
+      
+      // Show error toast
+      toast({
+        title: "Failed to Send Message",
+        description: errorMessage,
+        variant: "destructive",
+      });
     } finally {
       setSubmitting(false);
     }

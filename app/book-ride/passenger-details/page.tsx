@@ -30,6 +30,9 @@ function Page() {
   return (
     <div className={cn('w-full flex flex-col min-h-[50vh]', 'bg-white pt-16 md:pt-32')}>
       <div className='max-w-7xl mx-auto flex flex-col gap-2 lg:gap-10 w-full py-5 md:py-16 px-2'>
+      <div className='lg:hidden w-full'>
+          <PickupTripDetails showMap={false}/>
+        </div>
         {selectedFleet && !isLoading && (
           <div className='w-full mb-3 lg:hidden'>
             <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-3">

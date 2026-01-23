@@ -119,7 +119,7 @@ const PaymentMethods = ({ className = "" }: { className?: string }) => (
 const PolicyLinks = ({ className = "" }: { className?: string }) => (
   <div className={`flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-4 text-sm sm:text-base md:text-lg text-text-gray ${className}`}>
     <Link
-      href="/privacy"
+      href="/privacy-polices"
       className="group relative transition-colors duration-300 hover:text-white whitespace-nowrap after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-white after:transition-all after:duration-300 hover:after:w-full"
     >
       Privacy Policy

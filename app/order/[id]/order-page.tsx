@@ -121,13 +121,13 @@ function orderPage({ id }: OrderPageProps) {
   // The stored price is the TOTAL price including all extras
   const totalPrice = Number(order.price) || 0;
   
-  // Calculate all extras fees using dynamic pricing
-  const meetGreetPrice = order.meet_greet ? pricing.outbound.meetGreet : 0;
-  const flightTrackPrice = order.flight_track ? pricing.outbound.flightTrack : 0;
-  const extraStopsPrice = (order.extra_stops_count || 0) * pricing.outbound.extraStop;
-  const returnMeetGreetPrice = order.return_meet_greet ? pricing.return.meetGreet : 0;
-  const returnFlightTrackPrice = order.return_flight_track ? pricing.return.flightTrack : 0;
-  const returnExtraStopsPrice = (order.return_extra_stops_count || 0) * pricing.return.extraStop;
+  // Calculate all extras fees using dynamic pricing (check active status)
+  const meetGreetPrice = order.meet_greet && pricing.outbound.meetGreetActive ? pricing.outbound.meetGreet : 0;
+  const flightTrackPrice = order.flight_track && pricing.outbound.flightTrackActive ? pricing.outbound.flightTrack : 0;
+  const extraStopsPrice = pricing.outbound.extraStopActive ? (order.extra_stops_count || 0) * pricing.outbound.extraStop : 0;
+  const returnMeetGreetPrice = order.return_meet_greet && pricing.return.meetGreetActive ? pricing.return.meetGreet : 0;
+  const returnFlightTrackPrice = order.return_flight_track && pricing.return.flightTrackActive ? pricing.return.flightTrack : 0;
+  const returnExtraStopsPrice = pricing.return.extraStopActive ? (order.return_extra_stops_count || 0) * pricing.return.extraStop : 0;
   
   // Total of all extras
   const totalExtras = meetGreetPrice + flightTrackPrice + extraStopsPrice + 

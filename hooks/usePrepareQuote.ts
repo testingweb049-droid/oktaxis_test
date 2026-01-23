@@ -30,19 +30,26 @@ export interface PrepareQuoteResponse {
   pricing: {
     outbound: {
       meetGreet: number;
+      meetGreetActive: boolean;
       flightTrack: number;
+      flightTrackActive: boolean;
       extraStop: number;
+      extraStopActive: boolean;
     };
     return: {
       meetGreet: number;
+      meetGreetActive: boolean;
       flightTrack: number;
+      flightTrackActive: boolean;
       extraStop: number;
+      extraStopActive: boolean;
     };
     vehicle: Record<string, number>;
     returnDiscount: Record<string, number>;
     hourlyRanges: Array<{ minHours: number; maxHours: number; percent: number }>;
     dateRanges: Array<{ startDate: string; endDate: string; percent: number }>;
     minimumBookingHours: number;
+    minimumBookingHoursActive: boolean;
     timezone: string;
   };
 }
