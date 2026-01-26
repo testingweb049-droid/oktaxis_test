@@ -7,7 +7,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
 import { cn } from "@/lib/utils";
-import { submitContactForm } from "@/lib/api/contact";
+import { useSubmitContactForm } from "@/hooks/api/useContact";
 import { useToast } from "@/components/ui/use-toast";
 
 // Validation schema using Yup
@@ -30,6 +30,7 @@ function contactForm() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [error, setError] = useState("");
   const { toast } = useToast();
+  const submitContactMutation = useSubmitContactForm();
 
   const handleSubmit = async (
     values: ContactFormValues,
@@ -42,7 +43,7 @@ function contactForm() {
       setError("");
       setSubmitting(true);
 
-      const response = await submitContactForm({
+      const response = await submitContactMutation.mutateAsync({
         name: values.name,
         email: values.email,
         phone: values.phone,
@@ -96,7 +97,9 @@ function contactForm() {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting }: { isSubmitting: boolean }) => (
+        {({ isSubmitting }: { isSubmitting: boolean }) => {
+          const isLoading = isSubmitting || submitContactMutation.isPending;
+          return (
           <Form className="space-y-5">
             <div>
               <div className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200">
@@ -173,17 +176,18 @@ function contactForm() {
                   "px-4 py-2.5 text-base rounded-lg",
                   formSubmitted && "opacity-75 cursor-not-allowed"
                 )}
-                disabled={isSubmitting || formSubmitted}
+                disabled={isLoading || formSubmitted}
               >
                 {formSubmitted
                   ? "Request Submitted"
-                  : isSubmitting
+                  : isLoading
                     ? "Submitting..."
                     : "Submit Your Request"}
               </Button>
             </div>
           </Form>
-        )}
+          );
+        }}
       </Formik>
     </div>
   );

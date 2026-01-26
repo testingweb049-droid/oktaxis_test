@@ -1,11 +1,7 @@
-import apiClient from '@/lib/api/axios';
+import apiClient from '@/lib/api/client';
 import { API_ENDPOINTS } from '@/lib/api/api-endpoints';
 import type { ApiResponse } from '@/lib/api/types';
-import { queryKeys } from '@/lib/api/query-keys';
-import { useApiQuery } from './api/useApiQuery';
-import { useApiMutation } from './api/useApiMutation';
 
-// Booking request types
 export interface CreateBookingRequest {
   passengerInfo: {
     name: string;
@@ -31,7 +27,6 @@ export interface CreateBookingRequest {
   };
 }
 
-// Pending booking request (frontend orderData format)
 export interface CreatePendingBookingRequest {
   name: string;
   email: string;
@@ -101,47 +96,20 @@ export interface BookingData {
 
 export interface BookingResponse extends ApiResponse<BookingData> {}
 
-
-const createBooking = async (data: CreateBookingRequest): Promise<BookingResponse> => {
+export const createBooking = async (data: CreateBookingRequest): Promise<BookingResponse> => {
   const response = await apiClient.post<BookingResponse>(API_ENDPOINTS.BOOKINGS, data);
   return response.data;
 };
 
-
-const getBookingById = async (id: string): Promise<BookingData> => {
+export const getBookingById = async (id: string): Promise<BookingData> => {
   const response = await apiClient.get<ApiResponse<BookingData>>(
     API_ENDPOINTS.BOOKING_BY_ID(id)
   );
   return response.data.data;
 };
 
-export const useCreateBooking = () => {
-  return useApiMutation<BookingResponse, CreateBookingRequest>({
-    mutationFn: createBooking,
-  });
-};
-
-const createPendingBooking = async (data: CreatePendingBookingRequest): Promise<CreatePendingBookingResponse> => {
-  const response = await apiClient.post<CreatePendingBookingResponse>(
-    '/bookings/create-pending',
-    data
-  );
+export const createPendingBooking = async (data: CreatePendingBookingRequest): Promise<CreatePendingBookingResponse> => {
+  const response = await apiClient.post<CreatePendingBookingResponse>(API_ENDPOINTS.CREATE_PENDING_BOOKING, data);
   return response.data;
 };
-
-export const useCreatePendingBooking = () => {
-  return useApiMutation<CreatePendingBookingResponse, CreatePendingBookingRequest>({
-    mutationFn: createPendingBooking,
-  });
-};
-
-
-export const useBooking = (id: string | null) => {
-  return useApiQuery<BookingData>({
-    queryKey: queryKeys.bookings.detail(id || ''),
-    queryFn: () => getBookingById(id!),
-    enabled: !!id,
-  });
-};
-
 

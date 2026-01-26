@@ -1,202 +1,115 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/input";
 import FormField from "@/components/ui/form-field";
 import { Field, Form, Formik } from "formik";
-import { useState, useRef, useEffect } from "react";
-import * as Yup from "yup";
-import { User, Mail, Phone, MapPin, Car, ArrowUp, FileText, X, Loader2 } from "lucide-react";
-import Image from "next/image";
+import { useState } from "react";
+import { User, Mail, ArrowUp, Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import apiClient from "@/lib/api/axios";
+import apiClient from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/api-endpoints";
-import { useFleets } from "@/hooks/useFleets";
-import type { FleetType } from "@/types/fleet.types";
+import { useImageUpload } from "@/hooks/api/useImageUpload";
+import { FileUpload } from "./components/file-upload";
+import { AddressAutocomplete } from "./components/address-autocomplete";
+import { VehicleSelector } from "./components/vehicle-selector";
+import { driverFormValidationSchema } from "./validation";
+import type { DriverFormValues, DriverFormPreviews, DriverSubmissionData } from "./types";
+import { initialDriverFormValues, initialDriverFormPreviews } from "./constants";
 
-// Validation schema
-const validationSchema = Yup.object({
-  name: Yup.string().required("Full Name is required"),
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
-  phone: Yup.string().required("Phone Number is required"),
-  address: Yup.string().required("Address is required"),
-  carType: Yup.string().required("Car Type is required"),
-  carImage: Yup.mixed().required("Car Image is required"),
-  licenseFront: Yup.mixed().required("License Front is required"),
-  licenseBack: Yup.mixed().required("License Back is required"),
-});
-
-export interface DriverFormValues {
-  name: string;
-  email: string;
-  phone: string;
-  address: string;
-  carType: string;
-  carImage: File | null;
-  licenseFront: File | null;
-  licenseBack: File | null;
-  carImageUrl?: string;
-  licenseFrontUrl?: string;
-  licenseBackUrl?: string;
-}
-
-function registerDriverForm() {
+function RegisterDriverForm() {
   const { toast } = useToast();
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [error, setError] = useState("");
-  const [previews, setPreviews] = useState<{
-    carImage: string | null;
-    licenseFront: string | null;
-    licenseBack: string | null;
-  }>({
-    carImage: null,
-    licenseFront: null,
-    licenseBack: null,
-  });
-  const carImageRef = useRef<HTMLInputElement>(null);
-  const licenseFrontRef = useRef<HTMLInputElement>(null);
-  const licenseBackRef = useRef<HTMLInputElement>(null);
-  
-  // Fetch fleet vehicles for dropdown
-  const { data: fleetsData, isLoading: fleetsLoading } = useFleets();
-  const fleets: FleetType[] = Array.isArray(fleetsData) ? fleetsData : [];
+  const [previews, setPreviews] = useState<DriverFormPreviews>(initialDriverFormPreviews);
 
-  // Clean up preview URLs when they change or on unmount
-  useEffect(() => {
-    const currentPreviews = { ...previews };
-    return () => {
-      if (currentPreviews.carImage) URL.revokeObjectURL(currentPreviews.carImage);
-      if (currentPreviews.licenseFront) URL.revokeObjectURL(currentPreviews.licenseFront);
-      if (currentPreviews.licenseBack) URL.revokeObjectURL(currentPreviews.licenseBack);
-    };
-  }, [previews.carImage, previews.licenseFront, previews.licenseBack]);
-
-  const uploadImage = async (file: File | null, folder: string): Promise<string | null> => {
-    if (!file) return null;
-
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("folder", folder);
-
-      // Get backend URL from environment or use default
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-      const uploadUrl = `${backendUrl}/api/upload-image`;
-
-      // Create an AbortController for timeout
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 55000); // 55 seconds timeout
-
-      try {
-        const response = await fetch(uploadUrl, {
-          method: "POST",
-          body: formData,
-          signal: controller.signal,
-          // Don't set Content-Type header - let browser set it with boundary for multipart/form-data
-        });
-
-        clearTimeout(timeoutId);
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          throw new Error(errorData.error || errorData.message || `Upload failed with status: ${response.status}`);
-        }
-
-        const result = await response.json();
-
-        // Handle response format: { success: true, url: string, data: { url, public_id } }
-        const imageUrl = result.url || result.data?.url;
-        if (result.success && imageUrl) {
-          return imageUrl;
-        } else {
-          throw new Error(result.error || result.message || "Upload failed");
-        }
-      } catch (fetchError: any) {
-        clearTimeout(timeoutId);
-        if (fetchError.name === "AbortError") {
-          throw new Error("Upload timed out. Please try again.");
-        } else {
-          throw fetchError;
-        }
-      }
-    } catch (err: any) {
-      console.error("Image upload error:", err);
-      throw err; // Re-throw to handle in handleSubmit
-    }
-  };
+  const { uploadMultipleImages, uploading } = useImageUpload();
 
   const handleSubmit = async (
     values: DriverFormValues,
-    { setSubmitting, resetForm }: any
+    { setSubmitting, resetForm, setFieldError, setTouched }: any
   ) => {
     try {
-      setError("");
       setSubmitting(true);
 
-      // Upload images in parallel
-      let carImageUrl: string | null = null;
-      let licenseFrontUrl: string | null = null;
-      let licenseBackUrl: string | null = null;
+      const [
+        fullCarResult,
+        interiorResult,
+        exteriorResult,
+        passportPhotoResult,
+        drivingLicenseFrontResult,
+        phvLicenseResult,
+        phvVehicleLicenseResult,
+        motResult,
+        insuranceResult,
+      ] = await Promise.all([
+        uploadMultipleImages([values.fullCarImage], { folder: "oktaxis-drivers/cars" }),
+        uploadMultipleImages([values.interiorImage], { folder: "oktaxis-drivers/cars" }),
+        uploadMultipleImages([values.exteriorImage], { folder: "oktaxis-drivers/cars" }),
+        uploadMultipleImages([values.passportPhoto], { folder: "oktaxis-drivers/documents" }),
+        uploadMultipleImages([values.drivingLicenseFront], { folder: "oktaxis-drivers/licenses" }),
+        uploadMultipleImages([values.phvLicense], { folder: "oktaxis-drivers/licenses" }),
+        uploadMultipleImages([values.phvVehicleLicense], { folder: "oktaxis-drivers/vehicle-documents" }),
+        uploadMultipleImages([values.mot], { folder: "oktaxis-drivers/vehicle-documents" }),
+        uploadMultipleImages([values.insurance], { folder: "oktaxis-drivers/vehicle-documents" }),
+      ]);
 
-      try {
-        [carImageUrl, licenseFrontUrl, licenseBackUrl] = await Promise.all([
-          uploadImage(values.carImage, "oktaxis-drivers/cars"),
-          uploadImage(values.licenseFront, "oktaxis-drivers/licenses"),
-          uploadImage(values.licenseBack, "oktaxis-drivers/licenses"),
-        ]);
-      } catch (uploadError: any) {
-        throw new Error(uploadError.message || "Failed to upload images. Please try again.");
-      }
-
-      // Check if all images were uploaded successfully
-      if (!carImageUrl || !licenseFrontUrl || !licenseBackUrl) {
-        throw new Error("Failed to upload one or more images. Please try again.");
-      }
-
-      // Prepare driver data - map carType to vehicleType
-      const driverData = {
+      const driverData: DriverSubmissionData = {
         name: values.name,
         email: values.email,
         phone: values.phone,
         address: values.address,
-        vehicleType: values.carType, // Map carType to vehicleType
-        carImageUrl,
-        licenseFrontUrl,
-        licenseBackUrl,
+        vehicleType: values.carType,
+        carModel: values.carModel,
+        registrationNumber: values.registrationNumber,
+        year: values.year,
+        accountName: values.accountName,
+        accountNumber: values.accountNumber,
+        sortCode: values.sortCode,
+        vatRegistered: values.vatRegistered,
+        fullCarImageUrl: fullCarResult[0]!,
+        interiorImageUrl: interiorResult[0]!,
+        exteriorImageUrl: exteriorResult[0]!,
+        passportPhotoUrl: passportPhotoResult[0]!,
+        drivingLicenseFrontUrl: drivingLicenseFrontResult[0]!,
+        phvLicenseUrl: phvLicenseResult[0]!,
+        phvVehicleLicenseUrl: phvVehicleLicenseResult[0]!,
+        motUrl: motResult[0]!,
+        insuranceUrl: insuranceResult[0]!,
       };
 
-      // Submit driver registration
       const response = await apiClient.post(API_ENDPOINTS.DRIVERS, driverData);
 
       if (response.data.success) {
         setFormSubmitted(true);
         toast({
           title: "Application Submitted",
-          description: "Your driver application has been submitted successfully. We'll review it and get back to you soon.",
+          description:
+            "Your driver application has been submitted successfully. We'll review it and get back to you soon.",
           variant: "default",
         });
 
-        // Reset form after successful submission
         resetForm();
-        setPreviews({
-          carImage: null,
-          licenseFront: null,
-          licenseBack: null,
-        });
-        if (carImageRef.current) carImageRef.current.value = "";
-        if (licenseFrontRef.current) licenseFrontRef.current.value = "";
-        if (licenseBackRef.current) licenseBackRef.current.value = "";
-      } else {
-        throw new Error(response.data.message || "Failed to submit application");
+        setPreviews(initialDriverFormPreviews);
       }
     } catch (err: any) {
+      // Backend returns: { success: false, error: "message" } or { success: false, message: "message" }
       const errorMessage =
+        err?.response?.data?.error ||
         err?.response?.data?.message ||
         err?.message ||
         "An error occurred while submitting your application. Please try again.";
-      setError(errorMessage);
+
+      // Set field-specific errors if the error message indicates which field has the issue
+      const errorLower = errorMessage.toLowerCase();
+      
+      if (errorLower.includes("email") && (errorLower.includes("already exists") || errorLower.includes("already exist"))) {
+        setFieldError("email", errorMessage);
+        setTouched({ email: true });
+      } else if (errorLower.includes("phone") && (errorLower.includes("already exists") || errorLower.includes("already exist"))) {
+        setFieldError("phone", errorMessage);
+        setTouched({ phone: true });
+      }
+
       toast({
         title: "Submission Failed",
         description: errorMessage,
@@ -207,398 +120,429 @@ function registerDriverForm() {
     }
   };
 
-  const handleFileChange = (
-    fieldName: string,
-    file: File | null,
-    setFieldValue: any,
-    previewKey: "carImage" | "licenseFront" | "licenseBack"
-  ) => {
-    // Validate file size (10MB = 10 * 1024 * 1024 bytes)
-    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
-    
-    if (file && file.size > MAX_FILE_SIZE) {
-      const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
-      toast({
-        title: "File Too Large",
-        description: `The ${fieldName === "carImage" ? "car image" : "license"} file is ${fileSizeMB}MB. Maximum file size is 10MB. Please compress or choose a smaller file.`,
-        variant: "destructive",
-      });
-      // Clear the file input
-      if (fieldName === "carImage" && carImageRef.current) {
-        carImageRef.current.value = "";
-      } else if (fieldName === "licenseFront" && licenseFrontRef.current) {
-        licenseFrontRef.current.value = "";
-      } else if (fieldName === "licenseBack" && licenseBackRef.current) {
-        licenseBackRef.current.value = "";
-      }
-      return;
-    }
-    
-    // Validate file type
-    if (file && !file.type.match(/^image\/(jpeg|jpg|png)$/i)) {
-      toast({
-        title: "Invalid File Type",
-        description: "Please upload a JPEG, JPG, or PNG image file.",
-        variant: "destructive",
-      });
-      // Clear the file input
-      if (fieldName === "carImage" && carImageRef.current) {
-        carImageRef.current.value = "";
-      } else if (fieldName === "licenseFront" && licenseFrontRef.current) {
-        licenseFrontRef.current.value = "";
-      } else if (fieldName === "licenseBack" && licenseBackRef.current) {
-        licenseBackRef.current.value = "";
-      }
-      return;
-    }
-    
-    setFieldValue(fieldName, file);
-    
-    // Clean up previous preview URL
-    if (previews[previewKey]) {
-      URL.revokeObjectURL(previews[previewKey]!);
-    }
-    
-    // Create new preview URL if file is selected
-    if (file) {
-      const previewUrl = URL.createObjectURL(file);
-      setPreviews((prev) => ({
-        ...prev,
-        [previewKey]: previewUrl,
-      }));
-    } else {
-      setPreviews((prev) => ({
-        ...prev,
-        [previewKey]: null,
-      }));
-    }
-  };
-
-  const handleRemovePreview = (
-    previewKey: "carImage" | "licenseFront" | "licenseBack",
-    setFieldValue: any,
-    fieldName: string,
-    inputRef: React.RefObject<HTMLInputElement>
-  ) => {
-    // Clean up preview URL
-    if (previews[previewKey]) {
-      URL.revokeObjectURL(previews[previewKey]!);
-    }
-    
-    // Reset preview and file
-    setPreviews((prev) => ({
-      ...prev,
-      [previewKey]: null,
-    }));
-    setFieldValue(fieldName, null);
-    if (inputRef.current) {
-      inputRef.current.value = "";
-    }
-  };
-
   return (
     <Formik
-      initialValues={{
-        name: "",
-        email: "",
-        phone: "",
-        address: "",
-        carType: "",
-        carImage: null,
-        licenseFront: null,
-        licenseBack: null,
-      }}
-      validationSchema={validationSchema}
+      initialValues={initialDriverFormValues}
+      validationSchema={driverFormValidationSchema}
       onSubmit={handleSubmit}
     >
       {({ values, setFieldValue, isSubmitting, errors, touched }) => (
-        <Form className="space-y-5 bg-white rounded-lg py-6 px-4 sm:p-6 md:p-8 shadow-lg max-h-[calc(100vh-4rem)] md:max-h-none overflow-y-auto">
+        <Form className="space-y-8 bg-white rounded-2xl py-6 px-4 sm:p-6 md:p-8 shadow-lg border border-gray-200 max-h-[calc(100vh-4rem)] md:max-h-none overflow-y-auto">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Partner With Us</h2>
-            <p className="text-gray-600 text-sm md:text-base">Join our driver network and start earning today.</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+              Partner With Us
+            </h2>
+            <p className="text-gray-600 text-sm md:text-base">
+              Join our driver network and start earning today.
+            </p>
           </div>
 
-          {/* Full Name and Email - Side by Side */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {/* Full Name */}
-            <FormField
-              name="name"
-              label="Full Name"
-              placeholder="Enter your full name"
-              type="text"
-              Icon={User}
-              required
-              errors={errors}
-              touched={touched}
-            />
-
-            {/* Email */}
-            <FormField
-              name="email"
-              label="Email"
-              placeholder="Enter your email"
-              type="email"
-              Icon={Mail}
-              required
-              errors={errors}
-              touched={touched}
-            />
-          </div>
-
-          {/* Phone Number and Car Type - Side by Side */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {/* Phone Number */}
-            <FormField
-              name="phone"
-              label="Phone Number"
-              placeholder="Enter your phone number"
-              type="tel"
-              Icon={Phone}
-              required
-              errors={errors}
-              touched={touched}
-            />
-
-            {/* Car Type - Dropdown */}
-            <div className={`w-full rounded-lg bg-white px-4 py-3 border ${
-              errors.carType && touched.carType ? "border-red-500" : "border-gray-200"
-            }`}>
-              <Field name="carType">
-                {({ field }: any) => (
-                  <div className="relative">
-                    {Car && (
-                      <Car className="absolute left-0 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                    )}
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Vehicle Type <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                      {...field}
-                      className={`w-full pl-8 pr-10 py-2 bg-transparent border-none outline-none text-heading-black appearance-none cursor-pointer ${
-                        fleetsLoading ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
-                      disabled={fleetsLoading}
-                      style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E")`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'right 0.5rem center',
-                        backgroundSize: '12px',
-                      }}
-                    >
-                      <option value="" className="text-text-gray">Select a vehicle</option>
-                      {fleets.map((fleet) => (
-                        <option key={fleet._id || fleet.id} value={fleet.name} className="text-heading-black">
-                          {fleet.name} {fleet.passengers ? `(${fleet.passengers} passengers)` : ""}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.carType && touched.carType && (
-                      <p className="text-xs text-red-500 mt-1">{errors.carType}</p>
-                    )}
-                    {fleetsLoading && (
-                      <p className="text-xs text-gray-500 mt-1">Loading vehicles...</p>
-                    )}
-                  </div>
-                )}
-              </Field>
+          {/* Personal Information Section */}
+          <div className="space-y-5">
+            <div className="border-b border-gray-200 pb-3">
+              <h3 className="text-xl md:text-2xl font-semibold text-gray-900">
+                Personal Information
+              </h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Please provide your personal details
+              </p>
             </div>
-          </div>
 
-          {/* Address */}
-          <FormField
-            name="address"
-            label="Your Address"
-            placeholder="Enter your address"
-            type="text"
-            Icon={MapPin}
-            required
-            errors={errors}
-            touched={touched}
-          />
-
-          {/* Upload Sections - Side by Side */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {/* Upload Car Image */}
-            <div className={`w-full rounded-lg bg-white px-4 py-3 border ${errors.carImage && touched.carImage ? 'border-red-500' : 'border-text-gray'}`}>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
-                Upload Car Image <span className="text-red-500">*</span>
-              </label>
-              <input
-                ref={carImageRef}
-                type="file"
-                accept="image/png,image/jpeg,image/jpg"
-                onChange={(e) => {
-                  const file = e.target.files?.[0] || null;
-                  handleFileChange("carImage", file, setFieldValue, "carImage");
-                }}
-                className="hidden"
-                id="carImage"
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <FormField
+                name="name"
+                label="Full Name"
+                placeholder="Enter your full name"
+                type="text"
+                Icon={User}
+                required
+                errors={errors}
+                touched={touched}
               />
-              <p className="text-xs text-gray-500 mt-1">Max file size: 10MB</p>
-              {previews.carImage ? (
-                <div className="relative w-full mt-2">
-                  <div className="relative w-full h-48 border border-gray-300 rounded-lg overflow-hidden bg-gray-50">
-                    <Image
-                      src={previews.carImage}
-                      alt="Car preview"
-                      fill
-                      className="object-contain"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleRemovePreview("carImage", setFieldValue, "carImage", carImageRef)}
-                      className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 transition-colors"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  </div>
-                  {values.carImage && 'name' in values.carImage && (
-                    <p className="text-xs text-gray-600 mt-2 truncate">{(values.carImage as File).name}</p>
+
+              <FormField
+                name="email"
+                label="Email"
+                placeholder="Enter your email"
+                type="email"
+                Icon={Mail}
+                required
+                errors={errors}
+                touched={touched}
+              />
+            </div>
+
+            <Field name="phone">
+              {({ field, form }: any) => (
+                <div
+                  className={`w-full rounded-lg bg-white px-4 py-3 border ${
+                    errors.phone && touched.phone
+                      ? "border-red-500"
+                      : "border-gray-200"
+                  }`}
+                >
+                  <PhoneInput
+                    value={field.value || ""}
+                    onChange={(phone) => {
+                      form.setFieldValue("phone", phone);
+                    }}
+                    error={Boolean(errors.phone && touched.phone)}
+                    label="Phone Number *"
+                    country="gb"
+                  />
+                  {errors.phone && touched.phone && (
+                    <p className="text-xs text-red-500 mt-1">{errors.phone}</p>
                   )}
                 </div>
-              ) : (
-                <label
-                  htmlFor="carImage"
-                  className="flex flex-col items-center justify-center w-full h-32 border border-dashed border-gray-400 rounded-lg cursor-pointer hover:border-gray-500 transition-colors bg-gray-50 mt-2"
-                >
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <div className="relative">
-                      <FileText className="h-8 w-8 text-gray-400 mb-2" />
-                      <Car className="absolute -bottom-1 -right-1 h-4 w-4 text-gray-500" />
+              )}
+            </Field>
+
+            <AddressAutocomplete
+              value={values.address}
+              onChange={(value) => setFieldValue("address", value)}
+              error={Boolean(errors.address)}
+              touched={Boolean(touched.address)}
+            />
+            {errors.address && touched.address && (
+              <p className="text-xs text-red-500 mt-1">{errors.address}</p>
+            )}
+          </div>
+
+          {/* Bank Details Section */}
+          <div className="space-y-5">
+            <div className="border-b border-gray-200 pb-3">
+              <h3 className="text-xl md:text-2xl font-semibold text-gray-900">
+                Bank Details
+              </h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Please provide your banking information
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <FormField
+                name="accountName"
+                label="Account Name"
+                placeholder="Enter account name"
+                type="text"
+                required
+                errors={errors}
+                touched={touched}
+              />
+
+              <FormField
+                name="accountNumber"
+                label="Account Number"
+                placeholder="Enter account number"
+                type="text"
+                required
+                errors={errors}
+                touched={touched}
+              />
+
+              <FormField
+                name="sortCode"
+                label="Sort Code"
+                placeholder="Enter sort code"
+                type="text"
+                required
+                errors={errors}
+                touched={touched}
+              />
+            </div>
+
+            <Field name="vatRegistered">
+              {({ field, form }: any) => (
+                <div className="w-full">
+                  <label className="block text-sm sm:text-base font-medium text-text-gray mb-3">
+                    VAT registered <span className="text-red-500">*</span>
+                  </label>
+                  <div
+                    className={`w-full rounded-lg bg-white px-4 py-3 border ${
+                      errors.vatRegistered && touched.vatRegistered
+                        ? "border-red-500"
+                        : "border-gray-200"
+                    }`}
+                  >
+                    <div className="flex gap-6">
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="radio"
+                          name="vatRegistered"
+                          value="Yes"
+                          checked={field.value === "Yes"}
+                          onChange={(e) => {
+                            form.setFieldValue("vatRegistered", e.target.value);
+                          }}
+                          className="w-4 h-4 text-gray-900 border-gray-300 focus:ring-gray-900"
+                        />
+                        <span className="text-sm sm:text-base text-gray-700">Yes</span>
+                      </label>
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="radio"
+                          name="vatRegistered"
+                          value="No"
+                          checked={field.value === "No"}
+                          onChange={(e) => {
+                            form.setFieldValue("vatRegistered", e.target.value);
+                          }}
+                          className="w-4 h-4 text-gray-900 border-gray-300 focus:ring-gray-900"
+                        />
+                        <span className="text-sm sm:text-base text-gray-700">No</span>
+                      </label>
                     </div>
-                    <p className="mb-1 text-sm text-gray-500 text-center">
-                      <span className="font-semibold">Click to upload</span>
-                    </p>
-                    <p className="text-xs text-gray-400">PNG, JPG up to 10MB</p>
                   </div>
-                </label>
-              )}
-            </div>
-
-            {/* Upload Driver License Front Side */}
-            <div className={`w-full rounded-lg bg-white px-4 py-3 border ${errors.licenseFront && touched.licenseFront ? 'border-red-500' : 'border-text-gray'}`}>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
-                Upload License Front <span className="text-red-500">*</span>
-              </label>
-              <input
-                ref={licenseFrontRef}
-                type="file"
-                accept="image/png,image/jpeg,image/jpg"
-                onChange={(e) => {
-                  const file = e.target.files?.[0] || null;
-                  handleFileChange("licenseFront", file, setFieldValue, "licenseFront");
-                }}
-                className="hidden"
-                id="licenseFront"
-              />
-              <p className="text-xs text-gray-500 mt-1">Max file size: 10MB</p>
-              {previews.licenseFront ? (
-                <div className="relative w-full mt-2">
-                  <div className="relative w-full h-48 border border-gray-300 rounded-lg overflow-hidden bg-gray-50">
-                    <Image
-                      src={previews.licenseFront}
-                      alt="License front preview"
-                      fill
-                      className="object-contain"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleRemovePreview("licenseFront", setFieldValue, "licenseFront", licenseFrontRef)}
-                      className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 transition-colors"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  </div>
-                  {values.licenseFront && 'name' in values.licenseFront && (
-                    <p className="text-xs text-gray-600 mt-2 truncate">{(values.licenseFront as File).name}</p>
+                  {errors.vatRegistered && touched.vatRegistered && (
+                    <p className="text-xs text-red-500 mt-1">{errors.vatRegistered}</p>
                   )}
                 </div>
-              ) : (
-                <label
-                  htmlFor="licenseFront"
-                  className="flex flex-col items-center justify-center w-full h-32 border border-dashed border-gray-400 rounded-lg cursor-pointer hover:border-gray-500 transition-colors bg-gray-50 mt-2"
-                >
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <FileText className="h-8 w-8 text-gray-400 mb-2" />
-                    <p className="mb-1 text-sm text-gray-500 text-center">
-                      <span className="font-semibold">Click to upload</span>
-                    </p>
-                    <p className="text-xs text-gray-400">PNG, JPG up to 10MB</p>
-                  </div>
-                </label>
               )}
+            </Field>
+          </div>
+
+          {/* Car Details Section */}
+          <div className="space-y-5">
+            <div className="border-b border-gray-200 pb-3">
+              <h3 className="text-xl md:text-2xl font-semibold text-gray-900">
+                Car Details
+              </h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Please provide information about your vehicle
+              </p>
             </div>
 
-            {/* Upload Driver License Back Side */}
-            <div className={`w-full rounded-lg bg-white px-4 py-3 border ${errors.licenseBack && touched.licenseBack ? 'border-red-500' : 'border-text-gray'}`}>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
-                Upload License Back <span className="text-red-500">*</span>
-              </label>
-              <input
-                ref={licenseBackRef}
-                type="file"
-                accept="image/png,image/jpeg,image/jpg"
-                onChange={(e) => {
-                  const file = e.target.files?.[0] || null;
-                  handleFileChange("licenseBack", file, setFieldValue, "licenseBack");
-                }}
-                className="hidden"
-                id="licenseBack"
+            <VehicleSelector
+              value={values.carType}
+              onChange={(value) => setFieldValue("carType", value)}
+              error={Boolean(errors.carType)}
+              touched={Boolean(touched.carType)}
+            />
+            {errors.carType && touched.carType && (
+              <p className="text-xs text-red-500 mt-1">{errors.carType}</p>
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <FormField
+                name="carModel"
+                label="Model"
+                placeholder="Enter car model"
+                type="text"
+                required
+                errors={errors}
+                touched={touched}
               />
-              <p className="text-xs text-gray-500 mt-1">Max file size: 10MB</p>
-              {previews.licenseBack ? (
-                <div className="relative w-full mt-2">
-                  <div className="relative w-full h-48 border border-gray-300 rounded-lg overflow-hidden bg-gray-50">
-                    <Image
-                      src={previews.licenseBack}
-                      alt="License back preview"
-                      fill
-                      className="object-contain"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleRemovePreview("licenseBack", setFieldValue, "licenseBack", licenseBackRef)}
-                      className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 transition-colors"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  </div>
-                  {values.licenseBack && 'name' in values.licenseBack && (
-                    <p className="text-xs text-gray-600 mt-2 truncate">{(values.licenseBack as File).name}</p>
-                  )}
-                </div>
-              ) : (
-                <label
-                  htmlFor="licenseBack"
-                  className="flex flex-col items-center justify-center w-full h-32 border border-dashed border-gray-400 rounded-lg cursor-pointer hover:border-gray-500 transition-colors bg-gray-50 mt-2"
-                >
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <FileText className="h-8 w-8 text-gray-400 mb-2" />
-                    <p className="mb-1 text-sm text-gray-500 text-center">
-                      <span className="font-semibold">Click to upload</span>
-                    </p>
-                    <p className="text-xs text-gray-400">PNG, JPG up to 10MB</p>
-                  </div>
-                </label>
+
+              <FormField
+                name="registrationNumber"
+                label="Registration Number"
+                placeholder="Enter registration number"
+                type="text"
+                required
+                errors={errors}
+                touched={touched}
+              />
+
+              <FormField
+                name="year"
+                label="Year"
+                placeholder="Enter year (e.g., 2020)"
+                type="text"
+                required
+                errors={errors}
+                touched={touched}
+              />
+            </div>
+          </div>
+
+          {/* Driver Documents Section */}
+          <div className="space-y-5">
+            <div className="border-b border-gray-200 pb-3">
+              <h3 className="text-xl md:text-2xl font-semibold text-gray-900">
+                Driver Documents
+              </h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Please upload all required documents
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <FileUpload
+                name="passportPhoto"
+                label="Passport Photo"
+                value={values.passportPhoto}
+                preview={previews.passportPhoto}
+                onChange={(file) => setFieldValue("passportPhoto", file)}
+                onPreviewChange={(preview) =>
+                  setPreviews((prev) => ({ ...prev, passportPhoto: preview }))
+                }
+                error={Boolean(errors.passportPhoto && touched.passportPhoto)}
+              />
+              {errors.passportPhoto && touched.passportPhoto && (
+                <p className="text-xs text-red-500 mt-1 md:col-span-2">
+                  {errors.passportPhoto}
+                </p>
+              )}
+
+              <FileUpload
+                name="drivingLicenseFront"
+                label="Driving Licence Front"
+                value={values.drivingLicenseFront}
+                preview={previews.drivingLicenseFront}
+                onChange={(file) => setFieldValue("drivingLicenseFront", file)}
+                onPreviewChange={(preview) =>
+                  setPreviews((prev) => ({ ...prev, drivingLicenseFront: preview }))
+                }
+                error={Boolean(errors.drivingLicenseFront && touched.drivingLicenseFront)}
+              />
+              {errors.drivingLicenseFront && touched.drivingLicenseFront && (
+                <p className="text-xs text-red-500 mt-1 md:col-span-2">
+                  {errors.drivingLicenseFront}
+                </p>
+              )}
+
+              <FileUpload
+                name="phvLicense"
+                label="PHV Driver's Licence"
+                value={values.phvLicense}
+                preview={previews.phvLicense}
+                onChange={(file) => setFieldValue("phvLicense", file)}
+                onPreviewChange={(preview) =>
+                  setPreviews((prev) => ({ ...prev, phvLicense: preview }))
+                }
+                error={Boolean(errors.phvLicense && touched.phvLicense)}
+              />
+              {errors.phvLicense && touched.phvLicense && (
+                <p className="text-xs text-red-500 mt-1 md:col-span-2">
+                  {errors.phvLicense}
+                </p>
               )}
             </div>
           </div>
 
-          {/* Error Message */}
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-              <p className="text-sm font-medium">{error}</p>
+          {/* Vehicle Documents Section */}
+          <div className="space-y-5">
+            <div className="border-b border-gray-200 pb-3">
+              <h3 className="text-xl md:text-2xl font-semibold text-gray-900">
+                Vehicle Documents
+              </h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Please upload all required vehicle documents and images
+              </p>
             </div>
-          )}
 
-          {/* Submit */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <FileUpload
+                name="fullCarImage"
+                label="Full Car Image"
+                value={values.fullCarImage}
+                preview={previews.fullCarImage}
+                onChange={(file) => setFieldValue("fullCarImage", file)}
+                onPreviewChange={(preview) =>
+                  setPreviews((prev) => ({ ...prev, fullCarImage: preview }))
+                }
+                error={Boolean(errors.fullCarImage && touched.fullCarImage)}
+              />
+              {errors.fullCarImage && touched.fullCarImage && (
+                <p className="text-xs text-red-500 mt-1 md:col-span-2">
+                  {errors.fullCarImage}
+                </p>
+              )}
+
+              <FileUpload
+                name="interiorImage"
+                label="Interior Image"
+                value={values.interiorImage}
+                preview={previews.interiorImage}
+                onChange={(file) => setFieldValue("interiorImage", file)}
+                onPreviewChange={(preview) =>
+                  setPreviews((prev) => ({ ...prev, interiorImage: preview }))
+                }
+                error={Boolean(errors.interiorImage && touched.interiorImage)}
+              />
+              {errors.interiorImage && touched.interiorImage && (
+                <p className="text-xs text-red-500 mt-1 md:col-span-2">
+                  {errors.interiorImage}
+                </p>
+              )}
+
+              <FileUpload
+                name="exteriorImage"
+                label="Exterior Image"
+                value={values.exteriorImage}
+                preview={previews.exteriorImage}
+                onChange={(file) => setFieldValue("exteriorImage", file)}
+                onPreviewChange={(preview) =>
+                  setPreviews((prev) => ({ ...prev, exteriorImage: preview }))
+                }
+                error={Boolean(errors.exteriorImage && touched.exteriorImage)}
+              />
+              {errors.exteriorImage && touched.exteriorImage && (
+                <p className="text-xs text-red-500 mt-1 md:col-span-2">
+                  {errors.exteriorImage}
+                </p>
+              )}
+
+              <FileUpload
+                name="phvVehicleLicense"
+                label="PHV Vehicle Licence"
+                value={values.phvVehicleLicense}
+                preview={previews.phvVehicleLicense}
+                onChange={(file) => setFieldValue("phvVehicleLicense", file)}
+                onPreviewChange={(preview) =>
+                  setPreviews((prev) => ({ ...prev, phvVehicleLicense: preview }))
+                }
+                error={Boolean(errors.phvVehicleLicense && touched.phvVehicleLicense)}
+              />
+              {errors.phvVehicleLicense && touched.phvVehicleLicense && (
+                <p className="text-xs text-red-500 mt-1 md:col-span-2">
+                  {errors.phvVehicleLicense}
+                </p>
+              )}
+
+              <FileUpload
+                name="mot"
+                label="MOT"
+                value={values.mot}
+                preview={previews.mot}
+                onChange={(file) => setFieldValue("mot", file)}
+                onPreviewChange={(preview) =>
+                  setPreviews((prev) => ({ ...prev, mot: preview }))
+                }
+                error={Boolean(errors.mot && touched.mot)}
+              />
+              {errors.mot && touched.mot && (
+                <p className="text-xs text-red-500 mt-1 md:col-span-2">
+                  {errors.mot}
+                </p>
+              )}
+
+              <FileUpload
+                name="insurance"
+                label="Insurance"
+                value={values.insurance}
+                preview={previews.insurance}
+                onChange={(file) => setFieldValue("insurance", file)}
+                onPreviewChange={(preview) =>
+                  setPreviews((prev) => ({ ...prev, insurance: preview }))
+                }
+                error={Boolean(errors.insurance && touched.insurance)}
+              />
+              {errors.insurance && touched.insurance && (
+                <p className="text-xs text-red-500 mt-1 md:col-span-2">
+                  {errors.insurance}
+                </p>
+              )}
+            </div>
+          </div>
+
           <div>
             <Button
               type="submit"
               className="w-full bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={isSubmitting || formSubmitted}
+              disabled={isSubmitting || formSubmitted || uploading}
             >
-              {isSubmitting ? (
+              {isSubmitting || uploading ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin" />
                   <span>Submitting...</span>
@@ -622,5 +566,4 @@ function registerDriverForm() {
   );
 }
 
-const RegisterDriverForm = registerDriverForm;
 export default RegisterDriverForm;

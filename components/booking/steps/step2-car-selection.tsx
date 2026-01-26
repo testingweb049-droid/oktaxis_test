@@ -2,50 +2,44 @@
 
 import { useState, useEffect, useMemo, memo } from "react";
 import useFormStore from "@/stores/form-store";
-import { Loader, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import type { FleetType } from "@/types/fleet.types";
-import { useFleets } from "@/hooks/useFleets";
+import type { FleetWithPrice } from "@/hooks/api/useFleetsWithPrices";
+import { useFleetsWithPrices } from "@/hooks/api/useFleetsWithPrices";
 import { HourlyInfoDialog } from "./hourly-info-dialog";
 import { VehicleCard } from "./vehicle-card";
+import { VehicleCardSkeleton } from "./vehicle-card-skeleton";
 import { Button } from "@/components/ui/button";
 
 function Step2CarSelection() {
-  const { formData, category, setFormData, changeStep, formLoading, cachedFleets, isCacheValid } = useFormStore();
+  const { formData, category, selectedFleet, setSelectedVehicle, changeStep, formLoading } = useFormStore();
   const router = useRouter();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [selectingVehicle, setSelectingVehicle] = useState<string | null>(null);
+
   const distance = category === 'trip' ? Number(formData.distance.value) || 0 : undefined;
   const duration = category === 'hourly' ? Number(formData.duration.value) || 0 : undefined;
-  const shouldFetchFromAPI = !cachedFleets || !isCacheValid();
-  const { data: fleetsData, isLoading: fleetsLoading, error: fleetsError } = useFleets({
+  
+
+  const { data: fleetList, isLoading: isLoading, error: fleetsError } = useFleetsWithPrices({
     distance,
     duration,
     date: formData.date?.value,
     time: formData.time?.value,
     category,
-  }, {
-    enabled: shouldFetchFromAPI,
+    isActive: true,
+    limit: 100,
   });
-  const fleetList: FleetType[] = (cachedFleets && isCacheValid()) 
-    ? cachedFleets 
-    : ((fleetsData as FleetType[] | undefined) || []);
-  
-  const isLoading = shouldFetchFromAPI && fleetsLoading;
+  console.log(fleetList);
 
-  const handleSelect = async (item: FleetType, price: number) => {
-    setSelectingVehicle(item.name);
-    setFormData("car", item.name, '');
-    setFormData("price", price.toString(), '');
+  const handleSelect = async (item: FleetWithPrice, price: number) => {
+    setSelectedVehicle(item, price);
     try {
       const isValid = await changeStep(true, 2);
       if (isValid) {
         router.push('/book-ride/passenger-details');
-      } else {
-        setSelectingVehicle(null);
       }
     } catch (error) {
-      setSelectingVehicle(null);
+      console.error(error);
     }
   };
 
@@ -53,9 +47,8 @@ function Step2CarSelection() {
     router.push('/');
   };
 
-  const handleCardClick = (item: FleetType, price: number) => {
-    setFormData("car", item.name, '');
-    setFormData("price", price.toString(), '');
+  const handleCardClick = (item: FleetWithPrice, price: number) => {
+    setSelectedVehicle(item, price);
   };
 
   useEffect(() => {
@@ -69,20 +62,19 @@ function Step2CarSelection() {
   };
 
   const passengerCount = Number(formData.passengers.value) || 1;
-  const filteredFleets = useMemo<FleetType[]>(() => {
-    return fleetList
-      .filter((item: FleetType) => item.passengers >= passengerCount)
+  const filteredFleets = useMemo<FleetWithPrice[]>(() => {
+    return fleetList || []
+      .filter((item: FleetWithPrice) => item.passengers >= passengerCount)
       .reverse();
   }, [fleetList, passengerCount]);
 
   useEffect(() => {
-    if (!isLoading && filteredFleets.length > 0 && !formData.car.value) {
+    if (!isLoading && filteredFleets.length > 0 && !selectedFleet) {
       const firstVehicle = filteredFleets[0];
-      const firstPrice = firstVehicle.calculatedPrice || 0;
-      setFormData("car", firstVehicle.name, '');
-      setFormData("price", firstPrice.toString(), '');
+      const firstPrice = firstVehicle.pricingBreakdown?.finalPrice || firstVehicle.calculatedPrice || 0;
+      setSelectedVehicle(firstVehicle, firstPrice);
     }
-  }, [isLoading, filteredFleets, formData.car.value, setFormData]);
+  }, [isLoading, filteredFleets, selectedFleet, setSelectedVehicle]);
 
   return (
     <>
@@ -92,7 +84,6 @@ function Step2CarSelection() {
         onConfirm={handleDialogConfirm}
       />
 
-      {/* Back Button */}
       <div className="mb-4 sm:mb-5">
         <Button
           variant="ghost"
@@ -107,10 +98,11 @@ function Step2CarSelection() {
 
       <div className="w-full flex flex-col gap-5 sm:gap-4 md:gap-5">
         {isLoading && (
-          <div className="text-center text-gray-600 py-8">
-            <Loader className="animate-spin w-6 h-6 mx-auto mb-2" />
-            <p>Loading vehicles...</p>
-          </div>
+          <>
+            {Array.from({ length: 4 }).map((_, index) => (
+              <VehicleCardSkeleton key={`skeleton-${index}`} />
+            ))}
+          </>
         )}
         {fleetsError && !isLoading && (
           <div className="text-center text-red-600 py-4 px-4 rounded-lg bg-red-50 border border-red-200">
@@ -129,12 +121,10 @@ function Step2CarSelection() {
           </div>
         )}
         {filteredFleets.map((item) => {
-          const finalPrice = item.calculatedPrice || 0;
+          const finalPrice = item.pricingBreakdown?.finalPrice || item.calculatedPrice || 0;
           const pricingBreakdown = item.pricingBreakdown;
-          // Show loader if this vehicle is being selected (immediate feedback)
-          const isVehicleLoading = selectingVehicle === item.name || (formLoading && formData.car.value === item.name);
-          // Use selectingVehicle name if set, otherwise use formData.car.value to ensure immediate selection state
-          const selectedCarName = selectingVehicle === item.name ? item.name : formData.car.value;
+          const selectedCarName = selectedFleet?.name || '';
+          const isVehicleLoading = formLoading && selectedFleet?.name === item.name;
           
           return (
             <VehicleCard

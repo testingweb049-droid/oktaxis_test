@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
-const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
 const apiClient: AxiosInstance = axios.create({
   baseURL: `${backendUrl}/api`,
   timeout: 30000,
@@ -11,10 +12,10 @@ const apiClient: AxiosInstance = axios.create({
 
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`;
+    if (config.data instanceof FormData && config.headers) {
+      delete config.headers['Content-Type'];
     }
+    
     return config;
   },
   (error: AxiosError) => {
@@ -33,9 +34,6 @@ apiClient.interceptors.response.use(
 
       switch (status) {
         case 401:
-          if (typeof window !== 'undefined') {
-            localStorage.removeItem('authToken');
-          }
           break;
         case 403:
           break;
@@ -48,9 +46,10 @@ apiClient.interceptors.response.use(
       }
 
       return Promise.reject({
-        message: data?.message || error.message || 'An error occurred',
+        message: data?.error || data?.message || error.message || 'An error occurred',
         status,
         data: data,
+        response: error.response,
       });
     } else if (error.request) {
       return Promise.reject({

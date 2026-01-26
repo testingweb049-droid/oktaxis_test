@@ -1,4 +1,4 @@
-import apiClient from './axios';
+import apiClient from './client';
 import { API_ENDPOINTS } from './api-endpoints';
 
 export interface ContactFormData {

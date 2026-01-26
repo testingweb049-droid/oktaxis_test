@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { GoPeople } from "react-icons/go";
 import { PiSuitcase } from "react-icons/pi";
@@ -27,16 +28,31 @@ export function VehicleCard({
   onSelect,
   onCardClick,
 }: VehicleCardProps) {
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
+  
   const showDiscount = pricingBreakdown?.displayDiscount && pricingBreakdown.displayDiscount > 0;
   const originalPrice = item.totalCalculatedPrice || pricingBreakdown?.originalPrice || finalPrice;
   const isSelected = selectedCarName === item.name;
-  // Show loader when formLoading is true AND vehicle is selected (or being selected)
-  const isLoading = formLoading && isSelected;
+  // Show loader when button is clicked OR when formLoading is true AND vehicle is selected
+  const isLoading = isButtonLoading || (formLoading && isSelected);
+
+  // Reset button loading state when formLoading completes or vehicle is no longer selected
+  useEffect(() => {
+    if (!formLoading || !isSelected) {
+      setIsButtonLoading(false);
+    }
+  }, [formLoading, isSelected]);
 
   const handleCardClick = () => {
     if (onCardClick) {
       onCardClick(item, finalPrice);
     }
+  };
+
+  const handleSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setIsButtonLoading(true);
+    onSelect(item, finalPrice);
   };
 
   return (
@@ -48,7 +64,7 @@ export function VehicleCard({
         "cursor-pointer"
       )}
     >
-      <div className="flex flex-col px-2.5 sm:px-3 md:px-3.5 py-3 sm:py-0">
+      <div className="flex flex-col px-2.5 sm:px-3 md:px-3.5 py-3">
         <div className="flex flex-row items-center gap-2 sm:gap-3 md:gap-4">
           {/* Car Image - Left */}
           <div className="flex-shrink-0 w-28 sm:w-36 md:w-40 lg:w-48 flex justify-center items-center">
@@ -108,11 +124,8 @@ export function VehicleCard({
           </div>
         ) : (
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onSelect(item, finalPrice);
-            }}
-            disabled={formLoading}
+            onClick={handleSelect}
+            disabled={isLoading || formLoading}
             aria-label={`Select ${item.name} vehicle`}
             className={cn(
               "w-full px-2 sm:px-2.5 md:px-3 py-2 sm:py-2 md:py-2 transition-all duration-200 flex justify-center items-center gap-2",

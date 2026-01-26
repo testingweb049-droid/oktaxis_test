@@ -1,8 +1,3 @@
-/**
- * Base API Mutation Hook
- * Provides consistent mutation configuration with proper error handling
- */
-
 import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import type { ApiError } from '@/lib/api/types';
 import { defaultMutationOptions, defaultErrorHandler, defaultSuccessHandler } from '@/lib/api/config';
@@ -13,9 +8,6 @@ export interface UseApiMutationOptions<TData, TVariables, TError = ApiError>
   onSuccess?: (data: TData, variables: TVariables, context: unknown) => void;
 }
 
-/**
- * Base hook for API mutations with consistent error handling
- */
 export function useApiMutation<TData, TVariables, TError = ApiError>(
   options: UseApiMutationOptions<TData, TVariables, TError> & {
     mutationFn: UseMutationOptions<TData, TError, TVariables>['mutationFn'];

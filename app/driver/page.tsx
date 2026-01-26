@@ -1,16 +1,14 @@
 "use client";
-import RegisterDriverForm from "@/components/driver-form/register-driver-form";
 import PartnerAboutSection from "@/components/Sections/partner-about-section";
 import OurServicesSection from "@/components/our-services-section";
 import ChauffeurTestimonials from "@/components/Sections/chauffeur-testimonials";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export default function RegisterDriverPage() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const title = titleRef.current;
@@ -46,23 +44,6 @@ export default function RegisterDriverPage() {
     }
   }, []);
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setIsModalOpen(false);
-      }
-    };
-
-    if (isModalOpen) {
-      window.addEventListener("keydown", handleKeyDown);
-    } else {
-      window.removeEventListener("keydown", handleKeyDown);
-    }
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isModalOpen]);
 
   const driverBenefitsServices = [
     {
@@ -204,7 +185,7 @@ export default function RegisterDriverPage() {
           </div>
         </div>
       </section>
-      <PartnerAboutSection onApplyClick={() => setIsModalOpen(true)} />
+      <PartnerAboutSection />
 
       <OurServicesSection
         headline="The Benefits"
@@ -212,28 +193,6 @@ export default function RegisterDriverPage() {
         servicesClassName="!gap-20"
       />
       <ChauffeurTestimonials />
-
-      {isModalOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 "
-          onClick={() => setIsModalOpen(false)}
-        >
-          <div
-            className="bg-white rounded-2xl shadow-xl max-w-2xl w-full mx-auto p-6 md:p-8 relative"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              type="button"
-              aria-label="Close"
-              className="absolute top-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-400"
-              onClick={() => setIsModalOpen(false)}
-            >
-              <span className="text-lg">&times;</span>
-            </button>
-            <RegisterDriverForm />
-          </div>
-        </div>
-      )}
     </>
   );
 }

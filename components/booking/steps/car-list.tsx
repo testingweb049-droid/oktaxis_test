@@ -9,30 +9,26 @@ import useFormStore from "@/stores/form-store";
 import { ArrowRight, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { FleetType } from "@/types/fleet.types";
-import { useFleets } from "@/hooks/useFleets";
+import { useFleets } from "@/hooks/api/useFleets";
 import { formatPrice } from "@/lib/utils/pricing";
 import { HourlyInfoDialog } from "./hourly-info-dialog";
 import { FleetFeaturesAccordion } from "./fleet-features-accordion";
-import { usePricing, DEFAULT_PRICING } from "@/hooks/usePricing";
+import { usePricingSettings, DEFAULT_PRICING_SETTINGS } from "@/hooks/api/usePricing";
 
 function CarList() {
-  const { formData, category, setFormData, changeStep, formLoading, cachedFleets, isCacheValid } = useFormStore();
+  const { formData, category, setFormData, changeStep, formLoading } = useFormStore();
   const router = useRouter();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const { data: pricing = DEFAULT_PRICING } = usePricing();
+  const { data: pricingSettings = DEFAULT_PRICING_SETTINGS } = usePricingSettings();
   const distance = category === 'trip' ? Number(formData.distance.value) || 0 : undefined;
   const duration = category === 'hourly' ? Number(formData.duration.value) || 0 : undefined;
   
-  // Use cached fleets if available and valid, otherwise fetch from API
-  const shouldFetchFromAPI = !cachedFleets || !isCacheValid();
   const { data: fleetsData, isLoading: fleetsLoading, error: fleetsError } = useFleets({
     distance,
     duration,
     date: formData.date?.value,
     time: formData.time?.value,
     category,
-  }, {
-    enabled: shouldFetchFromAPI, // Only fetch if cache is empty or invalid
   });
 
   useEffect(() => {
@@ -41,13 +37,9 @@ function CarList() {
     }
   }, [category]);
   
-  // Use cached fleets if available, otherwise use API data
-  const fleetList: FleetType[] = (cachedFleets && isCacheValid()) 
-    ? cachedFleets 
-    : ((fleetsData as FleetType[] | undefined) || []);
+  const fleetList: FleetType[] = (fleetsData as FleetType[] | undefined) || [];
   
-  // Loading state: only show if fetching from API and no cached data
-  const isLoading = shouldFetchFromAPI && fleetsLoading;
+  const isLoading = fleetsLoading;
 
   const handleSelect = async (item: FleetType, price: number) => {
     setFormData("car", item.name, '');
@@ -101,30 +93,14 @@ function CarList() {
           </div>
         )}
         {filteredFleets.map((item) => {
-        // Use backend-calculated price directly - no frontend recalculation
-        // Backend already applies all pricing adjustments (date-based, last-minute, etc.)
         const finalPrice = item.calculatedPrice || 0;
-        const pricingBreakdown = item.pricingBreakdown;
-        
-        // Log fleet pricing with date for debugging (only in development)
-        if (process.env.NODE_ENV === 'development' && formData.date?.value) {
-          console.log(`[Frontend] Fleet: ${item.name}, Date: ${formData.date.value}, Distance: ${distance || 'N/A'} miles, Final Price: £${finalPrice}`, {
-            basePrice: pricingBreakdown?.basePrice,
-            dateBasedIncrease: pricingBreakdown?.dateBasedIncrease,
-            dateBasedPercent: pricingBreakdown?.dateBasedPercent,
-            lastMinuteIncrease: pricingBreakdown?.lastMinuteIncrease,
-            lastMinutePercent: pricingBreakdown?.lastMinutePercent,
-            finalPrice: pricingBreakdown?.finalPrice,
-          });
-        }
-        
-        // Extract pricing info from backend breakdown
+        const pricingBreakdown = item.pricingBreakdown; 
         const isLastMinute = !!(pricingBreakdown?.lastMinutePercent && pricingBreakdown.lastMinutePercent > 0);
         const lastMinutePercent = pricingBreakdown?.lastMinutePercent || 0;
         const basePrice = pricingBreakdown?.basePrice || finalPrice;
         
         const priceString = formatPrice(finalPrice);
-        const vehicleDiscount = pricing.vehicle[item.name] || 0;
+        const vehicleDiscount = pricingSettings.vehicle[item.name] || 0;
         const showDiscount = vehicleDiscount > 0;
         const originalPrice = showDiscount ? finalPrice / (1 - vehicleDiscount / 100) : (pricingBreakdown?.originalPrice || finalPrice);
         const showLastMinutePrice = isLastMinute && lastMinutePercent > 0;

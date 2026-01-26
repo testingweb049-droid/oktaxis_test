@@ -254,7 +254,7 @@ export default function Footer() {
           <div className="flex flex-col items-center gap-4 sm:hidden">
             <PaymentMethods />
             <p className="text-sm sm:text-base text-text-gray text-center">
-              © 2024 OKTaxis Mobility Solutions. All rights reserved.
+              © {new Date().getFullYear()} OKTaxis Mobility Solutions. All rights reserved.
             </p>
             <PolicyLinks />
           </div>
@@ -263,7 +263,7 @@ export default function Footer() {
           <div className="hidden sm:flex sm:items-center sm:justify-between sm:gap-4 md:gap-6">
             {/* Copyright - Left */}
             <p className="text-sm sm:text-base md:text-lg text-text-gray whitespace-nowrap flex-shrink-0">
-              © 2024 OKTaxis Mobility Solutions. All rights reserved.
+              © {new Date().getFullYear()} OKTaxis Mobility Solutions. All rights reserved.
             </p>
 
             {/* Payment Methods - Center */}

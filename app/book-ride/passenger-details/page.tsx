@@ -3,25 +3,13 @@ import Step3DetailsForm from '@/components/booking/steps/step3-details-form'
 import PickupTripDetails from '@/components/booking/sidebar/pickup-details'
 import { cn } from '@/lib/utils'
 import useFormStore from '@/stores/form-store'
-import { useFleets } from '@/hooks/useFleets'
-import type { FleetType } from '@/types/fleet.types'
 import Image from 'next/image'
 import { Users, Luggage, ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 function Page() {
-  const { formData, cachedFleets, isCacheValid } = useFormStore()
+  const { selectedFleet } = useFormStore()
   const router = useRouter()
-  const shouldFetchFromAPI = !cachedFleets || !isCacheValid()
-  const { data: fleetsData, isLoading: fleetsLoading } = useFleets({}, {
-    enabled: shouldFetchFromAPI,
-  })
-  const fleets: FleetType[] = (cachedFleets && isCacheValid())
-    ? cachedFleets
-    : ((fleetsData as FleetType[] | undefined) || [])
-
-  const selectedFleet = fleets.find((item) => item.name === formData.car?.value)
-  const isLoading = shouldFetchFromAPI && fleetsLoading
 
   const handleBackToFleets = () => {
     router.push('/book-ride/select-car')
@@ -33,7 +21,7 @@ function Page() {
       <div className='lg:hidden w-full'>
           <PickupTripDetails showMap={false}/>
         </div>
-        {selectedFleet && !isLoading && (
+        {selectedFleet && (
           <div className='w-full mb-3 lg:hidden'>
             <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-3">
               <div className="flex items-center gap-3">

@@ -6,9 +6,8 @@ import { User, Pencil, Check, Users, Luggage } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import type { FleetType } from "@/types/fleet.types";
-// Pricing data comes from cached quote data in store - no API call needed
 import { calculateReturnPrice, formatPrice } from "@/lib/utils/pricing";
+import { DEFAULT_PRICING_SETTINGS } from "@/hooks/api/usePricing";
 import {
   calculateArrivalTime,
   formatDuration,
@@ -25,36 +24,9 @@ interface PickupTripDetailsProps {
 }
 
 function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDetailsProps) {
-  const { formData, category, cachedFleets, cachedQuoteData } = useFormStore();
+  const { formData, category, selectedFleet, pricingSettings } = useFormStore();
   const router = useRouter();
-  // Use cached fleet data from store - no API call needed
-  const selectedFleet = cachedFleets?.find((item) => item.name === formData.car?.value) || null;
-  // Use pricing data from cached quote - no API call needed
-  const pricing = cachedQuoteData?.pricing || {
-    outbound: {
-      meetGreet: 0,
-      meetGreetActive: false,
-      flightTrack: 0,
-      flightTrackActive: false,
-      extraStop: 0,
-      extraStopActive: false,
-    },
-    return: {
-      meetGreet: 0,
-      meetGreetActive: false,
-      flightTrack: 0,
-      flightTrackActive: false,
-      extraStop: 0,
-      extraStopActive: false,
-    },
-    vehicle: {},
-    returnDiscount: {},
-    hourlyRanges: [],
-    dateRanges: [],
-    minimumBookingHours: 0,
-    minimumBookingHoursActive: false,
-    timezone: '',
-  };
+  const effectivePricingSettings = pricingSettings || DEFAULT_PRICING_SETTINGS;
 
   const fromLocation = formData.fromLocation?.value || '';
   const toLocation = formData.toLocation?.value || '';
@@ -80,9 +52,9 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
   const returnPriceData = useMemo(() => {
     if (category !== 'hourly' && formData.isReturn?.value && outwardPrice > 0) {
       // Get vehicle-specific return discount from backend pricing settings
-      const carValue = formData.car.value;
-      const returnDiscount = pricing.returnDiscount as Record<string, number>;
-      const vehicleReturnDiscount = carValue ? (returnDiscount[carValue] ?? 0) : 0;
+      const carName = selectedFleet?.name;
+      const returnDiscount = effectivePricingSettings.returnDiscount as Record<string, number>;
+      const vehicleReturnDiscount = carName ? (returnDiscount[carName] ?? 0) : 0;
       const discountedPrice = calculateReturnPrice(outwardPrice, vehicleReturnDiscount);
       const discountAmount = outwardPrice - discountedPrice;
       return {
@@ -92,7 +64,7 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
       };
     }
     return { price: 0, discountPercent: 0, discountAmount: 0 };
-  }, [outwardPrice, formData.isReturn?.value, formData.car.value, category, pricing]);
+  }, [outwardPrice, formData.isReturn?.value, selectedFleet?.name, category, effectivePricingSettings]);
 
   const returnPrice = returnPriceData.price;
   const returnDiscountPercent = returnPriceData.discountPercent;
@@ -100,12 +72,12 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
 
   // Calculate total price with all extras (same logic as step3-details-form)
   const totalPrice = useMemo(() => {
-    const meetGreetFee = formData.isMeetGreet?.value && pricing.outbound.meetGreetActive ? pricing.outbound.meetGreet : 0;
-    const flightTrackFee = formData.isFlightTrack?.value && pricing.outbound.flightTrackActive ? pricing.outbound.flightTrack : 0;
-    const extraStopsFee = category !== 'hourly' && pricing.outbound.extraStopActive ? Number(formData.extraStopsCount?.value || 0) * pricing.outbound.extraStop : 0;
-    const returnMeetGreetFee = category !== 'hourly' && formData.isReturnMeetGreet?.value && pricing.return.meetGreetActive ? pricing.return.meetGreet : 0;
-    const returnFlightTrackFee = category !== 'hourly' && formData.isReturnFlightTrack?.value && pricing.return.flightTrackActive ? pricing.return.flightTrack : 0;
-    const returnExtraStopsFee = category !== 'hourly' && pricing.return.extraStopActive ? Number(formData.returnExtraStopsCount?.value || 0) * pricing.return.extraStop : 0;
+    const meetGreetFee = formData.isMeetGreet?.value && effectivePricingSettings.outbound.meetGreetActive ? effectivePricingSettings.outbound.meetGreet : 0;
+    const flightTrackFee = formData.isFlightTrack?.value && effectivePricingSettings.outbound.flightTrackActive ? effectivePricingSettings.outbound.flightTrack : 0;
+    const extraStopsFee = category !== 'hourly' && effectivePricingSettings.outbound.extraStopActive ? Number(formData.extraStopsCount?.value || 0) * effectivePricingSettings.outbound.extraStop : 0;
+    const returnMeetGreetFee = category !== 'hourly' && formData.isReturnMeetGreet?.value && effectivePricingSettings.return.meetGreetActive ? effectivePricingSettings.return.meetGreet : 0;
+    const returnFlightTrackFee = category !== 'hourly' && formData.isReturnFlightTrack?.value && effectivePricingSettings.return.flightTrackActive ? effectivePricingSettings.return.flightTrack : 0;
+    const returnExtraStopsFee = category !== 'hourly' && effectivePricingSettings.return.extraStopActive ? Number(formData.returnExtraStopsCount?.value || 0) * effectivePricingSettings.return.extraStop : 0;
 
     const total = (
       outwardPrice +
@@ -129,7 +101,7 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
     formData.isReturnFlightTrack?.value,
     formData.returnExtraStopsCount?.value,
     category,
-    pricing
+    effectivePricingSettings
   ]);
 
   const formattedPrice = formatPriceValue(totalPrice);

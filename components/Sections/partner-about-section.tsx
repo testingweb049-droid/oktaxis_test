@@ -2,15 +2,10 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import Heading from "@/components/heading";
 
-interface PartnerAboutSectionProps {
-  onApplyClick?: () => void;
-}
-
-export default function PartnerAboutSection({
-  onApplyClick,
-}: PartnerAboutSectionProps) {
+export default function PartnerAboutSection() {
   return (
     <section className="bg-white py-12 md:py-16 lg:py-20 font-montserrat">
       <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center lg:items-start gap-10 lg:gap-16">
@@ -37,13 +32,12 @@ export default function PartnerAboutSection({
             reliability and excellence.
           </p>
 
-          <button
-            type="button"
-            onClick={onApplyClick}
+          <Link
+            href="/driver/apply"
             className="mt-4 inline-flex items-center justify-center px-8 py-2 text-xl font-semibold bg-heading-black text-primary-yellow rounded-full shadow-sm hover:bg-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-yellow/70"
           >
             Apply
-          </button>
+          </Link>
         </div>
 
         {/* Right image */}

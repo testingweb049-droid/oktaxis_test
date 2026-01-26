@@ -7,7 +7,7 @@
  */
 
 // Core API client
-export { default as apiClient } from './axios';
+export { default as apiClient } from './client';
 
 // Configuration
 export * from './config';
@@ -19,4 +19,9 @@ export * from './api-endpoints';
 
 // API Functions
 export * from './contact';
+export * from './bookings';
+export * from './checkout';
+export * from './pricing';
+export * from './fleets';
+export * from './image-upload';
 

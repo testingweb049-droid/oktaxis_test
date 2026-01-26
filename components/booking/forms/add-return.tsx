@@ -3,11 +3,11 @@
 import useFormStore from "@/stores/form-store"
 import { ArrowRightLeft } from "lucide-react"
 import React from "react"
-import { usePricing, DEFAULT_PRICING } from "@/hooks/usePricing"
+import { usePricingSettings, DEFAULT_PRICING_SETTINGS } from "@/hooks/api/usePricing"
 
 export default function AddReturn() {
   const { formData, setFormData, setFieldOptions } = useFormStore()
-  const { data: pricing = DEFAULT_PRICING } = usePricing()
+  const { data: pricingSettings = DEFAULT_PRICING_SETTINGS } = usePricingSettings()
 
   const basePrice = Number(formData.price?.value || 0)
   const from = formData.fromLocation?.value || ""
@@ -16,7 +16,7 @@ export default function AddReturn() {
   const vehicleName = formData.car?.value || ""
 
   // Get vehicle-specific return discount from backend pricing settings
-  const discountPercent = vehicleName ? (pricing.returnDiscount[vehicleName] ?? 0) : 0
+  const discountPercent = vehicleName ? (pricingSettings.returnDiscount[vehicleName] ?? 0) : 0
   const discountAmount = (basePrice * discountPercent) / 100
   const discountedPrice = basePrice - discountAmount
   const formattedPrice = discountedPrice.toFixed(2)

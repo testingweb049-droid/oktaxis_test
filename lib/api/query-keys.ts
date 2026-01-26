@@ -11,6 +11,7 @@ export const queryKeys = {
     list: (filters?: Record<string, unknown>) => [...queryKeys.fleets.lists(), { filters }] as const,
     details: () => [...queryKeys.fleets.all, 'detail'] as const,
     detail: (id: string) => [...queryKeys.fleets.details(), id] as const,
+    withPrices: (options?: Record<string, unknown>) => [...queryKeys.fleets.all, 'with-prices', options] as const,
   },
 
   // Booking queries
@@ -35,17 +36,17 @@ export const queryKeys = {
     session: (sessionId?: string) => [...queryKeys.checkout.all, 'session', sessionId] as const,
   },
 
-  // Order queries
-  orders: {
-    all: ['orders'] as const,
-    details: () => [...queryKeys.orders.all, 'detail'] as const,
-    detail: (identifier: string) => [...queryKeys.orders.details(), identifier] as const,
-  },
 
   // Pricing queries
   pricing: {
     all: ['pricing'] as const,
     current: () => [...queryKeys.pricing.all, 'current'] as const,
+  },
+
+  // Booking settings queries
+  bookingSettings: {
+    all: ['booking-settings'] as const,
+    current: () => [...queryKeys.bookingSettings.all, 'current'] as const,
   },
 } as const;
 

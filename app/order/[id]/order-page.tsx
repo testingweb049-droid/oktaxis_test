@@ -9,31 +9,31 @@ import { BiUserCircle } from 'react-icons/bi';
 import Image from 'next/image';
 import { Timer } from 'lucide-react';
 import WhiteLogo from '@/assets/logo-white.png';
-import { useOrder, type OrderData } from '@/hooks/useOrder';
-import { usePricing, DEFAULT_PRICING } from '@/hooks/usePricing';
+import { useBooking, type BookingData } from '@/hooks/api/useOrder';
+import { usePricingSettings, DEFAULT_PRICING_SETTINGS } from '@/hooks/api/usePricing';
 
 interface OrderPageProps {
   id: string;
 }
 
-// Use OrderData from the hook instead of defining a separate interface
-export type OrderProps = OrderData;
+// Use BookingData from the hook instead of defining a separate interface
+export type OrderProps = BookingData;
 
 function orderPage({ id }: OrderPageProps) {
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const { resetForm, isOrderDone } = useFormStore();
   
-  // Fetch order data using the hook
-  const { data: order, isLoading: loading, error: queryError, refetch } = useOrder(id);
-  // Fetch pricing data
-  const { data: pricing = DEFAULT_PRICING } = usePricing();
+  // Fetch booking data using the hook
+  const { data: booking, isLoading: loading, error: queryError, refetch } = useBooking(id);
+  // Fetch pricing settings data
+  const { data: pricingSettings = DEFAULT_PRICING_SETTINGS } = usePricingSettings();
 
   useEffect(() => {
     if (isOrderDone) resetForm();
   }, [isOrderDone, resetForm]);
   
   // Extract error message from query error
-  const error = queryError?.message || (queryError ? 'Failed to load order' : null);
+  const error = queryError?.message || (queryError ? 'Failed to load booking' : null);
   
   const handleRetry = () => {
     refetch();
@@ -60,8 +60,8 @@ function orderPage({ id }: OrderPageProps) {
     });
   };
   
-  // Convert order.id (string) to number for display (if needed)
-  const orderIdDisplay = order?.id || '';
+  // Convert booking.id (string) to number for display (if needed)
+  const bookingIdDisplay = booking?.id || '';
 
   // Loading state
   if (loading) {
@@ -69,8 +69,8 @@ function orderPage({ id }: OrderPageProps) {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">Loading Order Details</h2>
-          <p className="text-gray-600">Please wait while we fetch your order information...</p>
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">Loading Booking Details</h2>
+          <p className="text-gray-600">Please wait while we fetch your booking information...</p>
         </div>
       </div>
     );
@@ -82,7 +82,7 @@ function orderPage({ id }: OrderPageProps) {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="text-center max-w-md">
           <div className="text-red-500 text-6xl mb-4">⚠️</div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Unable to Load Order</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Unable to Load Booking</h2>
           <p className="text-gray-600 mb-6">{error}</p>
           <div className="flex gap-4 justify-center">
             <button
@@ -103,31 +103,31 @@ function orderPage({ id }: OrderPageProps) {
     );
   }
 
-  // No order found
-  if (!order) {
+  // No booking found
+  if (!booking) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="text-center">
           <div className="text-gray-400 text-6xl mb-4">📭</div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Order Not Found</h2>
-          <p className="text-gray-600">The requested order could not be found.</p>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Booking Not Found</h2>
+          <p className="text-gray-600">The requested booking could not be found.</p>
         </div>
       </div>
     );
   }
 
-  const stops = order.stops || [];
+  const stops = booking.stops || [];
 
   // The stored price is the TOTAL price including all extras
-  const totalPrice = Number(order.price) || 0;
+  const totalPrice = Number(booking.price) || 0;
   
   // Calculate all extras fees using dynamic pricing (check active status)
-  const meetGreetPrice = order.meet_greet && pricing.outbound.meetGreetActive ? pricing.outbound.meetGreet : 0;
-  const flightTrackPrice = order.flight_track && pricing.outbound.flightTrackActive ? pricing.outbound.flightTrack : 0;
-  const extraStopsPrice = pricing.outbound.extraStopActive ? (order.extra_stops_count || 0) * pricing.outbound.extraStop : 0;
-  const returnMeetGreetPrice = order.return_meet_greet && pricing.return.meetGreetActive ? pricing.return.meetGreet : 0;
-  const returnFlightTrackPrice = order.return_flight_track && pricing.return.flightTrackActive ? pricing.return.flightTrack : 0;
-  const returnExtraStopsPrice = pricing.return.extraStopActive ? (order.return_extra_stops_count || 0) * pricing.return.extraStop : 0;
+  const meetGreetPrice = booking.meet_greet && pricingSettings.outbound.meetGreetActive ? pricingSettings.outbound.meetGreet : 0;
+  const flightTrackPrice = booking.flight_track && pricingSettings.outbound.flightTrackActive ? pricingSettings.outbound.flightTrack : 0;
+  const extraStopsPrice = pricingSettings.outbound.extraStopActive ? (booking.extra_stops_count || 0) * pricingSettings.outbound.extraStop : 0;
+  const returnMeetGreetPrice = booking.return_meet_greet && pricingSettings.return.meetGreetActive ? pricingSettings.return.meetGreet : 0;
+  const returnFlightTrackPrice = booking.return_flight_track && pricingSettings.return.flightTrackActive ? pricingSettings.return.flightTrack : 0;
+  const returnExtraStopsPrice = pricingSettings.return.extraStopActive ? (booking.return_extra_stops_count || 0) * pricingSettings.return.extraStop : 0;
   
   // Total of all extras
   const totalExtras = meetGreetPrice + flightTrackPrice + extraStopsPrice + 
@@ -141,7 +141,7 @@ function orderPage({ id }: OrderPageProps) {
   let basePrice = transferPriceWithoutExtras;
   let returnPrice = 0;
   
-  if (order.is_return && order.category === 'trip') {
+  if (booking.is_return && booking.category === 'trip') {
     // For return trips, the base price is for one-way, return is discounted
     // Since the total already includes discount, we split it roughly
     basePrice = transferPriceWithoutExtras / 1.9; // Approximate split accounting for discount
@@ -169,9 +169,9 @@ function orderPage({ id }: OrderPageProps) {
           <div className="text-center sm:text-right">
             <p className="text-sm text-gray-300 mb-1">Order ID</p>
             <div className="flex items-center gap-2 justify-center sm:justify-end">
-              <p className="text-white font-medium text-sm sm:text-base">#{orderIdDisplay}</p>
+              <p className="text-white font-medium text-sm sm:text-base">#{bookingIdDisplay}</p>
               <button
-                onClick={() => handleCopy(orderIdDisplay, 'orderId')}
+                onClick={() => handleCopy(bookingIdDisplay, 'orderId')}
                 className="flex items-center gap-1 text-gray-400 hover:text-gray-200 transition-colors"
                 title="Copy Order ID"
               >
@@ -190,23 +190,23 @@ function orderPage({ id }: OrderPageProps) {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <SummaryCard
               label="Total Amount"
-              value={formatPrice(order.price)}
+              value={formatPrice(booking.price)}
               color="text-green-600"
             />
-            {order.category === 'hourly' ? (
+            {booking.category === 'hourly' ? (
               <SummaryCard
                 label="Duration"
-                value={`${order.duration || 0} hours`}
+                value={`${booking.duration || 0} hours`}
               />
             ) : (
               <SummaryCard
                 label="Distance"
-                value={`${formatMiles(order.distance)} miles`}
+                value={`${formatMiles(booking.distance)} miles`}
               />
             )}
             <SummaryCard
               label="Trip Type"
-              value={order.category?.toUpperCase() || 'N/A'}
+              value={booking.category?.toUpperCase() || 'N/A'}
             />
           </div>
 
@@ -221,9 +221,9 @@ function orderPage({ id }: OrderPageProps) {
               <TimelineItem
                 color="var(--color-text-gray)"
                 label="Pick-Up Location"
-                value={order.pickup_location}
-                date={order.pickup_date}
-                time={order.pickup_time}
+                value={booking.pickup_location}
+                date={booking.pickup_date}
+                time={booking.pickup_time}
                 dateLabel="Pickup Date"
                 timeLabel="Pickup Time"
               />
@@ -239,38 +239,38 @@ function orderPage({ id }: OrderPageProps) {
               ))}
 
               {/* Destination or Duration */}
-              {order.category === 'hourly' ? (
+              {booking.category === 'hourly' ? (
                 <TimelineItem
                   color="var(--color-text-gray)"
                   label="Duration"
-                  value={`${order.duration || 0} hours`}
+                  value={`${booking.duration || 0} hours`}
                 />
               ) : (
                 <TimelineItem
                   color="var(--color-text-gray)"
                   label="Drop-Off Location"
-                  value={order.dropoff_location || 'N/A'}
+                  value={booking.dropoff_location || 'N/A'}
                 />
               )}
 
               {/* Return Trip */}
-              {order.is_return && order.return_date && (
+              {booking.is_return && booking.return_date && (
                 <>
                   <div className="mt-6 pt-4 border-t border-gray-200">
                     <h3 className="font-semibold text-gray-800 mb-4">Return Trip</h3>
                     <TimelineItem
                       color="var(--color-text-gray)"
                       label="Pick-Up Location"
-                      value={order.dropoff_location || order.pickup_location}
-                      date={order.return_date}
-                      time={order.return_time}
+                      value={booking.dropoff_location || booking.pickup_location}
+                      date={booking.return_date}
+                      time={booking.return_time}
                       dateLabel="Return Date"
                       timeLabel="Return Time"
                     />
                     <TimelineItem
                       color="var(--color-text-gray)"
                       label="Drop-Off Location"
-                      value={order.pickup_location}
+                      value={booking.pickup_location}
                     />
                   </div>
                 </>
@@ -282,82 +282,82 @@ function orderPage({ id }: OrderPageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Trip Details */}
             <InfoCard title="Trip Details">
-              <InfoField label="Car Type" value={order.car || 'N/A'} />
-              <InfoField label="Trip Type" value={order.category?.toUpperCase() || 'N/A'} />
-              {order.is_return && (
+              <InfoField label="Car Type" value={booking.car || 'N/A'} />
+              <InfoField label="Trip Type" value={booking.category?.toUpperCase() || 'N/A'} />
+              {booking.is_return && (
                 <>
-                  <InfoField label="Return Date" value={formatDate(order.return_date)} />
-                  <InfoField label="Return Time" value={formatTime(order.return_time)} />
+                  <InfoField label="Return Date" value={formatDate(booking.return_date)} />
+                  <InfoField label="Return Time" value={formatTime(booking.return_time)} />
                 </>
               )}
-              <InfoField label="Flight Tracking" value={order.flight_track ? 'Yes' : 'No'} />
-              <InfoField label="Meet & Greet" value={order.meet_greet ? 'Yes' : 'No'} />
-              {order.is_return && (
-                <InfoField label="Return Meet & Greet" value={order.return_meet_greet ? 'Yes' : 'No'} />
+              <InfoField label="Flight Tracking" value={booking.flight_track ? 'Yes' : 'No'} />
+              <InfoField label="Meet & Greet" value={booking.meet_greet ? 'Yes' : 'No'} />
+              {booking.is_return && (
+                <InfoField label="Return Meet & Greet" value={booking.return_meet_greet ? 'Yes' : 'No'} />
               )}
-              {order.extra_stops_count && order.extra_stops_count > 0 && (
-                <InfoField label="Extra Stops" value={order.extra_stops_count.toString()} />
+              {booking.extra_stops_count && booking.extra_stops_count > 0 && (
+                <InfoField label="Extra Stops" value={booking.extra_stops_count.toString()} />
               )}
-              {order.return_extra_stops_count && order.return_extra_stops_count > 0 && (
-                <InfoField label="Return Extra Stops" value={order.return_extra_stops_count.toString()} />
+              {booking.return_extra_stops_count && booking.return_extra_stops_count > 0 && (
+                <InfoField label="Return Extra Stops" value={booking.return_extra_stops_count.toString()} />
               )}
             </InfoCard>
 
             {/* Passenger & Vehicle Info */}
             <InfoCard title="Passenger & Vehicle">
-              <InfoField label="Passengers" value={order.passengers?.toString() || 'N/A'} />
-              <InfoField label="Bags" value={order.bags?.toString() || 'N/A'} />
+              <InfoField label="Passengers" value={booking.passengers?.toString() || 'N/A'} />
+              <InfoField label="Bags" value={booking.bags?.toString() || 'N/A'} />
             </InfoCard>
 
             {/* Customer Information */}
             <InfoCard title="Customer Information">
               <InfoField
                 label="Name"
-                value={order.name}
+                value={booking.name}
                 icon={<BiUserCircle className="text-blue-600" />}
-                onCopy={() => handleCopy(order.name, 'name')}
+                onCopy={() => handleCopy(booking.name, 'name')}
                 copied={copiedField === 'name'}
               />
               <InfoField
                 label="Email"
-                value={order.email}
+                value={booking.email}
                 icon={<MdOutlineEmail className="text-green-600" />}
-                onCopy={() => handleCopy(order.email, 'email')}
+                onCopy={() => handleCopy(booking.email, 'email')}
                 copied={copiedField === 'email'}
               />
               <InfoField
                 label="Phone"
-                value={order.phone}
+                value={booking.phone}
                 icon={<MdOutlinePhone className="text-purple-600" />}
-                onCopy={() => handleCopy(order.phone, 'phone')}
+                onCopy={() => handleCopy(booking.phone, 'phone')}
                 copied={copiedField === 'phone'}
               />
-              {order.flight_number && (
+              {booking.flight_number && (
                 <InfoField
                   label="Flight Number"
-                  value={order.flight_number}
+                  value={booking.flight_number}
                   icon={<MdOutlineFlight className="text-orange-600" />}
                 />
               )}
-              {order.flight_arrival_time && (
+              {booking.flight_arrival_time && (
                 <InfoField
                   label="Flight arrival time"
-                  value={order.flight_arrival_time}
+                  value={booking.flight_arrival_time}
                   icon={<MdAirlines className="text-red-600" />}
                 />
               )}
-              {order.payment_id && (
+              {booking.payment_id && (
                 <InfoField
                   label="Payment ID"
-                  value={order.payment_id}
+                  value={booking.payment_id}
                   icon={<MdOutlinePayment className="text-indigo-600" />}
-                  onCopy={() => handleCopy(order.payment_id || '', 'paymentId')}
+                  onCopy={() => handleCopy(booking.payment_id || '', 'paymentId')}
                   copied={copiedField === 'paymentId'}
                 />
               )}
               <InfoField
                 label="Order Date"
-                value={formatDate(order.created_at)}
+                value={formatDate(booking.created_at)}
                 icon={<Timer className="text-gray-600" size={18} />}
               />
             </InfoCard>
@@ -368,13 +368,13 @@ function orderPage({ id }: OrderPageProps) {
             <h2 className="text-lg font-semibold text-gray-800 mb-4">Price Breakdown</h2>
             <div className="space-y-3 text-sm">
               {/* Base Transfer */}
-              {order.is_return && order.category === 'trip' ? (
+              {booking.is_return && booking.category === 'trip' ? (
                 <>
-                  <PriceItem label={`${order.car} Transfer (One-way)`} value={formatPrice(basePrice.toFixed(2))} />
-                  <PriceItem label={`${order.car} Transfer (Return)`} value={formatPrice(returnPrice.toFixed(2))} />
+                  <PriceItem label={`${booking.car} Transfer (One-way)`} value={formatPrice(basePrice.toFixed(2))} />
+                  <PriceItem label={`${booking.car} Transfer (Return)`} value={formatPrice(returnPrice.toFixed(2))} />
                 </>
               ) : (
-                <PriceItem label={`${order.car} Transfer`} value={formatPrice(basePrice.toFixed(2))} />
+                <PriceItem label={`${booking.car} Transfer`} value={formatPrice(basePrice.toFixed(2))} />
               )}
 
               {/* Additional Services */}
@@ -386,7 +386,7 @@ function orderPage({ id }: OrderPageProps) {
               )}
               {extraStopsPrice > 0 && (
                 <PriceItem
-                  label={`Extra Stops (${order.extra_stops_count})`}
+                  label={`Extra Stops (${booking.extra_stops_count})`}
                   value={formatPrice(extraStopsPrice.toFixed(2))}
                 />
               )}
@@ -400,16 +400,16 @@ function orderPage({ id }: OrderPageProps) {
               )}
               {returnExtraStopsPrice > 0 && (
                 <PriceItem
-                  label={`Return Extra Stops (${order.return_extra_stops_count})`}
+                  label={`Return Extra Stops (${booking.return_extra_stops_count})`}
                   value={formatPrice(returnExtraStopsPrice.toFixed(2))}
                 />
               )}
 
               {/* Instructions */}
-              {order.instructions && (
+              {booking.instructions && (
                 <div className="mt-4 pt-4 border-t border-gray-200">
                   <p className="text-gray-700">
-                    <span className="font-medium">Instructions:</span> {order.instructions}
+                    <span className="font-medium">Instructions:</span> {booking.instructions}
                   </p>
                 </div>
               )}
@@ -418,7 +418,7 @@ function orderPage({ id }: OrderPageProps) {
             {/* Total */}
             <div className="flex justify-between items-center border-t-2 border-dashed border-gray-300 mt-6 pt-4 text-lg font-bold text-gray-900">
               <span>Total Amount</span>
-              <span className="text-green-600">{formatPrice(order.price)}</span>
+              <span className="text-green-600">{formatPrice(booking.price)}</span>
             </div>
           </div>
         </main>

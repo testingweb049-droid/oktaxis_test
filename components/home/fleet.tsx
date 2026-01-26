@@ -12,7 +12,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import type { FleetType } from "@/types/fleet.types";
-import { useFleets } from "@/hooks/useFleets";
+import { useFleets } from "@/hooks/api/useFleets";
 
 // Constants
 const SWIPER_SPACE_BETWEEN = 24;

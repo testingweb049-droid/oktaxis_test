@@ -9,28 +9,21 @@ import QuantitySelector from '@/components/booking/forms/quantity-selector'
 import NewDateTimePicker from '@/components/booking/forms/new-date-time-picker'
 import CategoryTabs from '@/components/booking/category-tabs'
 import { isAirportLocation, getDurationArray } from '@/lib/utils'
-import { usePricing } from '@/hooks/usePricing'
+import { useBookingSettings } from '@/hooks/api/useBookingSettings'
 import { useToast } from '@/components/ui/use-toast'
-import { usePrepareQuote } from '@/hooks/usePrepareQuote'
+import { calculateDistance } from '@/lib/services/distance-calculator'
+import { useState } from 'react'
 
 function Step1Form() {
-  const { category, formLoading, changeStep, formData, setFormData, setCachedFleets, setCachedQuoteData } = useFormStore()
+  const { category, formLoading, changeStep, formData, setFormData } = useFormStore()
   const router = useRouter()
   const { toast } = useToast()
-  const { data: pricing } = usePricing()
-  const { mutate: prepareQuote, isPending: isPreparingQuote } = usePrepareQuote()
+  const { data: bookingSettings } = useBookingSettings()
   const durationArray = getDurationArray()
-  
-  const handleSubmit = async () => {
-    // Validate form first
-    const pricingData = pricing ? {
-      minimumBookingHours: pricing.minimumBookingHours,
-      minimumBookingHoursActive: pricing.minimumBookingHoursActive,
-      timezone: pricing.timezone
-    } : undefined
-    
-    const validationResult = await changeStep(true, 1, pricingData)
-    
+  const [isCalculatingDistance, setIsCalculatingDistance] = useState(false)
+  const isLoading = formLoading || isCalculatingDistance
+
+  const handleValidationError = (validationResult: any, pricingData?: { minimumBookingHours?: number }) => {
     if (typeof validationResult === 'object' && validationResult !== null && 'errorType' in validationResult) {
       if (validationResult.errorType === 'time_validation') {
         toast({
@@ -40,108 +33,72 @@ function Step1Form() {
           duration: 1000,
         })
       }
-      return
+      return true
     }
+    return validationResult !== true
+  }
+  const handleSubmit = async () => {
+    const bookingSettingsData = bookingSettings ? {
+      minimumBookingHours: bookingSettings.minimumBookingHours,
+      minimumBookingHoursActive: bookingSettings.minimumBookingHoursActive,
+      timezone: bookingSettings.timezone
+    } : undefined
     
-    if (validationResult !== true) {
+    const validationResult = await changeStep(true, 1, bookingSettingsData)
+    
+    if (handleValidationError(validationResult, bookingSettingsData)) {
       return
     }
 
-    // Check for airport locations
+    // Validate required fields
+    if (category === 'trip' && (!formData.toLocation.value || !formData.toLocation.coordinates)) {
+      toast({
+        title: "Missing Location",
+        description: "Please select a drop-off location",
+        variant: "destructive",
+      })
+      return
+    }
+
+    if (category === 'hourly' && !formData.duration.value) {
+      toast({
+        title: "Missing Duration",
+        description: "Please select a duration",
+        variant: "destructive",
+      })
+      return
+    }
+    // Calculate distance for trip category
+    if (category === 'trip') {
+      setIsCalculatingDistance(true)
+      try {
+        const distanceResult = await calculateDistance({
+          from: formData.fromLocation.coordinates,
+          to: formData.toLocation.coordinates,
+        })
+        
+        setFormData('distance', distanceResult.mileDistance)
+      } catch (error) {
+        setIsCalculatingDistance(false)
+        return
+      }
+      setIsCalculatingDistance(false)
+    }
+
     const fromIsAirport = isAirportLocation(formData.fromLocation.value)
     const toIsAirport = category === 'trip' ? isAirportLocation(formData.toLocation.value) : false
-    
     if (fromIsAirport || toIsAirport) {
       setFormData('isAirportPickup', true)
     }
-
-    // Prepare quote data
-    const quoteRequest: any = {
-      category,
-      fromLocation: {
-        address: formData.fromLocation.value,
-        coordinates: formData.fromLocation.coordinates,
-      },
-      date: formData.date.value,
-      time: formData.time.value,
-      passengers: Number(formData.passengers.value) || 1,
-      bags: Number(formData.bags.value) || 0,
-    }
-
-    if (category === 'trip') {
-      if (!formData.toLocation.value || !formData.toLocation.coordinates) {
-        toast({
-          title: "Missing Location",
-          description: "Please select a drop-off location",
-          variant: "destructive",
-        })
-        return
-      }
-      quoteRequest.toLocation = {
-        address: formData.toLocation.value,
-        coordinates: formData.toLocation.coordinates,
-      }
-      // Include stops if any
-      const stops = formData.stops
-        .map((stop) => stop.coordinates)
-        .filter((coord) => coord && coord.trim())
-      if (stops.length > 0) {
-        quoteRequest.stops = stops
-      }
-    } else if (category === 'hourly') {
-      if (!formData.duration.value) {
-        toast({
-          title: "Missing Duration",
-          description: "Please select a duration",
-          variant: "destructive",
-        })
-        return
-      }
-      quoteRequest.duration = Number(formData.duration.value)
-    }
-
-    // Call prepare-quote endpoint
-    prepareQuote(quoteRequest, {
-      onSuccess: (response) => {
-        if (response.success && response.data) {
-          const { distance, duration, fleets, pricing: quotePricing } = response.data
-
-          // Store distance/duration in formData
-          if (category === 'trip' && distance !== undefined) {
-            setFormData('distance', distance)
-          } else if (category === 'hourly' && duration !== undefined) {
-            setFormData('duration', duration.toString())
-          }
-          setCachedFleets(fleets)
-          setCachedQuoteData({
-            distance,
-            duration,
-            fleets,
-            pricing: quotePricing,
-          })
-
-          // Navigate to step 2
-          router.replace('/book-ride/select-car')
-        }
-      },
-      onError: (error: any) => {
-        toast({
-          title: "Failed to Get Prices",
-          description: error?.message || "Unable to calculate prices. Please try again.",
-          variant: "destructive",
-        })
-      },
-    })
+    router.replace('/book-ride/select-car')
   }
 
   return (
     <div className='flex flex-col gap-3 sm:gap-5 w-full max-w-screen-sm max-lg:w-full'>
       <CategoryTabs />
-
-      {/* Form Container */}
+  
       <div className='max-lg:px-4 max-lg:pt-5 max-lg:pb-5 max-lg:rounded-t-2xl max-lg:rounded-b-none max-lg:border-x-0 max-lg:border-t sm:p-5 sm:rounded-2xl bg-white flex flex-col gap-5 sm:border border-gray-200 shadow-sm'>
         <div className='flex flex-col gap-4 w-full'>
-          {/* Location Inputs */}
           <div className='flex flex-col gap-4 w-full'>
             <LocationInput field="fromLocation" placeholder="Pickup Location" label='From' />
             {category !== 'hourly' && <LocationInput field="toLocation" placeholder="Drop Off Location" label='To' />}
@@ -169,11 +126,11 @@ function Step1Form() {
             onClick={handleSubmit}
             variant="brand"
             size="default"
-            disabled={formLoading || isPreparingQuote}
+            disabled={isLoading}
             className="w-full py-2 px-3 gap-2 relative overflow-hidden group before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-heading-black before:scale-x-0 before:origin-left before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-x-100 before:z-0 disabled:before:hidden"
           >
             <div className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
-              {(formLoading || isPreparingQuote) ? (
+              {isLoading ? (
                 <>
                   <Loader className='animate-spin' size={20} />
                   <span>Loading...</span>

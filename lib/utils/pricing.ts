@@ -1,15 +1,7 @@
 import { MIN_PRICE, PRICE_DECIMAL_PLACES } from '@/constants/pricing';
 import { parseTimeString } from '@/lib/utils';
 
-// Price calculations have been moved to the backend
-// Fleets are now fetched with calculated prices from the backend API
 
-/**
- * Calculate return trip discount price
- * @param basePrice - Base price of the trip
- * @param discountPercent - Discount percentage (from pricing settings)
- * @returns Discounted price for return trip
- */
 export function calculateReturnPrice(basePrice: number, discountPercent?: number): number {
   if (!basePrice || basePrice <= 0) {
     return 0;
@@ -29,112 +21,75 @@ export function calculateReturnPrice(basePrice: number, discountPercent?: number
   return Math.max(MIN_PRICE, discountedPrice);
 }
 
-/**
- * Format price to string with proper decimal places
- * @param price - Price as number
- * @returns Formatted price string
- */
 export function formatPrice(price: number): string {
   return Math.max(MIN_PRICE, price || 0).toFixed(PRICE_DECIMAL_PLACES);
 }
 
-/**
- * Check if booking is within specified hours from now
- * @param dateValue - Date string in format "YYYY-MM-DD"
- * @param timeValue - Time string in 12-hour format (e.g., "2:30 PM") or 24-hour format (e.g., "14:30")
- * @param hoursThreshold - Number of hours threshold (e.g., 24 for 24 hours)
- * @returns true if booking is within the specified hours, false otherwise
- */
-export function isBookingWithinHours(dateValue: string | undefined, timeValue: string | undefined, hoursThreshold: number): boolean {
-  if (!dateValue || !timeValue || !hoursThreshold || hoursThreshold <= 0) {
-    return false;
-  }
-
-  try {
-    const now = new Date();
-    
-    // Parse selected date and time (supports both 12h and 24h formats)
-    const [year, month, day] = dateValue.split('-').map(Number);
-    const timeParsed = parseTimeString(timeValue);
-    if (!timeParsed) return false;
-    
-    const { hours, minutes } = timeParsed;
-    // Create pickup datetime (treating as local time)
-    const pickupDateTime = new Date(year, month - 1, day, hours, minutes);
-    
-    // Calculate specified hours from now
-    const thresholdLater = new Date(now.getTime() + hoursThreshold * 60 * 60 * 1000);
-    
-    // Check if pickup is within threshold (pickup is before threshold hours from now)
-    return pickupDateTime <= thresholdLater && pickupDateTime >= now;
-  } catch (error) {
-    console.error('Error checking if booking is within hours:', error);
-    return false;
-  }
+export interface BookingPriceCalculationData {
+  basePrice: number | string;
+  category: string;
+  isReturn?: boolean;
+  isMeetGreet?: boolean;
+  isFlightTrack?: boolean;
+  extraStopsCount?: number | string;
+  isReturnMeetGreet?: boolean;
+  isReturnFlightTrack?: boolean;
+  returnExtraStopsCount?: number | string;
 }
 
-/**
- * Calculate last-minute price increase
- * @param basePrice - Base price of the vehicle
- * @param lastMinutePercent - Last-minute booking price increase percentage
- * @returns Price with last-minute increase applied
- */
-export function calculateLastMinutePrice(basePrice: number, lastMinutePercent: number): number {
-  if (!basePrice || basePrice <= 0 || !lastMinutePercent || lastMinutePercent <= 0) {
-    return basePrice;
-  }
-  
-  const increaseAmount = (basePrice * lastMinutePercent) / 100;
-  return basePrice + increaseAmount;
+export interface PricingSettingsForCalculation {
+  returnDiscount: Record<string, number>;
+  outbound: {
+    meetGreetActive: boolean;
+    meetGreet: number;
+    flightTrackActive: boolean;
+    flightTrack: number;
+    extraStopActive: boolean;
+    extraStop: number;
+  };
+  return: {
+    meetGreetActive: boolean;
+    meetGreet: number;
+    flightTrackActive: boolean;
+    flightTrack: number;
+    extraStopActive: boolean;
+    extraStop: number;
+  };
 }
 
-/**
- * Find matching hourly pricing range for a given duration
- * @param duration - Duration in hours
- * @param hourlyRanges - Array of hourly pricing ranges
- * @returns Matching range or null if no match
- */
-export function findHourlyPricingRange(
-  duration: number,
-  hourlyRanges: Array<{ minHours: number; maxHours: number; percent: number }>
-): { minHours: number; maxHours: number; percent: number } | null {
-  if (!duration || duration <= 0 || !hourlyRanges || hourlyRanges.length === 0) {
-    return null;
-  }
-
-  // Find the first range where duration falls within minHours and maxHours
-  return hourlyRanges.find(
-    (range) => duration >= range.minHours && duration <= range.maxHours
-  ) || null;
-}
-
-/**
- * Calculate hourly price based on duration and pricing ranges
- * @param basePrice - Base price of the vehicle
- * @param duration - Duration in hours
- * @param hourlyRanges - Array of hourly pricing ranges
- * @returns Price with hourly percentage applied
- */
-export function calculateHourlyPrice(
-  basePrice: number,
-  duration: number,
-  hourlyRanges: Array<{ minHours: number; maxHours: number; percent: number }>
+export function calculateTotalBookingPrice(
+  bookingData: BookingPriceCalculationData,
+  pricingSettings: PricingSettingsForCalculation,
+  selectedFleetName?: string
 ): number {
-  if (!basePrice || basePrice <= 0 || !duration || duration <= 0) {
-    return basePrice;
+  const basePrice = Number(bookingData.basePrice ?? 0);
+  const isReturnJourney = bookingData.category !== 'hourly' && bookingData.isReturn;
+
+  // Calculate return price
+  let returnPrice = 0;
+  if (isReturnJourney && basePrice > 0) {
+    const vehicleReturnDiscount = pricingSettings.returnDiscount[selectedFleetName ?? ''] ?? 0;
+    returnPrice = calculateReturnPrice(basePrice, vehicleReturnDiscount);
   }
 
-  const matchingRange = findHourlyPricingRange(duration, hourlyRanges);
-  
-  if (!matchingRange || !matchingRange.percent || matchingRange.percent <= 0) {
-    return basePrice; // No matching range or no percentage, return base price
-  }
+  // Calculate outbound fees
+  const meetGreetFee = bookingData.isMeetGreet && pricingSettings.outbound.meetGreetActive
+    ? pricingSettings.outbound.meetGreet : 0;
+  const flightTrackFee = bookingData.isFlightTrack && pricingSettings.outbound.flightTrackActive
+    ? pricingSettings.outbound.flightTrack : 0;
+  const extraStopsFee = !isReturnJourney && pricingSettings.outbound.extraStopActive
+    ? Number(bookingData.extraStopsCount || 0) * pricingSettings.outbound.extraStop : 0;
 
-  // Apply percentage to base price
-  // If percent is 15, it means 15% of base price, so: basePrice * (percent / 100)
-  const priceWithPercent = (basePrice * matchingRange.percent) / 100;
-  
-  return Math.max(MIN_PRICE, priceWithPercent);
+  // Calculate return fees
+  const returnMeetGreetFee = isReturnJourney && bookingData.isReturnMeetGreet && pricingSettings.return.meetGreetActive
+    ? pricingSettings.return.meetGreet : 0;
+  const returnFlightTrackFee = isReturnJourney && bookingData.isReturnFlightTrack && pricingSettings.return.flightTrackActive
+    ? pricingSettings.return.flightTrack : 0;
+  const returnExtraStopsFee = isReturnJourney && pricingSettings.return.extraStopActive
+    ? Number(bookingData.returnExtraStopsCount || 0) * pricingSettings.return.extraStop : 0;
+
+  return basePrice + returnPrice + meetGreetFee + flightTrackFee + extraStopsFee +
+         returnMeetGreetFee + returnFlightTrackFee + returnExtraStopsFee;
 }
 
 

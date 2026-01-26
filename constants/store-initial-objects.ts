@@ -18,7 +18,6 @@ const commonFormDataFields = {
     step: 1,
     coordinatesRequired: true,
   },
-  stops: [],
   duration: {
     value: "",
     error: "",

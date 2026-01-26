@@ -25,56 +25,37 @@ export default function QuantityCheckbox({
   onQuantityChange,
   getQuantity,
 }: QuantityCheckboxProps) {
-  const { formData, setFormData, manageStops } = useFormStore()
+  const { formData, setFormData } = useFormStore()
 
   const value = Boolean(!Array.isArray(formData[fieldName]) && formData[fieldName]?.value)
   const isError =
     !Array.isArray(formData[fieldName]) && formData[fieldName]?.error
 
-  // Get quantity from custom function or default to stops count
-  const quantity = getQuantity ? getQuantity() : (formData.stops?.length || 0)
+  // Get quantity from custom function or default to 0
+  const quantity = getQuantity ? getQuantity() : 0
 
   const handleChange = (checked: boolean) => {
     setFormData(fieldName, checked)
     if (checked && quantity === 0) {
       if (onQuantityChange) {
         onQuantityChange(1)
-      } else {
-        manageStops('add')
       }
     } else if (!checked && quantity > 0) {
       // Remove all when unchecked
       if (onQuantityChange) {
         onQuantityChange(0)
-      } else {
-        // Remove all stops when unchecked - remove from the end one by one
-        const currentStops = formData.stops?.length || 0
-        if (currentStops > 0) {
-          // Remove from the last index down to 0
-          for (let i = currentStops - 1; i >= 0; i--) {
-            manageStops('remove', i)
-          }
-        }
       }
     }
   }
 
   const handleDecrement = (e: React.MouseEvent) => {
     e.stopPropagation()
-    const currentQuantity = getQuantity ? getQuantity() : (formData.stops?.length || 0)
+    const currentQuantity = getQuantity ? getQuantity() : 0
     if (currentQuantity > minQuantity) {
       if (onQuantityChange) {
         onQuantityChange(currentQuantity - 1)
         if (currentQuantity === 1) {
           setFormData(fieldName, false)
-        }
-      } else {
-        const stopsLength = formData.stops?.length || 0
-        if (stopsLength > 0 && stopsLength - 1 < stopsLength) {
-          manageStops('remove', stopsLength - 1)
-          if (stopsLength === 1) {
-            setFormData(fieldName, false)
-          }
         }
       }
     }
@@ -82,16 +63,10 @@ export default function QuantityCheckbox({
 
   const handleIncrement = (e: React.MouseEvent) => {
     e.stopPropagation()
-    const currentQuantity = getQuantity ? getQuantity() : (formData.stops?.length || 0)
+    const currentQuantity = getQuantity ? getQuantity() : 0
     if (currentQuantity < maxQuantity) {
       if (onQuantityChange) {
         onQuantityChange(currentQuantity + 1)
-        // Check the checkbox when incrementing from 0
-        if (currentQuantity === 0) {
-          setFormData(fieldName, true)
-        }
-      } else {
-        manageStops('add')
         // Check the checkbox when incrementing from 0
         if (currentQuantity === 0) {
           setFormData(fieldName, true)
