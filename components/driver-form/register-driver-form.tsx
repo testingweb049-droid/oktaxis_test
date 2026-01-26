@@ -127,28 +127,28 @@ function RegisterDriverForm() {
       onSubmit={handleSubmit}
     >
       {({ values, setFieldValue, isSubmitting, errors, touched }) => (
-        <Form className="space-y-8 bg-white rounded-2xl py-6 px-4 sm:p-6 md:p-8 shadow-lg border border-gray-200 max-h-[calc(100vh-4rem)] md:max-h-none overflow-y-auto">
+        <Form className="space-y-6 sm:space-y-8 bg-white rounded-none sm:rounded-xl md:rounded-2xl  md:p-8 sm:shadow-lg sm:border sm:border-gray-200">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-1.5 sm:mb-2">
               Partner With Us
             </h2>
-            <p className="text-gray-600 text-sm md:text-base">
+            <p className="text-gray-600 text-xs sm:text-sm md:text-base">
               Join our driver network and start earning today.
             </p>
           </div>
 
           {/* Personal Information Section */}
-          <div className="space-y-5">
-            <div className="border-b border-gray-200 pb-3">
-              <h3 className="text-xl md:text-2xl font-semibold text-gray-900">
+          <div className="space-y-4 sm:space-y-5">
+            <div className="border-b border-gray-200 pb-2 sm:pb-3">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900">
                 Personal Information
               </h3>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-xs sm:text-sm text-gray-600 mt-1">
                 Please provide your personal details
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <FormField
                 name="name"
                 label="Full Name"
@@ -175,7 +175,7 @@ function RegisterDriverForm() {
             <Field name="phone">
               {({ field, form }: any) => (
                 <div
-                  className={`w-full rounded-lg bg-white px-4 py-3 border ${
+                  className={`w-full rounded-lg bg-white px-3 sm:px-4 py-2.5 sm:py-3 border ${
                     errors.phone && touched.phone
                       ? "border-red-500"
                       : "border-gray-200"
@@ -209,17 +209,17 @@ function RegisterDriverForm() {
           </div>
 
           {/* Bank Details Section */}
-          <div className="space-y-5">
-            <div className="border-b border-gray-200 pb-3">
-              <h3 className="text-xl md:text-2xl font-semibold text-gray-900">
+          <div className="space-y-4 sm:space-y-5">
+            <div className="border-b border-gray-200 pb-2 sm:pb-3">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900">
                 Bank Details
               </h3>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-xs sm:text-sm text-gray-600 mt-1">
                 Please provide your banking information
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
               <FormField
                 name="accountName"
                 label="Account Name"
@@ -254,11 +254,11 @@ function RegisterDriverForm() {
             <Field name="vatRegistered">
               {({ field, form }: any) => (
                 <div className="w-full">
-                  <label className="block text-sm sm:text-base font-medium text-text-gray mb-3">
+                  <label className="block text-xs sm:text-sm md:text-base font-medium text-text-gray mb-2 sm:mb-3">
                     VAT registered <span className="text-red-500">*</span>
                   </label>
                   <div
-                    className={`w-full rounded-lg bg-white px-4 py-3 border ${
+                    className={`w-full rounded-lg bg-white px-3 sm:px-4 py-2.5 sm:py-3 border ${
                       errors.vatRegistered && touched.vatRegistered
                         ? "border-red-500"
                         : "border-gray-200"
@@ -302,12 +302,12 @@ function RegisterDriverForm() {
           </div>
 
           {/* Car Details Section */}
-          <div className="space-y-5">
-            <div className="border-b border-gray-200 pb-3">
-              <h3 className="text-xl md:text-2xl font-semibold text-gray-900">
+          <div className="space-y-4 sm:space-y-5">
+            <div className="border-b border-gray-200 pb-2 sm:pb-3">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900">
                 Car Details
               </h3>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-xs sm:text-sm text-gray-600 mt-1">
                 Please provide information about your vehicle
               </p>
             </div>
@@ -356,17 +356,17 @@ function RegisterDriverForm() {
           </div>
 
           {/* Driver Documents Section */}
-          <div className="space-y-5">
-            <div className="border-b border-gray-200 pb-3">
-              <h3 className="text-xl md:text-2xl font-semibold text-gray-900">
+          <div className="space-y-4 sm:space-y-5">
+            <div className="border-b border-gray-200 pb-2 sm:pb-3">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900">
                 Driver Documents
               </h3>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-xs sm:text-sm text-gray-600 mt-1">
                 Please upload all required documents
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <FileUpload
                 name="passportPhoto"
                 label="Passport Photo"
@@ -421,17 +421,17 @@ function RegisterDriverForm() {
           </div>
 
           {/* Vehicle Documents Section */}
-          <div className="space-y-5">
-            <div className="border-b border-gray-200 pb-3">
-              <h3 className="text-xl md:text-2xl font-semibold text-gray-900">
+          <div className="space-y-4 sm:space-y-5">
+            <div className="border-b border-gray-200 pb-2 sm:pb-3">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900">
                 Vehicle Documents
               </h3>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-xs sm:text-sm text-gray-600 mt-1">
                 Please upload all required vehicle documents and images
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <FileUpload
                 name="fullCarImage"
                 label="Full Car Image"
@@ -536,10 +536,10 @@ function RegisterDriverForm() {
             </div>
           </div>
 
-          <div>
+          <div className="pt-2">
             <Button
               type="submit"
-              className="w-full bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-gray-900 hover:bg-gray-800 text-white font-medium py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
               disabled={isSubmitting || formSubmitted || uploading}
             >
               {isSubmitting || uploading ? (

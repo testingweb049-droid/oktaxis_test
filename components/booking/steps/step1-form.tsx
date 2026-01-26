@@ -113,6 +113,7 @@ function Step1Form() {
             dateFieldName="date"
             timeFieldName="time"
             placeholder='Select Date & Time'
+            timezone={bookingSettings?.timezone}
             isDisable={false}
             className="bg-gray-200"
           />

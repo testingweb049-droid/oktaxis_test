@@ -1,6 +1,8 @@
 'use client'
 import { User, Mail, Plane, Loader } from 'lucide-react'
 import React, { useMemo, memo, useCallback, useEffect, useState } from 'react'
+import { addDays } from 'date-fns'
+import { fromZonedTime } from 'date-fns-tz'
 import { DetailsInput, PhoneInput } from '@/components/booking/forms/user-detail-input'
 import useFormStore from '@/stores/form-store'
 import SelectableCheckbox from '@/components/booking/forms/selectable-checkbox'
@@ -14,10 +16,20 @@ import { usePricingSettings, DEFAULT_PRICING_SETTINGS } from '@/hooks/api/usePri
 import { useCreatePendingBooking } from '@/hooks/api/useBooking'
 import { useCreateCheckoutSession } from '@/hooks/api/useCheckout'
 import { prepareBookingData } from '@/lib/utils/checkout'
+import { useBookingSettings, DEFAULT_BOOKING_SETTINGS } from '@/hooks/api/useBookingSettings'
+
+// Helper to parse date string in specified timezone (same logic as NewDateTimePicker)
+const parseTZDateFromString = (dateString: string, timezone: string): Date => {
+    if (!dateString) return new Date()
+    const [year, month, day] = dateString.split('-').map(Number)
+    const tzDate = new Date(year, month - 1, day, 0, 0, 0, 0)
+    return fromZonedTime(tzDate, timezone)
+}
 
 function Step3DetailsForm() {
     const { formData, setFormData, changeStep, formLoading, category, selectedFleet, setPricingSettings } = useFormStore();
     const { data: pricingSettings = DEFAULT_PRICING_SETTINGS } = usePricingSettings();
+    const { data: bookingSettings = DEFAULT_BOOKING_SETTINGS } = useBookingSettings();
     const [checkoutLoading, setCheckoutLoading] = useState(false);
     const [checkoutError, setCheckoutError] = useState<string | null>(null);
     
@@ -135,7 +147,9 @@ function Step3DetailsForm() {
                             dateFieldName="returnDate"
                             timeFieldName="returnTime"
                             placeholder='Select Return Date & Time'
-                            minSelectableDate={formData.date?.value ? new Date(formData.date.value) : null}
+                            minSelectableDate={formData.date?.value ? addDays(parseTZDateFromString(formData.date.value, bookingSettings.timezone), 1) : null}
+                            excludeDate={formData.date?.value ? parseTZDateFromString(formData.date.value, bookingSettings.timezone) : null}
+                            timezone={bookingSettings.timezone}
                             isDisable={!formData.date?.value}
                             dateLabel="Return date"
                             timeLabel="Return time"
@@ -264,7 +278,7 @@ function Step3DetailsForm() {
             <Button
                 onClick={handleContinueToPayment}
                 disabled={formLoading || checkoutLoading}
-                className="w-full relative overflow-hidden group before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-heading-black before:scale-x-0 before:origin-left before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-x-100 before:z-0 disabled:before:hidden"
+                className="w-full text-base sm:text-lg relative overflow-hidden group before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-heading-black before:scale-x-0 before:origin-left before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-x-100 before:z-0 disabled:before:hidden"
                 size="lg"
                 aria-label="Continue to payment"
             >
@@ -272,7 +286,7 @@ function Step3DetailsForm() {
                     {(formLoading || checkoutLoading) && (
                         <Loader className="animate-spin w-4 h-4" aria-hidden="true" />
                     )}
-                    <span>Continue to Payment - £{totalPrice}</span>
+                    <span>Continue to Payment - <span className="font-bold">{totalPrice}</span></span>
                 </div>
             </Button>
         </div>

@@ -105,7 +105,7 @@ export function FileUpload({
   return (
     <div
       className={cn(
-        "w-full rounded-lg bg-white px-4 py-3 border",
+        "w-full rounded-lg bg-white md:px-4 py-3",
         error ? "border-red-500" : "border-gray-200"
       )}
     >
@@ -123,7 +123,7 @@ export function FileUpload({
       <p className="text-xs text-gray-500 mt-1">Max file size: {maxSizeMB}MB</p>
       {previewUrl ? (
         <div className="relative w-full mt-2">
-          <div className="relative w-full h-48 border border-gray-300 rounded-lg overflow-hidden bg-gray-50">
+          <div className="relative w-full h-48 border border-gray-300 rounded-lg overflow-hidden bg-white shadow-none">
             <Image
               src={previewUrl}
               alt={`${label} preview`}
@@ -147,7 +147,7 @@ export function FileUpload({
       ) : (
         <label
           htmlFor={name}
-          className="flex flex-col items-center justify-center w-full h-32 border border-dashed border-gray-400 rounded-lg cursor-pointer hover:border-gray-500 transition-colors bg-gray-50 mt-2"
+          className="flex flex-col items-center justify-center w-full h-32 border border-dashed border-gray-400 rounded-lg cursor-pointer hover:border-gray-500 transition-colors bg-white mt-2 shadow-none"
         >
           <div className="flex flex-col items-center justify-center pt-5 pb-6">
             <div className="relative">
