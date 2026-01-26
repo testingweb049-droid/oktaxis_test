@@ -286,7 +286,7 @@ function Step3DetailsForm() {
                     {(formLoading || checkoutLoading) && (
                         <Loader className="animate-spin w-4 h-4" aria-hidden="true" />
                     )}
-                    <span>Continue to Payment - <span className="font-bold">{totalPrice}</span></span>
+                    <span>Continue to Payment - <span className="font-bold">£ {totalPrice}</span></span>
                 </div>
             </Button>
         </div>
