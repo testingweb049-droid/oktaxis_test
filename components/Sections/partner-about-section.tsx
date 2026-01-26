@@ -44,7 +44,7 @@ export default function PartnerAboutSection() {
         <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
           <div className="relative max-w-md w-full rounded-md overflow-hidden shadow-[0px_10.67px_13.33px_-8px_rgba(0,0,0,0.1),0px_26.67px_33.33px_-6.67px_rgba(0,0,0,0.1)]">
             <Image
-              src="/assets/partner-images/partner-about-img.png"
+              src="/driver.png"
               alt="Professional chauffeur standing next to a luxury car"
               width={640}
               height={400}

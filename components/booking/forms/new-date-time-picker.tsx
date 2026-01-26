@@ -17,7 +17,7 @@ import { ChevronRight, Calendar, Clock, ChevronUp, ChevronDown, X } from "lucide
 import { cn, parseTimeString } from "@/lib/utils"
 import useFormStore, { FieldType, FormDataType } from "@/stores/form-store"
 
-const NEW_YORK_TIMEZONE = "America/New_York"
+const DEFAULT_TIMEZONE = "America/New_York"
 
 interface DateTimePickerProps {
   selectedDate: string
@@ -32,6 +32,8 @@ interface DateTimePickerProps {
   dateFieldName: keyof FormDataType
   timeFieldName: keyof FormDataType
   minSelectableDate?: Date | null
+  excludeDate?: Date | null
+  timezone?: string
   isDisable?: boolean
   dateLabel?: string
   timeLabel?: string
@@ -45,15 +47,17 @@ export default function NewDateTimePicker({
   dateFieldName,
   timeFieldName,
   minSelectableDate,
+  excludeDate,
+  timezone = DEFAULT_TIMEZONE,
   placeholder,
   isDisable,
   dateLabel = "Pickup date",
   timeLabel = "Pickup time",
   className = "bg-white",
 }: DateTimePickerProps) {
-  // Get current time in New York timezone
-  const getNYTime = () => toZonedTime(new Date(), NEW_YORK_TIMEZONE)
-  const [currentMonth, setCurrentMonth] = useState(getNYTime())
+  // Get current time in specified timezone
+  const getTZTime = () => toZonedTime(new Date(), timezone)
+  const [currentMonth, setCurrentMonth] = useState(getTZTime())
   const [dateOpen, setDateOpen] = useState(false)
   const [timeOpen, setTimeOpen] = useState(false)
   const [hour, setHour] = useState<number | null>(null)
@@ -77,17 +81,17 @@ export default function NewDateTimePicker({
         setMinute(minuteVal)
       }
     } else if (timeOpen && !selectedTime) {
-      // Set to current time in New York timezone when opening without a selected time
-      const nowNY = getNYTime()
-      const hour24 = nowNY.getHours()
-      const minuteVal = nowNY.getMinutes()
+      // Set to current time in specified timezone when opening without a selected time
+      const nowTZ = getTZTime()
+      const hour24 = nowTZ.getHours()
+      const minuteVal = nowTZ.getMinutes()
       const hour12 = hour24 % 12 || 12
       
       setHour(hour12)
       setMinute(minuteVal)
       setAmPm(hour24 >= 12 ? "PM" : "AM")
     }
-  }, [timeOpen, selectedTime])
+  }, [timeOpen, selectedTime, timezone])
 
   const daysOfWeek = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
 
@@ -105,30 +109,30 @@ export default function NewDateTimePicker({
     return days
   }
   
-  // Helper to get New York timezone date from string
-  const getNYDateFromString = (dateString: string): Date => {
-    if (!dateString) return getNYTime()
+  // Helper to get timezone date from string
+  const getTZDateFromString = (dateString: string): Date => {
+    if (!dateString) return getTZTime()
     // Parse the date string (format: yyyy-MM-dd)
-    // Create date at midnight in New York timezone
+    // Create date at midnight in specified timezone
     const [year, month, day] = dateString.split('-').map(Number)
-    // Create a date representing midnight in New York timezone
-    // We use fromZonedTime to treat the date as if it's in New York timezone
-    const nyDate = new Date(year, month - 1, day, 0, 0, 0, 0)
-    // Convert from New York timezone perspective to actual Date object
-    return fromZonedTime(nyDate, NEW_YORK_TIMEZONE)
+    // Create a date representing midnight in specified timezone
+    // We use fromZonedTime to treat the date as if it's in the specified timezone
+    const tzDate = new Date(year, month - 1, day, 0, 0, 0, 0)
+    // Convert from timezone perspective to actual Date object
+    return fromZonedTime(tzDate, timezone)
   }
   
-  // Helper to get today's date in New York timezone
-  const getTodayNY = () => {
-    const now = getNYTime()
+  // Helper to get today's date in specified timezone
+  const getTodayTZ = () => {
+    const now = getTZTime()
     return startOfDay(now)
   }
 
   const handleDateSelect = (date: Date) => {
-    // Convert the selected date to New York timezone and format it
-    // The date from calendar is in local time, convert to New York timezone first
-    const nyDate = toZonedTime(date, NEW_YORK_TIMEZONE)
-    const formatted = format(nyDate, "yyyy-MM-dd")
+    // Convert the selected date to specified timezone and format it
+    // The date from calendar is in local time, convert to specified timezone first
+    const tzDate = toZonedTime(date, timezone)
+    const formatted = format(tzDate, "yyyy-MM-dd")
     setFormData(dateFieldName, formatted)
     setDateOpen(false)
   }
@@ -255,7 +259,7 @@ export default function NewDateTimePicker({
               <div className={`text-sm sm:text-base truncate ${selectedDate ? "text-heading-black" : "text-text-gray"
                 }`}>
                 {selectedDate
-                  ? format(getNYDateFromString(selectedDate), "dd MMM yyyy")
+                  ? format(getTZDateFromString(selectedDate), "dd MMM yyyy")
                   : "Select date"}
               </div>
             </div>
@@ -331,41 +335,48 @@ export default function NewDateTimePicker({
                 <div className="grid grid-cols-7 text-center text-sm gap-1">
                   {getCalendarDays().map((date, idx) => {
                     const inactive = date.getMonth() !== currentMonth.getMonth()
-                    const today = getTodayNY()
-                    // Convert calendar date to New York timezone for proper comparison
-                    const dateNY = toZonedTime(date, NEW_YORK_TIMEZONE)
-                    const dateStartOfDay = startOfDay(dateNY)
+                    const today = getTodayTZ()
+                    // Convert calendar date to specified timezone for proper comparison
+                    const dateTZ = toZonedTime(date, timezone)
+                    const dateStartOfDay = startOfDay(dateTZ)
                     
-                    // Convert minSelectableDate to New York timezone if provided
-                    const minDateNY = minSelectableDate 
-                      ? toZonedTime(minSelectableDate, NEW_YORK_TIMEZONE)
+                    // Convert minSelectableDate to specified timezone if provided
+                    const minDateTZ = minSelectableDate 
+                      ? toZonedTime(minSelectableDate, timezone)
                       : null
-                    const minDateStartOfDay = minDateNY ? startOfDay(minDateNY) : null
+                    const minDateStartOfDay = minDateTZ ? startOfDay(minDateTZ) : null
+                    
+                    // Convert excludeDate to specified timezone if provided
+                    const excludeDateTZ = excludeDate 
+                      ? toZonedTime(excludeDate, timezone)
+                      : null
+                    const excludeDateStartOfDay = excludeDateTZ ? startOfDay(excludeDateTZ) : null
                     
                     const disabled =
                       (minDateStartOfDay && isBefore(dateStartOfDay, minDateStartOfDay)) ||
+                      (excludeDateStartOfDay && isSameDay(dateStartOfDay, excludeDateStartOfDay)) ||
                       isBefore(dateStartOfDay, today)
 
                     const isSelected =
-                      selectedDate && isSameDay(dateNY, getNYDateFromString(selectedDate))
+                      selectedDate && isSameDay(dateTZ, getTZDateFromString(selectedDate))
 
                     return (
                       <div
                         key={idx}
-                        onClick={() => !disabled && handleDateSelect(dateNY)}
+                        onClick={() => !disabled && handleDateSelect(dateTZ)}
                         className={cn(
                           "py-1.5 sm:py-2 cursor-pointer transition-all text-sm sm:text-base flex items-center justify-center font-bold",
                           disabled
                             ? "text-gray-300 cursor-not-allowed"
                             : inactive
                               ? "text-gray-400"
-                              : "hover:bg-gray-100 text-gray-700",
+                              : "hover:bg-gray-100 text-gray-900",
                           isSelected
                             ? "bg-primary-yellow text-heading-black font-semibold"
                             : ""
                         )}
                       >
-                        {dateNY.getDate()}
+                        {dateTZ.getDate()}
                       </div>
                     )
                   })}
@@ -378,7 +389,7 @@ export default function NewDateTimePicker({
         {/* TIME PICKER */}
         <div className="relative w-full">
           <div
-            className={`${className} rounded-lg px-4 py-3 border ${timeHasError ? "border-red-500" : "border-gray-200"
+            className={`${className} rounded-lg px-4 py-2.5 border ${timeHasError ? "border-red-500" : "border-gray-200"
               }`}
           >
             <label className="block text-xs sm:text-sm font-medium text-text-gray mb-1">

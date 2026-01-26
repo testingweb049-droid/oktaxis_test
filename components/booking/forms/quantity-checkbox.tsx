@@ -113,7 +113,7 @@ export default function QuantityCheckbox({
           type="button"
           onClick={handleDecrement}
           disabled={quantity <= minQuantity}
-          className="px-3 py-1.5 text-heading-black hover:bg-light-background disabled:opacity-40 disabled:cursor-not-allowed transition-colors border-r border-gray-200"
+          className="px-2 md:px-3 py-1.5 text-heading-black hover:bg-light-background  disabled:cursor-not-allowed transition-colors border-r border-gray-200"
         >
           -
         </button>
@@ -124,7 +124,7 @@ export default function QuantityCheckbox({
           type="button"
           onClick={handleIncrement}
           disabled={quantity >= maxQuantity}
-          className="px-3 py-1.5 text-heading-black hover:bg-light-background disabled:opacity-40 disabled:cursor-not-allowed transition-colors border-l border-gray-200"
+          className="px-2 md:px-3 py-1.5 text-heading-black hover:bg-light-background  disabled:cursor-not-allowed transition-colors border-l border-gray-200"
         >
           +
         </button>
