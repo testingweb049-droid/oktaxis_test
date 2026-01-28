@@ -203,21 +203,13 @@ export default function HourlyDurationSelect({
                 : "text-gray-700 hover:bg-primary/10 hover:text-primary"
             )}
           >
-            <div className="flex flex-col gap-0.5">
-              <span className="font-medium">{opt.displayLabel}</span>
-              <span className={cn(
-                "text-xs",
-                value === opt.value ? "text-white/80" : "text-gray-500"
-              )}>
-                {opt.detailLabel}
-              </span>
-            </div>
+            <span className="font-medium">{opt.displayLabel}</span>
             <div className="flex items-center gap-2">
               <span className={cn(
-                "text-sm font-semibold",
-                value === opt.value ? "text-white" : "text-green-600"
+                "text-sm",
+                value === opt.value ? "text-white/80" : "text-gray-500"
               )}>
-                {opt.priceLabel}
+                {opt.includedMiles} miles
               </span>
               {value === opt.value && (
                 <Check className="h-4 w-4 text-white" />
@@ -255,7 +247,7 @@ export default function HourlyDurationSelect({
               ) : selectedOption ? (
                 <span className="flex items-center gap-2">
                   <span>{selectedOption.displayLabel}</span>
-                  <span className="text-sm text-gray-500">({selectedOption.detailLabel})</span>
+                  <span className="text-sm text-gray-500">({selectedOption.includedMiles} miles)</span>
                 </span>
               ) : (
                 placeholder

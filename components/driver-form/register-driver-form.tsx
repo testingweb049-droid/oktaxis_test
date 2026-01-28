@@ -9,19 +9,40 @@ import { User, Mail, ArrowUp, Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import apiClient from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/api-endpoints";
-import { useImageUpload } from "@/hooks/api/useImageUpload";
 import { FileUpload } from "./components/file-upload";
 import { AddressAutocomplete } from "./components/address-autocomplete";
 import { VehicleSelector } from "./components/vehicle-selector";
 import type { DriverFormValues, DriverFormPreviews, DriverSubmissionData } from "./types";
 import { initialDriverFormValues, initialDriverFormPreviews } from "./constants";
 
+// Direct upload function for parallel uploads
+const uploadSingleImage = async (file: File | null, folder: string): Promise<string | null> => {
+  if (!file) return null;
+  
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('folder', folder);
+  
+  try {
+    const response = await apiClient.post(API_ENDPOINTS.UPLOAD_IMAGE, formData);
+    if (response.data?.success && response.data?.data?.url) {
+      return response.data.data.url;
+    }
+    if (response.data?.url) {
+      return response.data.url;
+    }
+    return null;
+  } catch (error) {
+    console.error('Upload error:', error);
+    return null;
+  }
+};
+
 function RegisterDriverForm() {
   const { toast } = useToast();
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [previews, setPreviews] = useState<DriverFormPreviews>(initialDriverFormPreviews);
-
-  const { uploadMultipleImages, uploading } = useImageUpload();
 
   const handleSubmit = async (
     values: DriverFormValues,
@@ -29,28 +50,53 @@ function RegisterDriverForm() {
   ) => {
     try {
       setSubmitting(true);
+      setUploading(true);
 
+      // Upload all images in true parallel - all 9 uploads happen simultaneously
       const [
-        fullCarResult,
-        interiorResult,
-        exteriorResult,
-        passportPhotoResult,
-        drivingLicenseFrontResult,
-        phvLicenseResult,
-        phvVehicleLicenseResult,
-        motResult,
-        insuranceResult,
+        fullCarUrl,
+        interiorUrl,
+        exteriorUrl,
+        passportPhotoUrl,
+        drivingLicenseFrontUrl,
+        phvLicenseUrl,
+        phvVehicleLicenseUrl,
+        motUrl,
+        insuranceUrl,
       ] = await Promise.all([
-        uploadMultipleImages([values.fullCarImage], { folder: "oktaxis-drivers/cars" }),
-        uploadMultipleImages([values.interiorImage], { folder: "oktaxis-drivers/cars" }),
-        uploadMultipleImages([values.exteriorImage], { folder: "oktaxis-drivers/cars" }),
-        uploadMultipleImages([values.passportPhoto], { folder: "oktaxis-drivers/documents" }),
-        uploadMultipleImages([values.drivingLicenseFront], { folder: "oktaxis-drivers/licenses" }),
-        uploadMultipleImages([values.phvLicense], { folder: "oktaxis-drivers/licenses" }),
-        uploadMultipleImages([values.phvVehicleLicense], { folder: "oktaxis-drivers/vehicle-documents" }),
-        uploadMultipleImages([values.mot], { folder: "oktaxis-drivers/vehicle-documents" }),
-        uploadMultipleImages([values.insurance], { folder: "oktaxis-drivers/vehicle-documents" }),
+        uploadSingleImage(values.fullCarImage, "oktaxis-drivers/cars"),
+        uploadSingleImage(values.interiorImage, "oktaxis-drivers/cars"),
+        uploadSingleImage(values.exteriorImage, "oktaxis-drivers/cars"),
+        uploadSingleImage(values.passportPhoto, "oktaxis-drivers/documents"),
+        uploadSingleImage(values.drivingLicenseFront, "oktaxis-drivers/licenses"),
+        uploadSingleImage(values.phvLicense, "oktaxis-drivers/licenses"),
+        uploadSingleImage(values.phvVehicleLicense, "oktaxis-drivers/vehicle-documents"),
+        uploadSingleImage(values.mot, "oktaxis-drivers/vehicle-documents"),
+        uploadSingleImage(values.insurance, "oktaxis-drivers/vehicle-documents"),
       ]);
+
+      setUploading(false);
+
+      // Check if all required uploads succeeded
+      const uploadResults = {
+        fullCarUrl,
+        interiorUrl,
+        exteriorUrl,
+        passportPhotoUrl,
+        drivingLicenseFrontUrl,
+        phvLicenseUrl,
+        phvVehicleLicenseUrl,
+        motUrl,
+        insuranceUrl,
+      };
+
+      const failedUploads = Object.entries(uploadResults)
+        .filter(([, url]) => !url)
+        .map(([key]) => key);
+
+      if (failedUploads.length > 0) {
+        throw new Error(`Failed to upload some documents. Please try again.`);
+      }
 
       const driverData: DriverSubmissionData = {
         name: values.name,
@@ -65,15 +111,15 @@ function RegisterDriverForm() {
         accountNumber: values.accountNumber,
         sortCode: values.sortCode,
         vatRegistered: values.vatRegistered,
-        fullCarImageUrl: fullCarResult[0]!,
-        interiorImageUrl: interiorResult[0]!,
-        exteriorImageUrl: exteriorResult[0]!,
-        passportPhotoUrl: passportPhotoResult[0]!,
-        drivingLicenseFrontUrl: drivingLicenseFrontResult[0]!,
-        phvLicenseUrl: phvLicenseResult[0]!,
-        phvVehicleLicenseUrl: phvVehicleLicenseResult[0]!,
-        motUrl: motResult[0]!,
-        insuranceUrl: insuranceResult[0]!,
+        fullCarImageUrl: fullCarUrl!,
+        interiorImageUrl: interiorUrl!,
+        exteriorImageUrl: exteriorUrl!,
+        passportPhotoUrl: passportPhotoUrl!,
+        drivingLicenseFrontUrl: drivingLicenseFrontUrl!,
+        phvLicenseUrl: phvLicenseUrl!,
+        phvVehicleLicenseUrl: phvVehicleLicenseUrl!,
+        motUrl: motUrl!,
+        insuranceUrl: insuranceUrl!,
       };
 
       const response = await apiClient.post(API_ENDPOINTS.DRIVERS, driverData);
@@ -105,6 +151,7 @@ function RegisterDriverForm() {
       });
     } finally {
       setSubmitting(false);
+      setUploading(false);
     }
   };
 
