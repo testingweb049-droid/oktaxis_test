@@ -2,87 +2,59 @@
 
 import ContactForm from "@/components/contact-form/contact-form";
 import ContactTeamSection from "@/components/contact-team-section";
+import ThankYouSection from "@/components/thank-you-section";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { Phone, Mail } from "lucide-react";
 
 const Contact = () => {
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const title = titleRef.current;
-    const subtitle = subtitleRef.current;
-    const overlay = overlayRef.current;
-
-    if (overlay) {
-      overlay.style.opacity = "0.7";
-      setTimeout(() => {
-        overlay.style.transition = "opacity 1.5s ease-out";
-        overlay.style.opacity = "0.5";
-      }, 100);
-    }
-
-    if (title) {
-      title.style.opacity = "0";
-      title.style.transform = "translateY(30px)";
-      setTimeout(() => {
-        title.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out";
-        title.style.opacity = "1";
-        title.style.transform = "translateY(0)";
-      }, 300);
-    }
-
-    if (subtitle) {
-      subtitle.style.opacity = "0";
-      subtitle.style.transform = "translateY(30px)";
-      setTimeout(() => {
-        subtitle.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out";
-        subtitle.style.opacity = "1";
-        subtitle.style.transform = "translateY(0)";
-      }, 600);
-    }
-  }, []);
-
   return (
     <>
-      <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden">
-        <Image
-          src="/assets/airport-transfer-images/airport-banner-img.png"
-          alt="Contact Us"
-          fill
-          className="object-cover object-top"
-          priority
-        />
-        <div ref={overlayRef} className="absolute inset-0 bg-black" />
-        <div className="relative z-10 h-full flex items-end justify-center pb-12 md:pb-16 px-4">
-          <div className="text-center text-white max-w-4xl">
-            <h1
-              ref={titleRef}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
-            >
-              Contact OKTaxis
-            </h1>
-            <p
-              ref={subtitleRef}
-              className="text-lg md:text-xl lg:text-2xl text-gray-200"
-            >
-              For bookings and inquiries, OKTaxis is here for you 24/7. Contact us
-              today to book your luxury transfer or request a personalized quote.
-            </p>
+      <section className="relative w-full min-h-[700px] md:min-h-[800px] overflow-hidden pt-24 md:pt-32">
+        <div className="absolute inset-0">
+          <Image
+            src="/contact-page.png"
+            alt="Contact Us"
+            fill
+            className="object-cover object-center grayscale"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/40" />
+        </div>
+
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+            <div className="flex justify-center lg:justify-end order-1 lg:order-2">
+              <ContactForm />
+            </div>
+            <div className="flex flex-col justify-center lg:justify-end h-full space-y-8 text-white order-2 lg:order-1">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight">
+                Contact Us
+                </h1>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <a
+                  href="tel:+447788710290"
+                  className="bg-white rounded-full px-6 py-2 flex items-center gap-3 shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
+                >
+                  <Phone className="text-gray-900 w-5 h-5 flex-shrink-0" />
+                  <span className="text-gray-900 font-medium underline">+44 7788 710290</span>
+                </a>
+                
+                <a
+                  href="mailto:info@oktaxis.co.uk"
+                  className="bg-white rounded-full px-6 py-2 flex items-center gap-3 shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
+                >
+                  <Mail className="text-gray-900 w-5 h-5 flex-shrink-0" />
+                  <span className="text-gray-900 font-medium underline">info@oktaxis.co.uk</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto">
-            <ContactForm />
-          </div>
-        </div>
-      </section>
+      <ThankYouSection />
 
-      <ContactTeamSection />
+      {/* <ContactTeamSection /> */}
     </>
   );
 };

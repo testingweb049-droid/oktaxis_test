@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react";
@@ -9,18 +9,23 @@ import * as Yup from "yup";
 import { cn } from "@/lib/utils";
 import { useSubmitContactForm } from "@/hooks/api/useContact";
 import { useToast } from "@/components/ui/use-toast";
+import FormField from "@/components/ui/form-field";
+import { User, Mail } from "lucide-react";
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
-  name: Yup.string().required("Name is required"),
+  firstName: Yup.string().required("First name is required"),
+  lastName: Yup.string().required("Last name is required"),
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required"),
   phone: Yup.string().required("Phone number is required"),
+  message: Yup.string(),
 });
 
 export interface ContactFormValues {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phone: string;
   message: string;
@@ -44,7 +49,7 @@ function contactForm() {
       setSubmitting(true);
 
       const response = await submitContactMutation.mutateAsync({
-        name: values.name,
+        name: `${values.firstName} ${values.lastName}`,
         email: values.email,
         phone: values.phone,
         message: values.message || undefined,
@@ -63,7 +68,7 @@ function contactForm() {
       console.error("Error submitting form:", err);
       const errorMessage = err?.message || "Failed to submit form. Please try again.";
       setError(errorMessage);
-      
+
       // Show error toast
       toast({
         title: "Failed to Send Message",
@@ -76,20 +81,21 @@ function contactForm() {
   };
 
   return (
-    <div className="max-w-xl mx-auto rounded-2xl bg-white shadow-[0_10px_40px_rgba(15,23,42,0.08)] px-6 py-10 sm:px-10 sm:py-12 font-montserrat">
-      <div className="mb-8 text-center">
-        <h2 className="text-3xl sm:text-4xl font-semibold text-slate-900">
-          Get in Touch with OkTaxis
+    <div className="w-full max-w-2xl bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] md:px-8 md:py-10 px-4 py-6 font-montserrat">
+      <div className="mb-8">
+        <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+          Contact Us For Your{" "}
+          <span className="relative inline-block">
+            Corporate Queries
+            <span className="absolute -bottom-1 left-0 w-[110%] h-1 bg-[#FFA500]"></span>
+          </span>
         </h2>
-        <p className="mt-3 text-base text-slate-500">
-          Fill out the form below and we&apos;ll get back to you as soon as
-          possible.
-        </p>
       </div>
 
       <Formik
         initialValues={{
-          name: "",
+          firstName: "",
+          lastName: "",
           email: "",
           phone: "",
           message: "",
@@ -97,95 +103,101 @@ function contactForm() {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting }: { isSubmitting: boolean }) => {
+        {({ isSubmitting, errors, touched }: { isSubmitting: boolean; errors: any; touched: any }) => {
           const isLoading = isSubmitting || submitContactMutation.isPending;
           return (
-          <Form className="space-y-5">
-            <div>
-              <div className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200">
-                <Field
-                  name="name"
-                  as={Input}
-                  placeholder="Enter Your Name"
-                  containerClassName=""
+            <Form className="space-y-5">
+              {/* First Name & Last Name Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormField
+                  name="firstName"
+                  label="First Name"
+                  placeholder="First Name"
+                  type="text"
+                  Icon={User}
+                  required
+                  errors={errors}
+                  touched={touched}
+                />
+
+                <FormField
+                  name="lastName"
+                  label="Last Name"
+                  placeholder="Last Name"
+                  type="text"
+                  Icon={User}
+                  required
+                  errors={errors}
+                  touched={touched}
                 />
               </div>
-              <ErrorMessage
-                name="name"
-                component="p"
-                className="text-red-500 text-sm mt-1"
-              />
-            </div>
 
-            <div>
-              <div className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200">
-                <Field
+              {/* Email & Contact Number Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormField
                   name="email"
+                  label="Email"
+                  placeholder="Email"
                   type="email"
-                  as={Input}
-                  placeholder="Enter Your Email Address"
-                  containerClassName=""
+                  Icon={Mail}
+                  required
+                  errors={errors}
+                  touched={touched}
                 />
+
+                <div>
+                  <Field name="phone">
+                    {({ field, form }: any) => {
+                      return (
+                        <div className="w-full rounded-lg bg-white px-3 sm:px-4 py-2 border border-gray-200">
+                          <PhoneInput
+                            value={field.value || ""}
+                            onChange={(phone) => {
+                              form.setFieldValue("phone", phone);
+                            }}
+                            error={errors.phone && touched.phone}
+                            label="Phone Number *"
+                            country="gb"
+                          />
+                        </div>
+                      );
+                    }}
+                  </Field>
+                </div>
               </div>
-              <ErrorMessage
-                name="email"
-                component="p"
-                className="text-red-500 text-sm mt-1"
-              />
-            </div>
 
-            <div>
-              <div className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200">
-                <Field
-                  name="phone"
-                  type="tel"
-                  as={Input}
-                  placeholder="Enter Your Contact Number"
-                  containerClassName=""
-                />
+              {/* Message Textarea */}
+              <div>
+                <div className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200">
+                  <Field
+                    name="message"
+                    as={Textarea}
+                    placeholder="Enter your message..."
+                    className="w-full bg-transparent text-heading-black placeholder:text-text-gray outline-none focus:outline-none h-32 resize-none border-0"
+                  />
+                </div>
               </div>
-              <p className="mt-1 text-sm text-text-gray">
-                Contact should be exactly 10 digits, e.g., 2241111111
-              </p>
-              <ErrorMessage
-                name="phone"
-                component="p"
-                className="text-red-500 text-sm mt-1"
-              />
-            </div>
 
-            <div>
-              <div className="w-full rounded-lg bg-white px-4 py-3 border border-gray-200">
-                <Field
-                  name="message"
-                  as={Textarea}
-                  placeholder="Write your message here..."
-                  className="w-full bg-transparent text-heading-black placeholder:text-text-gray outline-none focus:outline-none h-32 resize-none border-0"
-                />
+              {/* Submit Button */}
+              <div className="pt-2">
+                <Button
+                  type="submit"
+                  className={cn(
+                    "w-full",
+                    "bg-gray-900 hover:bg-gray-800 text-white font-bold uppercase transition-all duration-200",
+                    "px-4 py-3 text-base rounded-lg",
+                    formSubmitted && "opacity-75 cursor-not-allowed"
+                  )}
+                  disabled={isLoading || formSubmitted}
+                >
+                  {formSubmitted
+                    ? "Submitted"
+                    : isLoading
+                      ? "Submitting..."
+                      : "Submit"}
+                </Button>
               </div>
-            </div>
-
-            {error && <div className="text-red-500 text-base">{error}</div>}
-
-            <div className="pt-2 text-center">
-              <Button
-                type="submit"
-                className={cn(
-                  "w-56",
-                  "bg-primary-yellow hover:bg-primary-yellow/90 text-heading-black font-semibold transition-all duration-200",
-                  "px-4 py-2.5 text-base rounded-lg",
-                  formSubmitted && "opacity-75 cursor-not-allowed"
-                )}
-                disabled={isLoading || formSubmitted}
-              >
-                {formSubmitted
-                  ? "Request Submitted"
-                  : isLoading
-                    ? "Submitting..."
-                    : "Submit Your Request"}
-              </Button>
-            </div>
-          </Form>
+            </Form>
           );
         }}
       </Formik>
