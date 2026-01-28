@@ -1,9 +1,5 @@
 import z from "zod";
 
-/**
- * Step 1: Booking Details - Trip Category
- * Validates date, time, locations, passengers, bags for trip bookings
- */
 export const step1TripValidationSchema = z.object({
   category: z.literal("trip"),
   date: z.string().min(1, "Please select pickup date"),
