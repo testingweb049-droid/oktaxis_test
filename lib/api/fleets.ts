@@ -20,6 +20,13 @@ export interface FleetWithPrice extends FleetType {
     displayDiscount?: number;
     originalPrice?: number;
   };
+  hourlyPackage?: {
+    packageType: "hourly" | "day" | "week";
+    duration: number;
+    includedMiles: number;
+    basePrice: number;
+    extraMileRate: number;
+  };
 }
 
 export interface FleetsWithPricesResponse extends ApiResponse<FleetWithPrice[]> {
@@ -34,6 +41,7 @@ export interface FleetsWithPricesResponse extends ApiResponse<FleetWithPrice[]> 
 export interface UseFleetsOptions {
   distance?: number;
   duration?: number;
+  packageType?: "hourly" | "day" | "week";
   date?: string;
   time?: string;
   category?: "trip" | "hourly";
@@ -60,6 +68,9 @@ export const fetchFleetsWithPrices = async (options?: UseFleetsOptions): Promise
   }
   if (options?.duration && options.duration > 0) {
     params.duration = options.duration.toString();
+  }
+  if (options?.packageType) {
+    params.packageType = options.packageType;
   }
   if (options?.date) {
     params.date = options.date;

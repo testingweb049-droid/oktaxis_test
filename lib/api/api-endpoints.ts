@@ -10,6 +10,8 @@ export const API_ENDPOINTS = {
   BOOKING_PLACED_BY_SESSION_ID: (sessionId: string) => `/bookings/session/${sessionId}/placed`,
   BOOKING_BY_ID: (id: string) => `/bookings/${id}`,
   CALCULATE_FLEET_PRICE: '/fleet-pricing/calculate',
+  HOURLY_PACKAGE_OPTIONS: '/hourly-packages/options',
+  HOURLY_PACKAGE_ALL_OPTIONS: '/hourly-packages/all-options',
   PRICING: '/pricing',
   BOOKING_SETTINGS: '/booking-settings',
   CONTACT: '/contact',

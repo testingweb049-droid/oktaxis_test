@@ -185,32 +185,45 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
                 </div>
               </div>
 
-              {/* Travel Time and Distance */}
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-text-gray">
-                  ~ {durationData.minutes} min
-                </span>
-                <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-text-gray">
-                  ~ {distanceData.km} Km / {distanceData.milesFormatted} Mi
-                </span>
-              </div>
+              {/* Travel Time and Distance - Only for trip category */}
+              {category !== 'hourly' && (
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-text-gray">
+                    ~ {durationData.minutes} min
+                  </span>
+                  <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-text-gray">
+                    ~ {distanceData.km} Km / {distanceData.milesFormatted} Mi
+                  </span>
+                </div>
+              )}
 
-              {/* Arrival */}
-              <div>
-                <div className="flex items-start justify-between mb-1">
-                  <div className="flex-1">
-                    <h3 className="font-bold text-sm text-heading-black mb-0.5">
-                      {toLocationData.name || toLocation || 'Drop-off location'}
-                    </h3>
-                    {toLocationData.city && (
-                      <p className="text-xs text-text-gray">{toLocationData.city}</p>
+              {/* Duration - Only for hourly category */}
+              {category === 'hourly' && duration && (
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-xs px-2 py-1 bg-amber-100 rounded-full text-amber-700 font-medium">
+                    Duration: {duration}
+                  </span>
+                </div>
+              )}
+
+              {/* Arrival - Only for trip category */}
+              {category !== 'hourly' && (
+                <div>
+                  <div className="flex items-start justify-between mb-1">
+                    <div className="flex-1">
+                      <h3 className="font-bold text-sm text-heading-black mb-0.5">
+                        {toLocationData.name || toLocation || 'Drop-off location'}
+                      </h3>
+                      {toLocationData.city && (
+                        <p className="text-xs text-text-gray">{toLocationData.city}</p>
+                      )}
+                    </div>
+                    {arrivalTime && (
+                      <span className="text-xs text-heading-black font-medium ml-2">{arrivalTime}</span>
                     )}
                   </div>
-                  {arrivalTime && (
-                    <span className="text-xs text-heading-black font-medium ml-2">{arrivalTime}</span>
-                  )}
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
@@ -398,32 +411,45 @@ function PickupTripDetails({ showMap = true, showVehicle = false }: PickupTripDe
                   </div>
                 </div>
 
-                {/* Travel Time and Distance */}
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-text-gray">
-                    ~ {durationData.minutes} min
-                  </span>
-                  <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-text-gray">
-                    ~ {distanceData.km} Km / {distanceData.milesFormatted} Mi
-                  </span>
-                </div>
+                {/* Travel Time and Distance - Only for trip category */}
+                {category !== 'hourly' && (
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-text-gray">
+                      ~ {durationData.minutes} min
+                    </span>
+                    <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-text-gray">
+                      ~ {distanceData.km} Km / {distanceData.milesFormatted} Mi
+                    </span>
+                  </div>
+                )}
 
-                {/* Arrival */}
-                <div>
-                  <div className="flex items-start justify-between mb-1">
-                    <div className="flex-1">
-                      <h3 className="font-bold text-base text-heading-black mb-0.5">
-                        {toLocationData.name || toLocation || 'Drop-off location'}
-                      </h3>
-                      {toLocationData.city && (
-                        <p className="text-sm text-text-gray">{toLocationData.city}</p>
+                {/* Duration - Only for hourly category */}
+                {category === 'hourly' && duration && (
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-xs px-2 py-1 bg-amber-100 rounded-full text-amber-700 font-medium">
+                      Duration: {duration}
+                    </span>
+                  </div>
+                )}
+
+                {/* Arrival - Only for trip category */}
+                {category !== 'hourly' && (
+                  <div>
+                    <div className="flex items-start justify-between mb-1">
+                      <div className="flex-1">
+                        <h3 className="font-bold text-base text-heading-black mb-0.5">
+                          {toLocationData.name || toLocation || 'Drop-off location'}
+                        </h3>
+                        {toLocationData.city && (
+                          <p className="text-sm text-text-gray">{toLocationData.city}</p>
+                        )}
+                      </div>
+                      {arrivalTime && (
+                        <span className="text-sm text-heading-black font-medium ml-2">{arrivalTime}</span>
                       )}
                     </div>
-                    {arrivalTime && (
-                      <span className="text-sm text-heading-black font-medium ml-2">{arrivalTime}</span>
-                    )}
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

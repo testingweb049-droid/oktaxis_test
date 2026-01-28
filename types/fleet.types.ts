@@ -1,3 +1,11 @@
+export interface HourlyPackageInfo {
+  packageType: "hourly" | "day" | "week";
+  duration: number;
+  includedMiles: number;
+  basePrice: number;
+  extraMileRate: number;
+}
+
 export interface FleetType {
   _id?: string;
   id?: string;
@@ -19,5 +27,6 @@ export interface FleetType {
     displayDiscount?: number;
     originalPrice?: number;
   };
+  hourlyPackage?: HourlyPackageInfo;
 }
 

@@ -11,18 +11,48 @@ import { VehicleCard } from "./vehicle-card";
 import { VehicleCardSkeleton } from "./vehicle-card-skeleton";
 import { Button } from "@/components/ui/button";
 
+type PackageType = "hourly" | "day" | "week";
+
+/**
+ * Parse duration value from format "packageType-duration" (e.g., "hourly-2", "day-1", "week-1")
+ * Returns the numeric duration and package type
+ */
+function parseDurationValue(value: string): { duration: number; packageType: PackageType } {
+  if (!value) return { duration: 0, packageType: "hourly" };
+  
+  // Check if it's in the new format "type-number"
+  const parts = value.split("-");
+  if (parts.length === 2 && ["hourly", "day", "week"].includes(parts[0])) {
+    return {
+      packageType: parts[0] as PackageType,
+      duration: parseInt(parts[1], 10) || 0,
+    };
+  }
+  
+  // Fallback for old format (just a number)
+  return {
+    duration: parseInt(value, 10) || 0,
+    packageType: "hourly",
+  };
+}
+
 function Step2CarSelection() {
   const { formData, category, selectedFleet, setSelectedVehicle, changeStep, formLoading } = useFormStore();
   const router = useRouter();
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const distance = category === 'trip' ? Number(formData.distance.value) || 0 : undefined;
-  const duration = category === 'hourly' ? Number(formData.duration.value) || 0 : undefined;
   
+  // Parse the duration value to get both duration number and package type
+  const { duration, packageType } = useMemo(() => {
+    if (category !== 'hourly') return { duration: undefined, packageType: undefined };
+    return parseDurationValue(formData.duration.value);
+  }, [category, formData.duration.value]);
 
   const { data: fleetList, isLoading: isLoading, error: fleetsError } = useFleetsWithPrices({
     distance,
     duration,
+    packageType,
     date: formData.date?.value,
     time: formData.time?.value,
     category,

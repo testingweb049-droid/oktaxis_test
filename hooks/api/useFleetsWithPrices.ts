@@ -11,7 +11,11 @@ export const useFleetsWithPrices = (options?: UseFleetsOptions) => {
     options?.date && 
     options?.time && 
     (options?.distance || options?.duration) &&
-    (options?.category === 'trip' ? options?.distance && options.distance > 0 : options?.category === 'hourly' ? options?.duration && options.duration > 0 : false)
+    (options?.category === 'trip' 
+      ? options?.distance && options.distance > 0 
+      : options?.category === 'hourly' 
+        ? options?.duration && options.duration > 0 && options?.packageType
+        : false)
   );
 
   return useApiQuery<FleetWithPrice[]>({

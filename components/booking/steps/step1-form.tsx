@@ -1,14 +1,14 @@
 'use client'
 import useFormStore from '@/stores/form-store'
 import LocationInput from '@/app/book-ride/location-picker'
-import { Loader, TimerIcon, Search } from 'lucide-react'
+import { Loader, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
-import NewDropdownInput from '@/components/booking/forms/drop-down-input'
 import QuantitySelector from '@/components/booking/forms/quantity-selector'
 import NewDateTimePicker from '@/components/booking/forms/new-date-time-picker'
+import HourlyDurationSelect from '@/components/booking/forms/hourly-duration-select'
 import CategoryTabs from '@/components/booking/category-tabs'
-import { isAirportLocation, getDurationArray } from '@/lib/utils'
+import { isAirportLocation } from '@/lib/utils'
 import { useBookingSettings } from '@/hooks/api/useBookingSettings'
 import { useToast } from '@/components/ui/use-toast'
 import { calculateDistance } from '@/lib/services/distance-calculator'
@@ -19,7 +19,6 @@ function Step1Form() {
   const router = useRouter()
   const { toast } = useToast()
   const { data: bookingSettings } = useBookingSettings()
-  const durationArray = getDurationArray()
   const [isCalculatingDistance, setIsCalculatingDistance] = useState(false)
   const isLoading = formLoading || isCalculatingDistance
 
@@ -103,7 +102,10 @@ function Step1Form() {
             <LocationInput field="fromLocation" placeholder="Pickup Location" label='From' />
             {category !== 'hourly' && <LocationInput field="toLocation" placeholder="Drop Off Location" label='To' />}
             {category === 'hourly' && (
-              <NewDropdownInput Icon={TimerIcon} fieldName='duration' placeholder='Duration in Hours' options={durationArray} />
+              <HourlyDurationSelect 
+                placeholder="Select Duration" 
+                defaultDuration={2} 
+              />
             )}
           </div>
           <NewDateTimePicker
