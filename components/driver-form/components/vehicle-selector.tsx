@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Car, Loader2 } from "lucide-react";
+import { Car, Loader2, ChevronDown } from "lucide-react";
 import { useFleets } from "@/hooks/api/useFleets";
 import type { FleetType } from "@/types/fleet.types";
 import { cn } from "@/lib/utils";
@@ -22,27 +22,41 @@ export function VehicleSelector({
   const [vehicleSearch, setVehicleSearch] = useState("");
   const [showVehicleDropdown, setShowVehicleDropdown] = useState(false);
   const [isCustomVehicle, setIsCustomVehicle] = useState(false);
+  const [selectedFleet, setSelectedFleet] = useState<FleetType | null>(null);
   const { data: fleetsData, isLoading: fleetsLoading, error: fleetsError } =
     useFleets({}, { enabled: true });
   const fleets: FleetType[] = Array.isArray(fleetsData) ? fleetsData : [];
+
+  // Find selected fleet from value
+  const currentFleet = selectedFleet || fleets.find((f) => f.name === value) || null;
 
   const filteredVehicles = vehicleSearch
     ? fleets.filter((fleet) =>
         fleet.name.toLowerCase().includes(vehicleSearch.toLowerCase())
       )
     : fleets;
-
-  // Show all vehicles in dropdown when no search or when dropdown first opens
   const vehiclesToShow = showVehicleDropdown && !vehicleSearch ? fleets : filteredVehicles;
-
-  const isCurrentValueCustom =
-    value && !fleets.find((f) => f.name.toLowerCase() === value.toLowerCase());
-  const displayValue = vehicleSearch !== undefined && vehicleSearch !== "" ? vehicleSearch : (value || "");
+  
+  // Display value: show search when typing, or show complete details when fleet is selected
+  const getDisplayValue = () => {
+    if (vehicleSearch !== undefined && vehicleSearch !== "") {
+      return vehicleSearch;
+    }
+    if (currentFleet) {
+      return currentFleet.cars 
+        ? `${currentFleet.name} - ${currentFleet.cars}`
+        : currentFleet.name;
+    }
+    return value || "";
+  };
+  
+  const displayValue = getDisplayValue();
   const hasError = error && touched;
 
-  const handleSelectFleet = (fleetName: string) => {
-    onChange(fleetName);
-    setVehicleSearch(fleetName);
+  const handleSelectFleet = (fleet: FleetType) => {
+    onChange(fleet.name);
+    setSelectedFleet(fleet);
+    setVehicleSearch("");
     setShowVehicleDropdown(false);
     setIsCustomVehicle(false);
   };
@@ -56,9 +70,11 @@ export function VehicleSelector({
 
   const handleInputChange = (inputValue: string) => {
     setVehicleSearch(inputValue);
+    // Clear selected fleet when user starts typing
+    if (inputValue && selectedFleet) {
+      setSelectedFleet(null);
+    }
     onChange(inputValue);
-
-    // If user is typing and it doesn't match any fleet, allow custom input
     if (inputValue) {
       const exactMatch = fleets.find(
         (f) => f.name.toLowerCase() === inputValue.toLowerCase()
@@ -66,8 +82,9 @@ export function VehicleSelector({
       if (exactMatch) {
         setIsCustomVehicle(false);
         setShowVehicleDropdown(false);
+        setSelectedFleet(exactMatch);
+        onChange(exactMatch.name);
       } else {
-        // Allow custom vehicle input
         setIsCustomVehicle(true);
         setShowVehicleDropdown(true);
       }
@@ -75,30 +92,35 @@ export function VehicleSelector({
       onChange("");
       setIsCustomVehicle(false);
       setShowVehicleDropdown(true);
+      setSelectedFleet(null);
     }
   };
 
   const handleBlur = () => {
     setTimeout(() => {
       setShowVehicleDropdown(false);
-      // Keep the current value if it's a custom vehicle or matches a fleet
       if (vehicleSearch) {
         const matchedFleet = fleets.find((f) => f.name.toLowerCase() === vehicleSearch.toLowerCase());
         if (!matchedFleet) {
-          // It's a custom vehicle
           setIsCustomVehicle(true);
           onChange(vehicleSearch);
+          setSelectedFleet(null);
         } else {
-          // It matches a fleet
           setIsCustomVehicle(false);
+          setSelectedFleet(matchedFleet);
           onChange(matchedFleet.name);
-          setVehicleSearch(matchedFleet.name);
+          setVehicleSearch("");
         }
       } else if (value) {
-        // Restore the value if search is empty
-        setVehicleSearch(value);
         const matchedFleet = fleets.find((f) => f.name === value);
-        setIsCustomVehicle(!matchedFleet);
+        if (matchedFleet) {
+          setSelectedFleet(matchedFleet);
+          setIsCustomVehicle(false);
+        } else {
+          setIsCustomVehicle(true);
+          setSelectedFleet(null);
+        }
+        setVehicleSearch("");
       }
     }, 200);
   };
@@ -106,7 +128,7 @@ export function VehicleSelector({
   return (
     <div
       className={cn(
-        "w-full rounded-lg bg-white px-4 py-3 border relative",
+        "w-full rounded-lg bg-white px-4 pt-3 pb-1 border relative",
         hasError ? "border-red-500" : "border-gray-200"
       )}
     >
@@ -126,7 +148,10 @@ export function VehicleSelector({
           onChange={(e) => handleInputChange(e.target.value)}
           onFocus={() => {
             setShowVehicleDropdown(true);
-            if (!vehicleSearch && value) {
+            // When focusing, if we have a selected fleet, clear the search to show the full details
+            if (!vehicleSearch && currentFleet) {
+              setVehicleSearch("");
+            } else if (!vehicleSearch && value) {
               setVehicleSearch(value);
             }
           }}
@@ -139,11 +164,11 @@ export function VehicleSelector({
                   (f) => f.name.toLowerCase() === vehicleSearch.toLowerCase()
                 );
                 if (matchedFleet) {
-                  handleSelectFleet(matchedFleet.name);
+                  handleSelectFleet(matchedFleet);
                 } else {
-                  // Use as custom vehicle
                   setIsCustomVehicle(true);
                   onChange(vehicleSearch);
+                  setSelectedFleet(null);
                   setShowVehicleDropdown(false);
                 }
               }
@@ -159,27 +184,27 @@ export function VehicleSelector({
               : "Search or select a vehicle"
           }
           className={cn(
-            "w-full pl-8 pr-10 py-2 bg-transparent border-none outline-none text-heading-black",
-            fleetsLoading && "opacity-50"
+            "w-full pl-8 pr-10 py-2.5 bg-transparent border-none outline-none text-heading-black placeholder:text-gray-400",
+            fleetsLoading && "opacity-50 cursor-wait"
           )}
           disabled={fleetsLoading}
         />
-        <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="12"
-            height="12"
-            viewBox="0 0 12 12"
-            className="text-gray-400"
-          >
-            <path fill="currentColor" d="M6 9L1 4h10z" />
-          </svg>
+        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+          <ChevronDown 
+            className={cn(
+              "h-4 w-4 text-gray-400 transition-transform duration-200",
+              showVehicleDropdown && "transform rotate-180"
+            )} 
+          />
         </div>
-        {showVehicleDropdown && !fleetsLoading && (
-          <div className="absolute z-20 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+      </div>
+      {showVehicleDropdown && !fleetsLoading && (
+        <div className="absolute z-50 left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-xl max-h-72 overflow-hidden backdrop-blur-sm">
+          <div className="max-h-72 overflow-y-auto">
             {fleetsError ? (
-              <div className="px-4 py-3 text-center text-red-500">
-                Failed to load vehicles. Please try again.
+              <div className="px-4 py-4 text-center">
+                <div className="text-sm font-medium text-red-600">Failed to load vehicles</div>
+                <div className="text-xs text-red-500 mt-1">Please try again</div>
               </div>
             ) : (
               <>
@@ -189,9 +214,14 @@ export function VehicleSelector({
                       e.preventDefault();
                       handleCustomVehicle();
                     }}
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-heading-black border-b border-gray-200 font-medium"
+                    className="px-4 py-3 hover:bg-gray-50 active:bg-gray-100 cursor-pointer transition-colors duration-150 border-b border-gray-100 group"
                   >
-                    + Enter Custom Vehicle
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg font-semibold text-gray-400 group-hover:text-gray-600 transition-colors">+</span>
+                      <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors">
+                        Enter Custom Vehicle
+                      </span>
+                    </div>
                   </div>
                 )}
                 {vehiclesToShow.length > 0 ? (
@@ -201,19 +231,24 @@ export function VehicleSelector({
                         key={fleet._id || fleet.id}
                         onMouseDown={(e) => {
                           e.preventDefault();
-                          handleSelectFleet(fleet.name);
+                          handleSelectFleet(fleet);
                         }}
                         className={cn(
-                          "px-4 py-2.5 hover:bg-gray-100 cursor-pointer text-heading-black border-b border-gray-100 last:border-b-0",
-                          fleet.name.toLowerCase() === vehicleSearch.toLowerCase() && "bg-blue-50"
+                          "px-4 py-3 hover:bg-gray-50 active:bg-gray-100 cursor-pointer transition-all duration-150 border-b border-gray-50 last:border-b-0 group",
+                          fleet.name.toLowerCase() === vehicleSearch.toLowerCase() && "bg-blue-50 hover:bg-blue-100"
                         )}
                       >
                         <div className="flex flex-col">
-                          <div className="font-semibold text-sm text-gray-900 mb-1">
+                          <div className={cn(
+                            "font-semibold text-sm mb-0.5 transition-colors",
+                            fleet.name.toLowerCase() === vehicleSearch.toLowerCase() 
+                              ? "text-blue-700" 
+                              : "text-gray-900 group-hover:text-gray-950"
+                          )}>
                             {fleet.name}
                           </div>
                           {fleet.cars && (
-                            <div className="text-xs text-gray-600">
+                            <div className="text-xs text-gray-500 group-hover:text-gray-600 transition-colors">
                               {fleet.cars}
                             </div>
                           )}
@@ -221,30 +256,39 @@ export function VehicleSelector({
                       </div>
                     ))}
                     {vehicleSearch && !vehiclesToShow.find(f => f.name.toLowerCase() === vehicleSearch.toLowerCase()) && (
-                      <div className="px-4 py-2 border-t border-gray-200 text-sm text-gray-600">
-                        Press Enter or click outside to use "{vehicleSearch}" as custom vehicle
+                      <div className="px-4 py-3 border-t border-gray-100 bg-gray-50">
+                        <div className="text-xs font-medium text-gray-600 mb-1">
+                          Custom Vehicle
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          Press <kbd className="px-1.5 py-0.5 bg-white border border-gray-200 rounded text-xs font-mono">Enter</kbd> or click outside to use <span className="font-medium text-gray-700">"{vehicleSearch}"</span>
+                        </div>
                       </div>
                     )}
                   </>
                 ) : vehicleSearch ? (
-                  <div className="px-4 py-3 text-center text-gray-500">
-                    <div className="mb-2">No vehicles found matching "{vehicleSearch}"</div>
-                    <div className="text-xs">You can use this as a custom vehicle name</div>
+                  <div className="px-4 py-6 text-center">
+                    <div className="text-sm font-medium text-gray-700 mb-1">
+                      No vehicles found matching "{vehicleSearch}"
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      You can use this as a custom vehicle name
+                    </div>
                   </div>
                 ) : (
-                  <div className="px-4 py-3 text-center text-gray-500">
-                    No vehicles available. Enter a custom vehicle name.
+                  <div className="px-4 py-6 text-center">
+                    <div className="text-sm font-medium text-gray-700 mb-1">
+                      No vehicles available
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      Enter a custom vehicle name
+                    </div>
                   </div>
                 )}
               </>
             )}
           </div>
-        )}
-      </div>
-      {isCustomVehicle && (
-        <p className="text-xs text-gray-500 mt-1">
-          Custom vehicle mode - you can type any vehicle name
-        </p>
+        </div>
       )}
     </div>
   );

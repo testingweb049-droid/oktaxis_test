@@ -33,7 +33,7 @@ export default function DriverApplyPage() {
       {/* Application Form Section */}
       <section className="py-12 md:py-16 lg:py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
+          <div className="w-full mx-auto">
             {/* Back Button */}
             <Link
               href="/driver"
@@ -42,8 +42,6 @@ export default function DriverApplyPage() {
               <ArrowLeft size={20} />
               <span className="text-sm md:text-base">Back to Driver Information</span>
             </Link>
-
-            {/* Form Container */}
             <div>
               <RegisterDriverForm />
             </div>

@@ -46,14 +46,18 @@ export function isAirportLocation(location: string): boolean {
  * @returns Array of duration options with label and value
  */
 export function getDurationArray(): Array<{ label: string; value: string }> {
-  return Array.from({ length: 48 }, (_, i) => {
-    const hours = (i + 1) / 2
-    const label =
-      hours === 0.5
-        ? "0.5 Hour"
-        : `${hours} ${hours === 1 ? "Hour" : "Hours"}`
-    return { label, value: hours.toString() }
-  })
+  return [
+    { label: "2 hours 50 miles", value: "2" },
+    { label: "3 hours 100 miles", value: "3" },
+    { label: "4 hours 150 miles", value: "4" },
+    { label: "5 hours 200 miles", value: "5" },
+    { label: "6 hours 250 miles", value: "6" },
+    { label: "8 hours 300 miles", value: "8" },
+    { label: "1 Day", value: "24" },
+    { label: "2 Day", value: "48" },
+    { label: "3 Day", value: "72" },
+    { label: "1 Week", value: "168" },
+  ]
 }
 
 /**
