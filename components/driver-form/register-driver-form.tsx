@@ -13,7 +13,6 @@ import { useImageUpload } from "@/hooks/api/useImageUpload";
 import { FileUpload } from "./components/file-upload";
 import { AddressAutocomplete } from "./components/address-autocomplete";
 import { VehicleSelector } from "./components/vehicle-selector";
-import { driverFormValidationSchema } from "./validation";
 import type { DriverFormValues, DriverFormPreviews, DriverSubmissionData } from "./types";
 import { initialDriverFormValues, initialDriverFormPreviews } from "./constants";
 
@@ -26,7 +25,7 @@ function RegisterDriverForm() {
 
   const handleSubmit = async (
     values: DriverFormValues,
-    { setSubmitting, resetForm, setFieldError, setTouched }: any
+    { setSubmitting, resetForm }: any
   ) => {
     try {
       setSubmitting(true);
@@ -92,23 +91,12 @@ function RegisterDriverForm() {
         setPreviews(initialDriverFormPreviews);
       }
     } catch (err: any) {
-      // Backend returns: { success: false, error: "message" } or { success: false, message: "message" }
       const errorMessage =
         err?.response?.data?.error ||
         err?.response?.data?.message ||
         err?.message ||
         "An error occurred while submitting your application. Please try again.";
 
-      // Set field-specific errors if the error message indicates which field has the issue
-      const errorLower = errorMessage.toLowerCase();
-      
-      if (errorLower.includes("email") && (errorLower.includes("already exists") || errorLower.includes("already exist"))) {
-        setFieldError("email", errorMessage);
-        setTouched({ email: true });
-      } else if (errorLower.includes("phone") && (errorLower.includes("already exists") || errorLower.includes("already exist"))) {
-        setFieldError("phone", errorMessage);
-        setTouched({ phone: true });
-      }
 
       toast({
         title: "Submission Failed",
@@ -123,32 +111,21 @@ function RegisterDriverForm() {
   return (
     <Formik
       initialValues={initialDriverFormValues}
-      validationSchema={driverFormValidationSchema}
       onSubmit={handleSubmit}
     >
-      {({ values, setFieldValue, isSubmitting, errors, touched }) => (
-        <Form className="space-y-6 sm:space-y-8 bg-white rounded-none sm:rounded-xl md:rounded-2xl  md:p-8 sm:shadow-lg sm:border sm:border-gray-200">
-          <div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-1.5 sm:mb-2">
-              Partner With Us
-            </h2>
-            <p className="text-gray-600 text-xs sm:text-sm md:text-base">
-              Join our driver network and start earning today.
-            </p>
-          </div>
-
-          {/* Personal Information Section */}
-          <div className="space-y-4 sm:space-y-5">
-            <div className="border-b border-gray-200 pb-2 sm:pb-3">
+      {({ values, setFieldValue, isSubmitting }) => (
+        <Form className="space-y-6 sm:space-y-8 bg-white">
+          <div className="space-y-4 sm:space-y-5 border-b border-gray-200 pb-2 sm:pb-5">
+            <div className="">
               <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900">
-                Personal Information
+                Personal <span className="text-primary-yellow">Information</span>
               </h3>
               <p className="text-xs sm:text-sm text-gray-600 mt-1">
                 Please provide your personal details
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <FormField
                 name="name"
                 label="Full Name"
@@ -156,8 +133,6 @@ function RegisterDriverForm() {
                 type="text"
                 Icon={User}
                 required
-                errors={errors}
-                touched={touched}
               />
 
               <FormField
@@ -167,32 +142,20 @@ function RegisterDriverForm() {
                 type="email"
                 Icon={Mail}
                 required
-                errors={errors}
-                touched={touched}
               />
-            </div>
 
             <Field name="phone">
               {({ field, form }: any) => (
-                <div
-                  className={`w-full rounded-lg bg-white px-3 sm:px-4 py-2.5 sm:py-3 border ${
-                    errors.phone && touched.phone
-                      ? "border-red-500"
-                      : "border-gray-200"
-                  }`}
-                >
+                <div className="w-full rounded-lg bg-white px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-200">
                   <PhoneInput
                     value={field.value || ""}
                     onChange={(phone) => {
                       form.setFieldValue("phone", phone);
                     }}
-                    error={Boolean(errors.phone && touched.phone)}
+                    error={false}
                     label="Phone Number *"
                     country="gb"
                   />
-                  {errors.phone && touched.phone && (
-                    <p className="text-xs text-red-500 mt-1">{errors.phone}</p>
-                  )}
                 </div>
               )}
             </Field>
@@ -200,34 +163,29 @@ function RegisterDriverForm() {
             <AddressAutocomplete
               value={values.address}
               onChange={(value) => setFieldValue("address", value)}
-              error={Boolean(errors.address)}
-              touched={Boolean(touched.address)}
+              error={false}
+              touched={false}
             />
-            {errors.address && touched.address && (
-              <p className="text-xs text-red-500 mt-1">{errors.address}</p>
-            )}
+            </div>
           </div>
 
-          {/* Bank Details Section */}
-          <div className="space-y-4 sm:space-y-5">
-            <div className="border-b border-gray-200 pb-2 sm:pb-3">
+          <div className="space-y-4 sm:space-y-5 border-b border-gray-200 pb-2 sm:pb-5">
+            <div className="">
               <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900">
-                Bank Details
+                Bank <span className="text-primary-yellow">Details</span>
               </h3>
               <p className="text-xs sm:text-sm text-gray-600 mt-1">
                 Please provide your banking information
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <FormField
                 name="accountName"
                 label="Account Name"
                 placeholder="Enter account name"
                 type="text"
                 required
-                errors={errors}
-                touched={touched}
               />
 
               <FormField
@@ -236,8 +194,6 @@ function RegisterDriverForm() {
                 placeholder="Enter account number"
                 type="text"
                 required
-                errors={errors}
-                touched={touched}
               />
 
               <FormField
@@ -246,8 +202,6 @@ function RegisterDriverForm() {
                 placeholder="Enter sort code"
                 type="text"
                 required
-                errors={errors}
-                touched={touched}
               />
             </div>
 
@@ -257,13 +211,7 @@ function RegisterDriverForm() {
                   <label className="block text-xs sm:text-sm md:text-base font-medium text-text-gray mb-2 sm:mb-3">
                     VAT registered <span className="text-red-500">*</span>
                   </label>
-                  <div
-                    className={`w-full rounded-lg bg-white px-3 sm:px-4 py-2.5 sm:py-3 border ${
-                      errors.vatRegistered && touched.vatRegistered
-                        ? "border-red-500"
-                        : "border-gray-200"
-                    }`}
-                  >
+                  <div className="w-full">
                     <div className="flex gap-6">
                       <label className="flex items-center gap-2 cursor-pointer">
                         <input
@@ -293,44 +241,35 @@ function RegisterDriverForm() {
                       </label>
                     </div>
                   </div>
-                  {errors.vatRegistered && touched.vatRegistered && (
-                    <p className="text-xs text-red-500 mt-1">{errors.vatRegistered}</p>
-                  )}
                 </div>
               )}
             </Field>
           </div>
-
-          {/* Car Details Section */}
-          <div className="space-y-4 sm:space-y-5">
-            <div className="border-b border-gray-200 pb-2 sm:pb-3">
+          <div className="space-y-4 sm:space-y-5 border-b border-gray-200 pb-2 sm:pb-5">
+            <div className="">
               <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900">
-                Car Details
+                Car <span className="text-primary-yellow">Details</span>
               </h3>
               <p className="text-xs sm:text-sm text-gray-600 mt-1">
                 Please provide information about your vehicle
               </p>
             </div>
 
+
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <VehicleSelector
               value={values.carType}
               onChange={(value) => setFieldValue("carType", value)}
-              error={Boolean(errors.carType)}
-              touched={Boolean(touched.carType)}
+              error={false}
+              touched={false}
             />
-            {errors.carType && touched.carType && (
-              <p className="text-xs text-red-500 mt-1">{errors.carType}</p>
-            )}
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <FormField
                 name="carModel"
                 label="Model"
                 placeholder="Enter car model"
                 type="text"
                 required
-                errors={errors}
-                touched={touched}
               />
 
               <FormField
@@ -339,8 +278,6 @@ function RegisterDriverForm() {
                 placeholder="Enter registration number"
                 type="text"
                 required
-                errors={errors}
-                touched={touched}
               />
 
               <FormField
@@ -349,24 +286,20 @@ function RegisterDriverForm() {
                 placeholder="Enter year (e.g., 2020)"
                 type="text"
                 required
-                errors={errors}
-                touched={touched}
               />
             </div>
           </div>
 
-          {/* Driver Documents Section */}
-          <div className="space-y-4 sm:space-y-5">
-            <div className="border-b border-gray-200 pb-2 sm:pb-3">
+          <div className="space-y-4 sm:space-y-5 border-b border-gray-200 pb-2 sm:pb-5">
+            <div className="">
               <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900">
-                Driver Documents
+                Driver <span className="text-primary-yellow">Documents</span>
               </h3>
               <p className="text-xs sm:text-sm text-gray-600 mt-1">
                 Please upload all required documents
               </p>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <FileUpload
                 name="passportPhoto"
                 label="Passport Photo"
@@ -376,13 +309,8 @@ function RegisterDriverForm() {
                 onPreviewChange={(preview) =>
                   setPreviews((prev) => ({ ...prev, passportPhoto: preview }))
                 }
-                error={Boolean(errors.passportPhoto && touched.passportPhoto)}
+                error={false}
               />
-              {errors.passportPhoto && touched.passportPhoto && (
-                <p className="text-xs text-red-500 mt-1 md:col-span-2">
-                  {errors.passportPhoto}
-                </p>
-              )}
 
               <FileUpload
                 name="drivingLicenseFront"
@@ -393,13 +321,8 @@ function RegisterDriverForm() {
                 onPreviewChange={(preview) =>
                   setPreviews((prev) => ({ ...prev, drivingLicenseFront: preview }))
                 }
-                error={Boolean(errors.drivingLicenseFront && touched.drivingLicenseFront)}
+                error={false}
               />
-              {errors.drivingLicenseFront && touched.drivingLicenseFront && (
-                <p className="text-xs text-red-500 mt-1 md:col-span-2">
-                  {errors.drivingLicenseFront}
-                </p>
-              )}
 
               <FileUpload
                 name="phvLicense"
@@ -410,28 +333,22 @@ function RegisterDriverForm() {
                 onPreviewChange={(preview) =>
                   setPreviews((prev) => ({ ...prev, phvLicense: preview }))
                 }
-                error={Boolean(errors.phvLicense && touched.phvLicense)}
+                error={false}
               />
-              {errors.phvLicense && touched.phvLicense && (
-                <p className="text-xs text-red-500 mt-1 md:col-span-2">
-                  {errors.phvLicense}
-                </p>
-              )}
             </div>
           </div>
 
-          {/* Vehicle Documents Section */}
-          <div className="space-y-4 sm:space-y-5">
-            <div className="border-b border-gray-200 pb-2 sm:pb-3">
+          <div className="space-y-4 sm:space-y-5 border-b border-gray-200 pb-2 sm:pb-5">
+            <div className="">
               <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900">
-                Vehicle Documents
+                Vehicle <span className="text-primary-yellow">Documents</span>
               </h3>
               <p className="text-xs sm:text-sm text-gray-600 mt-1">
                 Please upload all required vehicle documents and images
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <FileUpload
                 name="fullCarImage"
                 label="Full Car Image"
@@ -441,13 +358,8 @@ function RegisterDriverForm() {
                 onPreviewChange={(preview) =>
                   setPreviews((prev) => ({ ...prev, fullCarImage: preview }))
                 }
-                error={Boolean(errors.fullCarImage && touched.fullCarImage)}
+                error={false}
               />
-              {errors.fullCarImage && touched.fullCarImage && (
-                <p className="text-xs text-red-500 mt-1 md:col-span-2">
-                  {errors.fullCarImage}
-                </p>
-              )}
 
               <FileUpload
                 name="interiorImage"
@@ -458,13 +370,8 @@ function RegisterDriverForm() {
                 onPreviewChange={(preview) =>
                   setPreviews((prev) => ({ ...prev, interiorImage: preview }))
                 }
-                error={Boolean(errors.interiorImage && touched.interiorImage)}
+                error={false}
               />
-              {errors.interiorImage && touched.interiorImage && (
-                <p className="text-xs text-red-500 mt-1 md:col-span-2">
-                  {errors.interiorImage}
-                </p>
-              )}
 
               <FileUpload
                 name="exteriorImage"
@@ -475,13 +382,8 @@ function RegisterDriverForm() {
                 onPreviewChange={(preview) =>
                   setPreviews((prev) => ({ ...prev, exteriorImage: preview }))
                 }
-                error={Boolean(errors.exteriorImage && touched.exteriorImage)}
+                error={false}
               />
-              {errors.exteriorImage && touched.exteriorImage && (
-                <p className="text-xs text-red-500 mt-1 md:col-span-2">
-                  {errors.exteriorImage}
-                </p>
-              )}
 
               <FileUpload
                 name="phvVehicleLicense"
@@ -492,13 +394,8 @@ function RegisterDriverForm() {
                 onPreviewChange={(preview) =>
                   setPreviews((prev) => ({ ...prev, phvVehicleLicense: preview }))
                 }
-                error={Boolean(errors.phvVehicleLicense && touched.phvVehicleLicense)}
+                error={false}
               />
-              {errors.phvVehicleLicense && touched.phvVehicleLicense && (
-                <p className="text-xs text-red-500 mt-1 md:col-span-2">
-                  {errors.phvVehicleLicense}
-                </p>
-              )}
 
               <FileUpload
                 name="mot"
@@ -509,13 +406,8 @@ function RegisterDriverForm() {
                 onPreviewChange={(preview) =>
                   setPreviews((prev) => ({ ...prev, mot: preview }))
                 }
-                error={Boolean(errors.mot && touched.mot)}
+                error={false}
               />
-              {errors.mot && touched.mot && (
-                <p className="text-xs text-red-500 mt-1 md:col-span-2">
-                  {errors.mot}
-                </p>
-              )}
 
               <FileUpload
                 name="insurance"
@@ -526,13 +418,8 @@ function RegisterDriverForm() {
                 onPreviewChange={(preview) =>
                   setPreviews((prev) => ({ ...prev, insurance: preview }))
                 }
-                error={Boolean(errors.insurance && touched.insurance)}
+                error={false}
               />
-              {errors.insurance && touched.insurance && (
-                <p className="text-xs text-red-500 mt-1 md:col-span-2">
-                  {errors.insurance}
-                </p>
-              )}
             </div>
           </div>
 
