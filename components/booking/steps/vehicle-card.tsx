@@ -5,12 +5,12 @@ import Image from "next/image";
 import { GoPeople } from "react-icons/go";
 import { PiSuitcase } from "react-icons/pi";
 import { cn } from "@/lib/utils";
-import { ArrowRight, Loader } from "lucide-react";
-import type { FleetType } from "@/types/fleet.types";
+import { ArrowRight, Loader, Clock, Navigation } from "lucide-react";
+import type { FleetType, HourlyPackageInfo } from "@/types/fleet.types";
 import { FleetFeaturesAccordion } from "./fleet-features-accordion";
 
 interface VehicleCardProps {
-  item: FleetType;
+  item: FleetType & { hourlyPackage?: HourlyPackageInfo };
   finalPrice: number;
   pricingBreakdown?: FleetType["pricingBreakdown"];
   formLoading: boolean;
@@ -18,6 +18,20 @@ interface VehicleCardProps {
   onSelect: (item: FleetType, price: number) => void;
   onCardClick?: (item: FleetType, price: number) => void;
 }
+
+// Helper to format duration based on package type
+const formatPackageDuration = (duration: number, packageType: string): string => {
+  switch (packageType) {
+    case "hourly":
+      return `${duration} ${duration === 1 ? "hour" : "hours"}`;
+    case "day":
+      return `${duration} ${duration === 1 ? "day" : "days"}`;
+    case "week":
+      return `${duration} ${duration === 1 ? "week" : "weeks"}`;
+    default:
+      return `${duration}`;
+  }
+};
 
 export function VehicleCard({
   item,
@@ -95,6 +109,20 @@ export function VehicleCard({
               </div>
             </div>
             <p className="text-xs sm:text-sm md:text-sm text-gray-600">{item.cars}</p>
+            
+            {/* Hourly Package Details */}
+            {item.hourlyPackage && (
+              <div className="flex flex-wrap items-center gap-2 mt-1">
+                <div className="flex items-center gap-1 text-xs sm:text-sm text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
+                  <Clock size={12} className="sm:w-3 sm:h-3" />
+                  <span>{formatPackageDuration(item.hourlyPackage.duration, item.hourlyPackage.packageType)}</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs sm:text-sm text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+                  <Navigation size={12} className="sm:w-3 sm:h-3" />
+                  <span>{item.hourlyPackage.includedMiles} miles included</span>
+                </div>
+              </div>
+            )}
           </div>
           {/* Price Information - Right */}
           <div className="flex flex-col items-end justify-center gap-0.5 flex-shrink-0">
@@ -109,6 +137,11 @@ export function VehicleCard({
               </div>
             </div>
             <p className="text-xs text-gray-500 mt-1">Total price</p>
+            {item.hourlyPackage && item.hourlyPackage.extraMileRate > 0 && (
+              <p className="text-xs text-gray-400">
+                +£{item.hourlyPackage.extraMileRate.toFixed(2)}/extra mile
+              </p>
+            )}
           </div>
         </div>
         <FleetFeaturesAccordion fleetName={item.name} />

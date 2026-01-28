@@ -238,20 +238,20 @@ function orderPage({ id }: OrderPageProps) {
                 />
               ))}
 
-              {/* Destination or Duration */}
+              {/* Destination (only for non-hourly) or Duration (for hourly) */}
               {booking.category === 'hourly' ? (
                 <TimelineItem
                   color="var(--color-text-gray)"
                   label="Duration"
                   value={`${booking.duration || 0} hours`}
                 />
-              ) : (
+              ) : booking.dropoff_location ? (
                 <TimelineItem
                   color="var(--color-text-gray)"
                   label="Drop-Off Location"
-                  value={booking.dropoff_location || 'N/A'}
+                  value={booking.dropoff_location}
                 />
-              )}
+              ) : null}
 
               {/* Return Trip */}
               {booking.is_return && booking.return_date && (
