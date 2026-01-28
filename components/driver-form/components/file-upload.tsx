@@ -105,7 +105,7 @@ export function FileUpload({
   return (
     <div
       className={cn(
-        "w-full rounded-lg bg-white md:px-4 py-3",
+        "w-full rounded-lg bg-white py-3 px-1",
         error ? "border-red-500" : "border-gray-200"
       )}
     >
@@ -120,10 +120,9 @@ export function FileUpload({
         className="hidden"
         id={name}
       />
-      <p className="text-xs text-gray-500 mt-1">Max file size: {maxSizeMB}MB</p>
       {previewUrl ? (
         <div className="relative w-full mt-2">
-          <div className="relative w-full h-48 border border-gray-300 rounded-lg overflow-hidden bg-white shadow-none">
+          <div className="relative w-full h-64 sm:h-72 md:h-80 border border-gray-300 rounded-lg overflow-hidden bg-white shadow-none">
             <Image
               src={previewUrl}
               alt={`${label} preview`}
