@@ -1,6 +1,7 @@
 "use client";
 
 import RegisterDriverForm from "@/components/driver-form/register-driver-form";
+import MovingBanner from "@/components/banners/moving-banner";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -48,6 +49,9 @@ export default function DriverApplyPage() {
           </div>
         </div>
       </section>
+
+      {/* Moving Banner Section */}
+      <MovingBanner />
     </>
   );
 }
