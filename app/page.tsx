@@ -45,7 +45,7 @@ export default function Home() {
         <Services />
         <WhyChoose/>
         <FleetClasses />
-        <MovingBanner/>
+        {/* <MovingBanner/> */}
         <TopThingsSection/>
         <ReviewsSection/>
       </main>
