@@ -7,6 +7,7 @@ import TopThingsSection from "@/components/Sections/top-things-section";
 import ReviewsSection from "@/components/Sections/reviews";
 import { generateMetadata as generateSEOMetadata, generateWebPageSchema } from "@/lib/seo";
 import StructuredData from "@/components/structured-data";
+import MovingBanner from "@/components/banners/moving-banner";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Chauffeur Services Manchester | Airport Transfers & Wedding Hire",
@@ -44,6 +45,7 @@ export default function Home() {
         <Services />
         <WhyChoose/>
         <FleetClasses />
+        <MovingBanner/>
         <TopThingsSection/>
         <ReviewsSection/>
       </main>
